@@ -1,0 +1,48 @@
+@media #{$medium-and-down} {
+  ul.side-nav {
+    position: fixed;
+    width: 240px;
+    left: -240px;
+    top: 0;
+    height: 120%;
+    background-color: #FFF;
+    z-index: 1000;
+
+    @include transition(transform .15s ease-out);
+
+    &.active {
+      @include transform(translateX(240px));
+      @include transition(transform .3s ease);
+    }
+
+    li {
+      float: none;
+      padding: 0 15px;
+
+      &:hover, &.active { background-color: #ddd; }
+    }
+    a {
+      color: #444;
+    }
+  }
+  #front-page-nav ul.side-nav {
+    li {
+      float: none;
+      padding: 0 15px;
+
+      &:hover { background-color: #ddd; }
+      .active { background-color: transparent; }
+    }
+    a {
+      color: #444;
+    }
+  }
+}
+
+#sidenav-overlay {
+  position:fixed;
+  top:0px;
+  left:0px;
+  background-color: rgba(0,0,0,.5);
+  z-index: 999;
+}
