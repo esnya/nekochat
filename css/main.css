@@ -72,40 +72,32 @@ html, body, body > main, main > div {
     animation: bg-fade-out 5s ease 0 1 normal;
 }
 
-@keyframes bg-fade-out {
-    0% {
-        background-color: rgba(1, 1, 1, 1);
-    }
-
-    0% {
-        background-color: rgba(0, 0, 0, 0);
-    }
-}
-
-.message a.name {
+#message-list > .message a.name {
     color: inherit;
 
     border-bottom: 1px solid;
-    margin-left: -14px;
-    padding-left: 14px;
+    padding-left: 8px;
+
     margin-right: -8px;
     padding-right: 8px;
+
+    margin-left: -48px;
 
     z-index: 0;
 }
 
-.user_id {
+#message-list > .message.has-icon a.name {
+    margin-left: -14px;
+}
+#message-list > .message .user_id {
+    border-color: inherit !important;
+    border-bottom: 1px solid;
     color: lightgray;
     font-size: small;
-    padding-right: 14px;
+    padding-right: 8px;
 }
-.user_id:before {
-    margin-left: 1.0em;
+#message-list > .message .user_id:before {
     content: '@';
-}
-
-.message div.col {
-    float: right;
 }
 
 .writing .user_id {
