@@ -15,8 +15,8 @@
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo">Beniimo Online</a>
                 <ul id="nav-mobile" class="right side-nav">
-                    <li><a href="#" data-action="roomlist">Switch Room</a></li>
-                    <li><a href=#modal-globalsetting class="modal-trigger">Global Settings</a></li>
+                    <li><a class="modal-trigger" href="#modal-room-selector" onclick="return false">Switch Room</a></li>
+                    <li><a href=#modal-global-setting class="modal-trigger">Global Settings</a></li>
                 </ul>
                 <a class="button-collapse" href="#" data-activates="nav-mobile"><i class="mdi-navigation-menu"></i></a>
             </div>
@@ -31,8 +31,12 @@
             <!-- .flex-grow-shirink-1 -->
             <div id=message-list>
                 <div class="message template">
-                    <div data-field=name></div>
-                    <div data-field=message></div>
+                    <div class="only-head-of-name">
+                        <a class="name" target=_blank href="#"></a>
+                        <span class="user_id"></span>
+                    </div>
+                    <div class="modified only-head-of-name"></div>
+                    <div class="message"></div>
                 </div>
             </div>
             <!-- /.flex-grow-shirink-1 -->
@@ -54,12 +58,12 @@
         <div class="container">
             <!-- #message-form-list -->
             <div id=message-form-list>
-                <form class="flex" onsubmit="return false">
-                    <input type=hidden class=flex-grow-shrink-1 data-field=name>
-                    <input type=hidden class=flex-grow-shrink-1 data-field=character_url>
-                    <button class="waves-effect waves-light btn-flat icon" style="margin-bottom: 0"><i class="mdi-content-add"></i></button>
-                    <a class="waves-effect waves-light btn-flat icon modal-trigger" style="margin-bottom: 0" href=#modal-formsetting><i class="mdi-action-settings"></i></a>
-                    <input class="flex-grow-shrink-1" data-field=message placeholder="">
+                <form class="message-form template flex" onsubmit="return false">
+                    <input type=hidden class="name">
+                    <input type=hidden class="character_url">
+                    <!-- <button class="waves-effect waves-light btn-flat icon" style="margin-bottom: 0"><i class="mdi-content-add"></i></button> -->
+                    <a class="waves-effect waves-light btn-flat icon modal-trigger" style="margin-bottom: 0" href=#modal-message-setting><i class="mdi-action-settings"></i></a>
+                    <input class="message flex-grow-shrink-1">
                     <button class="waves-effect waves-light btn icon sharp-left" style="margin-bottom: 0"><i class="mdi-content-send"></i></button>
                 </form>
             </div>
@@ -73,15 +77,15 @@
         <p>Please wait...</p>
     </div>
 
-    <div id="modal-roomselect" class="modal">
+    <div id="modal-room-selector" class="modal">
         <ul class="tabs">
-            <li class="tab col s2"><a href="#roomlist">My Rooms</a></li>
+            <li class="tab col s2"><a href="#room-list-page">My Rooms</a></li>
             <li class="tab col s2"><a href="#form-createroom">Create Room</a></li>
         </ul>
-        <div id="roomlist">
-            <br>
-            <div class="collection">
-            </div>
+        <div id=room-list-page>
+            <ul id=room-list class="collection">
+                <li class="room template collection-item"><a class="title" href="#"></a></li>
+            </ul>
             <a href="#" class="waves-effect btn-flat modal_close" style="margin-bottom: 0">Close</a>
         </div>
         <form id=form-createroom onsubmit="return false">
@@ -113,15 +117,15 @@
         </form>
     </div>
 
-    <div id=modal-formsetting class=modal>
+    <div id=modal-message-setting class="modal">
         <h4>Chat Settings</h4>
         <!-- .row -->
         <div class="row">
-            <form id=form-formsetting onsubmit="return false">
+            <form id=form-message-setting onsubmit="return false">
                 <!-- .col -->
                 <div class="col s4">
                     <div class="input-field">
-                        <input id=form-formsetting-name type="text" data-field=name>
+                        <input id=form-formsetting-name type="text" class="name">
                         <label for=form-formsetting-name>Name</label>
                     </div>
                 </div>
@@ -130,7 +134,7 @@
                 <!-- .col -->
                 <div class="col s8">
                     <div class="input-field">
-                        <input id=form-formsetting-character-url type="text" data-field=character_url>
+                        <input id=form-formsetting-character-url type="text" class="character_url">
                         <label for=form-formsetting-character-url>Character URL</label>
                     </div>
                 </div>
@@ -142,16 +146,16 @@
         <a href=# class="wave-effect btn-flat modal_close" style="margin-bottom: 0;">Close</a>
     </div>
 
-    <div id=modal-globalsetting class="modal">
+    <div id=modal-global-setting class="modal">
         <h4>Global Settings</h4>
         <!-- .row -->
         <div class="row">
-            <form id=form-globalsetting onsubmit="return false">
+            <form id=form-global-setting onsubmit="return false">
                 <!-- .col -->
                 <div class="col s12">
                     <p class="range-field">
-                        <input id=form-globalsetting-volume type="range" value=100>
-                        <label for=form-globalsetting-volume>Chat Alert Volume</label>
+                        <label for=form-global-setting-volume>Chat Alert Volume</label>
+                        <input id=form-global-setting-volume type="range" class="volume">
                     </p>
                 </div>
                 <!-- /.col -->
@@ -162,19 +166,16 @@
         <a href=# class="wave-effect btn-flat modal_close" style="margin-bottom: 0;">Close</a>
     </div>
 
-    <div style="display: none;">
-        <a class="modal-trigger" href="#modal-connecting"></a>
-        <a class="modal-trigger" href="#modal-createroom"></a>
-    </div>
-
     <audio id=alert src="sound/nc32318.wav" preload=auto></audio>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script src="js/jquery.cssanim.js"></script>
     <script src="js/init.js"></script>
     <script src="js/util.js"></script>
     <script src="js/view.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/client.js"></script>
 </body>
 </html>
