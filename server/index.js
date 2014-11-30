@@ -36,6 +36,10 @@ var diceReplace = function (str) {
                 }
             }
 
+            if (num > 9999) {
+                return NaN;
+            }
+
             var r = [];
             for (var i = 0; i < num; ++i) {
                 r.push(Math.floor(Math.random() * eye + 1));
