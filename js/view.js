@@ -105,7 +105,8 @@
             .removeClass('template')
             .attr('data-id', message.id);
 
-        item.find('a.name').css('color', color).bind('click', false);
+        item.find('a.name').css('color', color).bind('click', false)
+            .parent().css('border-color', color);
 
         for (var key in message) {
             var value = message[key];
@@ -162,17 +163,19 @@
                     item.find('a.name')
                         .css('color', characterColor)
                         .attr('href', data.url)
-                        .unbind('click', false);
+                        .unbind('click', false)
+                        .parent()
+                        .css('border-color', characterColor);
                 }
 
                 var iconURL = data.icon || data.portrait;
                 if (iconURL) {
-                    var icon = $('<div class="icon">').css({
-                        'border-color': characterColor,
-                        'background-image': 'url(' + iconURL + ')'
-                    }).attr('data-id', data.id);
+                    var icon = $('<div class="icon">')
+                        .css('border-color', characterColor)
+                        .css('background-image', 'url(' + iconURL + ')')
+                        .attr('data-id', data.id); 
 
-                    item.before(icon);
+                        item.addClass('has-icon').before(icon);
 
                     if (hideBelow) {
                         $('.message[data-id="' + message.id + '"] + .icon[data-id="' + data.id + '"]').remove();
