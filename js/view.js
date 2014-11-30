@@ -390,5 +390,9 @@
                 _requestMessage = false;
             }
         }, 500);
+
+        $('#form-create-room').submit(function () {
+            trigger('create.room', $(this).find('.title').val());
+        });
     });
 })(this.View || (this.View = {}), jQuery);

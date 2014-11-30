@@ -399,18 +399,31 @@ QUnit.test('on submit.message', function (assert) {
     form.trigger('submit');
 });
 
-QUnit.test('on hashchange', function (assert) {
+//QUnit.asyncTest('on hashchange', function (assert) {
+//    assert.expect(1);
+//
+//    View.on('hashchange', function (hash) {
+//        assert.equal(hash, '#foobar');
+//        View.on('hashchange', null);
+//        location.hash = '';
+//        QUnit.start();
+//    })
+//
+//    location.hash = '#foobar';
+//
+//    $(window).trigger('hashchange');
+//});
+
+QUnit.test('on create.rooom', function (assert) {
     assert.expect(1);
 
-    View.on('hashchange', function (hash) {
-        assert.equal(hash, '#foobar');
-        View.on('hashchange', null);
-        location.hash = '';
-    })
+    View.on('create.room', function (title) {
+        assert.equal(title, 'room title is bar');
+        View.on('create.room', null);
+    });
 
-    location.hash = '#foobar';
-
-    $(window).trigger('hashchange');
+    $('#form-create-room .title').val('room title is bar');
+    $('#form-create-room').trigger('submit');
 });
 
 QUnit.asyncTest('setting message form', function (assert) {

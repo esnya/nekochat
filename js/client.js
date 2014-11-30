@@ -3,7 +3,18 @@
     var _user;
 
     Socket.on('disconnect', function () {
+        View.reset();
         View.showConnectingModal();
+    });
+
+    Socket.on('join ok', function (room) {
+        View.setTitle(room.title, room.id);
+        View.setHash(room.id);
+        View.closeModal();
+    });
+
+    Socket.on('join failed', function (room) {
+        View.showRoomSelector();
     });
 
     Socket.on('add message', function (message) {
@@ -40,13 +51,7 @@
 
     View.on('hashchange', function (id) {
         View.reset();
-        Socket.join(id).then(function (room) {
-            View.closeModal();
-            View.setTitle(room.title, room.id);
-            View.setHash(room.id);
-        }, function () {
-            View.showRoomSelector();
-        });
+        Socket.join(id);
     });
 
     View.on('submit.message', function (message) {
@@ -55,6 +60,10 @@
 
     View.on('request.message', function () {
         Socket.requestMessage();
+    });
+
+    View.on('create.room', function (title) {
+        Socket.createRoom(title);
     });
 
     View.on('begin writing', function (name) {
@@ -66,34 +75,19 @@
     });
 
     /// Run Client Program
-    Client.run = function (path, user_id) {
+    Client.run = function (path, user) {
+        View.setUser(user);
         View.reset();
         View.showConnectingModal();
 
-        Socket
-            .connect(path, user_id)
-            .then(function (user) {
-                _user = user;
-                View.setUser(user);
-                return Socket.join(View.getHash());
-            }, function () {
-                console.error('Authorization Failed');
-            }).then(function (room) {
-                View.closeModal();
-                View.setTitle(room.title, room.id);
-                View.setHash(room.id);
-            }, function () {
-                View.closeModal().done(function () {
-                    View.reset();
-                    View.showRoomSelector();
-                });
-            });
+        Socket.connect(path, user.id);
     };
 
     $.getJSON('config/app.json').done(function (app) {
         $.getJSON('js/user.js.php').done(function (user) {
+            _user = user;
             _user_id = user.id;
-            Client.run(app.path, user.id);
+            Client.run(app.path, user);
         });
     });
 })(this.Client || (this.Client = {}));
