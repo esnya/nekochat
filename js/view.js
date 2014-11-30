@@ -1,6 +1,42 @@
 (function (View, $) {
     'use strict';
 
+    var _user;
+    var _messages, _maxMessageId;
+    var _listeners = {};
+
+    var trigger = function (e) {
+        var listener = _listeners[e];
+        if (listener) {
+            listener.apply(View, arguments.length > 1 ? Array.slice(arguments, 1) : undefined);
+        }
+    };
+
+    var appendMessageForm = function () {
+        var list = $('#message-form-list');
+        var item = list.find('.template').clone().removeClass('template').appendTo(list).messageForm();
+    };
+
+    var _characterCache = {};
+    var getCharacter = function (url) {
+        var d = new $.Deferred;
+        if ((url in _characterCache) && (new Date - _characterCache[url].time) < 60 * 1000) {
+            d.resolve(_characterCache[url].data);
+        } else {
+            $.getJSON(url).then(function (data) {
+                _characterCache[url] = {
+                    time: new Date,
+                    data: data
+                };
+                d.resolve(data);
+            }, function (error, data) {
+                d.reject(error, data);
+            });
+        }
+
+        return d.promise();
+    };
+
     var makeColor = function (data) {
         var rgb = [data.slice(0, data.length / 3), data.slice(data.length / 3, 2 * data.length / 3), data.slice(2 * data.length / 3)].map(function (data) {
             var sum = 0;
@@ -11,240 +47,344 @@
         });
         rgb.push(1);
         return 'rgba(' + rgb.join(",") + ')';
-    }
-
-    var compareId = function (a, b) {
-        return a.id - b.id;
     };
 
-    var characterCache = {};
-    var getCharacter = function (character_url) {
+    var playNoticeAlert = function () {
+        $('#alert').each(function () {
+            this.play();
+        });
+    };
+
+    ///
+    View.on = function (e, listener) {
+        _listeners[e] = listener;
+    }
+
+    ///
+    View.setUser = function (user) {
+        _user = user;
+
+        if (user) {
+            var messageForm = $('#message-form-list .message-form.template');
+            messageForm.messageForm('name', user.name);
+        }
+    };
+
+    ///
+    View.reset = function () {
+        $('#message-list > *:not(.template)').remove();
+        $('#writing-list > *:not(.template)').remove();
+        $('#message-form-list > *:not(.template)').remove();
+
+        _messages = {};
+        _maxMessageId = -1;
+
+        if (!$('#lean_overlay').is(':hidden')) {
+            View.closeModal();
+        }
+
+        if ($('#message-form-list > *.message-form:not(.template)').length == 0) {
+            appendMessageForm();
+        }
+    };
+
+    ///
+    View.addMessage = function (message) {
+        _messages[message.id] = message;
+        if (message.id > _maxMessageId) {
+            _maxMessageId = message.id;
+            playNoticeAlert();
+        }
+
+        var color = makeColor(message.name + message.user_id);
+
+        var list = $('#message-list');
+        var item = list
+            .find('.template')
+            .clone()
+            .removeClass('template')
+            .attr('data-id', message.id);
+
+        item.find('a.name').css('color', color).bind('click', false);
+
+        for (var key in message) {
+            var value = message[key];
+
+            if (key == 'modified') {
+                value = (new Date(value)).toLocaleTimeString().slice(0, -3);
+            }
+
+            item.find('.' + key).text(value);
+        }
+
+        var aboveId;
+        for (aboveId = message.id - 1; aboveId > -1 && !(aboveId in _messages); --aboveId) {}
+
+        var aboveMessage = null;
+        if (aboveId >= 0) {
+            aboveMessage = _messages[aboveId];
+        }
+
+        var isHeadOfName = !aboveMessage || aboveMessage.user_id != message.user_id || aboveMessage.name != message.name;
+        var main = $('body > main');
+        var hideBelow =false;
+        if (isHeadOfName) {
+            var belowId;
+            for (belowId = message.id + 1; belowId < _maxMessageId && !(belowId in _messages); ++belowId) {}
+
+            if (belowId < _maxMessageId) {
+                var belowMessage = _messages[belowId];
+                if (belowMessage.user_id == message.user_id && belowMessage.name == message.name) {
+                    var hideBelow = true;
+                    var below = list.find('[data-id=' + belowId + '] .only-head-of-name');
+                    //main.scrollTop(main.scrollTop() - $(below[0]).height());
+                    below.hide();
+                }
+            }
+        } else {
+            item.find('.only-head-of-name').hide();
+        }
+
+        if (aboveId >= 0) {
+            list.find('.message[data-id=' + aboveId + ']').after(item);
+        } else {
+            list.prepend(item);
+        }
+        if (aboveId < 0 || list.height() - main.scrollTop() - main.height() < item.height() * 2) {
+            main.scrollTop(main.scrollTop() + item.height() + (isHeadOfName ? 0 : 0));
+        }
+
+        if (isHeadOfName && message.character_url) {
+            return getCharacter(message.character_url).then(function (data) {
+                var characterColor = data.color || color;
+
+                if (data.url) {
+                    item.find('a.name')
+                        .css('color', characterColor)
+                        .attr('href', data.url)
+                        .unbind('click', false);
+                }
+
+                var iconURL = data.icon || data.portrait;
+                if (iconURL) {
+                    var icon = $('<div class="icon">').css({
+                        'border-color': characterColor,
+                        'background-image': 'url(' + iconURL + ')'
+                    }).attr('data-id', data.id);
+
+                    item.before(icon);
+
+                    if (hideBelow) {
+                        $('.message[data-id="' + message.id + '"] + .icon[data-id="' + data.id + '"]').remove();
+                    }
+                }
+            });
+        } else {
+            var d = new $.Deferred;
+            d.resolve();
+            return d.promise();
+        }
+    };
+
+    ///
+    View.addUser = function (user) {
+        var list = $('#writing-list');
+
+        toast(user.name + '@' + user.id + ' joined', 3000);
+
+        if (list.find('.writing[data-id=' + user.id + ']').length == 0) {
+            var item = list
+                .find('.template')
+                .clone()
+                .hide()
+                .appendTo(list)
+                .removeClass('template')
+                .attr('data-id', user.id);
+
+            for (var key in user) {
+                item.find('.' + key).text(user[key]);
+            }
+        }
+    };
+
+    View.removeUser = function (user) {
+        toast(user.name + '@' + user.name + ' defected');
+    };
+
+    ///
+    View.bind = function (e, callback) {
+        _listeners[e] = callback;
+    };
+
+    ///
+    View.closeModal = function () {
         var d = new $.Deferred;
 
-        if ((character_url in characterCache) && ((new Date) - characterCache[character_url].cached ) < 30 * 1000) {
-            d.resolve(characterCache[character_url]);
-        } else {
-            $.getJSON(character_url).fail(function (error) {
-                d.reject(error);
-            }).done(function (data) {
-                data.cached = new Date;
-                characterCache[character_url] = data;
-                d.resolve(data);
-            });
-        }
+        $('#lean_overlay, .modal:not(:hidden)').cssFadeOut(200, function () {
+            d.resolve();
+        });
 
         return d.promise();
     };
 
-    var alertOn = false;
-    setTimeout(function () {
-        alertOn = true;
-        playAlert();
-    }, 10 * 1000);
-    var playAlert = function () {
-        if (alertOn) {
-            $('#alert')[0].play();
+    View.getHash = function () {
+        return location.hash;
+    };
+    View.setHash = function (hash) {
+        location.hash = hash;
+    };
+
+    View.setRoomList = function (rooms) {
+        var list = $('#room-list');
+        list.find('.room:not(.template)').remove();
+        rooms.forEach(function (room) {
+            var item = list
+                .find('.template')
+                .clone()
+                .appendTo(list)
+                .removeClass('template')
+                .attr('data-id', room.id);
+
+            item.find('a.title').attr('href', room.id);
+
+            for (var key in room) {
+                item.find('.' + key).text(room[key]);
+            }
+        });
+    };
+
+    ///
+    View.setTitle = function (title, hash) {
+        if (!title) {
+            title = 'Beniimo Online';
         }
-    };
-    
-    View.Message = {
-        data: [],
-        list: $('#message-list'),
-        template: $('#message-list .template'),
-        create: function (id) {
-            return this.template.clone().attr('data-id', id).removeClass('template');
-        },
-        find: function (id) {
-            return this.list.find('.message' + (id ? '[data-id=' + id + ']' : ':not(.template)'));
-        },
-        set: function (item, key, value) {
-            item.find('[data-field="' + key + '"]').text(value);
-        },
-        add: function (message) {
-            var color = makeColor(message.name + message.user_id);
-
-            var index = Util.insertIndexAt(this.data, message, compareId);
-            Util.insertAt(this.data, index, message);
-
-            var item = this.create(message.id);
-
-            item.find('[data-field=name]').css('color', color);
-            
-            for (var key in message) {
-                this.set(item, key, message[key]);
-            }
-
-            var nofirst = index > 0
-                    && this.data[index-1].user_id == message.user_id
-                    && this.data[index-1].name == message.name;
-
-            if (nofirst) {
-                item.find('[data-field=name]').remove();
-            } else {
-                item.find('[data-field=name]').append($('<span class=user_id>').text(message.user_id));
-            }
-           
-            if (index == 0) {
-                this.list.prepend(item);
-            } else if (index == this.data.length-1) {
-                this.list.append(item);
-            } else {
-                this.find(this.data[index-1].id).before(item);
-            }
-            if (!nofirst) {
-                item.before($('<div>').css('clear', 'both'));
-            }
-
-
-            var main = $('main');
-            main.scrollTop(main.scrollTop() + item.height() + 13);
-
-            playAlert();
-
-            if (message.character_url) {
-                getCharacter(message.character_url).done(function (data) {
-                    if (!nofirst) {
-                        var icon = data.icon || data.portrait;
-                        if (icon) {
-                            var icon = $('<div>').css('background-image', 'url(' + icon + ')').css('border-color', data.color || color).addClass('icon');
-                            item.before(icon);
-                            main.scrollTop(main.scrollTop() + icon.height() - item.height());
-                        }
-
-                        if (data.url) {
-                            var name = item.find('[data-field=name]');
-                            if (name.length > 0) {
-                                var url = data.url;
-                                if (!url.match(/^http/)) {
-                                    url = message.character_url.match(/^https?:\/\/[^\/]+/) + url;
-                                }
-                                var a = $('<a>').attr('href', url).text(message.name).attr('target', '_blank');
-                                name.empty().append(a).append($('<span class=user_id>').text(message.user_id));;
-                            }
-                        }
-
-                        if (data.color) {
-                            item.find('[data-field=name]').css('color', data.color);
-                        }
-                    }
-                });
-            } else {
-                item.find('[data-field=message]').parent().addClass('offset-s1');
-            }
-        },
-        empty: function () {
-            this.list.find('.message:not(.template),img.icon').empty();
-        },
-        addUser: function (data) {
-            toast(data.name + ' joined', 3000);
-            var list = $('#writing-list');
-            if (list.find('[data-user_id="' + data.id + '"]').length == 0) {
-                var item = $('#writing-list .template').clone().removeClass('template').hide().attr('data-user_id', data.id).appendTo(list);
-                item.find('[data-field=name]').text(data.name);
-                item.find('[data-field=user_id]').text(data.id);
-            }
-        },
-        writing: function (user_id, name) {
-            var item = $('#writing-list').find('[data-user_id="' + user_id + '"]');
-            item.find('[data-field=name]').text(name);
-            var main = $('main');
-            main.scrollTop(main.scrollTop() + item.height());
-            item.fadeIn();
-            clearTimeout(item.data('timer'));
-            item.data('timer', setTimeout(function () {
-                item.fadeOut();
-            }, 5000));
-        },
-    };
-
-    View.MessageForm = {
-        setName: function (target, name) {
-            target.find('[data-field=name]').val(name);
-            target.find('[data-field=message]').attr('placeholder', name);
-        },
-        setUser: function (user) {
-            $('#message-form-list form:last-child [data-field=name]').val(user.name);
-            $('#message-form-list form:last-child [data-field=character_url]').val('');
-            $('#message-form-list form:last-child [data-field=message]').attr('placeholder', user.name);
+        if (!hash) {
+            hash = '#';
         }
+
+        document.title = title;
+        $('.brand-logo').text(title).attr('href', hash);
     };
-    (function () {
-        $('#message-form-list form').submit(function () {
-            var form = $(this);
-            var messageInput = form.find('[data-field=message]');
-            var name = form.find('[data-field=name]').val();
-            var character_url = form.find('[data-field=character_url]').val();
-            var message = messageInput.val();
-            if (message.length > 0) {
-                if (View.MessageForm.onsubmit) {
-                    View.MessageForm.onsubmit(name, message, character_url);
+
+    ///
+    View.showModal = function (id) {
+        $('<a class="mordal-trigger">').attr('href', '#' + id).leanModal().trigger('click');
+    };
+
+    ///
+    View.showRoomSelector = function () {
+        View.showModal('modal-room-selector');
+        trigger('show.roomselector');
+    };
+
+    ///
+    View.showConnectingModal = function () {
+        View.showModal('modal-connecting');
+        $('#lean_overlay').unbind('click');
+    };
+
+    ///
+    View.beginWriting = function (id, name) {
+        $('#writing-list .writing[data-id="' + id + '"]').cssFadeIn(200)
+            .find('.name').text(name);
+    };
+
+    ///
+    View.endWriting = function (id) {
+        $('#writing-list .writing[data-id="' + id + '"]').cssFadeOut(200);
+    };
+
+    ///
+    $.fn.messageForm = function (one, two) {
+        if (one && two) {
+            switch (one) {
+                case 'name': 
+                    this.find('.message').attr('placeholder', two);
+                case 'character_url':
+                    this.find('.' + one).val(two);
+                    break;
+            }
+            return this;
+        } else if (one) {
+        } else {
+            this.submit(function () {
+                var form = $(this);
+                var messageInput = form.find('.message');
+                var message = messageInput.val();
+
+                if (message) {
+                    messageInput.val('');
+                    messageInput.attr('name', 'message' + (new Date).getTime());
+
+                    trigger('submit.message', {
+                        name: form.find('.name').val(),
+                        character_url: form.find('.character_url').val(),
+                        message: message
+                    });
                 }
-                messageInput.val('');
-                messageInput.attr('name', (new Date()).getTime());
-            }
-        });
+            });
 
-        $('#message-form-list form input[data-field=message]').bind({
-            focus: function () {
-                var input = $(this);
-                input.data('timer', setInterval(function () {
-                    if (input.val() && View.MessageForm.onwriting) {
-                        View.MessageForm.onwriting(input.parent().find('[data-field=name]').val());
-                    }
-                }, 2000));
-            },
-            blur: function () {
-                clearInterval($(this).data('timer'));
-            }
-        });
+            this.find('.message').attr('name', 'message' + (new Date).getTime());
+            this.find('.modal-trigger').leanModal().click(function () {
+                var form = $(this).parent();
+                var modal = $('#modal-message-setting').data('form', form);
+                modal.find('form .name').val(form.find('.name').val());
+                modal.find('form .character_url').val(form.find('.character_url').val());
+            });
 
-        $('#message-form-list form .modal-trigger[href=#modal-formsetting]').click(function () {
-            var form = $(this).closest('form');
-            var modal_form = $('#modal-formsetting form').data('target', $(this).parent());
-            modal_form.find('[data-field=name]').val(form.find('[data-field=name]').val());
-            modal_form.find('[data-field=character_url]').val(form.find('[data-field=character_url]').val());
-        });
-
-        $('#form-formsetting input').change(function () {
-            var input = $(this);
-            var val = input.val();
-            var field = input.data('field');
-            var target = input.closest('form').data('target');
-
-            if (field == 'name') {
-                View.MessageForm.setName(target, val);
-            } else if (field == 'character_url') {
-                getCharacter(val).done(function (data) {
-                    if (data.name) {
-                        View.MessageForm.setName(target, data.name);
-                        $('#form-formsetting [data-field=name]').val(data.name);
-                    }
-                });
-                target.find('[data-field=character_url]').val(val);
-            }
-        });
-
-        $('#form-globalsetting-volume').change(function () {
-            $('#alert')[0].volume = $(this).val() / 100.0;
-        }).val($('#alert')[0].volume * 100.0);
-    }.bind(View.MessageForm))();
-
-    View.RoomList = {
-        list: $('#roomlist .collection'),
-        set: function (rooms) {
-            this.list.empty();
-            rooms.sort(function (a, b) {
-                if (a > b) return -1;
-                else if (a < b) return 1;
-                else return 0;
-            }).forEach(function (room) {
-                $('<a>')
-                    .addClass('collection-item')
-                    //.addClass('modal_close')
-                    .attr('href', room.id)
-                    .text(room.title)
-                    .appendTo(this.list);
-            }.bind(this));
+            return this;
         }
     };
+
+    $(function () {
+        $(window).bind('hashchange', function () {
+            trigger('hashchange', location.hash);
+        });
+
+        $('a.modal-trigger[href="#modal-room-selector"]').click(function () {
+            trigger('show.roomselector');
+        });
+
+        $('#modal-message-setting input').change(function () {
+            var input = $(this);
+            var form = input.closest('.modal').data('form');
+
+            if (form) {
+                var field = input.attr('class');
+                form.messageForm(field, input.val());
+            }
+        });
+        $('#modal-message-setting .character_url').change(function () {
+            var input = $(this);
+            var url = input.val();
+            if (url) {
+                getCharacter(url).done(function (data) {
+                    var modal = input.closest('.modal');
+                    modal.find('.name').val(data.name).trigger('change');
+                });
+            }
+        });
+
+        $('#modal-global-setting .volume').change(function () {
+            var volume = $(this).val() / 100.0;
+            $('#alert').each(function (a) {
+                this.volume = volume;
+            });
+        }).trigger('change');
+
+        $('.message-form:not(.template)').messageForm();
+
+        var _requestMessage = false;
+        setInterval(function () {
+            if ($('body > main').scrollTop() == 0 && $('#message-list .message:not(.template)').length > 0) {
+                if (_requestMessage) {
+                    trigger('request.message');
+                } else {
+                    _requestMessage = true;
+                }
+            } else {
+                _requestMessage = false;
+            }
+        }, 500);
+    });
 })(this.View || (this.View = {}), jQuery);

@@ -69,6 +69,7 @@ var datasource = {
         //console.log('Query: ', query, params);
         database.query(query, params, function (error, data) {
             if (error) {
+                console.error(error);
                 d.reject(error);
             } else {
                 d.resolve(data);
@@ -79,10 +80,10 @@ var datasource = {
     },
     getAll: function (table, field, value, options) {
         var fields = (options && options.fields) ? options.fields.join(",") : '*'
-        return this.query('SELECT ' + fields + ' FROM ' + table + ' WHERE ' + field + ' = ?', [value]);
+        return this.query('SELECT ' + fields + ' FROM ' + table + ' WHERE ' + field + ' = ? ORDER BY modified DESC LIMIT 50', [value]);
     },
-    getMessgeLogs: function (id) {
-        return this.query('SELECT * FROM messages WHERE id < ? LIMIT 5', [id]);
+    getMessageLogs: function (room_id, id) {
+        return this.query('SELECT * FROM messages WHERE room_id = ? and id < ? ORDER BY modified DESC LIMIT 20', [room_id, id]);
     },
     get: function (table, id, options) {
         var fields = (options && options.fields) ? options.fields.join(",") : '*'
@@ -137,7 +138,7 @@ var datasource = {
         this.query('INSERT INTO ' + table + ' (' + fields.join(",") + ') VALUES (' + holders.join(",") + ')', values).fail(function (error) {
             d.reject(error);
         }).done(function (result) {
-            console.log(result);
+            //console.log(result);
             if (result.affectedRows == 1) {
                 d.resolve(data.id || result.insertId);
             } else {
@@ -154,34 +155,56 @@ io.on('connect', function (socket) {
 
     socket.emit('hello');
 
-    socket.on('auth request', function (user) {
-        console.log('Auth Request: ', user);
-        datasource.getOne('users', user.id).fail(function (error) {
-            console.log(error);
-        }).done(function (data) {
-            console.log('Auth OK: ', data[0]);
-            socket.emit('auth ok');
+    socket.on('disconnect', function () {
+        console.log('Disconnected: ', socket.id, socket.user ? socket.user.id : undefined);
+        if (socket.room) {
+            io.to(socket.room.id).emit('user defected', socket.user);
+        }
+    });
 
-            socket.user = data[0];
+    socket.on('auth request', function (user_id) {
+        console.log('Auth Request: ', user_id);
+        datasource.getOne('users', user_id).fail(function (error) {
+            console.error(error);
+        }).done(function (users) {
+            var user = users[0];
+            console.log('Auth OK: ', user);
+            socket.emit('auth ok', user);
+
+            socket.user = user;
+
+            var sendMessage = function (messages) {
+                console.log('Sending Messages');
+                messages.forEach(function (message) {
+                    if (socket.minId == null || message.id < socket.minId) {
+                        socket.minId = message.id;
+                    }
+                    socket.emit('add message', message);
+                });
+            };
 
             var join = function (room) {
                 console.log('Join OK: ', room);
                 socket.room_id = room.id;
                 socket.join(room.id);
                 socket.emit('join ok', room);
-                io.to(room.id).emit('joined', socket.user);
+                io.to(room.id).emit('user joined', socket.user);
 
-                datasource.getAll('messages', 'room_id', room.id).done(function (messages) {
-                    messages.forEach(function (message) {
-                        socket.emit('message', message);
-                    });
-                });
+                socket.minId = null;
+                datasource.getAll('messages', 'room_id', room.id).done(sendMessage);
             };
+
+            socket.on('message request', function () {
+                var room_id = socket.room_id;
+                if (room_id) {
+                    datasource.getMessageLogs(room_id, socket.minId).done(sendMessage);
+                };
+            });
 
             socket.on('join request', function (room_id) {
                 console.log('Join Request: ', socket.id, room_id);
                 datasource.getOne('rooms', room_id).fail(function (error) {
-                    console.log(error);
+                    console.error(error);
                     socket.emit('join failed');
                 }).done(function (rooms) {
                     join(rooms[0]);
@@ -213,7 +236,6 @@ io.on('connect', function (socket) {
                         datasource.getOne('rooms', insertId).fail(function (error) {
                             d.reject(error);
                         }).done(function (rooms) {
-                            console.log(rooms);
                             d.resolve(rooms[0]);
                         });
                     });
@@ -239,19 +261,21 @@ io.on('connect', function (socket) {
                 });
             });
 
-            socket.on('message', function (name, message, character_url) {
-                if (socket.room_id) {
+            socket.on('add message', function (message) {
+                if (socket.room_id && message) {
                     var msg = {
-                        name: name,
+                        name: message.name,
                         room_id: socket.room_id,
                         user_id: socket.user.id,
-                        message: diceReplace(message),
-                        character_url: character_url
+                        message: diceReplace(message.message),
+                        character_url: message.character_url
                     };
-                    console.log(name, msg);
                     msg.created = msg.modified = new Date();
-                    datasource.insert('messages', msg);
-                    io.to(socket.room_id).emit('message', msg);
+                    datasource.insert('messages', msg).then(function (message_id) {
+                        return datasource.getOne('messages', message_id);
+                    }).done(function (data) {
+                        io.to(socket.room_id).emit('add message', data[0]);
+                    });
                 }
             });
 

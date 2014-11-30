@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel=stylesheet href="../css/materialize.min.css">
+    <link rel=stylesheet href="../css/jquery.cssanim.min.css">
+    <link rel=stylesheet href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+</head>
+<body>
+    <div id=qunit></div><div id=qunit-fixture></div>
+
+    <a href="#" class="brand-logo">Beniimo Online</a>
+
+    <div id=message-list>
+        <div class="message template">
+            <div class="only-head-of-name">
+                <a class="name" target=_blank href="#"></a>
+                <span class="user_id"></span>
+            </div>
+            <div class="message"></div>
+            <div class="modified"></div>
+        </div>
+    </div>
+
+    <div id=writing-list>
+        <div class="writing template">
+            <span class="name"></span>
+            <span class="id user-id"></span>
+        </div>
+    </div>
+
+    <ul id=room-list>
+        <li class="room template">
+            <a class="title" href="#"></a>
+        </li>
+    </ul>
+
+    <div id=message-form-list>
+        <form class="message-form template" onsubmit="return false">
+            <a class="modal-trigger" href="#modal-message-setting">setting</a>
+            <input type=hidden class=name>
+            <input type=hidden class=character_url>
+            <input type=text class=message>
+            <input type=submit>
+        </form>
+    </div>
+
+    <!-- .modal -->
+    <div id=modal1 class="modal">
+        <h4>modal1</h4>
+    </div>
+    <!-- /.modal -->
+    <!-- .modal -->
+    <div id=modal-room-selector class="modal">
+        <h4>room-selector</h4>
+    </div>
+    <!-- /.modal -->
+    <!-- .modal -->
+    <div id=modal-connecting class="modal">
+        <h4>connecting</h4>
+    </div>
+    <!-- /.modal -->
+    <!-- .modal -->
+    <div id=modal-message-setting class="modal">
+        <h4>message-setting</h4>
+        <form onsubmit="return false">
+            <input type=text class=name>
+            <input type=url class=character_url>
+        </form>
+        <a class="modal_close">close</a>
+    </div>
+    <!-- /.modal -->
+    <!-- .modal -->
+    <div id=modal-global-setting class="modal">
+        <h4>global-setting</h4>
+        <form onsubmit="return false">
+            <input type=range class=volume name=volume>
+        </form>
+        <a class="modal_close">close</a>
+    </div>
+    <!-- /.modal -->
+
+
+    <a class="modal-trigger" href=#modal1>modal1</a>
+    <br>
+    <a class="modal-trigger" href=#modal-room-selector>room-selector</a>
+    <br>
+    <a class="modal-trigger" href=#modal-global-setting>global-setting</a>
+
+    <audio id=alert></audio>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+    <script type="text/javascript" src="../js/materialize.min.js"></script>
+    <script src="../js/jquery.cssanim.js"></script>
+    <script src="../js/init.js"></script>
+    <script src="../js/view.js"></script>
+    <script src="view.js"></script>
+</body>
+</html>
