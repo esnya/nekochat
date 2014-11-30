@@ -264,6 +264,7 @@
 
         document.title = title;
         $('.brand-logo').text(title).attr('href', hash);
+        $('.open-log').attr('href', 'log.php' + hash);
     };
 
     ///
