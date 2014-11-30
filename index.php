@@ -17,6 +17,7 @@
                 <ul id="nav-mobile" class="right side-nav">
                     <li><a class="modal-trigger" href="#modal-room-selector" onclick="return false">Switch Room</a></li>
                     <li><a href=#modal-global-setting class="modal-trigger">Global Settings</a></li>
+                    <li><a href="#" target=_blank class="open-log">Text Log</a></li>
                 </ul>
                 <a class="button-collapse" href="#" data-activates="nav-mobile"><i class="mdi-navigation-menu"></i></a>
             </div>
