@@ -99,19 +99,6 @@
                     </div>
                 </div>
                 <!-- /.row -->
-                <!-- .row -->
-                <div class="row">
-                    <select name=game id=form-createroom-game required>
-                        <option>Select Game</option>
-                        <option value="Any">No Select</option>
-                        <option value=sword_world2>Sword World 2.0</option>
-                        <option value=kancolle_rpg>Kancolle RPG</option>
-                    </select>
-                </div>
-                <!-- /.row -->
-                <div class="row">
-                </div>
-                <!-- /.row -->
             </p>
             <button id=form-createroom-create class="waves-effect btn-flat" style="margin-bottom: 0">Create</button>
             <button id=form-createroom-create class="modal_close waves-effect btn-flat" style="margin-bottom: 0">Cancel</button>
