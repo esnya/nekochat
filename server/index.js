@@ -174,7 +174,7 @@ io.on('connect', function (socket) {
             socket.user = user;
 
             var sendMessage = function (messages) {
-                console.log('Sending Messages');
+                //console.log('Sending Messages');
                 messages.forEach(function (message) {
                     if (socket.minId == null || message.id < socket.minId) {
                         socket.minId = message.id;

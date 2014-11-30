@@ -3,8 +3,6 @@
 
     var _socket, _user_id;
 
-    var _deferred = {};
-
     var _on = {
         connect: function () {
             console.log('Connected');
@@ -15,18 +13,13 @@
         },
         'auth ok': function (user) {
             console.log('Auth OK');
-            _deferred.auth.resolve(user);
-            _deferred.auth = null;
+            Socket.join(location.hash);
         },
         'join ok': function (room) {
             console.log('Join OK');
-            _deferred.join.resolve(room);
-            _deferred.join = null;
         },
         'join failed': function () {
             console.log('Join Failed');
-            _deferred.join.reject();
-            _deferred.join = null;
         }
     };
 
@@ -34,6 +27,8 @@
     var _cascadeListeners = [
         'disconnect',
         'room list',
+        'join ok',
+        'join failed',
         'add message',
         'user joined',
         'user defected',
@@ -43,8 +38,6 @@
 
     /// Connect to server with user_id
     Socket.connect = function (path, user_id) {
-        _deferred.auth = new $.Deferred;
-
         _user_id = user_id;
 
         _socket = io.connect('http://' + location.hostname, { path: path, transports: ['websocket'] });
@@ -61,17 +54,11 @@
                 }
             });
         });
-
-        return _deferred.auth.promise();
     };
 
     ///
     Socket.join = function (room_id) {
-        _deferred.join = new $.Deferred;
-
         _socket.emit('join request', room_id);
-
-        return _deferred.join.promise();
     };
 
     ///
