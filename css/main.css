@@ -38,6 +38,7 @@ html, body, body > main, main > div {
 
 .scroll-y {
     overflow-y: auto;
+    -webkit-overflow-scrolling : touch;
 }
 
 /* List */
