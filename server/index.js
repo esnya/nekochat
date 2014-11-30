@@ -57,7 +57,7 @@ var diceReplace = function (str) {
                 }
             }
 
-            return '[' + r.join(',') + ']';
+            return '[' + r.join(', ') + ']';
         });
 
         var sum = eval(diced.replace(/[\[,]/g, '+').replace(/]/g, '').slice(0, -1));
