@@ -371,7 +371,7 @@
 
         $('#modal-global-setting .volume').change(function () {
             var volume = $(this).val() / 100.0;
-            $('#alert').each(function (a) {
+            $('audio').each(function (a) {
                 this.volume = volume;
             });
         }).trigger('change');

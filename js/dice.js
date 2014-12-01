@@ -7,8 +7,11 @@
 })();
 
 var dice6 = function (n) {
-    $('<audio>').attr('id', 'dice-sound').attr('src', 'sound/nc93322.mp3').each(function () {
+    var a = $('audio');
+    var volume = (a.length > 0) ? a[0].volume : 1;
+    var audio = $('<audio>').attr('id', 'dice-sound').attr('src', 'sound/nc93322.mp3').appendTo(document.body).each(function () {
         setTimeout(function () {
+            this.volume = volume;
             this.play();
         }.bind(this), Math.random() * 500);
     });
@@ -38,13 +41,12 @@ var dice6 = function (n) {
 
     for (var i = 1; i <= 6; ++i) {
         dice.append(eyes[i]);
-        var test = $('<svg>').appendTo(document.body);
-        test.append('<circle cx=10 cy=2 fill=blue r=3 />').appendTo(test);
     }
 
     setTimeout(function () {
         outer.fadeOut(function () {
             this.remove();
+            audio.remove();
         });
     }, 3 * 1000);
 };
