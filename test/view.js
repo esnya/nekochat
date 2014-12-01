@@ -509,3 +509,20 @@ QUnit.test('volume', function (assert) {
     range.val(100).trigger('change');
     assert.equal(a[0].volume, 1, '1');
 });
+
+QUnit.test('input history', function (assert) {
+    var form = $('#message-form-list form:not(.template)');
+    assert.equal(form.length, 1);
+
+    var message = form.find('.message');
+    
+    message.val('something to send');
+    form.trigger('submit');
+
+    assert.equal(message.val().length, 0);
+
+    var event = $.Event('keydown');
+    event.keyCode = 38;
+    message.trigger(event);
+    assert.equal(message.val(), 'something to send');
+});
