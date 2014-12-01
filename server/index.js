@@ -61,7 +61,7 @@ var diceReplace = function (str, io) {
             return '[' + r.join(', ') + ']';
         });
 
-        var sum = eval(diced.replace(/[\[,]/g, '+').replace(/]/g, '').slice(0, -1));
+        var sum = eval(diced.replace(/,/g, '+').replace(/[\[\] ]/g, '').slice(0, -1));
 
         return exp + diced + sum + status;
     });
