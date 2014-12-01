@@ -144,7 +144,7 @@
                 <!-- .col -->
                 <div class="col s12">
                     <p class="range-field">
-                        <label for=form-global-setting-volume>Chat Alert Volume</label>
+                        <label for=form-global-setting-volume>Volume</label>
                         <input id=form-global-setting-volume type="range" class="volume">
                     </p>
                 </div>
