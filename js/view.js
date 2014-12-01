@@ -8,7 +8,7 @@
     var trigger = function (e) {
         var listener = _listeners[e];
         if (listener) {
-            listener.apply(View, arguments.length > 1 ? Array.slice(arguments, 1) : undefined);
+            listener.apply(View, arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : undefined);
         }
     };
 
