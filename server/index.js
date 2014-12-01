@@ -15,10 +15,7 @@ var io = require('socket.io').listen(config.app.port, {
 var database = require('mysql').createConnection(config.database);
 database.connect();
 
-var diceReplace = function (str) {
-    return str;
-};
-var diceReplace = function (str) {
+var diceReplace = function (str, io) {
     return str.replace(/([0-9]*d[0-9]*|[0-9]+)([+-][0-9]*d[0-9]*|[+-][0-9]+)*=/g, function (exp) {
         var status = '';
 
@@ -43,6 +40,10 @@ var diceReplace = function (str) {
             var r = [];
             for (var i = 0; i < num; ++i) {
                 r.push(Math.floor(Math.random() * eye + 1));
+            }
+
+            if (io) {
+                io.emit('dice', eye, r);
             }
 
             if (num > 1) {
@@ -271,7 +272,7 @@ io.on('connect', function (socket) {
                         name: message.name,
                         room_id: socket.room_id,
                         user_id: socket.user.id,
-                        message: diceReplace(message.message),
+                        message: diceReplace(message.message, io.to(socket.room_id)),
                         character_url: message.character_url
                     };
                     msg.created = msg.modified = new Date();
