@@ -18,10 +18,10 @@ var dice6 = function (n) {
 
     var angle = {
         1: [90, 0],
-        2: [0, 0],
-        3: [0, -90],
-        4: [0, 90],
-        5: [180, 0],
+        2: [0, 90],
+        3: [180, 0],
+        4: [0, 0],
+        5: [0, -90],
         6: [-90, 0],
     }[n];
     var outer = $('<div>').addClass('dice-outer').appendTo('#dice-table');

@@ -47,16 +47,16 @@
     transform: translateZ(16px);
 }
 .dice .dice-face:nth-child(2) {
-    transform: rotateX(90deg) translateZ(16px);
-}
-.dice .dice-face:nth-child(3) {
-    transform: rotateY(90deg) translateZ(16px);
-}
-.dice .dice-face:nth-child(4) {
     transform: rotateY(-90deg) translateZ(16px);
 }
-.dice .dice-face:nth-child(5) {
+.dice .dice-face:nth-child(3) {
     transform: rotateX(-90deg) translateZ(16px);
+}
+.dice .dice-face:nth-child(4) {
+    transform: rotateX(90deg) translateZ(16px);
+}
+.dice .dice-face:nth-child(5) {
+    transform: rotateY(90deg) translateZ(16px);
 }
 .dice .dice-face:nth-child(6) {
     transform: rotateY(180deg) translateZ(16px);
