@@ -318,6 +318,7 @@
 
                 if (message) {
                     messageInput.val('');
+                    messageInput.data('history', message);
                     messageInput.attr('name', 'message' + (new Date).getTime());
 
                     trigger('submit.message', {
@@ -325,6 +326,13 @@
                         character_url: form.find('.character_url').val(),
                         message: message
                     });
+                }
+            });
+
+            this.find('.message').keydown(function (e) {
+                if (e.keyCode == 38) {
+                    var input = $(this);
+                    input.val(input.data('history'));
                 }
             });
 
