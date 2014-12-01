@@ -109,6 +109,7 @@
 
     <div id=modal-message-setting class="modal">
         <h4>Chat Settings</h4>
+        <br>
         <!-- .row -->
         <div class="row">
             <form id=form-message-setting onsubmit="return false">

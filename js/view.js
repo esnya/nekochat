@@ -340,6 +340,7 @@
             this.find('.modal-trigger').leanModal().click(function () {
                 var form = $(this).parent();
                 var modal = $('#modal-message-setting').data('form', form);
+                modal.find('input').trigger('focus');
                 modal.find('form .name').val(form.find('.name').val());
                 modal.find('form .character_url').val(form.find('.character_url').val());
             });
