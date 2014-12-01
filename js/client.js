@@ -45,6 +45,14 @@
         }
     });
 
+    Socket.on('dice', function (eye, numbers) {
+        if (eye == 6 && numbers.length < 10) {
+            numbers.forEach(function (n) {
+                dice6(n);
+            });
+        }
+    });
+
     View.on('show.roomselector', function () {
         Socket.getRoomList();
     });

@@ -30,6 +30,7 @@
         'join ok',
         'join failed',
         'add message',
+        'dice',
         'user joined',
         'user defected',
         'begin writing',
