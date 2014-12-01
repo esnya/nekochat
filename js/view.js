@@ -265,7 +265,7 @@
             hash = '#';
         }
 
-        document.title = title;
+        document.title = title + ' - Beniimo Online';
         $('.brand-logo').text(title).attr('href', hash);
         $('.open-log').attr('href', 'log.php' + hash);
     };

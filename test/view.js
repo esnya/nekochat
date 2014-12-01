@@ -296,7 +296,7 @@ QUnit.test('View.setRoomList', function (assert) {
 QUnit.test('View.setTitle', function (assert) {
     View.setTitle('foo', '#foo');
 
-    assert.ok(document.title.match('foo'), 'document');
+    assert.ok(document.title.match('^foo'), 'document');
 
     var logo = $('.brand-logo');
     assert.equal(logo.text(), 'foo', 'header');
