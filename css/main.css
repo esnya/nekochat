@@ -57,6 +57,9 @@ html, body, body > main, main > div {
     z-index: 10;
     background-color: white;
     float: left;
+
+    animation: chat-fade-in .5s .5s both;
+    -webkit-animation: chat-fade-in .5s .5s both;
 }
 #message-list .only-head-of-name {
     clear: left;
@@ -73,29 +76,30 @@ html, body, body > main, main > div {
     animation: bg-fade-out 5s ease 0 1 normal;
 }
 
+#message-list > .message .header {
+    display: inline-block;
+
+    transition: margin .5s;
+
+    border-color: transparent;
+    border-bottom: 1px solid;
+
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-left: -58px;
+}
+#message-list > .message.has-icon .header {
+    margin-left: -14px;
+}
+
 #message-list > .message a.name {
     color: inherit;
-
-    border-bottom: 1px solid;
-    padding-left: 8px;
-
-    margin-right: -8px;
-    padding-right: 8px;
-
-    margin-left: -48px;
-
     z-index: 0;
 }
 
-#message-list > .message.has-icon a.name {
-    margin-left: -14px;
-}
 #message-list > .message .user_id {
-    border-color: inherit !important;
-    border-bottom: 1px solid;
     color: lightgray;
     font-size: small;
-    padding-right: 8px;
 }
 #message-list > .message .user_id:before {
     content: '@';
@@ -145,4 +149,22 @@ input {
 
 .text-right {
     text-align: right;
+}
+
+/* Keyframes */
+@keyframes chat-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@-webkit-keyframes chat-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
