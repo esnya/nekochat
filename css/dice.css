@@ -22,6 +22,8 @@
 
     animation: dice-movement 3s linear both;
     -webkit-animation: dice-movement 3s linear both;
+
+    z-index: 9999;
 }
 
 .dice {
