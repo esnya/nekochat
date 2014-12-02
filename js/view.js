@@ -38,15 +38,18 @@
     };
 
     var makeColor = function (data) {
-        var rgb = [data.slice(0, data.length / 3), data.slice(data.length / 3, 2 * data.length / 3), data.slice(2 * data.length / 3)].map(function (data) {
-            var sum = 0;
-            for (var i = 0; i < data.length; ++i) {
-                sum += data.charCodeAt(i) & 0xff;
-            }
-            return sum & 0xff;
-        });
-        rgb.push(1);
-        return 'rgba(' + rgb.join(",") + ')';
+        var hash = Array.prototype.reduce.call(data + data, function (sum, c, i) {
+            return (sum * 31 + c.charCodeAt(0)) & 0xffffff;
+        }, 0);
+
+        var color = [];
+        for (var i = 0; i < 3; ++i) {
+            color.push(hash & 0xff);
+            hash >>= 8;
+        }
+        color.push(1);
+
+        return 'rgba(' + color.join(",") + ')';
     };
 
     var playNoticeAlert = function () {
