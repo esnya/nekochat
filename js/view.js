@@ -4,6 +4,7 @@
     var _user;
     var _messages, _maxMessageId;
     var _listeners = {};
+    var _formRestored;
 
     var trigger = function (e) {
         var listener = _listeners[e];
@@ -81,6 +82,7 @@
 
         _messages = {};
         _maxMessageId = -1;
+        _formRestored = false;
 
         if (!$('#lean_overlay').is(':hidden')) {
             View.closeModal();
@@ -97,6 +99,12 @@
         if (message.id > _maxMessageId) {
             _maxMessageId = message.id;
             playNoticeAlert();
+        }
+
+        if (!_formRestored && message.user_id == _user.id) {
+            _formRestored = true;
+            $('#message-form-list').messageForm('name', message.name);
+            $('#message-form-list').messageForm('character_url', message.character_url);
         }
 
         var color = makeColor(message.name + message.user_id);
