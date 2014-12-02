@@ -1,3 +1,7 @@
+body {
+    font-family: 'Yu Gothic', 'Meiryo', Sans-Serif;
+}
+
 /* Fixed Boxes */
 html, body, body > main, main > div {
     width: 100%;
@@ -47,14 +51,15 @@ html, body, body > main, main > div {
 }
 
 #message-list .icon {
-    margin-bottom: -58px;
+    position: relative;
+    margin-bottom: -78px;
     width: 48px;
     height: 48px;
     border: 4px solid;
     border-radius: 32px;
     background-size: cover;
     margin-top: 1.0em;
-    z-index: 10;
+    z-index: -1;
     background-color: white;
     float: left;
 
@@ -64,37 +69,44 @@ html, body, body > main, main > div {
 #message-list .only-head-of-name {
     clear: left;
     margin-top: 12px;
+    margin-bottom: 4px;
 }
 
 #message-list > .message .modified {
     float: right;
     clear: right;
+    width: 40px;
+    text-align: center;
+    margin-top: 0;
 }
 
 #message-list > .message {
     margin-left: 64px;
-    animation: bg-fade-out 5s ease 0 1 normal;
+    margin-right: 34px;
 }
 
 #message-list > .message .header {
-    display: inline-block;
+    box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.12); */
 
-    transition: margin .5s;
+    transition: margin .5s, padding .5s, border-left .5s;
 
     border-color: transparent;
     border-bottom: 1px solid;
+    border-right: 42px solid;
 
-    padding-left: 8px;
+    padding-left: 30px;
+    padding-left: 44px;
     padding-right: 8px;
     margin-left: -58px;
 }
 #message-list > .message.has-icon .header {
-    margin-left: -14px;
+    padding-left: 6px;
+    margin-left: -12px;
+    border-left: transparent;
 }
 
 #message-list > .message a.name {
     color: inherit;
-    z-index: 0;
 }
 
 #message-list > .message .user_id {
