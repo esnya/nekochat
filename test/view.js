@@ -526,3 +526,40 @@ QUnit.test('input history', function (assert) {
     message.trigger(event);
     assert.equal(message.val(), 'something to send');
 });
+
+QUnit.test('restore latest setting', function (assert) {
+    var form = $('#message-form-list form:not(.template)');
+    assert.equal(form.length, 1);
+
+    var name = form.find('.name');
+    var character_url = form.find('.character_url');
+    
+    assert.equal(name.val(), 'username');
+    assert.equal(character_url.val(), '');
+
+    View.addMessage({
+        id: 10,
+        user_id: 'hoge',
+        character_url: 'url1',
+        name: 'hogehoge',
+        message: 'test',
+        created: new Date,
+        modified: new Date
+    });
+
+    assert.equal(name.val(), 'username');
+    assert.equal(character_url.val(), '');
+
+    View.addMessage({
+        id: 9,
+        user_id: 'userid',
+        character_url: 'url2',
+        name: 'foobar',
+        message: 'foo',
+        created: new Date,
+        modified: new Date
+    });
+
+    assert.equal(name.val(), 'foobar');
+    assert.equal(character_url.val(), 'url2');
+});
