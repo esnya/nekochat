@@ -155,43 +155,43 @@ var datasource = {
     }
 };
 
-var createRoom = function (title, game_id, user_id, id) {
-    var d = new jQuery.Deferred;
-
-    if (!id) {
-        id = '' + (new Date).getTime();
-    }
-
-    id = crypto.createHash('sha256').update(id).digest('hex').substr(0, 16);
-
-    datasource.notExists('rooms', '#' + id).fail(function (error) {
-        if (error == "exists") {
-            createRoom(id, title, game);
-        }
-    }).done(function () {
-        datasource.insert('rooms', {
-            id: '#' + id,
-            title: title,
-            user_id: user_id,
-            game_id: game_id
-        }).fail(function (error) {
-            d.reject(error);
-        }).done(function (insertId) {
-            datasource.getOne('rooms', insertId).fail(function (error) {
-                d.reject(error);
-            }).done(function (rooms) {
-                d.resolve(rooms[0]);
-            });
-        });
-    });
-
-    return d.promise();
-};
-
 io.on('connect', function (socket) {
     console.log('New Connection: ', socket.id);
 
     var _user, _room, _minId;
+
+
+    var createRoom = function (title, game_id, user_id, id) {
+        var d = new jQuery.Deferred;
+
+        if (!id) {
+            id = '' + (new Date).getTime();
+        }
+
+        id = crypto.createHash('sha256').update(id).digest('hex').substr(0, 16);
+
+        datasource.notExists('rooms', '#' + id).fail(function (error) {
+            if (error == "exists") {
+                createRoom(id, title, game);
+            }
+        }).done(function () {
+            datasource.insert('rooms', {
+                id: '#' + id,
+                title: title,
+                user_id: _user.id
+            }).fail(function (error) {
+                d.reject(error);
+            }).done(function (insertId) {
+                datasource.getOne('rooms', insertId).fail(function (error) {
+                    d.reject(error);
+                }).done(function (rooms) {
+                    d.resolve(rooms[0]);
+                });
+            });
+        });
+
+        return d.promise();
+    };
 
     var sendMessages = function (messages) {
         messages.forEach(function (message) {
@@ -259,7 +259,7 @@ io.on('connect', function (socket) {
                 socket.emit('create room failed');
             }).done(function (room) {
                 leaveRoom();
-                joinRoom(rooms[0]);
+                joinRoom(room);
             });
         },
         'message request': function () {

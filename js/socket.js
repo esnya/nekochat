@@ -87,6 +87,11 @@
         _socket.emit('message request');
     };
 
+    ///
+    Socket.createRoom = function (title) {
+        _socket.emit('create room', title);
+    };
+
     /// Bind event listener
     Socket.on = function (e, callback) {
         _bindedListeners[e] = callback;
