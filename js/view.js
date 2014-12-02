@@ -103,8 +103,9 @@
 
         if (!_formRestored && message.user_id == _user.id) {
             _formRestored = true;
-            $('#message-form-list').messageForm('name', message.name);
-            $('#message-form-list').messageForm('character_url', message.character_url);
+            $('#message-form-list form:not(.template)')
+                .messageForm('name', message.name)
+                .messageForm('character_url', message.character_url || '');
         }
 
         var color = makeColor(message.name + message.user_id);
