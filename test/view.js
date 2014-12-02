@@ -132,7 +132,7 @@ QUnit.test('View.addMessage', function (assert) {
 });
 
 QUnit.asyncTest('View.addMessage (character_url)', function (assert) {
-    assert.expect(11 + 4 + 7);
+    assert.expect(10 + 3 + 6);
 
     View.addMessage({
         id: 2,
@@ -144,14 +144,15 @@ QUnit.asyncTest('View.addMessage (character_url)', function (assert) {
         modified: new Date("Aug 9, 1995 13:02:00")
     }).then(function () {
         var messages = $('#message-list > *:not(.template)');
-        assert.equal(messages.length, 2, 'number of messages');
+        assert.equal(messages.length, 1, 'number of messages');
 
-        var icon = $(messages[0]);
-        assert.ok(icon.is('.icon'), 'is icon');
-        assert.ok(icon.css('background-image'), 'url("http://' + location.host + '/portrait/to/test/character/1.png")', 'image url');
 
-        var message = $(messages[1]);
-        assert.ok(message.is('.message'), 'is message');
+        var message = $(messages[0]);
+
+        var icon = message.find('.icon');
+        assert.equal(icon.css('background-image'), 'url("http://' + location.host + '/portrait/to/test/character/1.png")', 'image url');
+
+        assert.ok(message.is('.has-icon'), '.has-icon');
         assert.equal(message.data('id'), 2, 'id');
         assert.equal(message.find('.name').text(), 'foo', 'name');
         assert.equal(message.find('.user_id').text(), 'test', 'user_id');
@@ -171,11 +172,10 @@ QUnit.asyncTest('View.addMessage (character_url)', function (assert) {
         });
     }).then(function () {
         var messages = $('#message-list > *:not(.template)');
-        assert.equal(messages.length, 3, 'number of messages');
+        assert.equal(messages.length, 2, 'number of messages');
 
-        assert.ok($(messages[0]).is('.icon'), 'is icon');
+        assert.ok($(messages[0]).is('.message.has-icon'), 'is message');
         assert.ok($(messages[1]).is('.message'), 'is message');
-        assert.ok($(messages[2]).is('.message'), 'is message');
 
         return  View.addMessage({
             id: 4,
@@ -188,14 +188,13 @@ QUnit.asyncTest('View.addMessage (character_url)', function (assert) {
         });
     }).then(function () {
         var messages = $('#message-list > *:not(.template)');
-        assert.equal(messages.length, 4, 'number of messages');
+        assert.equal(messages.length, 3, 'number of messages');
 
-        assert.ok($(messages[0]).is('.icon'), 'is icon');
+        assert.ok($(messages[0]).is('.message'), 'is message');
         assert.ok($(messages[1]).is('.message'), 'is message');
         assert.ok($(messages[2]).is('.message'), 'is message');
-        assert.ok($(messages[3]).is('.message'), 'is message');
 
-        var message = $(messages[3]);
+        var message = $(messages[2]);
         assert.equal(message.data('id'), 4, 'id');
         assert.ok(!message.find('.name').is(':hidden'), 'not hidden');
         assert.ok(!message.find('.user_id').is(':hidden'), 'not hidden');
@@ -534,8 +533,8 @@ QUnit.test('restore latest setting', function (assert) {
     var name = form.find('.name');
     var character_url = form.find('.character_url');
     
-    assert.equal(name.val(), 'username');
-    assert.equal(character_url.val(), '');
+    form.messageForm('name', 'username')
+        .messageForm('character_url', '');
 
     View.addMessage({
         id: 10,
