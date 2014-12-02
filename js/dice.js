@@ -55,5 +55,5 @@ var dice6 = function (n, callback) {
 };
 
 $(function () {
-    $('<div>').attr('id', 'dice-table').prependTo(document.body);
+    $('<div>').attr('id', 'dice-table').appendTo(document.body);
 });
