@@ -301,12 +301,14 @@
 
     ///
     $.fn.messageForm = function (one, two) {
-        if (one && two) {
+        if (one != null && two != null) {
             switch (one) {
                 case 'name': 
                     this.find('.message').attr('placeholder', two);
+                    this.find('.name').val(two);
+                    break;
                 case 'character_url':
-                    this.find('.' + one).val(two);
+                    this.find('.character_url').val(two);
                     break;
             }
             return this;
