@@ -34,7 +34,7 @@
             <!-- .flex-grow-shirink-1 -->
             <div id=message-list>
                 <div class="message template">
-                    <div class="only-head-of-name">
+                    <div class="only-head-of-name header">
                         <a class="name" target=_blank href="#"></a>
                         <span class="user_id"></span>
                     </div>
