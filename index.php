@@ -85,7 +85,7 @@
     <div id="modal-room-selector" class="modal">
         <ul class="tabs">
             <li class="tab col s2"><a href="#room-list-page">My Rooms</a></li>
-            <li class="tab col s2"><a href="#form-createroom">Create Room</a></li>
+            <li class="tab col s2"><a href="#form-create-room">Create Room</a></li>
         </ul>
         <div id=room-list-page>
             <ul id=room-list class="collection">
@@ -93,19 +93,19 @@
             </ul>
             <a href="#" class="waves-effect btn-flat modal_close" style="margin-bottom: 0">Close</a>
         </div>
-        <form id=form-createroom onsubmit="return false">
+        <form id=form-create-room onsubmit="return false">
             <p>
                 <!-- .row -->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input type=text name=title id=form-createroom-title required>
-                        <label for=form-createroom-title>Room Title</label>
+                        <input type=text name=title class=title id=form-create-room-title required>
+                        <label for=form-create-room-title>Room Title</label>
                     </div>
                 </div>
                 <!-- /.row -->
             </p>
-            <button id=form-createroom-create class="waves-effect btn-flat" style="margin-bottom: 0">Create</button>
-            <button id=form-createroom-create class="modal_close waves-effect btn-flat" style="margin-bottom: 0">Cancel</button>
+            <button id=form-create-room-create class="waves-effect btn-flat" style="margin-bottom: 0">Create</button>
+            <button class="modal_close waves-effect btn-flat" style="margin-bottom: 0">Cancel</button>
         </form>
     </div>
 
