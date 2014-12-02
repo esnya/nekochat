@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/materialize.min.css">
     <link rel="stylesheet" href="css/dice.css">
     <link rel="stylesheet" href="css/anim.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/chat.css">
 </head>
 <body class="flex flex-column" ontouchmove="event.preventDefault()">
     <nav>
@@ -35,7 +35,8 @@
             <div id=message-list>
                 <div class="message template">
                     <div class="only-head-of-name header">
-                        <a target=_blank href="#"><i class="mdi-action-assignment-ind right-align visible-is-pc pc-icon"></i></a>
+                        <div class="icon-container"><div class="icon"></div></div>
+                        <a target=_blank href="#"><i class="mdi-action-assignment-ind right-align visible-if-pc pc-icon"></i></a>
                         <a class="name" target=_blank href="#"></a>
                         <span class="user_id"></span>
                     </div>

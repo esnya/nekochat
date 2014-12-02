@@ -151,7 +151,9 @@
         } else {
             list.prepend(item);
         }
-        if (aboveId < 0 || list.height() - main.scrollTop() - main.height() < item.height() * 2) {
+        if (aboveId < 0) {
+            main.scrollTop(main.scrollTop() + item.height());
+        } else if (list.height() - main.scrollTop() - main.height() < item.height() * 2) {
             main.scrollTop(list.height());
         }
 
@@ -172,16 +174,10 @@
 
                 var iconURL = data.icon || data.portrait;
                 if (iconURL) {
-                    var icon = $('<div class="icon">')
+                    item.addClass('has-icon');
+                    var icon = item.find('.icon')
                         .css('border-color', characterColor)
-                        .css('background-image', 'url(' + iconURL + ')')
-                        .attr('data-id', data.id); 
-
-                        item.addClass('has-icon').before(icon);
-
-                    if (hideBelow) {
-                        $('.message[data-id="' + message.id + '"] + .icon[data-id="' + data.id + '"]').remove();
-                    }
+                        .css('background-image', 'url(' + iconURL + ')');
                 }
             });
         } else {

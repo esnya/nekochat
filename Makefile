@@ -1,5 +1,6 @@
 ALL	= css/materialize.css \
-	  css/materialize.min.css
+	  css/materialize.min.css \
+	  css/chat.css
 
 MATERIALISE_COMPONENTS = 	sass/components/_buttons.scss \
 							sass/components/_cards.scss \
