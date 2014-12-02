@@ -203,14 +203,15 @@ io.on('connect', function (socket) {
     };
 
     var leaveRoom = function () {
+        socket.leave();
         if (_room) {
-            socket.leave(_room.id);
             io.to(_room.id).emit('user leaved', _user);
         }
     };
 
     var joinRoom = function (room) {
-        if (!_user) socket.disconnect();
+        if (!_user) return;
+
         leaveRoom();
 
         _room = room;
@@ -244,7 +245,7 @@ io.on('connect', function (socket) {
             console.log('Join Request: ', socket.id, room_id);
 
             datasource.getOne('rooms', room_id).fail(function (error) {
-                console.error(error);
+                console.error('Join Request Error: ', error);
                 socket.emit('join failed');
             }).done(function (rooms) {
                 joinRoom(rooms[0]);
@@ -252,7 +253,7 @@ io.on('connect', function (socket) {
         },
         'create room': function (title) {
             console.log('Create Room: ', _user.id, title);
-            if (!_user) socket.disconnect();
+            if (!_user) return;
             createRoom(title, _user.id).fail(function (error) {
                 console.log('Create Failed: ', error);
                 socket.emit('create room failed');
@@ -262,15 +263,18 @@ io.on('connect', function (socket) {
             });
         },
         'message request': function () {
-            if (!_user || !_room) socket.disconnect();
+            if (!_user || !_room) return;
+            console.log('Message Request: ', _user.id, _room.id);
             datasource.getMessageLogs(_room.id, _minId).done(sendMessages);
         },
         'leave': function () {
-            if (!_user) socket.disconnect();
+            if (!_user) return;
+            console.log('Leave: ', _user.id, _room ? _room.id : '');
             leaveRoom();
         },
         'room list': function () {
-            if (!_user) socket.disconnect();
+            if (!_user) return;
+            console.log('Room List: ', _user.id);
             datasource.getAll('rooms', 'user_id', _user.id).fail(function (error) {
                 console.error(error);
             }).done(function (rooms) {
@@ -278,8 +282,9 @@ io.on('connect', function (socket) {
             });
         },
         'add message': function (message) {
-            if (!_user || !_room) socket.disconnect();
+            if (!_user || !_room) return;
 
+            console.log('Add Message: ', _user.id, _room.id);
             var msg = {
                 name: message.name,
                 room_id: _room.id,
