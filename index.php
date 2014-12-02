@@ -35,7 +35,7 @@
             <div id=message-list>
                 <div class="message template">
                     <div class="only-head-of-name header">
-                        <i class="mdi-action-assignment-ind right-align visible-is-pc pc-icon"></i>
+                        <a target=_blank href="#"><i class="mdi-action-assignment-ind right-align visible-is-pc pc-icon"></i></a>
                         <a class="name" target=_blank href="#"></a>
                         <span class="user_id"></span>
                     </div>

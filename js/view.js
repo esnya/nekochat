@@ -105,7 +105,7 @@
             .removeClass('template')
             .attr('data-id', message.id);
 
-        item.find('a.name').css('color', color).bind('click', false)
+        item.find('a').bind('click', false).filter('.name').css('color', color)
             .parent().css('border-color', color);
 
         for (var key in message) {
@@ -152,7 +152,7 @@
             list.prepend(item);
         }
         if (aboveId < 0 || list.height() - main.scrollTop() - main.height() < item.height() * 2) {
-            main.scrollTop(main.scrollTop() + item.height() + (isHeadOfName ? 0 : 0));
+            main.scrollTop(list.height());
         }
 
         if (isHeadOfName && message.character_url) {
@@ -161,10 +161,11 @@
 
                 item.addClass('is-pc');
                 if (data.url) {
-                    item.find('a.name')
-                        .css('color', characterColor)
+                    item.find('a')
                         .attr('href', data.url)
                         .unbind('click', false)
+                        .filter('.name')
+                        .css('color', characterColor)
                         .parent()
                         .css('border-color', characterColor);
                 }
