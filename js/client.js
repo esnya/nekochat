@@ -45,10 +45,14 @@
         }
     });
 
+    var _dices = 0;
     Socket.on('dice', function (eye, numbers) {
-        if (eye == 6 && numbers.length < 10) {
+        if (eye == 6 && _dices + numbers.length < 10) {
+            _dices += numbers.length;
             numbers.forEach(function (n) {
-                dice6(n);
+                dice6(n, function () {
+                    --_dices;
+                });
             });
         }
     });
