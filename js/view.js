@@ -159,6 +159,7 @@
             return getCharacter(message.character_url).then(function (data) {
                 var characterColor = data.color || color;
 
+                item.addClass('is-pc');
                 if (data.url) {
                     item.find('a.name')
                         .css('color', characterColor)

@@ -72,6 +72,14 @@ html, body, body > main, main > div {
     margin-bottom: 4px;
 }
 
+#message-list > .message .visible-is-pc {
+    opacity: 0;
+    transition: opacity .5s .5s;
+}
+#message-list > .message.is-pc .visible-is-pc {
+    opacity: 1;
+}
+
 #message-list > .message .modified {
     float: right;
     clear: right;
@@ -85,6 +93,11 @@ html, body, body > main, main > div {
     margin-right: 34px;
 }
 
+#message-list > .message .pc-icon {
+    margin-top: 2px;
+    color: gray;
+}
+
 #message-list > .message .header {
     box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.12); */
 
@@ -96,7 +109,7 @@ html, body, body > main, main > div {
 
     padding-left: 30px;
     padding-left: 44px;
-    padding-right: 8px;
+    padding-right: 4px;
     margin-left: -58px;
 }
 #message-list > .message.has-icon .header {
