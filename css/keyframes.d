@@ -60,12 +60,18 @@ void main() {
     file.writeln("}");
     file.writeln("@-webkit-keyframes dice-movement {");
     foreach (p, pos; data) {
-        file.writefln("\t%s%% { transform: rotateX(-55deg) rotateY(45deg) translate(%spx, %spx) rotateZ(%sdeg) rotateY(%sdeg); }",
-                p,
+        file.writefln("\t%s%% {", p);
+        file.writefln("transform: rotateX(-55deg) rotateY(45deg) translate(%spx, %spx) rotateZ(%sdeg) rotateY(%sdeg);",
                 cast(int)(pos[0] * 1000), cast(int)(pos[1] * 1000),
                 -cast(int)max((20. - p) * 10, 0),
                 cast(int)max((20. - p) * 5, 0)
                 );
+        file.writefln("-webkit-transform: rotateX(-55deg) rotateY(45deg) translate(%spx, %spx) rotateZ(%sdeg) rotateY(%sdeg);",
+                cast(int)(pos[0] * 1000), cast(int)(pos[1] * 1000),
+                -cast(int)max((20. - p) * 10, 0),
+                cast(int)max((20. - p) * 5, 0)
+                );
+        file.writeln("}");
     }
     file.writeln("}");
 };
