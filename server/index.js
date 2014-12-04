@@ -281,6 +281,15 @@ io.on('connect', function (socket) {
                 socket.emit('room list', rooms);
             });
         },
+        'room history': function () {
+            if (!_user) return;
+            console.log('History: ', _user.id);
+            datasource.getAll('room_histories', 'user_id', _user.id).fail(function (error) {
+                console.error(error);
+            }).done(function (rooms) {
+                socket.emit('room history', rooms);
+            });
+        },
         'add message': function (message) {
             if (!_user || !_room) return;
 

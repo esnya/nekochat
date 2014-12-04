@@ -84,9 +84,16 @@
 
     <div id="modal-room-selector" class="modal">
         <ul class="tabs">
+            <li class="tab col s2"><a href="#room-history-page">Room History</a></li>
             <li class="tab col s2"><a href="#room-list-page">My Rooms</a></li>
             <li class="tab col s2"><a href="#form-create-room">Create Room</a></li>
         </ul>
+        <div id=room-history-page>
+            <ul id=room-history class="collection">
+                <li class="room template collection-item"><a class="title" href="#"></a></li>
+            </ul>
+            <a href="#" class="waves-effect btn-flat modal_close" style="margin-bottom: 0">Close</a>
+        </div>
         <div id=room-list-page>
             <ul id=room-list class="collection">
                 <li class="room template collection-item"><a class="title" href="#"></a></li>
