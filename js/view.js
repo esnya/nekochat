@@ -5,6 +5,7 @@
     var _messages, _maxMessageId;
     var _listeners = {};
     var _formRestored;
+    var _defaultTitle;
 
     var trigger = function (e) {
         var listener = _listeners[e];
@@ -287,13 +288,13 @@
     ///
     View.setTitle = function (title, hash) {
         if (!title) {
-            title = 'Beniimo Online';
+            title = _defaultTitle;
         }
         if (!hash) {
             hash = '#';
         }
 
-        document.title = title + ' - Beniimo Online';
+        document.title = title + ' - ' + _defaultTitle;
         $('.brand-logo').text(title).attr('href', hash);
         $('.open-log').attr('href', 'log.php' + hash);
     };
@@ -380,6 +381,8 @@
     };
 
     $(function () {
+        _defaultTitle = document.title;
+
         $(window).bind('hashchange', function () {
             trigger('hashchange', location.hash);
         });

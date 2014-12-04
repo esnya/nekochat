@@ -1,8 +1,9 @@
+<?php require_once(dirname(dirname(__FILE__)) . '/locale/locale.php') ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Beniimo Online</title>
+    <title><?= _('Beniimo Online') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="css/materialize.min.css">
     <link rel="stylesheet" href="css/dice.css">
@@ -15,11 +16,11 @@
         <div class="container">
             <!-- .nav-wrapper -->
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo">Beniimo Online</a>
+                <a href="#" class="brand-logo"><?= _('Beniimo Online') ?></a>
                 <ul id="nav-mobile" class="right side-nav">
-                    <li><a class="modal-trigger" href="#modal-room-selector" onclick="return false">Switch Room</a></li>
-                    <li><a href=#modal-global-setting class="modal-trigger">Global Settings</a></li>
-                    <li><a href="#" target=_blank class="open-log">Text Log</a></li>
+                    <li><a class="modal-trigger" href="#modal-room-selector" onclick="return false"><?= _('Switch Room') ?></a></li>
+                    <li><a href=#modal-global-setting class="modal-trigger"><?= _('Global Settings') ?></a></li>
+                    <li><a href="#" target=_blank class="open-log"><?= _('Text Log') ?></a></li>
                 </ul>
                 <a class="button-collapse" href="#" data-activates="nav-mobile"><i class="mdi-navigation-menu"></i></a>
             </div>
@@ -78,27 +79,27 @@
     </footer>
 
     <div id="modal-connecting" class="modal">
-        <h4>Connecting</h4>
-        <p>Please wait...</p>
+        <h4><?= _('Connecting') ?></h4>
+        <p><?= _('Please wait...') ?></p>
     </div>
 
     <div id="modal-room-selector" class="modal">
         <ul class="tabs">
-            <li class="tab col s2"><a href="#room-history-page">Room History</a></li>
-            <li class="tab col s2"><a href="#room-list-page">My Rooms</a></li>
-            <li class="tab col s2"><a href="#form-create-room">Create Room</a></li>
+            <li class="tab col s2"><a href="#room-history-page"><?= _('Room History') ?></a></li>
+            <li class="tab col s2"><a href="#room-list-page"><?= _('My Rooms') ?></a></li>
+            <li class="tab col s2"><a href="#form-create-room"><?= _('Create Room') ?></a></li>
         </ul>
         <div id=room-history-page>
             <ul id=room-history class="collection">
                 <li class="room template collection-item"><a class="title" href="#"></a></li>
             </ul>
-            <a href="#" class="waves-effect btn-flat modal_close" style="margin-bottom: 0">Close</a>
+            <a href="#" class="waves-effect btn-flat modal_close" style="margin-bottom: 0"><?= _('Close') ?></a>
         </div>
         <div id=room-list-page>
             <ul id=room-list class="collection">
                 <li class="room template collection-item"><a class="title" href="#"></a></li>
             </ul>
-            <a href="#" class="waves-effect btn-flat modal_close" style="margin-bottom: 0">Close</a>
+            <a href="#" class="waves-effect btn-flat modal_close" style="margin-bottom: 0"><?= _('Close') ?></a>
         </div>
         <form id=form-create-room onsubmit="return false">
             <p>
@@ -106,18 +107,18 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <input type=text name=title class=title id=form-create-room-title required>
-                        <label for=form-create-room-title>Room Title</label>
+                        <label for=form-create-room-title><?= _('Room Title') ?></label>
                     </div>
                 </div>
                 <!-- /.row -->
             </p>
-            <button id=form-create-room-create class="waves-effect btn-flat" style="margin-bottom: 0">Create</button>
-            <button class="modal_close waves-effect btn-flat" style="margin-bottom: 0">Cancel</button>
+            <button id=form-create-room-create class="waves-effect btn-flat" style="margin-bottom: 0"><?= _('Create') ?></button>
+            <button class="modal_close waves-effect btn-flat" style="margin-bottom: 0"><?= _('Close') ?></button>
         </form>
     </div>
 
     <div id=modal-message-setting class="modal">
-        <h4>Chat Settings</h4>
+        <h4><?= _('Chat Settings') ?></h4>
         <br>
         <!-- .row -->
         <div class="row">
@@ -126,7 +127,7 @@
                 <div class="col s4">
                     <div class="input-field">
                         <input id=form-formsetting-name type="text" class="name">
-                        <label for=form-formsetting-name>Name</label>
+                        <label for=form-formsetting-name><?= _('Name') ?></label>
                     </div>
                 </div>
                 <!-- /.col -->
@@ -135,7 +136,7 @@
                 <div class="col s8">
                     <div class="input-field">
                         <input id=form-formsetting-character-url type="text" class="character_url">
-                        <label for=form-formsetting-character-url>Character URL</label>
+                        <label for=form-formsetting-character-url><?= _('Character URL') ?></label>
                     </div>
                 </div>
                 <!-- /.col -->
@@ -143,18 +144,18 @@
 
         </div>
         <!-- /.row -->
-        <a href=# class="wave-effect btn-flat modal_close" style="margin-bottom: 0;">Close</a>
+        <a href=# class="wave-effect btn-flat modal_close" style="margin-bottom: 0;"><?= _('Close') ?></a>
     </div>
 
     <div id=modal-global-setting class="modal">
-        <h4>Global Settings</h4>
+        <h4><?= _('Global Settings') ?></h4>
         <!-- .row -->
         <div class="row">
             <form id=form-global-setting onsubmit="return false">
                 <!-- .col -->
                 <div class="col s12">
                     <p class="range-field">
-                        <label for=form-global-setting-volume>Volume</label>
+                        <label for=form-global-setting-volume><?= _('Volume') ?></label>
                         <input id=form-global-setting-volume type="range" class="volume">
                     </p>
                 </div>
@@ -163,7 +164,7 @@
         </div>
         <!-- /.row -->
 
-        <a href=# class="wave-effect btn-flat modal_close" style="margin-bottom: 0;">Close</a>
+        <a href=# class="wave-effect btn-flat modal_close" style="margin-bottom: 0;"><?= _('Close') ?></a>
     </div>
 
     <audio id=alert src="sound/nc32318.wav" preload=auto></audio>
