@@ -292,6 +292,29 @@ QUnit.test('View.setRoomList', function (assert) {
     assert.equal(rooms.length, 3, 'number of rooms');
 });
 
+QUnit.test('View.setRoomHistory', function (assert) {
+    View.setRoomHistory([
+            { id: '#foo', title: 'foo' },
+            { id: '#bar', title: 'bar' },
+            { id: '#foobar', title: 'foobar' }
+    ]);
+
+    var rooms = $('#room-history > *:not(.template)');
+    assert.equal(rooms.length, 3, 'number of rooms');
+
+    assert.equal($(rooms[1]).find('.title').text(), 'bar');
+    assert.equal($(rooms[1]).find('.title').attr('href'), '#bar');
+
+    View.setRoomHistory([
+            { id: '#foo', title: 'foo' },
+            { id: '#bar', title: 'bar' },
+            { id: '#foobar', title: 'foobar' }
+    ]);
+    var rooms = $('#room-history > *:not(.template)');
+    assert.equal(rooms.length, 3, 'number of rooms');
+});
+
+
 QUnit.test('View.setTitle', function (assert) {
     View.setTitle('foo', '#foo');
 

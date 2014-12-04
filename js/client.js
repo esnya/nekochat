@@ -29,6 +29,10 @@
         View.removeUser(user);
     });
 
+    Socket.on('room history', function (rooms) {
+        View.setRoomHistory(rooms);
+    });
+
     Socket.on('room list', function (rooms) {
         View.setRoomList(rooms);
     });
@@ -59,6 +63,7 @@
 
     View.on('show.roomselector', function () {
         Socket.getRoomList();
+        Socket.getRoomHistory();
     });
 
     View.on('hashchange', function (id) {

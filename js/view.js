@@ -247,6 +247,24 @@
         location.hash = hash;
     };
 
+    View.setRoomHistory = function (rooms) {
+        var list = $('#room-history');
+        list.find('.room:not(.template)').remove();
+        rooms.forEach(function (room) {
+            var item = list
+                .find('.template')
+                .clone()
+                .appendTo(list)
+                .removeClass('template')
+                .attr('data-id', room.id);
+
+            item.find('a.title').attr('href', room.id);
+
+            for (var key in room) {
+                item.find('.' + key).text(room[key]);
+            }
+        });
+    };
     View.setRoomList = function (rooms) {
         var list = $('#room-list');
         list.find('.room:not(.template)').remove();

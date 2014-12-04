@@ -27,6 +27,7 @@
     var _cascadeListeners = [
         'disconnect',
         'room list',
+        'room history',
         'join ok',
         'join failed',
         'add message',
@@ -65,6 +66,11 @@
     ///
     Socket.getRoomList = function () {
         _socket.emit('room list');
+    };
+
+    ///
+    Socket.getRoomHistory = function () {
+        _socket.emit('room history');
     };
 
     ///
