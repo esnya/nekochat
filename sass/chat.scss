@@ -1,5 +1,5 @@
-@import "components/prefixer";
-@import "components/color";
+@import "bower_components/materialize/sass/components/prefixer";
+@import "bower_components/materialize/sass/components/color";
 
 /* Mixins */
 @mixin flex($args) {
