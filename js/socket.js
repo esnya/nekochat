@@ -42,7 +42,13 @@
     Socket.connect = function (path, user_id) {
         _user_id = user_id;
 
-        _socket = io.connect('http://' + location.hostname, { path: path, transports: ['websocket'] });
+        _socket = io.connect('http://' + location.hostname,
+                {
+                    path: path,
+                    transports: ['websocket'],
+                    reconnectionDelay: 0,
+                    timeout: 1000
+                });
 
         for (var e in _on) {
             _socket.on(e, _on[e]);
