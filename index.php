@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <title><?= _('Beniimo Online') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="css/materialize.min.css">
-    <link rel="stylesheet" href="css/dice.css">
-    <link rel="stylesheet" href="css/anim.css">
+    <link rel="stylesheet" href="lib/materialize/css/materialize.css">
+    <link rel="stylesheet" href="lib/cssdice/dice.css">
+    <link rel="stylesheet" href="lib/cssdice/anim.css">
     <link rel="stylesheet" href="css/chat.css">
 </head>
 <body class="flex flex-column" ontouchmove="event.preventDefault()">
-    <nav>
+    <nav class="amber darken-1">
         <!-- .container -->
         <div class="container">
             <!-- .nav-wrapper -->
@@ -169,10 +169,10 @@
 
     <audio id=alert src="sound/nc32318.wav" preload=auto></audio>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
-    <script type="text/javascript" src="js/dice.js"></script>
+    <script src="lib/jquery/jquery.js"></script>
+    <script src="lib/socket.io-client/socket.io.js"></script>
+    <script src="lib/materialize/js/materialize.js"></script>
+    <script src="lib/cssdice/dice.js"></script>
     <script src="js/jquery.cssanim.js"></script>
     <script src="js/init.js"></script>
     <script src="js/util.js"></script>
