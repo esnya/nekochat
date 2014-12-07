@@ -14,7 +14,7 @@ if (array_key_exists('id', $_REQUEST)) {
         echo $mysql->error;
     }
 
-    if (!$stmt->bind_param('i', $id)) {
+    if (!$stmt->bind_param('s', $id)) {
         echo $stmt->error;
     }
 
