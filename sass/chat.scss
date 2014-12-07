@@ -43,6 +43,7 @@ html, body, body > main, main > div {
     height: 100%;
 }
 main {
+    overflow-x: hidden;
     overflow-y: auto;
 }
 
