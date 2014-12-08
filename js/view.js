@@ -128,7 +128,11 @@
                 value = (new Date(value)).toLocaleTimeString().slice(0, -3);
             }
 
-            item.find('.' + key).text(value);
+            var field = item.find('.' + key).text(value);
+
+            if (key == 'message') {
+                field.html(field.html().replace(/(http:\/\/yy.shy.jp\/[a-zA-Z0-9._#&?\/]*)/g, '<a href="$1" target=_blank>$1</a>'));
+            }
         }
 
         var aboveId;
