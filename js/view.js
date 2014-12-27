@@ -194,7 +194,7 @@
                     item.addClass('has-icon');
                     var icon = item.find('.icon')
                         .css('border-color', characterColor)
-                        .css('background-image', 'url(' + iconURL + ')');
+                        .css('background-image', 'url(' + iconURL + '?timestamp=' + (new Date).getTime() + ')');
                 }
             });
         } else {
