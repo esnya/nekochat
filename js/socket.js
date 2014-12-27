@@ -6,14 +6,10 @@
     var _on = {
         connect: function () {
             console.log('Connected');
-            _socket.emit('auth request', _user_id);
+            Socket.join(location.hash);
         },
         disconnect: function () {
             console.log('Disconnected');
-        },
-        'auth ok': function (user) {
-            console.log('Auth OK');
-            Socket.join(location.hash);
         },
         'join ok': function (room) {
             console.log('Join OK');

@@ -155,11 +155,23 @@ var datasource = {
     }
 };
 
+io.use(function (socket, next) {
+    var user_id = socket.request.headers['username'];
+
+    datasource.getOne('users', user_id).done(function (user) {
+        socket.user = user[0];
+        next();
+    }).fail(function (error) {
+        next(new Error(error));
+    });
+});
+
 io.on('connect', function (socket) {
     console.log('New Connection: ', socket.id);
 
     var _user, _room, _minId;
 
+    _user = socket.user;
 
     var createRoom = function (title, game_id, user_id, id) {
         var d = new jQuery.Deferred;
@@ -229,17 +241,6 @@ io.on('connect', function (socket) {
         disconnect: function () {
             console.log('Disconnected: ', socket.id, _user ? _user.id : '');
             leaveRoom();
-        },
-        'auth request': function (user_id) {
-            console.log('Auth Request: ', user_id);
-
-            datasource.getOne('users', user_id).fail(function (error) {
-                console.error(error);
-            }).done(function (users) {
-                _user = users[0];
-                console.log('Auth OK: ', _user);
-                socket.emit('auth ok', _user);
-            });
         },
         'join request': function (room_id) {
             console.log('Join Request: ', socket.id, room_id);
