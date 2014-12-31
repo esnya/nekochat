@@ -114,7 +114,7 @@
                 <div class="message" ng-repeat="message in messages | orderBy: 'created'" on-finish-render="messageScroll()" data-id="{{message.id}}">
                     <div class="header" style="border-color: {{message.color}};" ng-show="message.isHeader">
                         <div class="icon-container"><div ng-show=message.icon class="icon" style="border-color: {{message.color}}; background-image: url({{message.icon}});"></div></div>
-                        <a class="name" target=_blank href="#" style="color: {{message.color}};" ng-bind=message.name></a>
+                        <span class="name" style="color: {{message.color}};" ng-bind=message.name></span>
                         <span class="user_id" ng-bind=message.user_id></span>
                         <a ng-if=message.url target=_blank ng-href="{{message.url}}"><i class="mdi-action-assignment-ind right-align"></i></a>
                     </div>
