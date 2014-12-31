@@ -325,5 +325,5 @@ io.on('connect', function (socket) {
         socket.on(e, handlers[e]);
     }
 
-    socket.emit('hello');
+    socket.emit('hello', _user);
 });
