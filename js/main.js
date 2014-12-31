@@ -109,7 +109,7 @@
                     .leanModal()
                     .trigger('click')
                     .remove();
-                $('#moda-message-setting input').trigger('focus');
+                $('#modal-message-setting input').trigger('focus');
             };
 
             $scope.setCharacterName = function () {
