@@ -111,7 +111,7 @@
         <div class="container">
             <!-- .flex-grow-shirink-1 -->
             <div id=message-list>
-                <div class="message" ng-repeat="message in messages | orderBy: 'created'" on-finish-render="messageScroll()" data-id="{{message.id}}">
+                <div class="message" ng-repeat="message in messages | toArray | orderBy:'created'" on-finish-render="messageScroll()" data-id="{{message.id}}">
                     <div class="header" style="border-color: {{message.color}};" ng-show="message.isHeader">
                         <div class="icon-container"><div ng-show=message.icon class="icon" style="border-color: {{message.color}}; background-image: url({{message.icon}});"></div></div>
                         <span class="name" style="color: {{message.color}};" ng-bind=message.name></span>
