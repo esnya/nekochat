@@ -186,6 +186,15 @@
                 }
             };
 
+            $scope.createRoom = function () {
+                var title = $scope.create_title;
+                console.log(title);
+                if (title) {
+                    $scope.create_title = '';
+                    socket.emit('create room', title);
+                }
+            };
+
             $(window).bind('hashchange', function () {
                 socket.emit('join request', location.hash);
             });

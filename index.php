@@ -91,18 +91,18 @@
                 <li class="room collection-item" ng-repeat="room in rooms"><a class="title" ng-href="{{room.id}}" ng-bind=room.title></a></li>
             </ul>
         </div>
-        <form id=form-create-room onsubmit="return false">
+        <form id=form-create-room onsubmit="return false" ng-submit=createRoom() >
             <p>
                 <!-- .row -->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input type=text name=title class=title id=form-create-room-title required>
+                        <input type=text name=title ng-model=create_title id=form-create-room-title required>
                         <label for=form-create-room-title><?= _('Room Title') ?></label>
                     </div>
                 </div>
                 <!-- /.row -->
             </p>
-            <button id=form-create-room-create class="waves-effect btn-flat" style="margin-bottom: 0"><?= _('Create') ?></button>
+            <button class="waves-effect btn-flat" style="margin-bottom: 0"><?= _('Create') ?></button>
         </form>
     </div>
 
