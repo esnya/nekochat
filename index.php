@@ -119,7 +119,7 @@
                         <a ng-if=message.url target=_blank ng-href="{{message.url}}"><i class="mdi-action-assignment-ind right-align"></i></a>
                     </div>
                     <div class="modified" ng-show="message.isHeader" ng-bind="message.modified | date: 'hh:mm'"></div>
-                    <div class="message" ng-bind=message.message></div>
+                    <div class="message" ng-bind-html="message.message | linky:'_blank'"></div>
                 </div>
             </div>
             <!-- /.flex-grow-shirink-1 -->
@@ -251,6 +251,7 @@
     <script src="lib/socket.io-client/socket.io.js"></script>
     <script src="lib/materialize/js/materialize.js"></script>
     <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-sanitize/angular-sanitize.js"></script>
     <script src="lib/angular-socket-io/socket.js"></script>
     <script src="lib/cssdice/dice.js"></script>
     <script src="js/jquery.cssanim.js"></script>
