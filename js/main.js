@@ -17,7 +17,7 @@
     };
 
     angular
-        .module('BeniimoOnline', ['btford.socket-io'])
+        .module('BeniimoOnline', ['ngSanitize', 'btford.socket-io'])
         .factory('socket', function (socketFactory) {
             return socketFactory({
                 ioSocket: io.connect('http://' + location.host,
