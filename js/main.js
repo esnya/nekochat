@@ -55,6 +55,12 @@
                         character_cache[url].time = time;
                         character_cache[url].data = data;
                         character_cache[url].loading = false;
+                        if (data.icon) {
+                            data.icon += '?' + Date.now();
+                        }
+                        if (data.portrait) {
+                            data.portrait += '?' + Date.now();
+                        }
                         d.resolve(data);
                     }).error(function (data, status) {
                         delete character_cache[url];
@@ -330,7 +336,7 @@
                     getCharacter(message.character_url).then(function (data, async) {
                         var icon = data.icon || data.portrait;
                         if (icon) {
-                            message.icon = icon + '?' + (new Date).getTime();
+                            message.icon = icon;
                         }
 
                         if (data.color) {
