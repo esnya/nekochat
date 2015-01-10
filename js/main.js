@@ -138,15 +138,16 @@
 
             $scope.addForm = function () {
                 var first = $scope.forms[0];
-                $scope.forms.push({
+                var form = {
                     name: first.name,
                     character_url: first.character_url
-                });
+                };
+                form.id = $scope.forms.push(form) - 1;
             };
 
-            $scope.removeForm = function (index) {
-                if (index > 0) {
-                    $scope.forms = $scope.forms.slice(0, index).concat($scope.forms.slice(index + 1));
+            $scope.removeForm = function (form) {
+                if (form.id > 0) {
+                    form.removed = true;
                 }
             };
 
