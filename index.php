@@ -141,11 +141,11 @@
         <div class="container">
             <!-- #message-form-list -->
             <div id=message-form-list>
-                <form class="message-form flex" onsubmit="return false" ng-submit="submitMessage(form)" ng-repeat="form in forms | reverse">
+                <form class="message-form flex" onsubmit="return false" ng-submit="submitMessage(form)" ng-repeat="form in forms" ng-if="!form.removed">
                     <input type=hidden class="name" ng-bind=form.name>
                     <input type=hidden class="character_url" ng-bind=form.character_url>
                     <a href=# onclick="return false" ng-if="$index == 0" class="waves-effect waves-light btn-flat icon" style="margin-bottom: 0" ng-click="addForm()"><i class="mdi-content-add"></i></a>
-                    <a href=# onclick="return false" ng-if="$index != 0" class="waves-effect waves-light btn-flat icon" style="margin-bottom: 0" ng-click="removeForm($index)"><i class="mdi-content-remove"></i></a>
+                    <a href=# onclick="return false" ng-if="$index != 0" class="waves-effect waves-light btn-flat icon" style="margin-bottom: 0" ng-click="removeForm(form)"><i class="mdi-content-remove"></i></a>
                     <a class="waves-effect waves-light btn-flat icon" style="margin-bottom: 0" href=# onclick="return false" ng-click="messageSettingModal(form)"><i class="mdi-action-settings"></i></a>
                     <input class="message flex-grow-shrink-1" placeholder="{{form.name}}" ng-model=form.message ng-change="formChange(form)" ng-focus="formFocus(form)" ng-blur="formBlur(form)">
                     <button class="waves-effect waves-light btn icon sharp-left" style="margin-bottom: 0"><i class="mdi-content-send"></i></button>
