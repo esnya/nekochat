@@ -10,7 +10,7 @@ if (array_key_exists('id', $_REQUEST)) {
         echo $mysql->connect_error;
     }
 
-    if (!($stmt = $mysqli->prepare('SELECT name, message, modified FROM messages WHERE room_id = ?'))) {
+    if (!($stmt = $mysqli->prepare('SELECT user_id, name, message, modified FROM messages WHERE room_id = ?'))) {
         echo $mysql->error;
     }
 
@@ -21,12 +21,12 @@ if (array_key_exists('id', $_REQUEST)) {
     if (!$stmt->execute()) {
         echo $stmt->error;
     } else {
-        $stmt->bind_result($name, $message, $modified);
+        $stmt->bind_result($user_id, $name, $message, $modified);
 
         echo "// room: $id\r\n";
-        echo "name\tmessage\ttime\r\n";
+        echo "user\tname\tmessage\ttime\r\n";
         while ($stmt->fetch()) {
-            echo "$name\t$message\t$modified\r\n";
+            echo "$user_id\t$name\t$message\t$modified\r\n";
         }
 
         $stmt->close();
