@@ -35,6 +35,53 @@ angular.module('BeniimoOnlineSocket', ['btford.socket-io'])
 
     return factory;
 })
+.factory('getIcon', function ($q, $timeout, socket) {
+    var cache = {};
+    var defers = {};
+    var getIcon = function (id, defer) {
+        if (!defer) {
+            defer = $q.defer();
+        }
+
+        var icon = cache[id];
+        var time = new Date;
+        if (icon && icon.loading) {
+            $timeout(function () {
+                getIcon(id, defer);
+            }, 500);
+        } else if (icon && time - icon.time < 60 * 1000) {
+            defer.resolve(cache[id]);
+        } else {
+            cache[id] = {
+                loading: true
+            };
+            if (!defers[id]) {
+                defers[id] = [];
+            }
+            defers[id].push(defer);
+            socket.emit('get icon', id);
+        }
+
+        return defer.promise;
+    };
+    socket.on('icon', function (id, name, type, data) {
+        cache[id] = {
+            time: new Date,
+            id: id,
+            name: name,
+            type: type,
+            url: URL.createObjectURL(new File([data], name, { type: type }))
+        };
+        if (defers[id]) {
+            var d = defers[id].slice();
+            defers[id] = [];
+            d.forEach(function (d) {
+                d.resolve(cache[id]);
+            });
+        }
+    });
+    return getIcon;
+})
 .factory('getCharacter', function ($q, $http) {
     var character_cache = {};
 

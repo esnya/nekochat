@@ -39,6 +39,17 @@ body {
     }
 }
 
+.face {
+    background-color: white;
+    background-size: cover;
+    border-radius: 24px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: inherit;
+    width: 48px;
+    height: 48px;
+}
+
 md-item.message {
     &.header md-item-content {
         margin-top: 16px;
@@ -63,14 +74,6 @@ md-item.message {
                 left: 8px;
             }
             .face {
-                background-color: white;
-                background-size: cover;
-                border-radius: 24px;
-                border-width: 2px;
-                border-style: solid;
-                border-color: inherit;
-                width: 48px;
-                height: 48px;
                 position: absolute;
                 top: 0;
             }
