@@ -315,7 +315,8 @@ io.on('connect', function (socket) {
                 room_id: _room.id,
                 user_id: _user.id,
                 message: diceReplace(message.message, io.to(_room.id)),
-                character_url: message.character_url
+                character_url: message.character_url,
+                icon_id: message.icon_id
             };
 
             msg.created = msg.modified = new Date();
@@ -345,6 +346,38 @@ io.on('connect', function (socket) {
                 }
             });
         },
+        'add icon': function (name, type, data) {
+            //console.log(name);
+            //console.log(type);
+            //console.log(data.length);
+
+            if (data.length <= 1024 * 512 && ("" + type).match(/^image/)) {
+                var id = crypto.createHash('sha256').update(name + _user.id + Date.now()).digest('hex').substr(0, 16);
+                datasource.insert('icons', {
+                    id: id,
+                    user_id: _user.id,
+                    name: name,
+                    type: type,
+                    data: data
+                }).then(function () {
+                    socket.emit('icon added');
+                }, function () {
+                    socket.emit('adding icon failed');
+                });
+            } else {
+                socket.emit('adding icon failed');
+            }
+        },
+        'get icons': function () {
+            datasource.getAll('icons', 'user_id', _user.id).done(function (data) {
+                socket.emit('icons', data);
+            });
+        },
+        'get icon': function (id) {
+            datasource.getOne('icons', id).done(function (data) {
+                socket.emit('icon', data[0].id, data[0].name, data[0].type, data[0].data);
+            });
+        }
     };
     for (var e in handlers) {
         socket.on(e, handlers[e]);

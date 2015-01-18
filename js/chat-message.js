@@ -1,4 +1,5 @@
-angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize', 'ngRoute', 'ngMaterial']).controller('ChatMessage', function ($scope, $timeout, $interval, $mdToast, socket, getCharacter, notice) {
+angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize', 'ngRoute', 'ngMaterial'])
+.controller('ChatMessage', function ($scope, $timeout, $interval, $mdToast, socket, getCharacter, getIcon, notice) {
     'use strict';
     $scope.messages = {};
 
@@ -60,25 +61,38 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
         }
 
         if (above && above.user_id == message.user_id 
-                && above.name == message.name) {
+                && above.name == message.name
+                && above.icon_id == message.icon_id) {
             message.isHeader = false;
         }
         if (below) {
             if (message.isHeader && below.user_id == message.user_id 
-                    && below.name == message.name) {
+                    && below.name == message.name
+                    && below.icon_id == message.icon_id) {
                 below.isHeader = false;
             }
             if (!below.isHeader && (below.user_id != message.user_id
-                        || below.name != message.name)) {
+                        || below.name != message.name
+                        || below.icon_id != message.icon_id
+                        )) {
                 below.isHeader = true;
             }
         }
 
+        if (message.icon_id) {
+            message.overrideIcon = true;
+            getIcon(message.icon_id).then(function (icon) {
+                message.icon = icon.url;
+            });
+        }
+
         if (message.character_url) {
             getCharacter(message.character_url).then(function (data, async) {
-                var icon = data.icon || data.portrait;
-                if (icon) {
-                    message.icon = icon;
+                if (!message.overrideIcon) {
+                    var icon = data.icon || data.portrait;
+                    if (icon) {
+                        message.icon = icon;
+                    }
                 }
 
                 if (data.color) {
