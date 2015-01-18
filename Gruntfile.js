@@ -22,6 +22,10 @@ module.exports = function (grunt) {
             }
         },
         watch: {
+            bower: {
+                files: 'bower.json',
+                tasks: ['bower']
+            },
             sass: {
                 files: 'sass/**/*.*',
                 tasks: ['sass'],
