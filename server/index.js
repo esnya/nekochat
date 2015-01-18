@@ -152,6 +152,21 @@ var datasource = {
         });
 
         return d.promise();
+    },
+    remove: function (table, id) {
+        var d = new jQuery.Deferred;
+
+        this.query('DELETE FROM ' + table + ' WHERE id = ?', [id]).then(function (result) {
+            if (result.affectedRows == 1) {
+                d.resolve();
+            } else {
+                d.reject('No affected rows');
+            }
+        }, function (error) {
+            d.reject(error);
+        });
+
+        return d.promise();
     }
 };
 
@@ -319,7 +334,17 @@ io.on('connect', function (socket) {
         'end writing': function () {
             if (!_room) return;
             io.to(_room.id).emit('end writing', _user.id);
-        }
+        },
+        'remove room': function (room_id) {
+            datasource.getOne('rooms', room_id).done(function (data) {
+                var room = data[0];
+                if (room.user_id == _user.id) {
+                    datasource.remove('rooms', room_id).done(function () {
+                        socket.emit('room removed', room_id);
+                    });
+                }
+            });
+        },
     };
     for (var e in handlers) {
         socket.on(e, handlers[e]);
