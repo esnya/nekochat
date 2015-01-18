@@ -6,13 +6,6 @@
     <title><?= _('Beniimo Online') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="lib/angular-material/angular-material.css">
-    <link rel="stylesheet" href="lib/material-design-icons/sprites/css-sprite/sprite-content-white.css">
-    <link rel="stylesheet" href="lib/material-design-icons/sprites/css-sprite/sprite-content-black.css">
-    <link rel="stylesheet" href="lib/material-design-icons/sprites/css-sprite/sprite-navigation-white.css">
-    <link rel="stylesheet" href="lib/material-design-icons/sprites/css-sprite/sprite-action-grey600.css">
-    <link rel="stylesheet" href="lib/material-design-icons/sprites/css-sprite/sprite-action-black.css">
-    <link rel="stylesheet" href="lib/material-design-icons/sprites/css-sprite/sprite-editor-grey600.css">
-    <link rel="stylesheet" href="lib/material-design-icons/sprites/css-sprite/sprite-editor-white.css">
     <link rel="stylesheet" href="lib/cssdice/dice.css">
     <link rel="stylesheet" href="lib/cssdice/anim.css">
     <link rel="stylesheet" href="css/chat.css">

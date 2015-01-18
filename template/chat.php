@@ -25,12 +25,12 @@
                         </div>
                     </div>
                     <div class="md-tile-content">
-                        <div class="header" ng-if=message.isHeader>
-                            <md-button ng-if=message.character_url ng-href={{message.url}} target=_blank style="margin-left: -12px;" aria-label="{{message.name}}">
-                                <span class="icon-action-grey600 icon-action-grey600-ic_assignment_ind_grey600_24dp" style="padding-left: 24px;"></span>
+                        <div class="header" ng-if=message.isHeader layout=row>
+                            <div class="name" style="color: {{message.color}}">{{message.name}}</div>
+                            <div class="user_id">{{message.user_id}}</div>
+                            <md-button ng-if=message.character_url ng-href={{message.url}} target=_blank style="margin-top: -8px; margin-bottom: -8px;" aria-label="{{message.name}}">
+                                <ng-md-icon icon=assignment_ind></mg-md-icon>
                             </md-button>
-                            <span class="name" style="color: {{message.color}}">{{message.name}}</span>
-                            <span class="user_id">{{message.user_id}}</span>
                         </div>
                         <div ng-bind-html="message.message | linky:'_blank'">
                         </div>
