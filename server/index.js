@@ -85,14 +85,14 @@ var datasource = {
     },
     getAll: function (table, field, value, options) {
         var fields = (options && options.fields) ? options.fields.join(",") : '*'
-        return this.query('SELECT ' + fields + ' FROM ' + table + ' WHERE ' + field + ' = ? ORDER BY modified DESC LIMIT 50', [value]);
+        return this.query('SELECT ' + fields + ' FROM ' + table + ' WHERE deleted is null and ' + field + ' = ? ORDER BY modified DESC LIMIT 50', [value]);
     },
     getMessageLogs: function (room_id, id) {
-        return this.query('SELECT * FROM messages WHERE room_id = ? and id < ? ORDER BY modified DESC LIMIT 20', [room_id, id]);
+        return this.query('SELECT * FROM messages WHERE deleted is null and room_id = ? and id < ? ORDER BY modified DESC LIMIT 20', [room_id, id]);
     },
     get: function (table, id, options) {
         var fields = (options && options.fields) ? options.fields.join(",") : '*'
-        return this.query('SELECT ' + fields + ' FROM ' + table + ' WHERE id = ?', [id]);
+        return this.query('SELECT ' + fields + ' FROM ' + table + ' WHERE deleted is null and id = ?', [id]);
     },
     getOne: function (table, id) {
         var d = new jQuery.Deferred;
@@ -156,7 +156,7 @@ var datasource = {
     remove: function (table, id) {
         var d = new jQuery.Deferred;
 
-        this.query('DELETE FROM ' + table + ' WHERE id = ?', [id]).then(function (result) {
+        this.query('UPDATE ' + table + ' SET deleted = NOW() WHERE id = ?', [id]).then(function (result) {
             if (result.affectedRows == 1) {
                 d.resolve();
             } else {
