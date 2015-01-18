@@ -32,8 +32,7 @@
                             <span class="name" style="color: {{message.color}}">{{message.name}}</span>
                             <span class="user_id">{{message.user_id}}</span>
                         </div>
-                        <div>
-                            {{message.message}}
+                        <div ng-bind-html="message.message | linky:'_blank'">
                         </div>
                     </div>
                     <div class="md-tile-right" ng-if=message.isHeader>
