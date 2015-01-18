@@ -116,7 +116,6 @@ var makeColor = function (data) {
                     .cancel('Cancel')
                     .targetEvent(e);
                 $mdDialog.show(confirm).then(function () {
-                    console.log('remove (stub)', room.id);
                     socket.emit('remove room', room.id);
                 });
             };
@@ -136,7 +135,7 @@ var makeColor = function (data) {
             socket.on('join ok', function (room) {
                 $location.path('/' + room.id.substr(1));
             });
-            socket.on('remove ok', function () {
+            socket.on('room removed', function () {
                 socket.emit('room history');
                 socket.emit('room list');
             });
