@@ -17,11 +17,18 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
         $scope.room = null;
     };
 
+    var logLoader;
     socket.on('join ok', function (room) {
         $scope.room = room;
         $scope.messages = {};
         $timeout(function () {
             $scope.messageScroll(true);
+
+            logLoader = $interval(function () {
+                if ($('#messages').closest('[md-scroll-y]').scrollTop() == 0) {
+                    socket.emit('message request');
+                }
+            }, 1000);
         }, 1000);
     });
 
@@ -109,10 +116,4 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
 
         notice.play();
     });
-
-    var logLoader = $interval(function () {
-        if ($('#messages').closest('[md-scroll-y]').scrollTop() == 0) {
-            socket.emit('message request');
-        }
-    }, 1000);
 });
