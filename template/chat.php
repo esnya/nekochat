@@ -59,7 +59,7 @@
                 <form ng-submit="submit(form)" layout=row layout-fill aria-label="Submit">
                     <input type=hidden class="name" ng-bind=form.name>
                     <input type=hidden class="character_url" ng-bind=form.character_url>
-                    <md-input flex placeholder="{{form.name}}" ng-model=form.message ng-change="change(form)" ng-focus="focus(form)" ng-blur="blur(form)"></md-input>
+                    <input flex placeholder="{{form.name}}" ng-model=form.message ng-change="change(form)" ng-focus="focus(form)" ng-blur="blur(form)">
                     <md-button class="md-raised md-primary" type=submit aria-label="Submit">
                         <ng-md-icon icon=send></ng-md-icon>
                     </md-button>
