@@ -8,7 +8,7 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
         var parent = list.closest('[md-scroll-y]');
         var item = $('#messages > .message:last-child md-item-content');
 
-        if (force || parent.scrollTop() + parent.height() + item.height() >= list.height()) {
+        if (force || parent.scrollTop() + parent.height() + item.height() >= list.height() / 3) {
             parent.scrollTop(parent.scrollTop() + 10000);
         }
     };
