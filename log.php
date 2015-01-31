@@ -6,6 +6,8 @@ if (array_key_exists('id', $_REQUEST)) {
 
     $mysqli = new mysqli('localhost', 'beniimo_online', 'gtkjIKvjEl3SrI5E0JH1hH5mjlXBNZBYmwTGdkiT', 'beniimo_online');
 
+    $mysqli->set_charset('utf8');
+
     if ($mysqli->connect_errno) {
         echo $mysql->connect_error;
     }
