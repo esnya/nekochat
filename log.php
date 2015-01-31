@@ -28,6 +28,7 @@ if (array_key_exists('id', $_REQUEST)) {
         echo "// room: $id\r\n";
         echo "user\tname\tmessage\ttime\r\n";
         while ($stmt->fetch()) {
+            $message = str_replace("\t", ' ', $message);
             echo "$user_id\t$name\t$message\t$modified\r\n";
         }
 
