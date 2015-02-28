@@ -151,6 +151,17 @@ var makeColor = function (data) {
             socket.on('join ok', function (room) {
                 Room.id = room.id;
                 Room.title = room.title;
+                $scope.users = {};
+            });
+
+            socket.on('user joined', function (user) {
+                $scope.users[user.id] = user;
+            });
+            socket.on('user leaved', function (user) {
+                var u = $scope.users[user.id];
+                if (u) {
+                    u.offline = true;
+                }
             });
 
             socket.emit('join request', '#' + $routeParams.roomId);
