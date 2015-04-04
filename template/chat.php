@@ -32,7 +32,7 @@
                                 <ng-md-icon icon=assignment_ind></mg-md-icon>
                             </md-button>
                         </div>
-                        <div ng-bind-html="message.message | linky:'_blank'">
+                        <div ng-bind-html="line | linky:'_blank'" ng-repeat="line in message.message.split('\n') track by $index">
                         </div>
                     </div>
                     <div class="md-tile-right" ng-if=message.isHeader>
@@ -46,7 +46,7 @@
 <md-lsit class="md-whiteframe-z2" ng-controller=ChatForm>
     <md-item ng-repeat="form in forms | reverse" ng-if="!form.removed">
         <md-item-content>
-            <div class="md-tile-content" layout=row>
+            <div class="md-tile-content" layout=row layout-align="center end">
                 <md-button ng-if="$last" ng-click="add()" aria-label="Add">
                     <ng-md-icon icon=add></ng-md-icon>
                 </md-button>
@@ -56,10 +56,13 @@
                 <md-button ng-click="config(form)" aria-label="Config">
                     <ng-md-icon icon=settings></ng-md-icon>
                 </md-button>
-                <form ng-submit="submit(form)" layout=row layout-fill aria-label="Submit">
+                <form ng-submit="submit(form)" layout=row layout-fill layout-align="center end" aria-label="Submit">
                     <input type=hidden class="name" ng-bind=form.name>
                     <input type=hidden class="character_url" ng-bind=form.character_url>
-                    <input flex placeholder="{{form.name}}" ng-model=form.message ng-change="change(form)" ng-focus="focus(form)" ng-blur="blur(form)">
+                    <md-input-container style="padding-bottom: 2px;" flex>
+                        <label>{{form.name}}</label>
+                        <textarea rows="1" style="flex: 1 1 auto;" ng-model=form.message ng-change="change(form)" ng-focus="focus(form)" ng-blur="blur(form)" ng-keydown="keydown($event, form)"></textarea>
+                    </md-input-container>
                     <md-button class="md-raised md-primary" type=submit aria-label="Submit">
                         <ng-md-icon icon=send></ng-md-icon>
                     </md-button>

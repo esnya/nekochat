@@ -73,6 +73,12 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
             socket.emit('end writing');
         }
     };
+    $scope.keydown = function ($event, form) {
+        if ($event.key == 'Enter' && !$event.shiftKey) {
+            $event.preventDefault();
+            $scope.submit(form);
+        }
+    };
 
     var nameFlag;
     socket.on('join ok', function () {
