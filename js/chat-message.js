@@ -8,15 +8,28 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
     'use strict';
     $scope.messages = {};
 
-    $scope.messageScroll = function (force) {
+    var obs = new MutationObserver(function (mutations) {
         var list = $('#messages').parent();
         var parent = list.closest('[md-scroll-y]');
-        var item = $('#messages > .message:last-child md-item-content');
 
-        if (force || parent.scrollTop() + parent.height() + item.height() >= list.height() / 3) {
-            parent.scrollTop(parent.scrollTop() + 10000);
-        }
-    };
+        setTimeout(function () {
+            mutations.filter(function (mutation) {
+                return mutation.type == 'childList';
+            }).map(function (mutation) {
+                return mutation.target.firstElementChild;
+            }).forEach(function (target) {
+                parent.scrollTop(parent.scrollTop() + $(target).height());
+            });
+        }, 500);
+    });
+    $scope.$on('$destroy', function () {
+        obs.disconnect();
+    });
+
+    obs.observe(document.getElementById('messages'), {
+        childList: true
+    });
+
     $scope.leave = function () {
         socket.emit('leave');
         $scope.room = null;
