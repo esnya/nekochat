@@ -1,4 +1,9 @@
 angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize', 'ngRoute', 'ngMaterial'])
+.filter('nl2br', function ($sce) {
+    return function (str) {
+        return $sce.trustAsHtml(str.replace(/\r\n|\n|\r/, '<br>'));
+    }
+})
 .controller('ChatMessage', function ($scope, $timeout, $interval, $mdToast, socket, getCharacter, getIcon, notice) {
     'use strict';
     $scope.messages = {};
