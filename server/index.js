@@ -336,6 +336,17 @@ io.on('connect', function (socket) {
             if (!_room) return;
             io.to(_room.id).emit('end writing', _user.id);
         },
+        'writing_message': function (message) {
+            if (!_room) return;
+            io.to(_room.id).emit('writing_message', _user, message ? {
+                user_id: _user.id,
+                name: message.name,
+                message: message.message,
+                character_url: message.character_url,
+                icon_id: message.icon,
+                created: new Date
+            } : null);
+        },
         'remove room': function (room_id) {
             datasource.getOne('rooms', room_id).done(function (data) {
                 var room = data[0];

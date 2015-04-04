@@ -4,7 +4,7 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
         form: null
     };
 })
-.controller('ChatForm', function ($scope, $mdDialog, socket, getCharacter, SharedForm) {
+.controller('ChatForm', function ($scope, $interval, $mdDialog, socket, getCharacter, SharedForm) {
     'use strict';
 
     $scope.forms = [];
@@ -48,7 +48,17 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
             templateUrl: 'template/setting.php'
         });
     };
+
+    var writing_timer;
     $scope.focus = function (form) {
+        writing_timer = $interval(function () {
+            socket.emit('writing_message', form.message ? {
+                name: form.name,
+                message: form.message,
+                character_url: form.character_url,
+                icon_id: form.icon
+            } : null);
+        }, 500);
         if (!form.writing && form.message) {
             form.writing = true;
             socket.emit('begin writing', form.name);
@@ -68,6 +78,9 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
         }
     };
     $scope.blur = function (form) {
+        if (writing_timer) {
+            $interval.cancel(writing_timer);
+        }
         if (form.writing) {
             form.writing = false;
             socket.emit('end writing');
