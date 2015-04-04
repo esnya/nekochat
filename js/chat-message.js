@@ -20,7 +20,7 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
             }).forEach(function (target) {
                 parent.scrollTop(parent.scrollTop() + $(target).height());
             });
-        }, 500);
+        }, 50);
     });
     $scope.$on('$destroy', function () {
         obs.disconnect();
@@ -46,9 +46,6 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
     socket.on('join ok', function (room) {
         $scope.room = room;
         $scope.messages = {};
-        $timeout(function () {
-            $scope.messageScroll(true);
-        }, 1000);
     });
 
     socket.on('user joined', function (user) {
