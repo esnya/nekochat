@@ -51,6 +51,19 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
                 .content(user.name + '@' + user.id + ' leaved'));
     });
 
+    var writing_timers = {};
+    $scope.writing_messages = {};
+    socket.on('writing_message', function (user, message) {
+        if (user.id != socket.user.id) {
+            $scope.writing_messages[user.id] = message;
+            var timer = writing_timers[user.id];
+            writing_timers[user.id] = $timeout(function () {
+                $scope.writing_messages[user.id] = null;
+            }, 30 * 1000);
+            if (timer) $timeout.cancel(timer);
+        }
+    });
+
     var maxId = -1;
     socket.on('add message', function (message) {
         if (!$scope.room) return;
