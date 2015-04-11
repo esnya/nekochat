@@ -87,7 +87,7 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
         }
     };
     $scope.keydown = function ($event, form) {
-        if ($event.key == 'Enter' && !$event.shiftKey) {
+        if ($event.keyCode == 13 && !$event.shiftKey) {
             $event.preventDefault();
             $scope.submit(form);
         }
