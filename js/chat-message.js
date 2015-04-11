@@ -18,7 +18,7 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
             }).map(function (mutation) {
                 return mutation.target.firstElementChild;
             }).forEach(function (target) {
-                parent.scrollTop(parent.scrollTop() + $(target).height());
+                parent.scrollTop(parent.scrollTop() + $(target).height() + 28);
             });
         }, 50);
     });
