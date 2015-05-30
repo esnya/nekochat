@@ -6,7 +6,7 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
 })
 .controller('ChatMessage', function ($scope, $timeout, $interval, $mdToast, socket, getCharacter, getIcon, notice) {
     'use strict';
-    $scope.messages = {};
+    $scope.messages = [];
 
     var obs = new MutationObserver(function (mutations) {
         var list = $('#messages').parent();
@@ -45,7 +45,7 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
     var logLoader;
     socket.on('join ok', function (room) {
         $scope.room = room;
-        $scope.messages = {};
+        $scope.messages = [];
     });
 
     socket.on('user joined', function (user) {
@@ -78,42 +78,46 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
     socket.on('add message', function (message) {
         if (!$scope.room) return;
 
-        maxId = Math.max(maxId, message.id);
-
         message.isHeader = true;
 
-        var above, below;
-        for (var i = message.id - 1; i >= 0; --i) {
-            if (i in $scope.messages) {
-                above = $scope.messages[i];
-                break;
-            }
-        }
-        for (var i = message.id + 1; i <= maxId; ++i) {
-            if (i in $scope.messages) {
-                below = $scope.messages[i];
-                break;
-            }
-        }
+        //var above, below;
+        //if (len > 0) {
+        //    above = messages[insert - 1];
+        //}
+        //if (insert < length) {
+        //    below = messages
+        //}
+        //for (var i = message.id - 1; i >= 0; --i) {
+        //    if (i in $scope.messages) {
+        //        above = $scope.messages[i];
+        //        break;
+        //    }
+        //}
+        //for (var i = message.id + 1; i <= maxId; ++i) {
+        //    if (i in $scope.messages) {
+        //        below = $scope.messages[i];
+        //        break;
+        //    }
+        //}
 
-        if (above && above.user_id == message.user_id 
-                && above.name == message.name
-                && above.icon_id == message.icon_id) {
-            message.isHeader = false;
-        }
-        if (below) {
-            if (message.isHeader && below.user_id == message.user_id 
-                    && below.name == message.name
-                    && below.icon_id == message.icon_id) {
-                below.isHeader = false;
-            }
-            if (!below.isHeader && (below.user_id != message.user_id
-                        || below.name != message.name
-                        || below.icon_id != message.icon_id
-                        )) {
-                below.isHeader = true;
-            }
-        }
+        //if (above && above.user_id == message.user_id 
+        //        && above.name == message.name
+        //        && above.icon_id == message.icon_id) {
+        //    message.isHeader = false;
+        //}
+        //if (below) {
+        //    if (message.isHeader && below.user_id == message.user_id 
+        //            && below.name == message.name
+        //            && below.icon_id == message.icon_id) {
+        //        below.isHeader = false;
+        //    }
+        //    if (!below.isHeader && (below.user_id != message.user_id
+        //                || below.name != message.name
+        //                || below.icon_id != message.icon_id
+        //                )) {
+        //        below.isHeader = true;
+        //    }
+        //}
 
         if (message.icon_id) {
             message.overrideIcon = true;
@@ -141,7 +145,7 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
 
         message.color = makeColor(message.name + message.user_id);
 
-        $scope.messages[message.id] = message;
+        $scope.messages.push(message);
 
         notice.play();
     });
