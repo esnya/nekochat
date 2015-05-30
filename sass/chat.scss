@@ -42,12 +42,12 @@ body {
 .face {
     background-color: white;
     background-size: cover;
-    border-radius: 24px;
+    border-radius: 4px;
     border-width: 2px;
     border-style: solid;
     border-color: inherit;
-    width: 48px;
-    height: 48px;
+    width: 64px;
+    height: 64px;
 }
 
 md-item.message {
@@ -68,19 +68,20 @@ md-item.message {
                 border-bottom-width: 1px;
                 border-bottom-style: solid;
                 border-bottom-color: inherit;
-                width: 48px;
+                width: 64px;
                 position: absolute;
                 top: 0;
                 left: 8px;
             }
             .face {
                 position: absolute;
-                top: 0;
+                top: -6px;
             }
         }
     }
 
     .md-tile-content {
+        margin-left: 16px;
         padding-top: 0;
         padding-bottom: 0;
 
