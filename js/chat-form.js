@@ -37,6 +37,16 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
             character_url: first.character_url
         };
         form.id = $scope.forms.push(form) - 1;
+
+        if (localStorage && localStorage.setItem) {
+            localStorage.setItem($scope.room.id + '/forms', JSON.stringify($scope.forms.map(function (form) {
+                return {
+                    name: form.name,
+                    character_url: form.character_url,
+                    icon_id: form.icon_id
+                };
+            })));
+        }
     };
     $scope.remove = function (form) {
         form.removed = true;
@@ -95,19 +105,10 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
 
     var nameFlag;
     socket.on('join ok', function () {
-        $scope.forms = [{
+        $scope.forms = (localStorage && JSON.parse(localStorage.getItem($scope.room.id + '/forms'))) || [{
             name: socket.user.name
         }];
         nameFlag = true;
-    });
-
-    socket.on('add message', function (message) {
-        if (message.user_id == socket.user.id && nameFlag) {
-            nameFlag = false;
-            $scope.forms[0].name = message.name;
-            $scope.forms[0].character_url = message.character_url;
-            $scope.forms[0].icon = message.icon_id;
-        }
     });
 })
 .controller('MessageFormDialogController', function ($scope, $mdDialog, socket, getCharacter, SharedForm) {
