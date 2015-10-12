@@ -7,6 +7,19 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
 .controller('ChatForm', function ($scope, $interval, $mdDialog, socket, getCharacter, SharedForm) {
     'use strict';
 
+    var saveForms = function () {
+        if (localStorage && localStorage.setItem) {
+            localStorage.setItem($scope.room.id + '/forms', JSON.stringify($scope.forms.map(function (form) {
+                return {
+                    id: form.id,
+                    name: form.name,
+                    character_url: form.character_url,
+                    icon_id: form.icon_id
+                };
+            })));
+        }
+    };
+
     $scope.forms = [];
     $scope.submit = function (form) {
         if (form.message) {
@@ -28,6 +41,7 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
                 form.name = data.name;
                 form.icon = data.icon || data.portrait;
             }
+            saveForms();
         });
     };
     $scope.add = function () {
@@ -37,16 +51,7 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
             character_url: first.character_url
         };
         form.id = $scope.forms.push(form) - 1;
-
-        if (localStorage && localStorage.setItem) {
-            localStorage.setItem($scope.room.id + '/forms', JSON.stringify($scope.forms.map(function (form) {
-                return {
-                    name: form.name,
-                    character_url: form.character_url,
-                    icon_id: form.icon_id
-                };
-            })));
-        }
+        saveForms();
     };
     $scope.remove = function (form) {
         form.removed = true;
@@ -56,6 +61,8 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
         $mdDialog.show({
             controller: 'MessageFormDialogController',
             templateUrl: 'template/setting.php'
+        }).then(function () {
+            saveForms();
         });
     };
 
