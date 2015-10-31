@@ -8,27 +8,27 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
     'use strict';
     $scope.messages = [];
 
-    var obs = new MutationObserver(function (mutations) {
-        var list = $('#messages').parent();
-        var parent = list.closest('[md-scroll-y]');
+    //var obs = new MutationObserver(function (mutations) {
+    //    var list = $('#messages').parent();
+    //    var parent = list.closest('[md-scroll-y]');
 
-        setTimeout(function () {
-            mutations.filter(function (mutation) {
-                return mutation.type == 'childList';
-            }).map(function (mutation) {
-                return mutation.target.firstElementChild;
-            }).forEach(function (target) {
-                parent.scrollTop(parent.scrollTop() + $(target).height() + 28);
-            });
-        }, 50);
-    });
-    $scope.$on('$destroy', function () {
-        obs.disconnect();
-    });
+    //    setTimeout(function () {
+    //        mutations.filter(function (mutation) {
+    //            return mutation.type == 'childList';
+    //        }).map(function (mutation) {
+    //            return mutation.target.firstElementChild;
+    //        }).forEach(function (target) {
+    //            parent.scrollTop(parent.scrollTop() + $(target).height() + 28);
+    //        });
+    //    }, 50);
+    //});
+    //$scope.$on('$destroy', function () {
+    //    obs.disconnect();
+    //});
 
-    obs.observe(document.getElementById('messages'), {
-        childList: true
-    });
+    //obs.observe(document.getElementById('messages'), {
+    //    childList: true
+    //});
 
     $scope.leave = function () {
         socket.emit('leave');
@@ -37,7 +37,12 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
 
 
     $('#messages').closest('[md-scroll-y]').on('scroll', function () {
-        if ($('#messages').closest('[md-scroll-y]').scrollTop() == 0) {
+        var top = $('#messages').closest('[md-scroll-y]').scrollTop();
+        var height = $('#messages').parent().height();
+        var parentHeight = $('#messages').closest('[md-scroll-y]').height();
+        //console.log(top, height, parentHeight, top + parentHeight);
+        if (top + parentHeight >= height) {
+        //if ($('#messages').closest('[md-scroll-y]').scrollTop() == 0) {
             socket.emit('message request');
         }
     });
