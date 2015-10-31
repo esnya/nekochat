@@ -24,6 +24,7 @@
             <md-button ng-click="config($event)"><?= _('Global Settings') ?></md-button>
             <md-button href="#" ng-if=room.id><?= _('Leave Room') ?></md-button>
             <md-button target=_blank ng-href="log.php{{room.id}}" ng-if=room.id><?= _('Text Log') ?></md-button>
+            <md-button target=_blank ng-href="view.php{{room.id}}" ng-if=room.id><?= _('Static View') ?></md-button>
             <md-content class="md-padding" ng-controller="Chat">
                 <md-subheader class="md-primary"><?= _('Users'); ?></md-subheader>
                 <md-list ng-if="users && users != {}">
