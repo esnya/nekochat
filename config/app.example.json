@@ -1,0 +1,4 @@
+{
+    "port": "<port for socket.io>",
+    "path": "<path for socket.io>"
+}
