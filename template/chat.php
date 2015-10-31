@@ -13,58 +13,7 @@
         </div>
     </md-content>
 </div>
-<md-content flex md-scroll-y style="flex: 1 1 0;" ng-controller=ChatMessage>
-    <div class="md-padding" style="max-width: 862px; margin: auto;">
-        <md-list id=messages>
-            <md-item class=message ng-class="{header: message.isHeader}" ng-repeat="message in messages | orderBy:'id'" on-finish-render="messageScroll()">
-                <md-item-content style="border-color: {{message.color}}">
-                    <div class="md-tile-left">
-                        <div class="face-box">
-                            <div class="line">&nbsp;&nbsp;</div>
-                            <div class="face" style="background-image: url({{message.icon}})" ng-if="message.icon"></div>
-                        </div>
-                    </div>
-                    <div class="md-tile-content">
-                        <div class="header" layout=row>
-                            <div class="name" style="color: {{message.color}}">{{message.name}}</div>
-                            <div class="user_id">{{message.user_id}}</div>
-                            <md-button ng-if=message.character_url ng-href={{message.url}} target=_blank style="margin-top: -8px; margin-bottom: -8px;" aria-label="{{message.name}}">
-                                <ng-md-icon icon=assignment_ind></mg-md-icon>
-                            </md-button>
-                        </div>
-                        <div ng-bind-html="line | linky:'_blank'" ng-repeat="line in message.message.split('\n') track by $index">
-                        </div>
-                    </div>
-                    <div class="md-tile-right">
-                        {{message.created | date:'hh:mm'}}
-                    </div>
-                </md-item-content>
-            </md-item>
-            <md-item class="message writing header" ng-if="message && message.message" ng-repeat="message in writing_messages">
-                <md-item-content style="border-color: {{message.color}}">
-                    <div class="md-tile-left">
-                        <div class="face-box">
-                            <div class="line">&nbsp;&nbsp;</div>
-                            <div class="face" style="background-image: url({{message.icon}})" ng-if="message.icon"></div>
-                        </div>
-                    </div>
-                    <div class="md-tile-content">
-                        <div class="header" layout=row>
-                            <div class="name" style="color: {{message.color}}">{{message.name}}</div>
-                            <div class="user_id">{{message.user_id}}</div>
-                            <md-button ng-if=message.character_url ng-href={{message.url}} target=_blank style="margin-top: -8px; margin-bottom: -8px;" aria-label="{{message.name}}">
-                                <ng-md-icon icon=assignment_ind></mg-md-icon>
-                            </md-button>
-                        </div>
-                        <div ng-bind-html="line | linky:'_blank'" ng-repeat="line in message.message.split('\n') track by $index">
-                        </div>
-                    </div>
-                </md-item-content>
-            </md-item>
-        </md-list>
-    </div>
-</md-content>
-<md-lsit class="md-whiteframe-z2" ng-controller=ChatForm>
+<md-list class="md-whiteframe-z2" ng-controller=ChatForm>
     <md-item ng-repeat="form in forms | reverse" ng-if="!form.removed">
         <md-item-content>
             <div class="md-tile-content" layout=row layout-align="center end">
@@ -92,3 +41,55 @@
         </md-item-content>
     </md-item>
 </md-list>
+<md-content flex md-scroll-y style="flex: 1 1 0;" ng-controller=ChatMessage>
+    <div class="md-padding" style="max-width: 862px; margin: auto;">
+        <md-list id=messages>
+            <md-item class="message writing header" ng-if="message && message.message" ng-repeat="message in writing_messages">
+                <md-item-content style="border-color: {{message.color}}">
+                    <div class="md-tile-left">
+                        <div class="face-box">
+                            <div class="line">&nbsp;&nbsp;</div>
+                            <div class="face" style="background-image: url({{message.icon}})" ng-if="message.icon"></div>
+                        </div>
+                    </div>
+                    <div class="md-tile-content">
+                        <div class="header" layout=row>
+                            <div class="name" style="color: {{message.color}}">{{message.name}}</div>
+                            <div class="user_id">{{message.user_id}}</div>
+                            <md-button ng-if=message.character_url ng-href={{message.url}} target=_blank style="margin-top: -8px; margin-bottom: -8px;" aria-label="{{message.name}}">
+                                <ng-md-icon icon=assignment_ind></mg-md-icon>
+                            </md-button>
+                        </div>
+                        <div ng-bind-html="line | linky:'_blank'" ng-repeat="line in message.message.split('\n') track by $index">
+                        </div>
+                    </div>
+                </md-item-content>
+            </md-item>
+            <md-item class=message ng-class="{header: message.isHeader}" ng-repeat="message in messages | orderBy:'id':true" on-finish-render="messageScroll()">
+                <md-item-content style="border-color: {{message.color}}">
+                    <div class="md-tile-left">
+                        <div class="face-box">
+                            <div class="line">&nbsp;&nbsp;</div>
+                            <div class="face" style="background-image: url({{message.icon}})" ng-if="message.icon"></div>
+                        </div>
+                    </div>
+                    <div class="md-tile-content">
+                        <div class="header" layout=row>
+                            <div class="name" style="color: {{message.color}}">{{message.name}}</div>
+                            <div class="user_id">{{message.user_id}}</div>
+                            <md-button ng-if=message.character_url ng-href={{message.url}} target=_blank style="margin-top: -8px; margin-bottom: -8px;" aria-label="{{message.name}}">
+                                <ng-md-icon icon=assignment_ind></mg-md-icon>
+                            </md-button>
+                        </div>
+                        <div ng-bind-html="line | linky:'_blank'" ng-repeat="line in message.message.split('\n') track by $index">
+                        </div>
+                    </div>
+                    <div class="md-tile-right">
+                        {{message.created | date:'hh:mm'}}
+                    </div>
+                </md-item-content>
+            </md-item>
+        </md-list>
+    </div>
+</md-content>
+
