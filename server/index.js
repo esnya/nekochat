@@ -4,12 +4,19 @@ var jQuery = require('jquery-deferred');
 var crypto = require('crypto');
 
 var config = {
-    app: require('../config/app.json'),
-    database: require('../config/database.json')
+    app: require('../config/app'),
+    database: require('../config/database')
 };
 
-var io = require('socket.io').listen(config.app.port, {
-    path: config.app.path
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+app.use(express.static('.'));
+
+http.listen(80, function() {
+    console.log('Listening on *:80');
 });
 
 var database = require('mysql').createConnection(config.database);
@@ -171,7 +178,7 @@ var datasource = {
 };
 
 io.use(function (socket, next) {
-    var user_id = socket.request.headers['username'];
+    var user_id = socket.request.headers['username'] || 'guest';
 
     datasource.getOne('users', user_id).done(function (user) {
         socket.user = user[0];

@@ -1,4 +1,3 @@
-<?php require_once(dirname(dirname(dirname(__FILE__))) . '/locale/locale.php') ?>
 <div ng-if="!(history&&myroom)" layout-fill layout-align="center center" layout=column>
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>
@@ -6,18 +5,18 @@
     <div ng-if="history&&myroom">
         <section>
             <md-subheader class="md-primary md-whiteframe-z1" style="margin-right: 0;">
-                <?= _('Create Room') ?>
+                Create Room
             </md-subheader>
             <md-list style="margin: auto; max-width: 862px;" layout=column>
                 <md-item>
                     <form ng-submit="create()" ng-controller=Lobby>
                         <md-item-content>
                             <md-input-container class="md-tile-content md-default-theme" style="margin-top: -16px;">
-                                <label><?= _('Title') ?></label>
+                                <label>Title</label>
                                 <input name=title ng-model=create_title layout-fill>
                             </md-input-container>
                             <div class=md-tile-right>
-                                <input type=submit class="md-default-theme md-button md-raised md-primary" nd-transclude value="<?= _('Create Room') ?>">
+                                <input type=submit class="md-default-theme md-button md-raised md-primary" nd-transclude value="Create Room">
                             </div>
                         </md-item-content>
                     </form>
@@ -26,7 +25,7 @@
         </section>
         <section>
             <md-subheader class="md-primary md-whiteframe-z1" style="margin-right: 0;">
-                <?= _('Room History') ?>
+                Room History
             </md-subheader>
             <md-list style="margin: auto; max-width: 862px;" layout=column>
                 <md-item ng-repeat="room in history">
@@ -44,7 +43,7 @@
         </section>
         <section>
             <md-subheader class="md-primary md-whiteframe-z1" style="margin-right: 0;">
-                <?= _('My Rooms') ?>
+                My Rooms
             </md-subheader>
             <md-list style="margin: auto; max-width: 862px;" layout=column>
                 <md-item ng-repeat="room in myroom">

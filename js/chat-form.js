@@ -60,7 +60,7 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'n
         SharedForm.form = form;
         $mdDialog.show({
             controller: 'MessageFormDialogController',
-            templateUrl: 'template/setting.php'
+            templateUrl: 'template/setting.html'
         }).then(function () {
             saveForms();
         });

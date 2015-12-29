@@ -1,14 +1,14 @@
 <md-dialog aria-label=Setting style="width: 500px;">
     <md-content>
         <container-input-container class="md-default-theme">
-            <label><?= _('Name') ?></label>
+            <label>Name</label>
             <input ng-model="form.name" layout-fill>
         </md-input-container>
         <md-input-container class="md-default-theme">
-            <label><?= _('URL') ?></label>
+            <label>URL</label>
             <input ng-model="form.character_url" ng-change=setCharacterName(form) layout-fill>
         </md-input-container>
-        <label><?= _('Icon') ?></label>
+        <label>Icon</label>
         <md-radio-group ng-model="form.icon">
             <md-radio-button value="" aria-label="Default">
                 <div layout=row layout-align="center center" layout-fill>
@@ -26,11 +26,11 @@
             </md-radio-button>
         </md-radio-group>
         <md-input-container>
-            <label style="transform: translate3d(0px, 4px, 0px);"><?= _('Upload Icon') ?></label>
+            <label style="transform: translate3d(0px, 4px, 0px);">Upload Icon</label>
             <div layout=row layout-align="center center">
                 <input type=file id=upload-icon flex>
                 <div>
-                    <md-button ng-if=!uploading ng-click=upload()><?= _('Upload') ?></md-button>
+                    <md-button ng-if=!uploading ng-click=upload()>Upload</md-button>
                     <div ng-if=uploading>
                         <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                     </div>

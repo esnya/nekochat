@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "jquery": "~2.1.1",
-    "cssdice": "git://github.com/ukatama/cssdice",
+    "dice3d": "~1.0.0",
     "socket.io-client": "~1.2.1",
     "angular": "~1.3.8",
     "angular-socket-io": "~0.7.0",

@@ -58,11 +58,11 @@ var makeColor = function (data) {
         .config(function ($routeProvider) {
             $routeProvider.
                 when('/:roomId', {
-                    templateUrl: 'template/chat.php',
+                    templateUrl: 'template/chat.html',
                     controller: 'Chat'
                 })
             .otherwise({
-                templateUrl: 'template/lobby.php',
+                templateUrl: 'template/lobby.html',
                 controller: 'Lobby'
             });
 
@@ -94,7 +94,7 @@ var makeColor = function (data) {
                             });
                         };
                     },
-                    templateUrl: 'template/global-config.php',
+                    templateUrl: 'template/global-config.html',
                     targetEvent: e
                 });
             };
