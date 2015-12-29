@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja" ng-app=BeniimoOnline ng-hashchange="hashchange($event)">
+<head>
+    <meta charset="UTF-8">
+    <title>Beniimo Online</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" href="bower_components/dice3d/dist/dice3d.css">
+    <link rel="stylesheet" href="css/chat.css">
+</head>
+<body layout=row ng-controller=UI>
+    <audio id="dice3d-sound" src="bower_components/dice3d/dist/nc93322.mp3"></audio>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" layout=column md-component-id="left" md-is-locked-open="$media('gt-md')">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <md-button aria-label="Close Left" ng-click="close('left')" hide-gt-md>
+                    <ng-md-icon icon=close></ng-md-icon>
+                </md-button>
+                <h1><?= _('Beniimo Online'); ?></h1>
+            </div>
+        </md-toolbar>
+        <md-content flex layout=column>
+            <md-button ng-click="config($event)">Global Settings</md-button>
+            <md-button href="#" ng-if=room.id>Leave Room</md-button>
+            <md-button target=_blank ng-href="log.php{{room.id}}" ng-if=room.id>Text Log</md-button>
+            <md-button target=_blank ng-href="view.php{{room.id}}" ng-if=room.id>Static View</md-button>
+            <md-content class="md-padding" ng-controller="Chat">
+                <md-subheader class="md-primary"><?= _('Users'); ?></md-subheader>
+                <md-list ng-if="users && users != {}">
+                    <md-item ng-repeat="user in users">
+                        <md-item-content>
+                            <div class="md-tile-content">
+                                {{user.name}}@{{user.id}}
+                            </div>
+                            <div class="md-tile-right">
+                                {{user.offline ? 'Offline' : 'Online'}}
+                            </div>
+                        </md-item-content>
+                    </md-item>
+                </md-list>
+            </div>
+        </md-content>
+    </md-sidenav>
+    <div layout=column layout-fill role=main>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <md-button aria-label="Toggle Left" ng-click="toggle('left')" hide-gt-md>
+                    <ng-md-icon icon=menu></ng-md-icon>
+                </md-button>
+                <h1 ng-if=room.title>{{room.title}}</h1>
+                <h1 ng-if=!room.title><?= _('Beniimo Online'); ?></h1>
+            </div>
+        </md-toolbar>
+        <div ng-view flex layout=column></div>
+    </div>
+
+    <audio id=notice src="sound/nc32318.wav" preload=auto></audio>
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/socket.io-client/socket.io.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-socket-io/socket.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/hammerjs/hammer.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-material-icons/angular-material-icons.js"></script>
+    <script src="bower_components/dice3d/dist/dice3d.js"></script>
+    <script src="js/jquery.cssanim.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/chat-message.js"></script>
+    <script src="js/chat-form.js"></script>
+    <script src="js/chat-writing.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

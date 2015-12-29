@@ -1,6 +1,7 @@
 CREATE TABLE users (
-    userid varchar(32) PRIMARY KEY,
-    name varchar
+    userid varchar(32),
+    name varchar(32),
+    PRIMARY KEY (userid)
 );
 
 CREATE TABLE rooms (

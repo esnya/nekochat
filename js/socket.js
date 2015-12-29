@@ -4,7 +4,7 @@ angular.module('BeniimoOnlineSocket', ['btford.socket-io'])
 
     var socket = io.connect('http://' + location.host,
             {
-                path: '/chat/socket.io',
+                //path: '/chat/socket.io',
                 transports: ['websocket'],
                 reconnectionDelay: 0,
                 timeout: 3000
@@ -23,7 +23,7 @@ angular.module('BeniimoOnlineSocket', ['btford.socket-io'])
         if (eye == 6) {
             if ((dices += numbers.length) <= 10) {
                 numbers.forEach(function (n) {
-                    dice6(n, function () {
+                    dice3d(eye, n, function () {
                         --dices;
                     });
                 });
