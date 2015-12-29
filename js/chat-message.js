@@ -136,7 +136,7 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
                 if (!message.overrideIcon) {
                     var icon = data.icon || data.portrait;
                     if (icon) {
-                        message.icon = icon;
+                        message.icon = (new URL(icon, message.character_url)).toString();
                     }
                 }
 
@@ -144,7 +144,7 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize',
                     message.color = data.color;
                 }
 
-                message.url = data.url;
+                message.url = (new URL(data.url, message.character_url)).toString();
             });
         }
 
