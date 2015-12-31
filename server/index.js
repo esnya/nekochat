@@ -13,7 +13,10 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var session = require('./session');
+
 app.use(express.static('.'));
+app.use(session);
 
 http.listen(80, function() {
     console.log('Listening on *:80');
@@ -177,15 +180,25 @@ var datasource = {
     }
 };
 
-io.use(function (socket, next) {
-    var user_id = socket.request.headers['username'] || 'guest';
+io.use(require('express-socket.io-session')(session, { autoSave: true }));
 
-    datasource.getOne('users', user_id).done(function (user) {
-        socket.user = user[0];
-        next();
-    }).fail(function (error) {
-        next(new Error(error));
-    });
+io.use(function (socket, next) {
+    let passport = socket.handshake.session.passport;
+    if (passport) {
+        let user = passport.user;
+        if (user) {
+            datasource.getOne('users', user)
+                .done(function (user) {
+                    socket.user = user[0];
+                    next();
+                }).fail(function (error) {
+                    next(new Error(error));
+                });
+            return;
+        }
+    }
+
+    socket.end();
 });
 
 io.on('connect', function (socket) {
