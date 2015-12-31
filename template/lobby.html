@@ -34,7 +34,7 @@
                             <h3>{{room.title}}</h3>
                         </div>
                         <div class=md-tile-right>
-                            <md-button class="md-primary" ng-href={{room.id}}><?= _('Join'); ?></md-button>
+                            <md-button class="md-primary" ng-href={{room.id}}>Join</md-button>
                         </div>
                     </md-item-content>
                     <md-divider ng-if="!$last"></md-divider>
@@ -52,8 +52,8 @@
                             <h3>{{room.title}}</h3>
                         </div>
                         <div class=md-tile-right>
-                            <md-button class="md-warn" ng-click="remove(room, $event)"><?= _('Remove'); ?></md-button>
-                            <md-button class="md-primary" ng-href={{room.id}}><?= _('Join'); ?></md-button>
+                            <md-button class="md-warn" ng-click="remove(room, $event)">Remove</md-button>
+                            <md-button class="md-primary" ng-href={{room.id}}>Join</md-button>
                         </div>
                     </md-item-content>
                     <md-divider ng-if="!$last"></md-divider>
