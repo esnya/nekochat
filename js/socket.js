@@ -105,6 +105,7 @@ angular.module('BeniimoOnlineSocket', ['btford.socket-io'])
             $http({
                 method: 'get',
                 url: url,
+                withCredentials: true,
             }).success(function (data) {
                 character_cache[url].time = time;
                 character_cache[url].data = data;
@@ -117,6 +118,7 @@ angular.module('BeniimoOnlineSocket', ['btford.socket-io'])
                 }
                 d.resolve(data);
             }).error(function (data, status) {
+                console.log('Failed to get character: ' + url);
                 delete character_cache[url];
                 d.reject(status);
             });
