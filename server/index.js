@@ -180,6 +180,55 @@ var datasource = {
     }
 };
 
+app.get('/view/:roomId', function(req, res) {
+    var roomId = '#' + req.params.roomId;
+
+    var onError = function() {
+        res.writeHead(500);
+        res.end('500 Internal Server Error');
+    };
+
+    datasource.get('rooms', roomId)
+        .then(function(rooms) {
+            var room = rooms[0];
+            
+            if (!room) return onError();
+
+            datasource.query('SELECT * FROM messages WHERE room_id = ?', [roomId]).then(
+                    function(messages) {
+                        var lines = messages.map(function(message) {
+                            return `
+                                <tr>
+                                    <td>${message.name} @${message.user_id}</td>
+                                    <td>${message.message.replace(/\t/g, ' ').replace(/\r?\n/g, '<br>')}</td>
+                                    <td>${message.modified}</td>
+                                </tr>
+                                `;
+                        });
+                        var html = `
+                            <!DOCTYPE html>
+                            <html lang="ja">
+                            <head>
+                                <meta charset="UTF-8">
+                                <title>${room.title}</title>
+                            </head>
+                            <body>
+                                <table>
+                                    <tbody>
+                                        ${lines.join('\n')}
+                                    </tbody>
+                                </table>
+                            </body>
+                            </html>
+                            `;
+                        res.end(html);
+                    }, onError);
+        }, onError);
+});
+app.get('/view', function(req, res) {
+    res.end('<script>location.href = location.hash.substr(1);</script>');
+});
+
 io.use(require('express-socket.io-session')(session, { autoSave: true }));
 
 io.use(function (socket, next) {
