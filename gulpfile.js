@@ -28,6 +28,8 @@ gulp.task('watch:browser', ['watchify'], () =>
 gulp.task(
     'sync-lib',
     next => {
+        if (!fs.existsSync('lib')) return next();
+
         let read = (dir) =>
             fs.readdirSync(dir)
                 .map(item => `${dir}/${item}`)
