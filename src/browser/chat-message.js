@@ -1,7 +1,8 @@
+import angular from 'angular';
 import $ from 'jquery';
 import { makeColor } from './color';
 
-angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize', 'ngRoute', 'ngMaterial'])
+angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', require('angular-sanitize'), require('angular-route'), require('angular-material')])
 .filter('nl2br', function ($sce) {
     return function (str) {
         return $sce.trustAsHtml(str.replace(/\r\n|\n|\r/, '<br>'));

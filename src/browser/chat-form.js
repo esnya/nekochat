@@ -1,4 +1,6 @@
-angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', 'ngSanitize', 'ngRoute', 'ngMaterial'])
+import angular from 'angular';
+
+angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular-sanitize'), require('angular-route'), require('angular-material')])
 .factory('SharedForm', function () {
     return {
         form: null

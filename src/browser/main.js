@@ -3,7 +3,7 @@ import { makeColor } from './color';
 (function () {
     'use strict';
     angular
-        .module('BeniimoOnline', ['ngSanitize', 'btford.socket-io', 'ngMdIcons', 'ngMaterial', 'ngRoute', 'BeniimoOnlineChatMessage', 'BeniimoOnlineChatForm', 'BeniimoOnlineChatWriting'])
+        .module('BeniimoOnline', [require('angular-sanitize'), require('angular-material-icons'), require('angular-material'), require('angular-route'), 'BeniimoOnlineChatMessage', 'BeniimoOnlineChatForm', 'BeniimoOnlineChatWriting'])
         .factory("Room", function() {
             return {id: null, title: null};
         })

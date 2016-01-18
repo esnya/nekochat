@@ -1,14 +1,14 @@
+import angular from 'angular';
+import dice3d from 'dice3d';
 import io from 'socket.io-client';
 
-angular.module('BeniimoOnlineSocket', ['btford.socket-io'])
-.factory('socket', function ($location, socketFactory) {
+angular.module('BeniimoOnlineSocket', [])
+.factory('socket', function ($location) {
     'use strict';
 
     var socket = io.connect();
 
-    var factory = socketFactory({
-        ioSocket: socket,
-    });
+    var factory = socket;
 
     factory.on('hello', function (user) {
         console.log('hello', user);
