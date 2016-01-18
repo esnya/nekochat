@@ -1,9 +1,10 @@
 import { Server } from 'http';
+import AppConfig from '../config/app';
 import { app } from './app';
 
 export const server = Server(app);
 
-server.listen(80, function() {
+server.listen(AppConfig.server, function() {
     let {
         address,
         family,
