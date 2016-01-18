@@ -16,8 +16,8 @@ io.use(function (socket, next) {
     if (passport) {
         let user = passport.user;
         if (user) {
-            knex('users').where('userid', user)
-                .first('userid', 'name')
+            knex('users').where('id', user)
+                .first('id', 'name')
                 .then(function (user) {
                     socket.user = {
                         id: user.userid,
