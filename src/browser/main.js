@@ -65,7 +65,6 @@ var makeColor = function (data) {
                 templateUrl: 'template/lobby.html',
                 controller: 'Lobby'
             });
-
         })
         .config(function ($mdThemingProvider) {
             $mdThemingProvider.theme('default')

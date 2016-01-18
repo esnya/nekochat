@@ -2,19 +2,14 @@ angular.module('BeniimoOnlineSocket', ['btford.socket-io'])
 .factory('socket', function ($location, socketFactory) {
     'use strict';
 
-    var socket = io.connect('http://' + location.host,
-            {
-                //path: '/chat/socket.io',
-                transports: ['websocket'],
-                reconnectionDelay: 0,
-                timeout: 3000
-            });
+    var socket = io.connect();
 
     var factory = socketFactory({
-        ioSocket: socket
+        ioSocket: socket,
     });
 
     factory.on('hello', function (user) {
+        console.log('hello', user);
         factory.user = user;
     });
 

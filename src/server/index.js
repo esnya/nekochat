@@ -1,11 +1,11 @@
-'use strict';
+import { knex } from './knex';
 
 var jQuery = require('jquery-deferred');
 var crypto = require('crypto');
 
 var config = {
-    app: require('../config/app'),
-    database: require('../config/database')
+    app: require('../../config/app'),
+    database: require('../../config/database'),
 };
 
 var express = require('express');
@@ -16,14 +16,12 @@ var io = require('socket.io')(http);
 var session = require('./session');
 
 app.use(express.static('.'));
+app.use('/js', express.static('lib/browser'));
 app.use(session);
 
 http.listen(80, function() {
     console.log('Listening on *:80');
 });
-
-var database = require('mysql').createConnection(config.database);
-database.connect();
 
 var diceReplace = function (str, io) {
     return str.replace(/([0-9]*d[0-9]*|[0-9]+)([+-][0-9]*d[0-9]*|[+-][0-9]+)*=/g, function (exp) {
@@ -75,109 +73,6 @@ var diceReplace = function (str, io) {
 
         return exp + diced + sum + status;
     });
-};
-
-var datasource = {
-    query: function (query, params) {
-        var d = new jQuery.Deferred;
-
-        //console.log('Query: ', query, params);
-        database.query(query, params, function (error, data) {
-            if (error) {
-                console.error(error);
-                d.reject(error);
-            } else {
-                d.resolve(data);
-            }
-        });
-
-        return d.promise();
-    },
-    getAll: function (table, field, value, options) {
-        var fields = (options && options.fields) ? options.fields.join(",") : '*'
-        return this.query('SELECT ' + fields + ' FROM ' + table + ' WHERE deleted is null and ' + field + ' = ? ORDER BY modified DESC LIMIT 50', [value]);
-    },
-    getMessageLogs: function (room_id, id) {
-        return this.query('SELECT * FROM messages WHERE deleted is null and room_id = ? and id < ? ORDER BY modified DESC LIMIT 20', [room_id, id]);
-    },
-    get: function (table, id, options) {
-        var fields = (options && options.fields) ? options.fields.join(",") : '*'
-        return this.query('SELECT ' + fields + ' FROM ' + table + ' WHERE deleted is null and id = ?', [id]);
-    },
-    getOne: function (table, id) {
-        var d = new jQuery.Deferred;
-
-        this.get(table, id).done(function (data) {
-            if (data.length == 1) {
-                d.resolve(data);
-            } else {
-                d.reject('Not Found');
-            }
-        }).fail(function (error) {
-            d.reject(error);
-        });
-
-        return d.promise();
-    },
-    notExists: function (table, id) {
-        var d = new jQuery.Deferred;
-
-        this.get(table, id, { fields: ['id'] }).done(function (data) {
-            if (data.length == 0) {
-                d.resolve();
-            } else {
-                d.reject();
-            }
-        }).fail(function (error) {
-            d.reject(error);
-        });
-
-        return d.promise();
-    },
-    insert: function (table, data) {
-        var d = new jQuery.Deferred;
-
-        data.created = new Date;
-        data.modified = new Date;
-
-        var fields = [];
-        var holders = [];
-        var values = [];
-
-        for (var key in data) {
-            fields.push(key);
-            holders.push('?');
-            values.push(data[key]);
-        }
-
-        this.query('INSERT INTO ' + table + ' (' + fields.join(",") + ') VALUES (' + holders.join(",") + ')', values).fail(function (error) {
-            d.reject(error);
-        }).done(function (result) {
-            //console.log(result);
-            if (result.affectedRows == 1) {
-                d.resolve(data.id || result.insertId);
-            } else {
-                d.reject('No affected rows');
-            }
-        });
-
-        return d.promise();
-    },
-    remove: function (table, id) {
-        var d = new jQuery.Deferred;
-
-        this.query('UPDATE ' + table + ' SET deleted = NOW() WHERE id = ?', [id]).then(function (result) {
-            if (result.affectedRows == 1) {
-                d.resolve();
-            } else {
-                d.reject('No affected rows');
-            }
-        }, function (error) {
-            d.reject(error);
-        });
-
-        return d.promise();
-    }
 };
 
 app.get('/view/:roomId', function(req, res) {
@@ -232,22 +127,26 @@ app.get('/view', function(req, res) {
 io.use(require('express-socket.io-session')(session, { autoSave: true }));
 
 io.use(function (socket, next) {
-    let passport = socket.handshake.session.passport;
+    let passport = socket.handshake.session.passport || {
+        user: 'guest',
+    };
     if (passport) {
         let user = passport.user;
         if (user) {
-            datasource.getOne('users', user)
-                .done(function (user) {
-                    socket.user = user[0];
+            knex('users').where('userid', user)
+                .first('userid', 'name')
+                .then(function (user) {
+                    socket.user = {
+                        id: user.userid,
+                        name: user.name,
+                    };
                     next();
-                }).fail(function (error) {
-                    next(new Error(error));
-                });
+                }).catch(next);
             return;
         }
     }
 
-    socket.end();
+    //socket.end();
 });
 
 io.on('connect', function (socket) {
@@ -258,35 +157,20 @@ io.on('connect', function (socket) {
     _user = socket.user;
 
     var createRoom = function (title, game_id, user_id, id) {
-        var d = new jQuery.Deferred;
-
         if (!id) {
             id = '' + (new Date).getTime();
         }
 
         id = crypto.createHash('sha256').update(id).digest('hex').substr(0, 16);
 
-        datasource.notExists('rooms', '#' + id).fail(function (error) {
-            if (error == "exists") {
-                createRoom(id, title, game);
-            }
-        }).done(function () {
-            datasource.insert('rooms', {
-                id: '#' + id,
+        return knex('rooms')
+            .insert({
+                id: `#${id}`,
                 title: title,
-                user_id: _user.id
-            }).fail(function (error) {
-                d.reject(error);
-            }).done(function (insertId) {
-                datasource.getOne('rooms', insertId).fail(function (error) {
-                    d.reject(error);
-                }).done(function (rooms) {
-                    d.resolve(rooms[0]);
-                });
-            });
-        });
-
-        return d.promise();
+                user_id: _user.id,
+            })
+            .then(() => knex('rooms').where('id', `#${id}`).whereNull('deleted').first())
+            .then(room => room ? Promise.resolve(room) : Promise.reject());
     };
 
     var sendMessages = function (messages) {
@@ -318,7 +202,7 @@ io.on('connect', function (socket) {
         io.to(room.id).emit('user joined', _user);
 
         _minId = null;
-        datasource.getAll('messages', 'room_id', room.id).done(sendMessages);
+        knex('messages').where('room_id', room.id).then(sendMessages);
     };
 
     var handlers = {
@@ -329,20 +213,22 @@ io.on('connect', function (socket) {
         'join request': function (room_id) {
             console.log('Join Request: ', socket.id, room_id);
 
-            datasource.getOne('rooms', room_id).fail(function (error) {
-                console.error('Join Request Error: ', error);
-                socket.emit('join failed');
-            }).done(function (rooms) {
-                joinRoom(rooms[0]);
-            });
+            knex('rooms').where('id', room_id).first()
+                .then(room => room
+                    ? joinRoom(room)
+                    : Promise.reject(new Error('Not Found')))
+                .catch(error => {
+                    console.error('Join Request Error: ', error);
+                    socket.emit('join failed');
+                });
         },
         'create room': function (title) {
             console.log('Create Room: ', _user.id, title);
             if (!_user) return;
-            createRoom(title, _user.id).fail(function (error) {
+            createRoom(title, _user.id).catch(function (error) {
                 console.log('Create Failed: ', error);
                 socket.emit('create room failed');
-            }).done(function (room) {
+            }).then(function (room) {
                 leaveRoom();
                 joinRoom(room);
             });
@@ -350,7 +236,11 @@ io.on('connect', function (socket) {
         'message request': function () {
             if (!_user || !_room) return;
             console.log('Message Request: ', _user.id, _room.id);
-            datasource.getMessageLogs(_room.id, _minId).done(sendMessages);
+            knex('messages')
+                .where('room_id', _room.id)
+                .where('id', '>', _minId)
+                .whereNull('deleted')
+                .then(sendMessages);
         },
         'leave': function () {
             if (!_user) return;
@@ -360,20 +250,18 @@ io.on('connect', function (socket) {
         'room list': function () {
             if (!_user) return;
             console.log('Room List: ', _user.id);
-            datasource.getAll('rooms', 'user_id', _user.id).fail(function (error) {
-                console.error(error);
-            }).done(function (rooms) {
-                socket.emit('room list', rooms);
-            });
+            knex('rooms')
+                .where('user_id', _user.id)
+                .whereNull('deleted')
+                .then(rooms => socket.emit('room list', rooms));
         },
         'room history': function () {
             if (!_user) return;
             console.log('History: ', _user.id);
-            datasource.getAll('room_histories', 'user_id', _user.id).fail(function (error) {
-                console.error(error);
-            }).done(function (rooms) {
-                socket.emit('room history', rooms);
-            });
+            knex('room_histories')
+                .where('user_id', _user.id)
+                .whereNull('deleted')
+                .then(rooms => socket.emit('room history', rooms));
         },
         'add message': function (message) {
             if (!_user || !_room) return;
@@ -389,12 +277,11 @@ io.on('connect', function (socket) {
             };
 
             msg.created = msg.modified = new Date();
-            datasource.insert('messages', msg).then(function (message_id) {
-                return datasource.getOne('messages', message_id);
-            }).done(function (data) {
-                io.to(_room.id).emit('add message', data[0]);
-            }, function (error) {
-                console.error(error);
+            knex('messages').insert(msg, 'id').then(function (ids) {
+                return knex('messages').where('id', ids[0] || ids).whereNull('deleted').first()
+                    .then(message => message ? Promise.resolve(message) : Promise.reject());
+            }).then(function (message) {
+                io.to(_room.id).emit('add message', message);
             });
         },
         'begin writing': function (name) {
@@ -417,14 +304,13 @@ io.on('connect', function (socket) {
             } : null);
         },
         'remove room': function (room_id) {
-            datasource.getOne('rooms', room_id).done(function (data) {
-                var room = data[0];
-                if (room.user_id == _user.id) {
-                    datasource.remove('rooms', room_id).done(function () {
-                        socket.emit('room removed', room_id);
-                    });
-                }
-            });
+            knex('rooms')
+                .where('id', room_id)
+                .where('user_id', _user.id)
+                .whereNull('deleted')
+                .update('deleted', knex.fn.now())
+                .then(removed => console.log(removed))
+                .then(socket.emit('room removed', room_id));
         },
         'add icon': function (name, type, data) {
             //console.log(name);
@@ -433,35 +319,39 @@ io.on('connect', function (socket) {
 
             if (data.length <= 1024 * 512 && ("" + type).match(/^image/)) {
                 var id = crypto.createHash('sha256').update(name + _user.id + Date.now()).digest('hex').substr(0, 16);
-                datasource.insert('icons', {
+                knex('icons').insert({
                     id: id,
                     user_id: _user.id,
                     name: name,
                     type: type,
                     data: data
-                }).then(function () {
-                    socket.emit('icon added');
-                }, function () {
-                    socket.emit('adding icon failed');
-                });
+                }).then(() => socket.emit('icon added'));
             } else {
                 socket.emit('adding icon failed');
             }
         },
         'get icons': function () {
-            datasource.getAll('icons', 'user_id', _user.id).done(function (data) {
-                socket.emit('icons', data);
-            });
+            knex('icons')
+                .where('user_id', _user.id)
+                .whereNull('deleted')
+                .then(icons => socket.emit('icons', icons));
         },
         'get icon': function (id) {
-            datasource.getOne('icons', id).done(function (data) {
-                socket.emit('icon', data[0].id, data[0].name, data[0].type, data[0].data);
-            });
+            knex('icons')
+                .where('id', id)
+                .whereNull('deleted')
+                .first()
+                .then(icon => icon
+                    ? socket.emit('icon', icon.id, icon.name, icon.type, icon.data)
+                    : Promise.reject(new Error('Not found')));
         }
     };
-    for (var e in handlers) {
-        socket.on(e, handlers[e]);
-    }
+    Object.keys(handlers).forEach(e => 
+        socket.on(e, (...args) => {
+            console.log('Socket event:', e, args);
+            handlers[e](...args);
+        })
+    );
 
     socket.emit('hello', _user);
 });
