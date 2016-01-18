@@ -123,6 +123,8 @@ io.on('connect', function (socket) {
                 .where('room_id', _room.id)
                 .where('id', '>', _minId)
                 .whereNull('deleted')
+                .orderBy('id', 'desc')
+                .limit(40)
                 .then(sendMessages);
         },
         'leave': function () {
