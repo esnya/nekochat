@@ -12,40 +12,32 @@ export const io = SocketIO(server);
 io.use(ExpressSocketIOSession(session, { autoSave: true }));
 
 io.use(function (socket, next) {
-    let passport = socket.handshake.session.passport;
-
-    const guest = function() {
-        if (AppConfig.auth.guest) {
-            socket.user = {
-                id: 'guest',
-                name: 'Guest',
-            };
-            next();
-        } else {
-            next(new Error('Guest is not allowed'));
-        }
+    let passport = socket.handshake.session.passport || AppConfig.auth.guest && {
+        user: 'guest',
     };
-
     if (passport) {
         let user = passport.user;
         if (user) {
-            knex('users').where('id', user)
+            knex('users')
+                .where('id', user)
+                .whereNull('deleted')
                 .first('id', 'name')
                 .then(function (user) {
                     socket.user = {
-                        id: user.userid,
+                        id: user.id,
                         name: user.name,
                     };
                     next();
-                }).catch(guest);
-        } else guest();
-    } else guest();
+                }).catch(next);
+            return;
+        }
+    }
 
     //socket.end();
 });
 
 io.on('connect', function (socket) {
-    console.log('New Connection: ', socket.id);
+    console.log('New Connection: ', socket.id, socket.user);
 
     var _user, _room, _minId;
 
