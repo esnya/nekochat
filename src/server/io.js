@@ -124,7 +124,7 @@ io.on('connect', function (socket) {
                 .where('id', '>', _minId)
                 .whereNull('deleted')
                 .orderBy('id', 'desc')
-                .limit(40)
+                .limit(20)
                 .then(sendMessages);
         },
         'leave': function () {
