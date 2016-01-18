@@ -1,5 +1,6 @@
 import ExpressSocketIOSession from 'express-socket.io-session'
 import SocketIO from 'socket.io';
+import AppConfig from '../config/app';
 import { diceReplace } from './dice';
 import { knex } from './knex';
 import { server } from './server';
@@ -10,9 +11,20 @@ export const io = SocketIO(server);
 io.use(ExpressSocketIOSession(session, { autoSave: true }));
 
 io.use(function (socket, next) {
-    let passport = socket.handshake.session.passport || {
-        user: 'guest',
+    let passport = socket.handshake.session.passport;
+
+    const guest = function() {
+        if (AppConfig.auth.guest) {
+            socket.user = {
+                id: 'guest',
+                name: 'Guest',
+            };
+            next();
+        } else {
+            next(new Error('Guest is not allowed'));
+        }
     };
+
     if (passport) {
         let user = passport.user;
         if (user) {
@@ -24,10 +36,9 @@ io.use(function (socket, next) {
                         name: user.name,
                     };
                     next();
-                }).catch(next);
-            return;
-        }
-    }
+                }).catch(guest);
+        } else guest();
+    } else guest();
 
     //socket.end();
 });
