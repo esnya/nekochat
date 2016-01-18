@@ -1,11 +1,15 @@
 import express from 'express';
+import Livereload from 'connect-livereload';
 import { knex } from './knex';
 import { session } from './session';
 
 export const app = express();
 
-app.use(express.static('.'));
+app.use(Livereload());
+app.use(express.static('dist'));
 app.use('/js', express.static('lib/browser'));
+app.use('/src', express.static('src'));
+app.use(express.static('.'));
 app.use(session);
 
 

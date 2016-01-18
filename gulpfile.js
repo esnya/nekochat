@@ -5,6 +5,7 @@ const fs = require('fs');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const express = require('gulp-express');
+const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
@@ -21,6 +22,7 @@ gulp.task('serve', ['express']);
 gulp.task('watch', ['watch:server', 'watch:browser']);
 gulp.task('watch:server', ['express'], () => {
     gulp.watch(['src/**/*', '!src/browser/**/*'], ['babel', express.run]);
+    gulp.watch(['dist/**/*'], ['express:notify']);
 });
 gulp.task('watch:browser', ['watchify'], () =>
     gulp.watch(['src/**/*', '!src/server/**/*'], ['watchify']));
@@ -62,6 +64,7 @@ gulp.task(
 
 const BrowserifyConfig = {
     entries: ['lib/browser'],
+    debug: true,
 };
 const bundle = function(b) {
     return function() {
@@ -69,7 +72,9 @@ const bundle = function(b) {
             .on('error', e => gutil.log(e))
             .pipe(source('browser.js'))
             .pipe(buffer())
-            .pipe(gulp.dest('dist'));
+            .pipe(sourcemaps.init({loadMaps: true}))
+            //.pipe(sourcemaps.write())
+            .pipe(gulp.dest('dist/js'));
     };
 };
 const w = watchify(browserify(Object.assign({}, watchify.args, BrowserifyConfig)));
@@ -79,3 +84,7 @@ gulp.task('watchify', ['babel'], bundle(w));
 gulp.task('browserify', ['babel'], bundle(browserify(BrowserifyConfig)));
 
 gulp.task('express', ['babel'], () => express.run(['.']));
+gulp.task('express:notify', next => {
+    express.notify();
+    next();
+});

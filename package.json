@@ -12,6 +12,7 @@
   "author": "ukatama",
   "license": "MIT",
   "dependencies": {
+    "connect-livereload": "^0.5.4",
     "connect-session-knex": "^1.0.17",
     "crypto": "~0.0.3",
     "express": "^4.13.3",
@@ -37,7 +38,9 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
     "gulp-express": "^0.3.5",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
+    "jquery": "^2.2.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"

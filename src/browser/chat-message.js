@@ -1,3 +1,6 @@
+import $ from 'jquery';
+import { makeColor } from './color';
+
 angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', 'ngSanitize', 'ngRoute', 'ngMaterial'])
 .filter('nl2br', function ($sce) {
     return function (str) {
