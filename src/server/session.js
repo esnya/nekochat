@@ -1,18 +1,12 @@
-'use strict';
+import Session from 'express-session';
+import KnexSessionStore from 'connect-session-knex';
+import Knex from 'knex';
 
-const session = require('express-session');
-const KnexSessionStore = require('connect-session-knex')(session);
+let Store = KnexSessionStore(Session);
+let knex = Knex(require('../config/database').session);
 
-let knex = require('knex')(require('../../config/database').session);
-
-module.exports = session(Object.assign({
-    cookie: {
-        domain: process.env.SERVER_NAME,
-    },
-    resave: true,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET,
-    store: new KnexSessionStore({
+export const session = Session(Object.assign(require('../config/app').session, {
+    store: new Store({
         knex: knex,
     }),
-}, require('../../config/app').session));
+}));

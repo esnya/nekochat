@@ -1,26 +1,27 @@
+import jQuery from 'jquery-deferred';
+import crypto from 'crypto';
+import express from 'express';
+import { Server } from 'http';
+import SocketIO from 'socket.io';
+import Config from '../config';
 import { knex } from './knex';
+import { session } from './session';
 
-var jQuery = require('jquery-deferred');
-var crypto = require('crypto');
-
-var config = {
-    app: require('../../config/app'),
-    database: require('../../config/database'),
-};
-
-var express = require('express');
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-
-var session = require('./session');
+var http = Server(app);
+var io = SocketIO(http);
 
 app.use(express.static('.'));
 app.use('/js', express.static('lib/browser'));
 app.use(session);
 
 http.listen(80, function() {
-    console.log('Listening on *:80');
+    let {
+        address,
+        family,
+        port,
+    } = http.address();
+    console.log(`Listening on ${family == 'IPv6' ? `[${address}]` : address}:${port}`);
 });
 
 var diceReplace = function (str, io) {
