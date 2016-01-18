@@ -19,7 +19,7 @@ Promise.all([
         table.timestamp('deleted').defaultTo(null);
     }),
     knex.schema.createTableIfNotExists('messages', table => {
-        table.string('id').primary();
+        table.increments('id').primary();
         table.string('room_id').notNullable();
         table.string('user_id').notNullable();
         table.string('name').notNullable();
