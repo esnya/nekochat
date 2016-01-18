@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import ExpressSocketIOSession from 'express-socket.io-session'
 import SocketIO from 'socket.io';
 import AppConfig from '../config/app';
