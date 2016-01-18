@@ -1,6 +1,6 @@
 .hg*
 server/node_modules
-config
+/config
 css/materialize.*
 .sass-cache
 css
@@ -8,3 +8,4 @@ bower_components
 lib
 node_modules
 npm-debug.log
+dist
