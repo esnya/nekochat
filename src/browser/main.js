@@ -1,21 +1,9 @@
-var makeColor = function (data) {
-    var hash = Array.prototype.reduce.call(data + data, function (sum, c, i) {
-        return (sum * 31 + c.charCodeAt(0)) & 0xffffff;
-    }, 0);
+import { makeColor } from './color';
 
-    var color = [];
-    for (var i = 0; i < 3; ++i) {
-        color.push(hash & 0xff);
-        hash >>= 8;
-    }
-    color.push(1);
-
-    return 'rgba(' + color.join(",") + ')';
-};
 (function () {
     'use strict';
     angular
-        .module('BeniimoOnline', ['ngSanitize', 'btford.socket-io', 'ngMdIcons', 'ngMaterial', 'ngRoute', 'BeniimoOnlineChatMessage', 'BeniimoOnlineChatForm', 'BeniimoOnlineChatWriting'])
+        .module('BeniimoOnline', [require('angular-sanitize'), require('angular-material-icons'), require('angular-material'), require('angular-route'), 'BeniimoOnlineChatMessage', 'BeniimoOnlineChatForm', 'BeniimoOnlineChatWriting'])
         .factory("Room", function() {
             return {id: null, title: null};
         })
