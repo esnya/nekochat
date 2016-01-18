@@ -1,3 +1,5 @@
+import io from 'socket.io-client';
+
 angular.module('BeniimoOnlineSocket', ['btford.socket-io'])
 .factory('socket', function ($location, socketFactory) {
     'use strict';
