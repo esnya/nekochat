@@ -57,7 +57,7 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
         $mdDialog.show({
             controller: 'MessageFormDialogController',
             templateUrl: 'template/setting.html'
-        }).then(() => AppStore.dispatch(MessageForm.update(form)));
+        }).then(() => AppStore.dispatch(MessageForm.update(SharedForm.form)));
     };
 
     var writing_timer;
