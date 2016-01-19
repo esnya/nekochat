@@ -1,4 +1,7 @@
+import * as Room_ from '../actions/RoomActions';
+import * as RoomList from '../actions/RoomListActions';
 import { makeColor } from './color';
+import { AppStore } from './stores/AppStore';
 
 (function () {
     'use strict';
@@ -86,12 +89,24 @@ import { makeColor } from './color';
                 });
             };
         })
-        .controller('Lobby', function ($scope, $q, $location, $mdDialog, socket, Room) {
+        .controller('Lobby', function ($scope, $timeout, $q, $location, $mdDialog, socket, Room) {
+            AppStore.subscribe(() => $timeout(() => {
+                    
+                let {
+                    roomList,
+                } = AppStore.getState();
+                
+                $scope.history = roomList.history;
+                $scope.myroom = roomList.rooms;
+            }));
+    
+            AppStore.dispatch(Room_.leave());
+            AppStore.dispatch(RoomList.fetch());
             $scope.create = function () {
                 var title = $scope.create_title;
                 $scope.create_title = '';
                 if (title) {
-                    socket.emit('create room', title);
+                    AppStore.dispatch(Room_.create({title}));
                 }
             };
             $scope.remove = function (room, e) {
@@ -103,36 +118,16 @@ import { makeColor } from './color';
                     .cancel('Cancel')
                     .targetEvent(e);
                 $mdDialog.show(confirm).then(function () {
-                    socket.emit('remove room', room.id);
+                    AppStore.dispatch(Room_.remove(room.id));
                 });
             };
-
-            var history = $q.defer();
-            var myroom = $q.defer();
-
-            socket.on('room history', function (history) {
-                $scope.history = history;
-            });
-            socket.on('room list', function (room_list) {
-                $scope.myroom = room_list;
-            });
-            socket.on('connected', function () {
-                console.log('connected');
-            });
-            socket.on('join ok', function (room) {
-                $location.path('/' + room.id.substr(1));
-            });
-            socket.on('room removed', function () {
-                socket.emit('room history');
-                socket.emit('room list');
-            });
+            $scope.join = function(room) {
+                AppStore.dispatch(Room_.join(room.id));
+            };
 
             socket.emit('leave');
             Room.id = null;
             Room.title = null;
-
-            socket.emit('room history');
-            socket.emit('room list');
         })
         .controller('Chat', function ($scope, $routeParams, socket, Room) {
             socket.on('join ok', function (room) {

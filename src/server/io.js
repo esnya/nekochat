@@ -6,6 +6,7 @@ import { diceReplace } from './dice';
 import { knex } from './knex';
 import { server } from './server';
 import { session } from './session';
+import { onAction } from './actions';
 
 export const io = SocketIO(server);
 
@@ -237,10 +238,11 @@ io.on('connect', function (socket) {
     };
     Object.keys(handlers).forEach(e => 
         socket.on(e, (...args) => {
-            console.log('Socket event:', e, args);
             handlers[e](...args);
         })
     );
+    
+    socket.on('action', onAction(socket));
 
     socket.emit('hello', _user);
 });

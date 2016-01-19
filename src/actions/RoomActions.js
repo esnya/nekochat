@@ -4,15 +4,23 @@ export const create = function(data) {
     return {
         type: ROOM.CREATE,
         server: true,
-        data,
+        ...data,
     };
 };
 
 export const update = function(data) {
     return {
         type: ROOM.UPDATE,
-        data,
+        ...data,
     };
+};
+
+export const remove = function(id) {
+    return {
+        type: ROOM.REMOVE,
+        server: true,
+        id,
+    }
 };
 
 export const join = function(id) {
@@ -22,10 +30,10 @@ export const join = function(id) {
         id,
     };
 };
-export const joined = function(id) {
+export const joined = function(room) {
     return {
         type: ROOM.JOINED,
-        id,
+        room,
     };
 };
 

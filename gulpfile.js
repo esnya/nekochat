@@ -71,7 +71,9 @@ const BrowserifyConfig = {
 const bundle = function(b) {
     return function() {
         return b.bundle()
-            .on('error', e => gutil.log(e))
+            .on('error', e => {
+                throw e;
+            })
             .pipe(source('browser.js'))
             .pipe(buffer())
             .pipe(sourcemaps.init({loadMaps: true}))

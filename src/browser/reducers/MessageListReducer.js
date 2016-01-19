@@ -1,6 +1,6 @@
-import * as MESSAGE_LIST from '../constants/MessageListActions';
+import * as MESSAGE_LIST from '../../constants/MessageListActions';
 
-export const messageList = function(state = [], action) {
+export const messageListReducer = function(state = [], action) {
     let {
         type,
         ...props,

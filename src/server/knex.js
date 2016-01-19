@@ -1,6 +1,9 @@
 import Knex from 'knex';
 
 export const knex = Knex(require('../config/database').default);
+export const exists = function(data) {
+    return !data ? Promise.reject(new Error('Not found')) : Promise.resolve(data);
+} ;
 
 Promise.all([
     knex.schema.createTableIfNotExists('users', table => {

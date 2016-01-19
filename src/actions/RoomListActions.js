@@ -10,6 +10,13 @@ export const fetch = function() {
 export const push = function(items) {
     return {
         type: ROOM_LIST.PUSH,
-        items,
+        rooms: items,
+    };
+};
+
+export const pushHistory = function(items) {
+    return {
+        type: ROOM_LIST.PUSH_HISTORY,
+        history: items,
     };
 };
