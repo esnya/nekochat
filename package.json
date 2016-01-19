@@ -47,7 +47,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
-    "gulp-express": "^0.3.5",
+    "gulp-live-server": "0.0.29",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
     "hammerjs": "^2.0.6",
