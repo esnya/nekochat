@@ -15,6 +15,7 @@
   "author": "ukatama",
   "license": "MIT",
   "dependencies": {
+    "angular-material": "^1.0.2",
     "connect-livereload": "^0.5.4",
     "connect-session-knex": "^1.0.17",
     "crypto": "~0.0.3",
@@ -31,7 +32,6 @@
     "angular": "^1.4.8",
     "angular-animate": "^1.4.8",
     "angular-aria": "^1.4.8",
-    "angular-material": "^1.0.2",
     "angular-material-icons": "^0.6.0",
     "angular-route": "^1.4.8",
     "angular-sanitize": "^1.4.8",
