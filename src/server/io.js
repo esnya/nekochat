@@ -6,7 +6,7 @@ import { diceReplace } from './dice';
 import { knex } from './knex';
 import { server } from './server';
 import { session } from './session';
-import { onAction } from './actions';
+import { ActionDispatcher } from './dispatchers/ActionDispatcher';
 
 export const io = SocketIO(server);
 
@@ -242,7 +242,8 @@ io.on('connect', function (socket) {
         })
     );
 
-    socket.on('action', onAction(socket, io));
+    let dispatcher = new ActionDispatcher(socket);
+    socket.on('action', action => dispatcher.onDispatch(action));
 
     socket.emit('hello', _user);
 });

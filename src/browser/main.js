@@ -91,7 +91,6 @@ import { AppStore } from './stores/AppStore';
         })
         .controller('Lobby', function ($scope, $timeout, $q, $location, $mdDialog, socket, Room) {
             AppStore.subscribe(() => $timeout(() => {
-                    
                 let {
                     roomList,
                 } = AppStore.getState();
@@ -122,7 +121,7 @@ import { AppStore } from './stores/AppStore';
                 });
             };
             $scope.join = function(room) {
-                AppStore.dispatch(Room_.join(room.id));
+                location.hash = '#/' + room.id.substr(1);
             };
 
             socket.emit('leave');
@@ -130,6 +129,7 @@ import { AppStore } from './stores/AppStore';
             Room.title = null;
         })
         .controller('Chat', function ($scope, $timeout, $routeParams, socket, Room) {
+            let joined;
             AppStore.subscribe(() => $timeout(() => {
                 let {
                     room,
@@ -138,6 +138,7 @@ import { AppStore } from './stores/AppStore';
                 $scope.room = room;
 
                 if (room) {
+                    joined = room.id;
                     Room.joined = true;
                     Room.id = room.id;
                     Room.title = room.title;
@@ -147,7 +148,7 @@ import { AppStore } from './stores/AppStore';
                 }
             }));
             let roomId = $routeParams.roomId;
-            if (roomId && !Room.joined) {
+            if (roomId && joined != roomId) {
                 AppStore.dispatch(Room_.join('#' + roomId));
             }
         });
