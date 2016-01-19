@@ -30,6 +30,16 @@ Promise.all([
         table.timestamp('modified').notNullable().defaultTo(knex.fn.now());
         table.timestamp('deleted').defaultTo(null);
     }),
+    knex.schema.createTableIfNotExists('icons', table => {
+        table.string('id').notNullable();
+        table.string('user_id').notNullable();
+        table.string('name').notNullable();
+        table.string('type').notNullable();
+        table.binary('data').notNullable();
+        table.timestamp('created').notNullable().defaultTo(knex.fn.now());
+        table.timestamp('modified').notNullable().defaultTo(knex.fn.now());
+        table.timestamp('deleted').defaultTo(null);
+    }),
 ]).then(() => {
     return knex.raw('CREATE VIEW IF NOT EXISTS room_histories AS SELECT rooms.* FROM messages LEFT JOIN rooms ON messages.room_id = rooms.id  GROUP BY messages.user_id, messages.room_id').then();
 });
