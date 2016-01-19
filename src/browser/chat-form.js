@@ -1,4 +1,5 @@
 import angular from 'angular';
+import * as Input from '../actions/InputActions';
 import * as Message from '../actions/MessageActions';
 import * as MessageForm from '../actions/MessageFormActions';
 import { AppStore } from './stores/AppStore';
@@ -35,6 +36,7 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
                 icon_id: form.icon,
             }));
             form.message = '';
+            AppStore.dispatch(Input.end());
         }
     };
     $scope.setCharacterName = function (form) {
@@ -60,42 +62,20 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
         }).then(() => AppStore.dispatch(MessageForm.update(SharedForm.form)));
     };
 
-    var writing_timer;
     $scope.focus = function (form) {
-        writing_timer = $interval(function () {
-            socket.emit('writing_message', form.message ? {
-                name: form.name,
-                message: form.message,
-                character_url: form.character_url,
-                icon_id: form.icon
-            } : null);
-        }, 500);
-        if (!form.writing && form.message) {
-            form.writing = true;
-            socket.emit('begin writing', form.name);
-        }
+        AppStore.dispatch(Input.begin({
+            name: form.name,
+            message: form.message,
+        }));
     };
     $scope.change = function (form) {
-        if (form.writing) {
-            if (!form.message) {
-                form.writing = false;
-                socket.emit('end writing');
-            }
-        } else {
-            if (form.message) {
-                form.writing = true;
-                socket.emit('begin writing', form.name);
-            }
-        }
+        AppStore.dispatch(Input.begin({
+            name: form.name,
+            message: form.message,
+        }));
     };
     $scope.blur = function (form) {
-        if (writing_timer) {
-            $interval.cancel(writing_timer);
-        }
-        if (form.writing) {
-            form.writing = false;
-            socket.emit('end writing');
-        }
+        AppStore.dispatch(Input.end());
     };
     $scope.keydown = function ($event, form) {
         if ($event.keyCode == 13 && !$event.shiftKey) {

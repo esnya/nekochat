@@ -19,8 +19,11 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', require('angu
 
     AppStore.subscribe(() => $timeout(() => {
         let {
+            input,
             messageList,
         } = AppStore.getState();
+        
+        $scope.writing_messages = input;
 
         if (prevLength == messageList.length) return;
         prevLength = messageList.length;

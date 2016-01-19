@@ -5,13 +5,13 @@ export class Dispatcher {
         this.user_id = socket.user.id;
     }
 
-    dispatch(action, to = null) {
+    dispatch(action, to = null, excludeSelf = false) {
         let {
             server,
             ..._action,
         } = action;
 
-        this.socket.emit('action', _action);
+        if (!to || !excludeSelf) this.socket.emit('action', _action);
         if (to) this.socket.to(to).emit('action', _action);
 
         (this.root || this).onDispatch(_action);

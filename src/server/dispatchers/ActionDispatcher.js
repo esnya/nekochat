@@ -1,4 +1,5 @@
 import { Dispatcher } from './Dispatcher';
+import { InputDispatcher } from './InputDispatcher';
 import { MessageDispatcher } from './MessageDispatcher';
 import { MessageListDispatcher } from './MessageListDispatcher';
 import { RoomDispatcher } from './RoomDispatcher';
@@ -9,6 +10,7 @@ export class ActionDispatcher extends Dispatcher {
         super(socket);
 
         this.dispatchers = [
+            new InputDispatcher(socket, this),
             new MessageDispatcher(socket, this),
             new MessageListDispatcher(socket, this),
             new RoomDispatcher(socket, this),
