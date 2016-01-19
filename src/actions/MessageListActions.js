@@ -1,9 +1,10 @@
 import * as MESSAGE_LIST from '../constants/MessageListActions';
 
-export const fetch = function() {
+export const fetch = function(minId = null) {
     return {
         type: MESSAGE_LIST.FETCH,
         server: true,
+        minId,
     };
 };
 

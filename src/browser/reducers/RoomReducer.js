@@ -1,15 +1,12 @@
 import * as ROOM from '../../constants/RoomActions';
 
 export const roomReducer = function(state = null, action) {
-    let {
-        type,
-        ...props,
-    } = action;
-    
-    switch (type) {
+    switch (action.type) {
+        case ROOM.CREATED:
+            setTimeout(() => location.hash = action.room.id);
+            return state;
         case ROOM.JOINED:
-            location.hash = props.room.id;
-            return Object.assign({}, props.room);
+            return Object.assign({}, action.room);
         default:
             return state;
     }

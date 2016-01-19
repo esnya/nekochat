@@ -7,6 +7,12 @@ export const create = function(data) {
         ...data,
     };
 };
+export const created = function(room) {
+    return {
+        type: ROOM.CREATED,
+        room,
+    };
+};
 
 export const update = function(data) {
     return {

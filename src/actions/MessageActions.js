@@ -4,7 +4,7 @@ export const create = function(data) {
     return {
         type: MESSAGE.CREATE,
         server: true,
-        data,
+        ...data,
     };
 };
 

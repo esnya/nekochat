@@ -241,8 +241,8 @@ io.on('connect', function (socket) {
             handlers[e](...args);
         })
     );
-    
-    socket.on('action', onAction(socket));
+
+    socket.on('action', onAction(socket, io));
 
     socket.emit('hello', _user);
 });

@@ -1,4 +1,7 @@
 import angular from 'angular';
+import * as Message from '../actions/MessageActions';
+import * as MessageForm from '../actions/MessageFormActions';
+import { AppStore } from './stores/AppStore';
 
 angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular-sanitize'), require('angular-route'), require('angular-material')])
 .factory('SharedForm', function () {
@@ -6,66 +9,55 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
         form: null
     };
 })
-.controller('ChatForm', function ($scope, $interval, $mdDialog, socket, getCharacter, SharedForm) {
-    'use strict';
-
-    var saveForms = function () {
-        if (localStorage && localStorage.setItem) {
-            localStorage.setItem($scope.room.id + '/forms', JSON.stringify($scope.forms.map(function (form) {
-                return {
-                    id: form.id,
-                    name: form.name,
-                    character_url: form.character_url,
-                    icon_id: form.icon_id
-                };
-            })));
-        }
-    };
-
+.controller('ChatForm', function ($scope, $interval, $timeout, $mdDialog, socket, getCharacter, SharedForm) {
     $scope.forms = [];
+
+    AppStore.subscribe(() => $timeout(() => {
+        let {
+            messageForm,
+        } = AppStore.getState();
+
+        if (messageForm.length == 0) {
+            AppStore.dispatch(MessageForm.create({
+                name: socket.user.name,
+            }));
+        }
+
+        $scope.forms = messageForm;
+    }));
+
     $scope.submit = function (form) {
         if (form.message) {
-            form.previousMessage = form.message;
-            socket.emit('add message', {
+            AppStore.dispatch(Message.create({
                 name: form.name,
                 message: form.message,
                 character_url: form.character_url,
-                icon_id: form.icon
-            });
+                icon_id: form.icon,
+            }));
             form.message = '';
-
-            $scope.change(form);
         }
     };
     $scope.setCharacterName = function (form) {
         getCharacter(form.activeForm.character_url).then(function (data) {
             if (data && data.name) {
-                form.name = data.name;
-                form.icon = data.icon || data.portrait;
+                AppStore.dispatch(MessageForm.update({
+                    ...form,
+                    name: data.name,
+                    icon: data.icon || data.portrait,
+                }));
             }
-            saveForms();
         });
     };
-    $scope.add = function () {
-        var first = $scope.forms[0];
-        var form = {
-            name: first.name,
-            character_url: first.character_url
-        };
-        form.id = $scope.forms.push(form) - 1;
-        saveForms();
-    };
-    $scope.remove = function (form) {
-        form.removed = true;
-    };
+    $scope.add = () => AppStore.dispatch(MessageForm.create());
+
+    $scope.remove = form => AppStore.dispatch(MessageForm.remove(form.id));
+
     $scope.config = function (form) {
-        SharedForm.form = form;
+        SharedForm.form = Object.assign({}, form);
         $mdDialog.show({
             controller: 'MessageFormDialogController',
             templateUrl: 'template/setting.html'
-        }).then(function () {
-            saveForms();
-        });
+        }).then(() => AppStore.dispatch(MessageForm.update(form)));
     };
 
     var writing_timer;
@@ -111,14 +103,6 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
             $scope.submit(form);
         }
     };
-
-    var nameFlag;
-    socket.on('join ok', function () {
-        $scope.forms = (localStorage && JSON.parse(localStorage.getItem($scope.room.id + '/forms'))) || [{
-            name: socket.user.name
-        }];
-        nameFlag = true;
-    });
 })
 .controller('MessageFormDialogController', function ($scope, $mdDialog, socket, getCharacter, SharedForm) {
     $scope.form = SharedForm.form;

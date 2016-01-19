@@ -1,0 +1,3 @@
+export const CREATE = 'MESSAGE_FORM_CREATE';
+export const UPDATE = 'MESSAGE_FORM_UPDATE';
+export const REMOVE = 'MESSAGE_FORM_REMOVE';

@@ -129,23 +129,26 @@ import { AppStore } from './stores/AppStore';
             Room.id = null;
             Room.title = null;
         })
-        .controller('Chat', function ($scope, $routeParams, socket, Room) {
-            socket.on('join ok', function (room) {
-                Room.id = room.id;
-                Room.title = room.title;
-                $scope.users = {};
-            });
+        .controller('Chat', function ($scope, $timeout, $routeParams, socket, Room) {
+            AppStore.subscribe(() => $timeout(() => {
+                let {
+                    room,
+                } = AppStore.getState();
 
-            socket.on('user joined', function (user) {
-                $scope.users[user.id] = user;
-            });
-            socket.on('user leaved', function (user) {
-                var u = $scope.users[user.id];
-                if (u) {
-                    u.offline = true;
+                $scope.room = room;
+
+                if (room) {
+                    Room.joined = true;
+                    Room.id = room.id;
+                    Room.title = room.title;
+                    $scope.users = room.users;   
+                } else {
+                    Room.joined = false;
                 }
-            });
-
-            socket.emit('join request', '#' + $routeParams.roomId);
+            }));
+            let roomId = $routeParams.roomId;
+            if (roomId && !Room.joined) {
+                AppStore.dispatch(Room_.join('#' + roomId));
+            }
         });
 })();
