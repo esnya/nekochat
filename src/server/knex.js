@@ -31,7 +31,7 @@ Promise.all([
         table.timestamp('deleted').defaultTo(null);
     }),
     knex.schema.createTableIfNotExists('icons', table => {
-        table.string('id').notNullable();
+        table.string('id').primary();
         table.string('user_id').notNullable();
         table.string('name').notNullable();
         table.string('type').notNullable();
