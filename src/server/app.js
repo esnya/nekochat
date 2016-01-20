@@ -9,12 +9,6 @@ import { getUser } from './user';
 
 export const app = express();
 
-app.use(express.static('dist'));
-app.use('/angular-material', express.static('node_modules/angular-material'));
-app.use('/dice3d', express.static('node_modules/dice3d/dist'));
-app.use('/js', express.static('lib/browser'));
-app.use('/src', express.static('src'));
-app.use(express.static('.'));
 app.use(session);
 
 app.get('/icon/:id', function(req, res, next) {
@@ -27,6 +21,12 @@ app.get('/icon/:id', function(req, res, next) {
 });
 
 app.use(Livereload());
+app.use(express.static('dist'));
+app.use('/angular-material', express.static('node_modules/angular-material'));
+app.use('/dice3d', express.static('node_modules/dice3d/dist'));
+app.use('/js', express.static('lib/browser'));
+app.use('/src', express.static('src'));
+app.use(express.static('.'));
 
 app.get('/view/:roomId', function(req, res) {
     var roomId = '#' + req.params.roomId;
