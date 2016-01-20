@@ -1,4 +1,4 @@
-import * as MESSAGE_LIST from '../../constants/MessageListActions';
+import * as MESSAGE from '../../constants/MessageActions';
 import * as ROOM from '../../constants/RoomActions';
 
 export const messageListReducer = function(state = [], action) {
@@ -6,7 +6,7 @@ export const messageListReducer = function(state = [], action) {
         case ROOM.JOINED:
         case ROOM.LEAVE:
             return [];
-        case MESSAGE_LIST.PUSH:
+        case MESSAGE.PUSH:
             return [...action.items, ...(state.filter(a => !action.items.find(b => a.id == b.id)))];
         default:
             return state;

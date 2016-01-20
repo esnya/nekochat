@@ -54,3 +54,25 @@ export const left = function() {
         type: ROOM.LEFT,
     };
 };
+
+
+export const fetch = function() {
+    return {
+        type: ROOM.FETCH,
+        server: true,
+    };
+};
+
+export const push = function(items) {
+    return {
+        type: ROOM.PUSH,
+        rooms: items,
+    };
+};
+
+export const pushHistory = function(items) {
+    return {
+        type: ROOM.PUSH_HISTORY,
+        history: items,
+    };
+};

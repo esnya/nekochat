@@ -1,6 +1,6 @@
 import angular from 'angular';
 import $ from 'jquery';
-import * as MessageList from '../actions/MessageListActions';
+import * as Message from '../actions/MessageActions';
 import * as Room from '../actions/RoomActions';
 import { makeColor } from './color';
 import { AppStore } from './stores/AppStore';
@@ -78,9 +78,9 @@ angular.module('BeniimoOnlineChatMessage', ['BeniimoOnlineSocket', require('angu
         var height = $('#messages').parent().height();
         var parentHeight = $('#messages').closest('[md-scroll-y]').height();
         if (top + parentHeight >= height) {
-            AppStore.dispatch(MessageList.fetch(minId));
+            AppStore.dispatch(Message.fetch(minId));
         }
     });
 
-    AppStore.dispatch(MessageList.fetch());
+    AppStore.dispatch(Message.fetch());
 });

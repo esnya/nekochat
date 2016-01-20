@@ -1,5 +1,4 @@
 import * as Room_ from '../actions/RoomActions';
-import * as RoomList from '../actions/RoomListActions';
 import { makeColor } from './color';
 import { AppStore } from './stores/AppStore';
 
@@ -100,7 +99,7 @@ import { AppStore } from './stores/AppStore';
             }));
     
             AppStore.dispatch(Room_.leave());
-            AppStore.dispatch(RoomList.fetch());
+            AppStore.dispatch(Room_.fetch());
             $scope.create = function () {
                 var title = $scope.create_title;
                 $scope.create_title = '';

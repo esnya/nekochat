@@ -14,3 +14,18 @@ export const update = function(data) {
         data,
     };
 };
+
+export const fetch = function(minId = null) {
+    return {
+        type: MESSAGE.FETCH,
+        server: true,
+        minId,
+    };
+};
+
+export const push = function(items) {
+    return {
+        type: MESSAGE.PUSH,
+        items,
+    };
+};
