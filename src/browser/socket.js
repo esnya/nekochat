@@ -1,12 +1,15 @@
 import angular from 'angular';
 import dice3d from 'dice3d';
 import io from 'socket.io-client';
+import { AppStore } from './stores/AppStore';
+
+export const socket = io.connect();
+
+socket.on('action', action => AppStore.dispatch(action));
 
 angular.module('BeniimoOnlineSocket', [])
 .factory('socket', function ($location) {
     'use strict';
-
-    var socket = io.connect();
 
     var factory = socket;
 

@@ -2,6 +2,14 @@ import Knex from 'knex';
 
 export const knex = Knex(require('../config/database').default);
 
+export const exists = function(data) {
+    return !data ? Promise.reject(new Error('Not found')) : Promise.resolve(data);
+};
+
+export const inserted = function(ids) {
+    return ids.length == 0 ? Promise.reject(new Error('Failed to insert')) : Promise.resolve(ids[0]);
+};
+
 Promise.all([
     knex.schema.createTableIfNotExists('users', table => {
         table.string('id').primary();

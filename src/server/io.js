@@ -1,39 +1,27 @@
 import crypto from 'crypto';
 import ExpressSocketIOSession from 'express-socket.io-session'
 import SocketIO from 'socket.io';
-import AppConfig from '../config/app';
 import { diceReplace } from './dice';
 import { knex } from './knex';
 import { server } from './server';
 import { session } from './session';
+import { ActionDispatcher } from './dispatchers/ActionDispatcher';
+import { getUser } from './user';
 
 export const io = SocketIO(server);
 
 io.use(ExpressSocketIOSession(session, { autoSave: true }));
 
 io.use(function (socket, next) {
-    let passport = socket.handshake.session.passport || AppConfig.auth.guest && {
-        user: 'guest',
-    };
-    if (passport) {
-        let user = passport.user;
-        if (user) {
-            knex('users')
-                .where('id', user)
-                .whereNull('deleted')
-                .first('id', 'name')
-                .then(function (user) {
-                    socket.user = {
-                        id: user.id,
-                        name: user.name,
-                    };
-                    next();
-                }).catch(next);
-            return;
-        }
-    }
-
-    //socket.end();
+    getUser(socket.handshake.session)
+        .then(user => {
+            socket.user = {
+                id: user.id,
+                name: user.name,
+            };
+            next();
+        })
+        .catch(next);
 });
 
 io.on('connect', function (socket) {
@@ -237,10 +225,12 @@ io.on('connect', function (socket) {
     };
     Object.keys(handlers).forEach(e => 
         socket.on(e, (...args) => {
-            console.log('Socket event:', e, args);
             handlers[e](...args);
         })
     );
+
+    let dispatcher = new ActionDispatcher(socket);
+    socket.on('action', action => dispatcher.onDispatch(action));
 
     socket.emit('hello', _user);
 });

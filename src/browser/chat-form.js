@@ -1,4 +1,9 @@
 import angular from 'angular';
+import * as Icon from '../actions/IconActions';
+import * as Input from '../actions/InputActions';
+import * as Message from '../actions/MessageActions';
+import * as MessageForm from '../actions/MessageFormActions';
+import { AppStore } from './stores/AppStore';
 
 angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular-sanitize'), require('angular-route'), require('angular-material')])
 .factory('SharedForm', function () {
@@ -6,104 +11,72 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
         form: null
     };
 })
-.controller('ChatForm', function ($scope, $interval, $mdDialog, socket, getCharacter, SharedForm) {
-    'use strict';
-
-    var saveForms = function () {
-        if (localStorage && localStorage.setItem) {
-            localStorage.setItem($scope.room.id + '/forms', JSON.stringify($scope.forms.map(function (form) {
-                return {
-                    id: form.id,
-                    name: form.name,
-                    character_url: form.character_url,
-                    icon_id: form.icon_id
-                };
-            })));
-        }
-    };
-
+.controller('ChatForm', function ($scope, $interval, $timeout, $mdDialog, socket, getCharacter, SharedForm) {
     $scope.forms = [];
+
+    AppStore.subscribe(() => $timeout(() => {
+        let {
+            messageForm,
+        } = AppStore.getState();
+
+        if (messageForm.length == 0) {
+            AppStore.dispatch(MessageForm.create({
+                name: socket.user.name,
+            }));
+        }
+
+        $scope.forms = messageForm;
+    }));
+
     $scope.submit = function (form) {
         if (form.message) {
-            form.previousMessage = form.message;
-            socket.emit('add message', {
+            AppStore.dispatch(Message.create({
                 name: form.name,
                 message: form.message,
                 character_url: form.character_url,
-                icon_id: form.icon
-            });
+                icon_id: form.icon_id,
+            }));
             form.message = '';
-
-            $scope.change(form);
+            AppStore.dispatch(Input.end());
         }
     };
     $scope.setCharacterName = function (form) {
         getCharacter(form.activeForm.character_url).then(function (data) {
             if (data && data.name) {
-                form.name = data.name;
-                form.icon = data.icon || data.portrait;
+                AppStore.dispatch(MessageForm.update({
+                    ...form,
+                    name: data.name,
+                    icon_id: data.icon || data.portrait,
+                }));
             }
-            saveForms();
         });
     };
-    $scope.add = function () {
-        var first = $scope.forms[0];
-        var form = {
-            name: first.name,
-            character_url: first.character_url
-        };
-        form.id = $scope.forms.push(form) - 1;
-        saveForms();
-    };
-    $scope.remove = function (form) {
-        form.removed = true;
-    };
+    $scope.add = () => AppStore.dispatch(MessageForm.create());
+
+    $scope.remove = form => AppStore.dispatch(MessageForm.remove(form.id));
+
     $scope.config = function (form) {
-        SharedForm.form = form;
+        SharedForm.form = Object.assign({}, form);
         $mdDialog.show({
             controller: 'MessageFormDialogController',
             templateUrl: 'template/setting.html'
-        }).then(function () {
-            saveForms();
-        });
+        }).then(() => AppStore.dispatch(MessageForm.update(SharedForm.form)));
     };
 
-    var writing_timer;
     $scope.focus = function (form) {
-        writing_timer = $interval(function () {
-            socket.emit('writing_message', form.message ? {
-                name: form.name,
-                message: form.message,
-                character_url: form.character_url,
-                icon_id: form.icon
-            } : null);
-        }, 500);
-        if (!form.writing && form.message) {
-            form.writing = true;
-            socket.emit('begin writing', form.name);
-        }
+        AppStore.dispatch(Input.begin({
+            name: form.name,
+            message: form.message,
+        }));
     };
     $scope.change = function (form) {
-        if (form.writing) {
-            if (!form.message) {
-                form.writing = false;
-                socket.emit('end writing');
-            }
-        } else {
-            if (form.message) {
-                form.writing = true;
-                socket.emit('begin writing', form.name);
-            }
-        }
+        AppStore.dispatch(Input.begin({
+            name: form.name,
+            message: form.message,
+        }));
     };
     $scope.blur = function (form) {
-        if (writing_timer) {
-            $interval.cancel(writing_timer);
-        }
-        if (form.writing) {
-            form.writing = false;
-            socket.emit('end writing');
-        }
+        AppStore.dispatch(Input.end());
     };
     $scope.keydown = function ($event, form) {
         if ($event.keyCode == 13 && !$event.shiftKey) {
@@ -111,16 +84,18 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
             $scope.submit(form);
         }
     };
-
-    var nameFlag;
-    socket.on('join ok', function () {
-        $scope.forms = (localStorage && JSON.parse(localStorage.getItem($scope.room.id + '/forms'))) || [{
-            name: socket.user.name
-        }];
-        nameFlag = true;
-    });
 })
-.controller('MessageFormDialogController', function ($scope, $mdDialog, socket, getCharacter, SharedForm) {
+.controller('MessageFormDialogController', function ($scope, $mdDialog, $timeout, socket, getCharacter, SharedForm) {
+    AppStore.subscribe(() => $timeout(() => {
+        let {
+            iconList,
+        } = AppStore.getState();
+
+        $scope.icons = iconList.map(icon => Object.assign({
+            url: `/icon/${icon.id}`,
+        }, icon));
+    }));
+
     $scope.form = SharedForm.form;
 
     $scope.close = function () {
@@ -139,25 +114,15 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
     $scope.upload = function () {
         var i = document.getElementById('upload-icon');
         if (i.files.length == 1) {
-            $scope.uploading = true;
-            var file = i.files[0];
-            socket.emit('add icon', file.name, file.type, file);
+            let file = i.files[0];
+            
+            AppStore.dispatch(Icon.create({
+                name: file.name,
+                mime: file.type,
+                file,
+            }));
         };
     };
 
-    socket.on('icon added', function () {
-        socket.emit('get icons');
-        $scope.uploading = false;
-    });
-    socket.on('adding icon failed', function () {
-        $scope.uploading = false;
-    });
-    socket.on('icons', function (icons) {
-        $scope.icons = icons;
-        icons.forEach(function (icon) {
-            icon.url = URL.createObjectURL(new File([icon.data], icon.name, {type: icon.type}));
-        });
-    });
-
-    socket.emit('get icons');
+    AppStore.dispatch(Icon.fetch());
 });

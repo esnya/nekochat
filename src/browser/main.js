@@ -1,4 +1,6 @@
+import * as Room_ from '../actions/RoomActions';
 import { makeColor } from './color';
+import { AppStore } from './stores/AppStore';
 
 (function () {
     'use strict';
@@ -86,12 +88,23 @@ import { makeColor } from './color';
                 });
             };
         })
-        .controller('Lobby', function ($scope, $q, $location, $mdDialog, socket, Room) {
+        .controller('Lobby', function ($scope, $timeout, $q, $location, $mdDialog, socket, Room) {
+            AppStore.subscribe(() => $timeout(() => {
+                let {
+                    roomList,
+                } = AppStore.getState();
+                
+                $scope.history = roomList.history;
+                $scope.myroom = roomList.rooms;
+            }));
+    
+            AppStore.dispatch(Room_.leave());
+            AppStore.dispatch(Room_.fetch());
             $scope.create = function () {
                 var title = $scope.create_title;
                 $scope.create_title = '';
                 if (title) {
-                    socket.emit('create room', title);
+                    AppStore.dispatch(Room_.create({title}));
                 }
             };
             $scope.remove = function (room, e) {
@@ -103,54 +116,39 @@ import { makeColor } from './color';
                     .cancel('Cancel')
                     .targetEvent(e);
                 $mdDialog.show(confirm).then(function () {
-                    socket.emit('remove room', room.id);
+                    AppStore.dispatch(Room_.remove(room.id));
                 });
             };
-
-            var history = $q.defer();
-            var myroom = $q.defer();
-
-            socket.on('room history', function (history) {
-                $scope.history = history;
-            });
-            socket.on('room list', function (room_list) {
-                $scope.myroom = room_list;
-            });
-            socket.on('connected', function () {
-                console.log('connected');
-            });
-            socket.on('join ok', function (room) {
-                $location.path('/' + room.id.substr(1));
-            });
-            socket.on('room removed', function () {
-                socket.emit('room history');
-                socket.emit('room list');
-            });
+            $scope.join = function(room) {
+                location.hash = '#/' + room.id.substr(1);
+            };
 
             socket.emit('leave');
             Room.id = null;
             Room.title = null;
-
-            socket.emit('room history');
-            socket.emit('room list');
         })
-        .controller('Chat', function ($scope, $routeParams, socket, Room) {
-            socket.on('join ok', function (room) {
-                Room.id = room.id;
-                Room.title = room.title;
-                $scope.users = {};
-            });
+        .controller('Chat', function ($scope, $timeout, $routeParams, socket, Room) {
+            let joined;
+            AppStore.subscribe(() => $timeout(() => {
+                let {
+                    room,
+                } = AppStore.getState();
 
-            socket.on('user joined', function (user) {
-                $scope.users[user.id] = user;
-            });
-            socket.on('user leaved', function (user) {
-                var u = $scope.users[user.id];
-                if (u) {
-                    u.offline = true;
+                $scope.room = room;
+
+                if (room) {
+                    joined = room.id;
+                    Room.joined = true;
+                    Room.id = room.id;
+                    Room.title = room.title;
+                    $scope.users = room.users;   
+                } else {
+                    Room.joined = false;
                 }
-            });
-
-            socket.emit('join request', '#' + $routeParams.roomId);
+            }));
+            let roomId = $routeParams.roomId;
+            if (roomId && joined != roomId) {
+                AppStore.dispatch(Room_.join('#' + roomId));
+            }
         });
 })();
