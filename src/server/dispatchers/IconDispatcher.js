@@ -1,0 +1,37 @@
+import * as Icon from '../../actions/IconActions';
+import * as ICON from '../../constants/IconActions';
+import { generateId } from '../id';
+import { knex, exists, inserted } from '../knex.js';
+import { Dispatcher }  from './Dispatcher';
+
+const IconFields = ['id', 'name', 'type', 'created', 'modified'];
+
+export class IconDispatcher extends Dispatcher {
+    onDispatch(action) {
+        switch(action.type) {
+            case ICON.CREATE:
+                let id = generateId(Date.now() + '' + Math.random());
+                return knex('icons').insert({
+                        id,
+                        user_id: this.user_id,
+                        name: action.name || null,
+                        type: action.mime || null,
+                        data: action.file || null,
+                    }, 'id')
+                    .then(() =>
+                        knex('icons')
+                            .where('id', id)
+                            .whereNull('deleted')
+                            .first(...IconFields)
+                    )
+                    .then(exists)
+                    .then(icon => this.dispatch(Icon.push([icon])));
+            case ICON.FETCH:
+                return knex('icons')
+                    .where('user_id', this.user_id)
+                    .whereNull('deleted')
+                    .select(...IconFields)
+                    .then(icons => this.dispatch(Icon.push(icons)));
+        }
+    }
+}

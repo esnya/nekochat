@@ -1,4 +1,5 @@
 import angular from 'angular';
+import * as Icon from '../actions/IconActions';
 import * as Input from '../actions/InputActions';
 import * as Message from '../actions/MessageActions';
 import * as MessageForm from '../actions/MessageFormActions';
@@ -33,7 +34,7 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
                 name: form.name,
                 message: form.message,
                 character_url: form.character_url,
-                icon_id: form.icon,
+                icon_id: form.icon_id,
             }));
             form.message = '';
             AppStore.dispatch(Input.end());
@@ -45,7 +46,7 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
                 AppStore.dispatch(MessageForm.update({
                     ...form,
                     name: data.name,
-                    icon: data.icon || data.portrait,
+                    icon_id: data.icon || data.portrait,
                 }));
             }
         });
@@ -84,7 +85,17 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
         }
     };
 })
-.controller('MessageFormDialogController', function ($scope, $mdDialog, socket, getCharacter, SharedForm) {
+.controller('MessageFormDialogController', function ($scope, $mdDialog, $timeout, socket, getCharacter, SharedForm) {
+    AppStore.subscribe(() => $timeout(() => {
+        let {
+            iconList,
+        } = AppStore.getState();
+
+        $scope.icons = iconList.map(icon => Object.assign({
+            url: `/icon/${icon.id}`,
+        }, icon));
+    }));
+
     $scope.form = SharedForm.form;
 
     $scope.close = function () {
@@ -103,25 +114,15 @@ angular.module('BeniimoOnlineChatForm', ['BeniimoOnlineSocket', require('angular
     $scope.upload = function () {
         var i = document.getElementById('upload-icon');
         if (i.files.length == 1) {
-            $scope.uploading = true;
-            var file = i.files[0];
-            socket.emit('add icon', file.name, file.type, file);
+            let file = i.files[0];
+            
+            AppStore.dispatch(Icon.create({
+                name: file.name,
+                mime: file.type,
+                file,
+            }));
         };
     };
 
-    socket.on('icon added', function () {
-        socket.emit('get icons');
-        $scope.uploading = false;
-    });
-    socket.on('adding icon failed', function () {
-        $scope.uploading = false;
-    });
-    socket.on('icons', function (icons) {
-        $scope.icons = icons;
-        icons.forEach(function (icon) {
-            icon.url = URL.createObjectURL(new File([icon.data], icon.name, {type: icon.type}));
-        });
-    });
-
-    socket.emit('get icons');
+    AppStore.dispatch(Icon.fetch());
 });
