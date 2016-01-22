@@ -116,10 +116,17 @@ export class ConfigDialog extends Component {
         let color = makeColor(`${name}${user.id}`);
 
         const Styles = {
+            Form: {
+                display: 'flex',
+                flexDirection: 'column',
+                maxHeight: 357,
+            },
             IconRadioGroup: {
+                flex: '1 1 auto',
                 display: 'flex',
                 alignItems: 'center',
                 flexWrap: 'wrap',
+                overflowY: 'auto',
             },
             IconRadioItem: {
                 flex: '0 0 76px',
@@ -149,13 +156,17 @@ export class ConfigDialog extends Component {
                 open={open}
                 actions={Actions}
                 title="Name and Icon">
-                <form ref="form" onUpdate={e => this.onUpdate(e)}>
-                    <TextField ref="name" fullWidth={true} floatingLabelText="Name" defaultValue={name} />
-                    <TextField ref="character_url"
-                        fullWidth={true}
-                        floatingLabelText="Character Sheet URL"
-                        defaultValue={character_url}
-                        onBlur={() => this.fetchCharacter()} />
+                <form ref="form" style={Styles.Form} onUpdate={e => this.onUpdate(e)}>
+                    <div>
+                        <TextField ref="name" fullWidth={true} floatingLabelText="Name" defaultValue={name} />
+                    </div>
+                    <div>
+                        <TextField ref="character_url"
+                            fullWidth={true}
+                            floatingLabelText="Character Sheet URL"
+                            defaultValue={character_url}
+                            onBlur={() => this.fetchCharacter()} />
+                    </div>
                     <div>Icon</div>
                     <div style={Styles.IconRadioGroup}>
                         <div style={Styles.Upload}>
@@ -169,7 +180,7 @@ export class ConfigDialog extends Component {
                                 <label htmlFor={lastId()}>Default</label>
                             </div>
                             <label htmlFor={lastId()}>
-                                <MessageIcon name={name} character_data={character_data} character_url={character_url} color={!character_data && color || null} />
+                                <MessageIcon name={name} character_data={character_data} character_url={character_url} color={color} noShadow={true} />
                             </label>
                         </div>
                         {iconList.map(icon => (

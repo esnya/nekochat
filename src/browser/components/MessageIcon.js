@@ -8,6 +8,7 @@ export const MessageIcon = (props) => {
         character_data,
         name,
         color,
+        noShadow,
         style,
     } = props;
 
@@ -19,7 +20,7 @@ export const MessageIcon = (props) => {
     };
     const ImageStyle = {
         border: `2px solid ${color}`,
-        boxShadow: `0 0 4px ${color}`,
+        boxShadow: !noShadow && `0 0 4px ${color}`,
         backgroundSize: 'cover',
     };
 
