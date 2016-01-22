@@ -29,7 +29,7 @@ export const getCharacter = function(url) {
                             onError();
                         }
                     }
-                };    
+                };
                 xhr.onerror = onError;
                 xhr.withCredentials = true;
 
