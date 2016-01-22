@@ -133,6 +133,15 @@ export class ConfigDialog extends Component {
                 display: 'flex',
                 flexDirection: 'column-reverse',
                 alignItems: 'center',
+                overflow: 'hidden',
+            },
+            IconRadioText: {
+                display: 'flex',
+                width: '100%',
+                alignItems: 'center',
+            },
+            IconRadioTextLabel: {
+                whiteSpace: 'nowrap',
             },
             Upload: {
                 flex: '0 0 76px',
@@ -175,9 +184,9 @@ export class ConfigDialog extends Component {
                             <input ref="icon_data" type="file" style={{display: 'none'}} onChange={e => this.onIconFileChange(e)} multiple={true} />
                         </div>
                         <div style={Styles.IconRadioItem}>
-                            <div>
-                                <input id={genId()} type="radio" name="icon_id" value="" defaultChecked={!icon_id} />
-                                <label htmlFor={lastId()}>Default</label>
+                            <div style={Styles.IconRadioText}>
+                                <input id={genId()} type="radio" name="icon_id" value="" defaultChecked={!icon_id}/>
+                                <label htmlFor={lastId()} style={Styles.IconRadioTextLabel}>Default</label>
                             </div>
                             <label htmlFor={lastId()}>
                                 <MessageIcon name={name} character_data={character_data} character_url={character_url} color={color} noShadow={true} />
@@ -185,9 +194,9 @@ export class ConfigDialog extends Component {
                         </div>
                         {iconList.map(icon => (
                             <div key={icon.id} style={Styles.IconRadioItem}>
-                                <div>
+                                <div style={Styles.IconRadioText}>
                                     <input id={genId()} type="radio" name="icon_id" value={icon.id} defaultChecked={icon.id == icon_id} />
-                                    <label htmlFor={lastId()}>{icon.name}</label>
+                                    <label htmlFor={lastId()} style={Styles.IconRadioTextLabel}>{icon.name}</label>
                                 </div>
                                 <label htmlFor={lastId()} onMouseEnter={e => this.showIconPop(e.target, icon)}>
                                     <MessageIcon {...icon} />
