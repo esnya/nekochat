@@ -75,6 +75,13 @@ export class Chat extends Component {
             nextProps.fetch();
         }
     }
+    componentDidUpdate(prevProps) {
+        if (!this.props.eor && this.props.messageList.length > 0 && prevProps.messageList.length == 0) {
+            this.onScroll({
+                target: findDOMNode(this.refs.messageList),
+            });
+        }
+    }
 
     onScroll(e) {
         let loader = findDOMNode(this.refs.loader);
@@ -125,7 +132,7 @@ export class Chat extends Component {
                 <div style={Styles.Form}>
                     {messageForm.map(form => <MessageFormContainer {...form} key={form.id} user={user} />)}
                 </div>
-                <div style={Styles.List} onScroll={e => this.onScroll(e)}>
+                <div ref="messageList" style={Styles.List} onScroll={e => this.onScroll(e)}>
                     {messageList.map(message => <Message {...message} key={message.id} />)}
                     <div ref="loader" style={Object.assign({
                         display: eor ? 'none' : 'block',

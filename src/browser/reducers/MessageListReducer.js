@@ -29,7 +29,7 @@ export const messageListReducer = function(state = [], action) {
         case ROOM.LEAVE:
             return [];
         case MESSAGE.PUSH:
-            notice();
+            if (action.items.length > 0) notice();
             return push(state, action.items);
         default:
             return state;
