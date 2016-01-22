@@ -8,9 +8,6 @@ import { diceReplace } from '../dice';
 export class MessageDispatcher extends Dispatcher {
     onDispatch(action) {
         switch(action.type) {
-            case ROOM.JOINED:
-                this.room_id = action.room.id;
-                return;
             case MESSAGE.CREATE:
                 return knex('messages')
                     .insert({
@@ -19,11 +16,13 @@ export class MessageDispatcher extends Dispatcher {
                         name: action.name || null,
                         character_url: action.character_url || null,
                         icon_id: action.icon_id || null,
-                        message: diceReplace(action.message, this.socket.server) || null,
+                        message: diceReplace(action.message, this.socket.server.to(this.room_id)) || null,
                     })
                     .then(inserted)
                     .then(id => knex('messages').where('id', id).whereNull('deleted').first())
                     .then(message => this.dispatch(Message.push([message]), this.room_id));
+            case ROOM.JOINED:
+                this.room_id = action.room.id;
             case MESSAGE.FETCH:
                 return (action.minId ? knex('messages').where('id', '<', action.minId) : knex('messages'))
                     .where('room_id', this.room_id)

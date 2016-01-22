@@ -11,6 +11,7 @@ export const create = function(data) {
 export const remove = function(id) {
     return {
         type: ICON.REMOVE,
+        server: true,
         id,
     };
 };

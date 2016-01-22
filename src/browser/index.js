@@ -1,6 +1,3 @@
-require('./jquery.cssanim.js');
+require('react-tap-event-plugin')();
 require('./socket.js');
-require('./chat-message.js');
-require('./chat-form.js');
-require('./chat-writing.js');
-require('./main.js');
+require('./components');

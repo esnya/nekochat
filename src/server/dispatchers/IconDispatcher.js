@@ -32,6 +32,13 @@ export class IconDispatcher extends Dispatcher {
                     .whereNull('deleted')
                     .select(...IconFields)
                     .then(icons => this.dispatch(Icon.push(icons)));
+            case ICON.REMOVE:
+                return knex('icons')
+                    .where('id', action.id)
+                    .where('user_id', this.user_id)
+                    .whereNull('deleted')
+                    .update('deleted', knex.fn.now())
+                    .then(() => action.id);
         }
     }
 }
