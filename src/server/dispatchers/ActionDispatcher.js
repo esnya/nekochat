@@ -17,7 +17,7 @@ export class ActionDispatcher extends Dispatcher {
     }
 
     onDispatch(action) {
-        console.log('action', action);
+        console.log('action', action.type);
         this.dispatchers.forEach(a => a.onDispatch(action));
     }
 }

@@ -25,7 +25,7 @@ const Handlers = {
         messageForm: state.messageForm,
     }), dispatch => ({
         join: id => dispatch(Room.join(id)),
-        fetch: () => dispatch(Message.fetch()),
+        fetch: (minId = null) => dispatch(Message.fetch(minId)),
         onSubmitMessage: message => dispatch(Message.create(message)),
         createForm: () => dispatch(MessageForm.create()),
     }))(Chat),
