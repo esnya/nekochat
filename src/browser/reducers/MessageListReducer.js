@@ -12,7 +12,7 @@ const push = (state, items) => {
     
     if (!room || items[0].room_id !== room.id) return state;
 
-    let filtered = state.filter((a) => !items.find((b) => a.id === b.id));
+    const filtered = state.filter((a) => !items.find((b) => a.id === b.id));
 
     if (filtered.length === 0) return [...items];
 
@@ -43,10 +43,19 @@ export const messageListReducer = function(state = [], action) {
             if (action.items.length > 0) notice();
             return push(state, action.items);
         case MESSAGE.UPDATE: {
-            let items = Array.isArray(action.data) ? action.data : [action.data];
+            const items = Array.isArray(action.data)
+                ? action.data
+                : [action.data];
  
-            return state.map((item) => ({item, update: items.find((b) => item.id === b.id)}))
-                .map(({item, update}) => update ? Object.assign({}, update) : item);
+            return state.map((item) => ({
+                        item,
+                        update: items.find((b) => item.id === b.id),
+                }))
+                .map(
+                    ({item, update}) => update
+                        ? Object.assign({}, update)
+                        : item
+                );
         } default:
             return state;
     }

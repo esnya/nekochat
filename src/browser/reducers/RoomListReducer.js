@@ -10,12 +10,22 @@ export const roomListReducer = function(state = InitialState, action) {
         case ROOM.PUSH:
             return {
                 ...state,
-                rooms: [...action.rooms, ...(state.rooms.filter((a) => !action.rooms.find((b) => a.id === b.id)))],
+                rooms: [
+                    ...action.rooms,
+                    ...state.rooms.filter(
+                        (a) => !action.rooms.find((b) => a.id === b.id)
+                    ),
+                ],
             };
         case ROOM.PUSH_HISTORY:
             return {
                 ...state,
-                history: [...action.history, ...(state.history.filter((a) => !action.history.find((b) => a.id === b.id)))],
+                history: [
+                    ...action.history,
+                    ...state.history.filter(
+                        (a) => !action.history.find((b) => a.id === b.id)
+                    ),
+                ],
             };
         case ROOM.REMOVE:
             return {

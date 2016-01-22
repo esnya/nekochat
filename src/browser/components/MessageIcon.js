@@ -1,8 +1,27 @@
 import React from 'react';
 import { Avatar, RefreshIndicator } from 'material-ui';
 
+const Size = 60;
+
+export const ImageIcon = (props) => {
+    const {
+        color,
+        noShadow,
+        style,
+        url,
+    } = props;
+    const ImageStyle = {
+        border: `2px solid ${color}`,
+        boxShadow: !noShadow && `0 0 4px ${color}`,
+        backgroundSize: 'cover',
+    };
+
+    return <div style={Object.assign({}, style, ImageStyle, {
+        backgroundImage: `url(${url})`,
+    })} />;
+};
 export const MessageIcon = (props) => {
-    let {
+    const {
         id,
         type,
         character_url,
@@ -14,46 +33,60 @@ export const MessageIcon = (props) => {
     } = props;
 
     const Style = {
-        width: 60,
-        height: 60,
+        width: Size,
+        height: Size,
         borderRadius: 8,
         boxSizing: 'border-box',
-    };
-    const ImageStyle = {
-        border: `2px solid ${color}`,
-        boxShadow: !noShadow && `0 0 4px ${color}`,
-        backgroundSize: 'cover',
     };
 
     if (type === 'loading') {
         return (
-            <div style={{position: 'relative', width: 60}}>
-                <RefreshIndicator size={60} loadingColor={color} left={0} top={0} status="loading" />
+            <div style={{position: 'relative', width: Size}}>
+                <RefreshIndicator
+                    left={0} top={0}
+                    loadingColor={color}
+                    size={Size}
+                    status="loading" />
             </div>
         );
     } else if (id) {
-        return <div style={Object.assign({}, Style, ImageStyle, style, {
-            backgroundImage: `url(/icon/${id})`,
-        })} />;
+        return (
+            <ImageIcon
+                color={color}
+                style={{...Style, ...style}}
+                noShadow={noShadow}
+                url={`/icon/${id}`} />
+        );
     } else if (character_url && character_data) {
-        let {
+        const {
             icon,
             portrait,
             image,
             picture,
         } = character_data;
-        let url = new URL(icon || portrait || image || picture, character_url);
-
-        return <div style={Object.assign({}, Style, ImageStyle, style, {
-            backgroundImage: `url(${url})`,
-        })} />;
+        const url = new URL(
+            icon || portrait || image || picture,
+            character_url
+        );
+  
+        return (
+            <ImageIcon
+                color={color}
+                style={{...Style, ...style}}
+                noShadow={noShadow}
+                url={url} />
+        );
     } else if (name) {
-        let icon = name.match(/^[a-zA-Z0-9][a-zA-Z0-9]/)
+        const icon = name.match(/^[a-zA-Z0-9][a-zA-Z0-9]/)
             ? name.substr(0, 2)
             : name.substr(0, 1);
  
-        return <Avatar size={60} backgroundColor={color} style={style}>{icon}</Avatar>;
+        return (
+            <Avatar backgroundColor={color} size={Size} style={style}>
+                {icon}
+            </Avatar>
+        );
     }
 
-    return <div style={Object.assign({}, Style, style)} />;
+    return <div style={{...Style, ...style}} />;
 };

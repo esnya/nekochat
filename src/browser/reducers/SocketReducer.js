@@ -1,7 +1,7 @@
 import { socket } from '../socket';
 
 export const socketReducer = function(state = {}, action) {
-    let {
+    const {
         server,
         ...others,
     } = action;

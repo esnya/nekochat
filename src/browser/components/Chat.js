@@ -1,4 +1,10 @@
-import { AppBar, CircularProgress, IconButton, LeftNav, MenuItem } from 'material-ui';
+import {
+    AppBar,
+    CircularProgress,
+    IconButton,
+    LeftNav,
+    MenuItem,
+} from 'material-ui';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../color';
@@ -44,46 +50,56 @@ export const Message = (props) => {
         },
     };
     
-    let {
+    const {
         icon_id,
         iconType,
-        name,
         character_data,
         character_url,
-        user_id,
         message,
+        name,
+        user_id,
         created,
     } = props;
     
-    let href = character_data && new URL(character_data.url, character_url) || character_url;
-    let color = makeColor(`${name}${user_id}`);
+    const href = character_data
+        && new URL(character_data.url, character_url) || character_url;
+    const color = makeColor(`${name}${user_id}`);
     
     return (        
         <div style={Styles.ListItem}>
             <div style={Styles.Icon}>
-                <MessageIcon id={icon_id} type={iconType} name={name} character_data={character_data} character_url={character_url} color={color}/>
+                <MessageIcon
+                    id={icon_id}
+                    character_data={character_data}
+                    character_url={character_url}
+                    color={color}
+                    name={name}
+                    type={iconType} />
             </div>
             <div style={Styles.MessageContainer}>
                 <div style={Styles.Header}>
                     <span style={{color}}>{name}</span>
                     <span>@</span>
                     <span>{props.user_id}</span>
-                    {href && 
-                        <IconButton
-                            containerElement="a"
-                            href={href}
-                            target="_blank"
-                            style={Styles.Link}
-                            iconClassName="material-icons"
-                            iconStyle={Styles.LinkIcon} >
-                            open_in_new
-                        </IconButton>}
+                    {href && <IconButton
+                        containerElement="a"
+                        href={href}
+                        target="_blank"
+                        style={Styles.Link}
+                        iconClassName="material-icons"
+                        iconStyle={Styles.LinkIcon} >
+                        open_in_new
+                    </IconButton>}
                 </div>
                 <div style={Styles.Message}>
-                    {message && message.split(/\r\n|\n/).map((line, i) => <p key={i} style={Styles.Line}>{line}</p>)}
+                    {message && message.split(/\r\n|\n/).map((line, i) => (
+                        <p key={i} style={Styles.Line}>{line}</p>
+                    ))}
                 </div>
             </div>
-            <div style={Styles.Timestamp}>{created && new Date(created).toString()}</div>
+            <div style={Styles.Timestamp}>
+                    {created && new Date(created).toString()}
+            </div>
         </div>
     );
 };
@@ -108,7 +124,9 @@ export class Chat extends Component {
         }
     }
     componentDidUpdate(prevProps) {
-        if (!this.props.eor && this.props.messageList.length > 0 && prevProps.messageList.length === 0) {
+        if (!this.props.eor
+            && this.props.messageList.length > 0
+            && prevProps.messageList.length === 0) {
             this.onScroll({
                 target: findDOMNode(this.refs.messageList),
             });
@@ -116,11 +134,12 @@ export class Chat extends Component {
     }
 
     onScroll(e) {
-        let loader = findDOMNode(this.refs.loader);
-        let list = e.target;
+        const loader = findDOMNode(this.refs.loader);
+        const list = e.target;
 
-        if (list.scrollTop + list.offsetHeight >= loader.offsetTop - list.offsetTop + loader.offsetHeight) {
-            let {
+        if (list.scrollTop + list.offsetHeight 
+            >= loader.offsetTop - list.offsetTop + loader.offsetHeight) {
+            const {
                 eor,
                 messageList,
                 fetch,
@@ -136,17 +155,17 @@ export class Chat extends Component {
     }
 
     render() {
-        let {
-            id,
-            title,
+        const {
             eor,
+            id,
             input,
             messageForm,
             messageList,
+            title,
             user,
             setRoute,
         } = this.props;
-        let {
+        const {
             leftNav,
         } = this.state;
 
@@ -170,13 +189,27 @@ export class Chat extends Component {
         document.title = title || 'Beniimo Online';
         return (
             <div style={Styles.Container}>
-                <AppBar title={title || 'Beniimo Online'} onLeftIconButtonTouchTap={() => this.toggleLeftNav()} />
+                <AppBar
+                    title={title || 'Beniimo Online'}
+                    onLeftIconButtonTouchTap={() => this.toggleLeftNav()} />
                 <div style={Styles.Form}>
-                    {messageForm.map((form) => <MessageFormContainer {...form} key={form.id} user={user} />)}
+                    {messageForm.map((form) => (
+                        <MessageFormContainer
+                            {...form}
+                            key={form.id}
+                            user={user} />
+                    ))}
                 </div>
-                <div ref="messageList" style={Styles.List} onScroll={(e) => this.onScroll(e)}>
-                    {input.map((i) => <Message {...i} key={i.id} iconType="loading" />)}
-                    {messageList.map((message) => <Message {...message} key={message.id} />)}
+                <div
+                    ref="messageList"
+                    style={Styles.List}
+                    onScroll={(e) => this.onScroll(e)}>
+                    {input.map((i) => (
+                        <Message {...i} key={i.id} iconType="loading" />
+                    ))}
+                    {messageList.map((message) => (
+                        <Message {...message} key={message.id} />
+                    ))}
                     <div ref="loader" style={Object.assign({
                         display: eor ? 'none' : 'block',
                     }, Styles.Loader)}>
@@ -186,9 +219,19 @@ export class Chat extends Component {
                 <LeftNav open={leftNav} docked={false}>
                     <AppBar
                         title={title || 'Beniimo Online'}
-                        iconElementLeft={<IconButton iconClassName="material-icons" onTouchTap={() => this.toggleLeftNav()}>close</IconButton>} />
+                        iconElementLeft={(
+                            <IconButton
+                                iconClassName="material-icons"
+                                onTouchTap={() => this.toggleLeftNav()}>
+                                close
+                            </IconButton>
+                        )} />
                     <MenuItem onTouchTap={() => setRoute('/')}>Leave</MenuItem>
-                    <MenuItem href={`/view/${id}`} target="_blank">Static View</MenuItem>
+                    <MenuItem
+                        href={`/view/${id}`}
+                        target="_blank">
+                        Static View
+                    </MenuItem>
                 </LeftNav>
             </div>
         );

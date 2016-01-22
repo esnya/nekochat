@@ -31,17 +31,16 @@ app.get('/view/:roomId', (req, res, next) => {
         .whereNull('deleted')
         .first()
         .then(exists)
-        .then((room) =>  knex('messages')
+        .then((room) => knex('messages')
             .where('room_id', room.id)
             .whereNull('deleted')
             .orderBy('id', 'asc')
-            .then((messages) => {
-                res.render('static', {
-                    title: room.title,
-                    messages,
-                });
-            })
+            .then((messages) => ({
+                ...room,
+                messages,
+            }))
         )
+        .then((result) => res.render('static', result))
         .catch(() => next);
 });
 

@@ -1,4 +1,11 @@
-import { Dialog, FlatButton, FontIcon, IconButton, Popover, TextField } from 'material-ui';
+import {
+    Dialog,
+    FlatButton,
+    FontIcon,
+    IconButton,
+    Popover,
+    TextField,
+} from 'material-ui';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../color';
@@ -25,7 +32,7 @@ export class ConfigDialog extends Component {
     }
     
     fetchCharacter() {
-        let url = this.refs.character_url.getValue();
+        const url = this.refs.character_url.getValue();
 
         if (url) {
             getCharacter(url)
@@ -39,10 +46,14 @@ export class ConfigDialog extends Component {
     onUpdate(e) {
         e.preventDefault();
         
-        let form = findDOMNode(this.refs.form);
-        let selected = (form.icon_id.length ? Array.map(form.icon_id, (a) => a) : [form.icon_id])
+        const form = findDOMNode(this.refs.form);
+        const selected = (
+                form.icon_id.length
+                ? Array.map(form.icon_id, (a) => a)
+                : [form.icon_id]
+            )
             .find((radio) => radio.checked);
-        let icon_id = selected && selected.value || null;
+        const icon_id = selected && selected.value || null;
 
         this.props.onUpdate({
             id: this.props.id,
@@ -53,12 +64,10 @@ export class ConfigDialog extends Component {
     }
 
     onIconUpload() {
-        let icon_data = findDOMNode(this.refs.icon_data);
-
-        icon_data.click();
+        findDOMNode(this.refs.icon_data).click();
     }
     onIconFileChange(e) {
-        let icon_data = e.target;
+        const icon_data = e.target;
 
         if (icon_data.files.length === 0) return;
         
@@ -88,7 +97,7 @@ export class ConfigDialog extends Component {
     }    
 
     render() {
-        let {
+        const {
             name,
             character_data,
             character_url,
@@ -100,10 +109,10 @@ export class ConfigDialog extends Component {
             onCancel,
             ...otherProps,
         } = this.props;
-        let {
+        const {
             pop,
         } = this.state;
-        
+
         const Actions = [
             <FlatButton
                 label="Cancel"
@@ -114,8 +123,7 @@ export class ConfigDialog extends Component {
                 primary={true}
                 onTouchTap={(e) => this.onUpdate(e)} />,
         ];
-
-        let color = makeColor(`${name}${user.id}`);
+        const color = makeColor(`${name}${user.id}`);
 
         const Styles = {
             Form: {
@@ -167,9 +175,16 @@ export class ConfigDialog extends Component {
                 open={open}
                 actions={Actions}
                 title="Name and Icon">
-                <form ref="form" style={Styles.Form} onUpdate={(e) => this.onUpdate(e)}>
+                <form
+                    ref="form"
+                    style={Styles.Form}
+                    onUpdate={(e) => this.onUpdate(e)}>
                     <div>
-                        <TextField ref="name" fullWidth={true} floatingLabelText="Name" defaultValue={name} />
+                        <TextField
+                            ref="name"
+                            fullWidth={true}
+                            floatingLabelText="Name"
+                            defaultValue={name} />
                     </div>
                     <div>
                         <TextField ref="character_url"
@@ -181,26 +196,63 @@ export class ConfigDialog extends Component {
                     <div>Icon</div>
                     <div style={Styles.IconRadioGroup}>
                         <div style={Styles.Upload}>
-                            <IconButton style={Styles.UploadIcon} iconClassName="material-icons" onTouchTap={() => this.onIconUpload()}>file_upload</IconButton>
+                            <IconButton
+                                iconClassName="material-icons"
+                                style={Styles.UploadIcon}
+                                onTouchTap={() => this.onIconUpload()}>
+                                file_upload
+                            </IconButton>
                             <div>Upload</div>
-                            <input ref="icon_data" type="file" style={{display: 'none'}} onChange={(e) => this.onIconFileChange(e)} multiple={true} />
+                            <input
+                                ref="icon_data"
+                                multiple={true}
+                                style={{display: 'none'}}
+                                type="file"
+                                onChange={(e) => this.onIconFileChange(e)} />
                         </div>
                         <div style={Styles.IconRadioItem}>
                             <div style={Styles.IconRadioText}>
-                                <input id={genId()} type="radio" name="icon_id" value="" defaultChecked={!icon_id}/>
-                                <label htmlFor={lastId()} style={Styles.IconRadioTextLabel}>Default</label>
+                                <input
+                                    id={genId()}
+                                    name="icon_id"
+                                    type="radio"
+                                    value=""
+                                    defaultChecked={!icon_id} />
+                                <label
+                                    htmlFor={lastId()}
+                                    style={Styles.IconRadioTextLabel}>
+                                    Default
+                                </label>
                             </div>
                             <label htmlFor={lastId()}>
-                                <MessageIcon name={name} character_data={character_data} character_url={character_url} color={color} noShadow={true} />
+                                <MessageIcon
+                                    character_data={character_data}
+                                    character_url={character_url}
+                                    color={color}
+                                    name={name}
+                                    noShadow={true} />
                             </label>
                         </div>
                         {iconList.map((icon) => (
                             <div key={icon.id} style={Styles.IconRadioItem}>
                                 <div style={Styles.IconRadioText}>
-                                    <input id={genId()} type="radio" name="icon_id" value={icon.id} defaultChecked={icon.id === icon_id} />
-                                    <label htmlFor={lastId()} style={Styles.IconRadioTextLabel}>{icon.name}</label>
+                                    <input 
+                                        id={genId()}
+                                        name="icon_id"
+                                        type="radio"
+                                        value={icon.id} 
+                                        defaultChecked={icon.id === icon_id} />
+                                    <label
+                                        htmlFor={lastId()}
+                                        style={Styles.IconRadioTextLabel}>
+                                        {icon.name}
+                                    </label>
                                 </div>
-                                <label htmlFor={lastId()} onMouseEnter={(e) => this.showIconPop(e.target, icon)}>
+                                <label
+                                    htmlFor={lastId()}
+                                    onMouseEnter={
+                                        (e) => this.showIconPop(e.target, icon)
+                                    }>
                                     <MessageIcon {...icon} />
                                 </label>
                             </div>
@@ -214,8 +266,19 @@ export class ConfigDialog extends Component {
                         useLayerForClickAway={false}
                         style={Styles.Popover} >
                         <div style={Styles.PopoverContents}>
-                            <FontIcon className="material-icons">keyboard_arrow_down</FontIcon>
-                            <IconButton iconClassName="material-icons" iconStyle={{color: 'red'}} onTouchTap={() => confirm(`Delete ${pop.icon.name}?`) && removeIcon(pop.icon.id)}>delete</IconButton>
+                            <FontIcon className="material-icons">
+                                keyboard_arrow_down
+                            </FontIcon>
+                            <IconButton
+                                iconClassName="material-icons"
+                                iconStyle={{color: 'red'}}
+                                onTouchTap={
+                                    () => 
+                                        confirm(`Delete ${pop.icon.name}?`)
+                                        && removeIcon(pop.icon.id)
+                                }>
+                                    delete
+                            </IconButton>
                         </div>
                     </Popover>
                 </form>
@@ -235,11 +298,11 @@ export class MessageForm extends Component {
     onUpdate(e) {
         e.preventDefault();
         
-        let messageField = this.refs.message;
-        let message = messageField.getValue();
+        const messageField = this.refs.message;
+        const message = messageField.getValue();
 
         if (message) {
-            let {
+            const {
                 name,
                 character_url,
                 icon_id,
@@ -268,12 +331,12 @@ export class MessageForm extends Component {
     }
     
     onInput() {
-        let {
+        const {
             name,
             beginInput,
         } = this.props;
 
-        let message = this.refs.message.getValue();
+        const message = this.refs.message.getValue();
 
         if (message) {
             beginInput({
@@ -296,7 +359,7 @@ export class MessageForm extends Component {
     }
 
     render() {
-        let {
+        const {
             id,
             is_first,
             name,
@@ -308,7 +371,7 @@ export class MessageForm extends Component {
             createForm,
             removeForm,
         } = this.props;
-        let {
+        const {
             configDialog,
         } = this.state;
         
@@ -330,13 +393,29 @@ export class MessageForm extends Component {
         return (
             <div>
                 <form style={Styles.Form} onUpdate={(e) => this.onUpdate(e)}>
-                    {is_first
-                        ? <IconButton onTouchTap={createForm}><FontIcon className="material-icons">add</FontIcon></IconButton>
-                        : <IconButton onTouchTap={() => removeForm(id)}><FontIcon className="material-icons">remove</FontIcon></IconButton>
+                    {is_first ? (
+                            <IconButton onTouchTap={createForm}>
+                                <FontIcon className="material-icons">
+                                    add
+                                </FontIcon>
+                            </IconButton>
+                        ) : (
+                            <IconButton onTouchTap={() => removeForm(id)}>
+                                <FontIcon className="material-icons">
+                                    remove
+                                </FontIcon>
+                            </IconButton>
+                        )
                     }
-                   
-                    <IconButton style={Styles.Icon} onTouchTap={() => this.openConfigDialog()}>
-                        <MessageIcon id={icon_id} name={name}  character_data={character_data} character_url={character_url}color={makeColor(`${name}${user.id}`)} />
+                    <IconButton
+                        style={Styles.Icon}
+                        onTouchTap={() => this.openConfigDialog()}>
+                        <MessageIcon
+                            id={icon_id}
+                            character_data={character_data}
+                            character_url={character_url}
+                            color={makeColor(`${name}${user.id}`)}
+                            name={name} />
                     </IconButton>
                     <TextField 
                         ref="message"
@@ -352,7 +431,12 @@ export class MessageForm extends Component {
                         <FontIcon className="material-icons">send</FontIcon>
                     </IconButton>
                 </form>
-                <ConfigDialog {...this.props} open={configDialog} onCancel={() => this.closeConfigDialog()} onUpdate={(form) => this.onUpdateForm(form)} removeIcon={removeIcon} />
+                <ConfigDialog
+                    {...this.props}
+                    open={configDialog}
+                    onCancel={() => this.closeConfigDialog()}
+                    onUpdate={(form) => this.onUpdateForm(form)}
+                    removeIcon={removeIcon} />
             </div>
         );
     }

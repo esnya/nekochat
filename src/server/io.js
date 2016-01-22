@@ -25,7 +25,7 @@ io.use((socket, next) => {
 io.on('connect', (socket) => {
     console.log('New Connection: ', socket.id, socket.user);
 
-    let dispatcher = new ActionDispatcher(socket);
+    const dispatcher = new ActionDispatcher(socket);
 
     socket.on('action', (action) => dispatcher.onDispatch(action));
 

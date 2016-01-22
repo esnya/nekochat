@@ -48,7 +48,7 @@ rules:
     no-labels: 2
     no-lone-blocks: 2
     no-loop-func: 2
-    no-magic-numbers: 1
+    no-magic-numbers: 2
     no-multi-str: 2
     no-native-reassign: 2
     no-new-func: 2
@@ -101,8 +101,10 @@ rules:
     key-spacing: 2
     lines-around-comment: 2
     max-depth: 2
-    max-len: 1
-    max-nested-callbacks: 1
+    max-len: 2
+    max-nested-callbacks: 
+        - 2
+        - 3
     max-params: 2
     max-statements: 1
     new-cap: 0
@@ -122,7 +124,11 @@ rules:
         - 2
         - never
     operator-assignment: 2
-    operator-linebreak: 2
+    operator-linebreak:
+        - 2
+        - before
+        - overrides:
+            =: after
     padded-blocks:
         - 2
         - never
@@ -146,7 +152,7 @@ rules:
     no-var: 2
     object-shorthand: 2
     prefer-arrow-callback: 2
-    prefer-const: 1
+    prefer-const: 2
     prefer-reflect: 2
     prefer-spread: 2
     require-yield: 2

@@ -3,11 +3,15 @@ import Knex from 'knex';
 export const knex = Knex(require('../config/database').default);
 
 export const exists = function(data) {
-    return !data ? Promise.reject(new Error('Not found')) : Promise.resolve(data);
+    return !data
+        ? Promise.reject(new Error('Not found'))
+        : Promise.resolve(data);
 };
 
 export const inserted = function(ids) {
-    return ids.length === 0 ? Promise.reject(new Error('Failed to insert')) : Promise.resolve(ids[0]);
+    return ids.length === 0
+        ? Promise.reject(new Error('Failed to insert'))
+        : Promise.resolve(ids[0]);
 };
 
 Promise.all([
@@ -49,4 +53,9 @@ Promise.all([
         table.timestamp('deleted').defaultTo(null);
     }),
 ])
-.then(() =>  knex.raw('CREATE VIEW IF NOT EXISTS room_histories AS SELECT rooms.* FROM messages LEFT JOIN rooms ON messages.room_id = rooms.id  GROUP BY messages.user_id, messages.room_id').then());
+.then(() => knex.raw([
+    'CREATE VIEW IF NOT EXISTS room_histories AS',
+    'SELECT rooms.* FROM messages',
+    'LEFT JOIN rooms ON messages.room_id = rooms.id',
+    'GROUP BY messages.user_id, messages.room_id',
+].join(' ')).then());

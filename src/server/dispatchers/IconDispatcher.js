@@ -10,7 +10,7 @@ export class IconDispatcher extends Dispatcher {
     onDispatch(action) {
         switch(action.type) {
             case ICON.CREATE: {
-                let id = generateId(Date.now() + '' + Math.random());
+                const id = generateId(Date.now() + '' + Math.random());
 
                 return knex('icons').insert({
                         id,

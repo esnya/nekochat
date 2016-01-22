@@ -6,7 +6,7 @@ export class Dispatcher {
     }
 
     dispatch(action, to = null, excludeSelf = false) {
-        let clientAction = {
+        const clientAction = {
             ...action,
             server: false,
         };

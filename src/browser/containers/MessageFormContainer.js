@@ -1,8 +1,19 @@
 import { connect } from 'react-redux';
-import { create as createIcon, remove as removeIcon, fetch as fetchIcon } from '../../actions/IconActions';
-import { begin as beginInput, end as endInput } from '../../actions/InputActions';
+import {
+    create as createIcon,
+    remove as removeIcon,
+    fetch as fetchIcon,
+} from '../../actions/IconActions';
+import {
+    begin as beginInput,
+    end as endInput,
+} from '../../actions/InputActions';
 import { create as createMessage } from '../../actions/MessageActions';
-import { create as createForm, update as updateForm, remove as removeForm } from '../../actions/MessageFormActions';
+import {
+    create as createForm,
+    update as updateForm,
+    remove as removeForm,
+} from '../../actions/MessageFormActions';
 import { MessageForm } from '../components/MessageForm';
 
 export const MessageFormContainer = connect(

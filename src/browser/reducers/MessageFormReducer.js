@@ -15,10 +15,10 @@ const save = (state) => {
 const load = (state) => {
     if (!user || !room) return state;
 
-    let form = localStorage.getItem(getKey());
+    const form = localStorage.getItem(getKey());
 
     if (form) {
-        let parsed = JSON.parse(form);
+        const parsed = JSON.parse(form);
     
         parsed.forEach((f) => id = Math.max(f.id + 1, id));
         return parsed;
@@ -47,7 +47,7 @@ export const messageFormReducer = function(state = [], action) {
             room = action.room;
             return load(state);
         case MESSAGE_FORM.CREATE: {
-            let form = action.copy ? state[0] : action;
+            const form = action.copy ? state[0] : action;
 
             return save([
                 {
@@ -59,11 +59,20 @@ export const messageFormReducer = function(state = [], action) {
                 ...state,
             ]);
         } case MESSAGE_FORM.UPDATE: {
-            let items = Array.isArray(action.data) ? action.data : [action.data];
+            const items = Array.isArray(action.data)
+                ? action.data : [action.data];
 
             return save(
-                state.map((item) => ({item, update: items.find((b) => item.id === b.id)}))
-                    .map(({item, update}, i) => update ? Object.assign({}, item, update, {is_first: i === state.length - 1}) : item)
+                state.map((item) => ({
+                        item, update: items.find((b) => item.id === b.id),
+                    }))
+                    .map(({item, update}, i) => update ? Object.assign(
+                            {},
+                            item,
+                            update,
+                            {is_first: i === state.length - 1}
+                        ) : item
+                    )
             );
         } case MESSAGE_FORM.REMOVE:
             return save(state.filter((form) => form.id !== action.id));

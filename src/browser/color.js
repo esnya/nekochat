@@ -1,13 +1,18 @@
+const NUM = 31;
+const MASK = 0xffffff;
+const BYTEMASK = 0xff;
+const CHANNELS = 3;
+
 export const makeColor = function (data) {
     let hash = Array.reduce(
         data + data,
-        (sum, c) =>  (sum * 31 + c.charCodeAt(0)) & 0xffffff,
+        (sum, c) =>  (sum * NUM + c.charCodeAt(0)) & MASK,
         0
     );
-    let color = [];
+    const color = [];
 
-    for (let i = 0; i < 3; ++i) {
-        color.push(hash & 0xff);
+    for (let i = 0; i < CHANNELS; ++i) {
+        color.push(hash & BYTEMASK);
         hash >>= 8;
     }
     color.push(1);

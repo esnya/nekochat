@@ -4,11 +4,15 @@ import { knex, exists } from '../knex.js';
 import { Dispatcher } from './Dispatcher';
 import { generateId } from '../id';
 
+const ID_LENGTH = 16;
+const HISTORY_LIMIT = 20;
+
 export class RoomDispatcher extends Dispatcher {
     onDispatch(action) {
         switch (action.type) {
             case ROOM.CREATE: {
-                let id =generateId((new Date()).getTime() + '').substr(0, 16);
+                const id = generateId((new Date()).getTime() + '')
+                    .substr(0, ID_LENGTH);
 
                 return knex('rooms')
                     .insert({
@@ -55,8 +59,10 @@ export class RoomDispatcher extends Dispatcher {
                             .where('user_id', this.user_id)
                             .whereNull('deleted')
                             .orderBy('modified', 'desc')
-                            .limit(20)
-                            .then((rooms) => this.dispatch(Room.pushHistory(rooms)))
+                            .limit(HISTORY_LIMIT)
+                            .then((rooms) => this.dispatch(
+                                Room.pushHistory(rooms)
+                            ))
                 );
             case ROOM.REMOVE:
                 return knex('rooms')

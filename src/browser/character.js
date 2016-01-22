@@ -1,4 +1,7 @@
-let cache = {};
+const cache = {};
+
+const READY_DONE = 4;
+const HTTP_OK = 200;
 
 export const getCharacter = function(url) {
     return new Promise((resolve, reject) => {
@@ -10,24 +13,26 @@ export const getCharacter = function(url) {
                 listeners: [],
             };
             try {
-                let xhr = new XMLHttpRequest();
+                const xhr = new XMLHttpRequest();
 
-                let onError = () => {
-                    let error = xhr.statusText;
+                const onError = () => {
+                    const error = xhr.statusText;
 
                     console.error(xhr.status, error);
-                    cached.listeners.forEach((listener) => listener.reject(error));
+                    cached.listeners
+                        .forEach((listener) => listener.reject(error));
                     reject(error);
                     Reflect.deleteProperty(cache, url);
                 };
 
                 xhr.onreadystatechange = () => {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            let data = JSON.parse(xhr.responseText);
+                    if (xhr.readyState === READY_DONE) {
+                        if (xhr.status === HTTP_OK) {
+                            const data = JSON.parse(xhr.responseText);
 
                             cached.data = data;
-                            cached.listeners.forEach((listener) => listener.resolve(data));
+                            cached.listeners
+                                .forEach((listener) => listener.resolve(data));
                             resolve(data);
                             Reflect.deleteProperty(cached, 'listeners');
                         } else {

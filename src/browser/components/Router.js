@@ -34,11 +34,11 @@ const Handlers = {
 };
 
 export const Router = (props) => {
-    let {
+    const {
         route,
         params,
     } = props;
-    let Handler = Handlers[route] || 'div';
+    const Handler = Handlers[route] || 'div';
 
     return <Handler {...params} />;
 };

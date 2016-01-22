@@ -3,6 +3,8 @@ import dice3d from 'dice3d';
 import { AppStore } from './stores/AppStore';
 import { run } from './router';
 
+const DICE_MAX = 20;
+
 export const socket = io.connect();
 
 socket.on('connect', () => run());
@@ -12,7 +14,7 @@ let diceCounter = 0;
 
 socket.on('dice', (faces, results) => {
     results.forEach((result) => {
-        if (diceCounter > 20) return;
+        if (diceCounter > DICE_MAX) return;
         diceCounter++;
         dice3d(faces, result, () => diceCounter--);
     });

@@ -4,15 +4,15 @@ import * as ROOM from '../../constants/RoomActions';
 import { Routes } from '../routes';
 
 const parse = function(path) {
-    let s = path.split('/').slice(1);
+    const s = path.split('/').slice(1);
 
     return Object.assign(
         Routes.map((route) => {
-            let t = route.path.split('/').slice(1);
+            const t = route.path.split('/').slice(1);
             
             if (s.length !== t.length) return null;
 
-            let params = {};
+            const params = {};
 
             for (let i = 0; i < s.length; i++) {
                 if (t[i].charAt(0) === ':') {
@@ -28,9 +28,13 @@ const parse = function(path) {
 export const routeReducer = function(state = parse(location.pathname), action) {
     switch (action.type) {
         case ROUTE.SET: {
-            let path = action.path.charAt(0) === '/' ? action.path : `/${action.path}`;
+            const path = action.path.charAt(0) === '/'
+                ? action.path
+                : `/${action.path}`;
 
-            if (path !== location.pathname) history.pushState({}, 'Beniimo online', path);
+            if (path !== location.pathname) {
+                history.pushState({}, 'Beniimo online', path);
+            }
             return parse(path);
         } case ROOM.CREATED:
         case ROOM.JOINED:
