@@ -11,7 +11,11 @@ const load = (state) => {
     if (!user || !room) return state;
 
     let form = localStorage.getItem(getKey());
-    if (form) return JSON.parse(form);
+    if (form) {
+        let parsed = JSON.parse(form);
+        parsed.forEach(f => id = Math.max(f.id + 1, id));
+        return parsed;
+    }
     
     if (state.length > 0) return save(state);
 
