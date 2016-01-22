@@ -51,11 +51,11 @@ export const messageFormReducer = function(state = [], action) {
                 ...state,
             ]);
         case MESSAGE_FORM.UPDATE:
-            return save(state.map((form, i) => form.id == action.data.id ? {
-                ...form,
-                ...action.data,
-                is_first: i == (state.length - 1),
-            } : form));
+            let items = Array.isArray(action.data) ? action.data : [action.data];
+            return save(
+                state.map(item => ({item, update: items.find(b => item.id === b.id)}))
+                    .map(({item, update}, i) => update ? Object.assign({}, item, update, {is_first: i == state.length - 1}) : item)
+            );
         case MESSAGE_FORM.REMOVE:
             return save(state.filter(form => form.id != action.id));
         default:
