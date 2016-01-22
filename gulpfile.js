@@ -24,7 +24,7 @@ gulp.task('serve', ['server']);
 gulp.task('watch', ['watch:server', 'watch:browser']);
 gulp.task('watch:server', ['server'], () => {
     gulp.watch(['src/**/*', '!src/browser/**/*'], ['server']);
-    gulp.watch(['dist/**/*'], file => server.notify(file));
+    gulp.watch(['dist/**/*', 'public/**/*', 'views/**/*'], file => server.notify(file));
 });
 gulp.task('watch:browser', ['watchify'], () =>
     gulp.watch(['src/**/*', '!src/server/**/*'], ['watchify']));
