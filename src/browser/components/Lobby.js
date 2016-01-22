@@ -56,11 +56,12 @@ export class Lobby extends Component {
             removeRoom,
         } = this.props;
 
+        document.title = "Beniimo Online";
         return (
             <div>
-                <AppBar title="Beniimo Online" />
+                <AppBar title="Beniimo Online" showMenuIconButton={false} />
                 <Paper style={{ display: 'flex', padding: '0 16px' }}>
-                    <TextField ref="title" floatingLabelText="Create Chat Room" hintText="Input the title for room" fullWidth={true} onKeyDown={e => (e.keyCode == KeyEvent.DOM_VK_RETURN && this.onCreateRoom())}/>
+                    <TextField ref="title" floatingLabelText="Create Chat Room" hintText="Input the title of new room" fullWidth={true} onKeyDown={e => (e.keyCode == KeyEvent.DOM_VK_RETURN && this.onCreateRoom())}/>
                     <FlatButton primary={true} label="Create" onTouchTap={() => this.onCreateRoom()} />
                 </Paper>
                 <RoomList user={user} rooms={history} subheader="Recentry Joined Rooms" onJoin={onJoin} removeRoom={removeRoom} />

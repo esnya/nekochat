@@ -1,4 +1,4 @@
-import { AppBar, Avatar, CircularProgress, FontIcon, IconButton, TextField } from 'material-ui';
+import { AppBar, Avatar, CircularProgress, FontIcon, IconButton, LeftNav, MenuItem, TextField } from 'material-ui';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../color';
@@ -64,6 +64,10 @@ export class Chat extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            leftNav: false,
+        };
+
         setTimeout(() => {
             props.join(props.roomId);
             props.fetch();
@@ -97,6 +101,10 @@ export class Chat extends Component {
             fetch(messageList[messageList.length - 1].id);
         }
     }
+    
+    toggleLeftNav() {
+        this.setState({leftNav: !this.state.leftNav});
+    }
 
     render() {
         let {
@@ -108,7 +116,11 @@ export class Chat extends Component {
             user,
             createForm,
             onSubmitMessage,
+            setRoute,
         } = this.props;
+        let {
+            leftNav,
+        } = this.state;
 
         const Styles = {
             Container: {
@@ -126,9 +138,11 @@ export class Chat extends Component {
                 overflow: 'hidden',
             },
         };
+
+        document.title = title || 'Beniimo Online';
         return (
             <div style={Styles.Container}>
-                <AppBar title={title || 'BeniimoOnline'} />
+                <AppBar title={title || 'Beniimo Online'} onLeftIconButtonTouchTap={() => this.toggleLeftNav()} />
                 <div style={Styles.Form}>
                     {messageForm.map(form => <MessageFormContainer {...form} key={form.id} user={user} />)}
                 </div>
@@ -140,6 +154,13 @@ export class Chat extends Component {
                         <CircularProgress />
                     </div>
                 </div>
+                <LeftNav open={leftNav} docked={false}>
+                    <AppBar
+                        title={title || 'Beniimo Online'}
+                        iconElementLeft={<IconButton iconClassName="material-icons" onTouchTap={() => this.toggleLeftNav()}>close</IconButton>} />
+                    <MenuItem onTouchTap={() => setRoute('/')}>Leave</MenuItem>
+                    <MenuItem href={`/view/${id}`} target="_blank">Static View</MenuItem>
+                </LeftNav>
             </div>
         );
     }

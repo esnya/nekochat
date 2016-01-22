@@ -27,7 +27,6 @@ const push = (state, items) => {
 };
 
 export const messageListReducer = function(state = [], action) {
-    console.log(state, action);
     switch (action.type) {
         case ROOM.JOINED:
             room = action.room;
