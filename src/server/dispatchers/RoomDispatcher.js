@@ -34,10 +34,15 @@ export class RoomDispatcher extends Dispatcher {
                     .first()
                     .then(exists)
                     .then(room => {
-                        this.socket.leave();
+                        if (this.room_id) this.socket.leave(this.room_id);
+                        this.room_id = room.id;
                         this.socket.join(room.id);
                         this.dispatch(Room.joined(room));
                     });
+            case ROOM.LEAVE:
+                if (this.room_id) this.socket.leave(this.room_id);
+                this.room_id = null;
+                return;
             case ROOM.FETCH:
                 return Promise.all(
                         knex('rooms')
