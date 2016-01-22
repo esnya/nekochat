@@ -16,7 +16,7 @@ export class MessageDispatcher extends Dispatcher {
                         name: action.name || null,
                         character_url: action.character_url || null,
                         icon_id: action.icon_id || null,
-                        message: diceReplace(action.message, this.socket.server) || null,
+                        message: diceReplace(action.message, this.socket.server.to(this.room_id)) || null,
                     })
                     .then(inserted)
                     .then(id => knex('messages').where('id', id).whereNull('deleted').first())
