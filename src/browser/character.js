@@ -8,25 +8,35 @@ export const getCharacter = function(url) {
                 listeners: [],
             };
             try {
+                let onError = (e) => {
+                    let error = xhr.statusText;
+                    console.error(xhr.status, error);
+                    cached.listeners.forEach(listener => listener.reject(error));
+                    reject(error);
+                    delete cache[url];
+                };
                 let xhr = new XMLHttpRequest();
-                xhr.open('GET', url, true);
+
                 xhr.onreadystatechange = () => {
                     if (xhr.readyState === 4) {
                         if (xhr.status === 200) {
                             let data = JSON.parse(xhr.responseText);
-                            cache.data = data;
+                            cached.data = data;
                             cached.listeners.forEach(listener => listener.resolve(data));
                             resolve(data);
+                            delete cached.listeners;
                         } else {
-                            let error = xhr.responseText;
-                            cached.listeners.forEach(listener => listener.reject(error));
-                            reject(error)
-                            delete cache[url];
+                            onError();
                         }
                     }
-                };
+                };    
+                xhr.onerror = onError;
+                xhr.withCredentials = true;
+
+                xhr.open('GET', url, true);
                 xhr.send(null);
             } catch(error) {
+                console.error(error);
                 cached.listeners.forEach(listener => listener.reject(error));
                 reject(error);
                 delete cache[url];
