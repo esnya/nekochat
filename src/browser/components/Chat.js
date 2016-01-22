@@ -94,7 +94,13 @@ export const Message = (props) => {
                 </div>
                 <div style={Styles.Message}>
                     {message && message.split(/\r\n|\n/).map((line, i) => (
-                        <p key={i} style={Styles.Line}>{line}</p>
+                        <p key={i} style={Styles.Line}>
+                            {
+                                line.match(/^https?:\/\/[^ ]+$/)
+                                ? <a href={line} target="_blank">{line}</a>
+                                : line
+                            }
+                        </p>
                     ))}
                 </div>
             </div>
