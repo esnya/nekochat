@@ -51,12 +51,10 @@ export const messageFormReducer = function(state = [], action) {
                 ...state,
             ]);
         case MESSAGE_FORM.UPDATE:
-            return save(state.map((form, i) => form.id == action.id ? {
+            return save(state.map((form, i) => form.id == action.data.id ? {
+                ...form,
+                ...action.data,
                 is_first: i == (state.length - 1),
-                id: action.id,
-                name: action.name,
-                character_url: action.character_url,
-                icon_id: action.icon_id,
             } : form));
         case MESSAGE_FORM.REMOVE:
             return save(state.filter(form => form.id != action.id));

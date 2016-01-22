@@ -8,10 +8,10 @@ export const create = function(form) {
     };
 };
 
-export const update = function(form) {
+export const update = function(data) {
     return {
         type: MESSAGE_FORM.UPDATE,
-        ...form,
+        data,
     };
 };
 

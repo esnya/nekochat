@@ -19,8 +19,19 @@ export const Message = (props) => {
             flex: '1 1 auto',
         },
         Header: {
+            display: 'flex',
+            alignItems: 'center',
             color: 'rgba(0, 0, 0, 0.54)',
             fontSize: 14,
+        },
+        Link: {
+            margin: '0 4px',
+            padding: 0,
+            width: 'auto', height: 'auto',
+        },
+        LinkIcon: {
+            color: 'rgba(0, 0, 0, 0.54)',
+            fontSize: 18,
         },
         Message: {
         },
@@ -34,22 +45,36 @@ export const Message = (props) => {
     };
     
     let {
+        icon_id,
         name,
+        character_data,
+        character_url,
         user_id,
     } = props;
     
+    let href = character_data && new URL(character_data.url, character_url) || character_url;
     let color = makeColor(`${name}${user_id}`);
     
     return (        
         <div style={Styles.ListItem}>
             <div style={Styles.Icon}>
-                <MessageIcon id={props.icon_id} name={props.name} color={color}/>
+                <MessageIcon id={icon_id} name={name} character_data={character_data} character_url={character_url} color={color}/>
             </div>
             <div style={Styles.MessageContainer}>
                 <div style={Styles.Header}>
                     <span style={{color}}>{props.name}</span>
                     <span>@</span>
                     <span>{props.user_id}</span>
+                    {href && 
+                        <IconButton
+                            containerElement="a"
+                            href={href}
+                            target="_blank"
+                            style={Styles.Link}
+                            iconClassName="material-icons"
+                            iconStyle={Styles.LinkIcon} >
+                            open_in_new
+                        </IconButton>}
                 </div>
                 <div style={Styles.Message}>
                     {props.message.split(/\r\n|\n/).map((line, i) => <p key={i} style={Styles.Line}>{line}</p>)}

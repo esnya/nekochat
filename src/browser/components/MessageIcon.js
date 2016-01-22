@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Avatar } from 'material-ui';
 
 export const MessageIcon = (props) => {
     let {
         id,
+        character_url,
+        character_data,
         name,
         color,
         style,
@@ -15,13 +17,26 @@ export const MessageIcon = (props) => {
         borderRadius: 8,
         boxSizing: 'border-box',
     };
+    const ImageStyle = {
+        border: `2px solid ${color}`,
+        boxShadow: `0 0 4px ${color}`,
+        backgroundSize: 'cover',
+    };
 
     if (id) {
-        return <div style={Object.assign({}, Style, style, {
-            border: `2px solid ${color}`,
-            boxShadow: `0 0 4px ${color}`,
-            backgroundSize: 'cover',
-            backgroundImage: `url(/icon/${props.id})`,
+        return <div style={Object.assign({}, Style, ImageStyle, style, {
+            backgroundImage: `url(/icon/${id})`,
+        })} />;
+    } else if (character_url && character_data) {
+        let {
+            icon,
+            portrait,
+            image,
+            picture,
+        } = character_data;
+        let url = new URL(icon || portrait || image || picture, character_url);
+        return <div style={Object.assign({}, Style, ImageStyle, style, {
+            backgroundImage: `url(${url})`,
         })} />;
     } else if (name) {
         let icon = name.match(/^[a-zA-Z0-9][a-zA-Z0-9]/)

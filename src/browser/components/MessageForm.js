@@ -2,6 +2,7 @@ import { Dialog, FlatButton, FontIcon, IconButton, Popover, RadioButton, RadioBu
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../color';
+import { getCharacter } from '../character';
 import { MessageIcon } from './MessageIcon';
 
 let _id = 0;
@@ -21,6 +22,17 @@ export class ConfigDialog extends Component {
     
     componentDidMount() {
         this.props.fetchIcon();        
+    }
+    
+    fetchCharacter() {
+        let url = this.refs.character_url.getValue();
+        if (url) {
+            getCharacter(url)
+                .then(data => {
+                    this.refs.name.setValue(data.name);
+                })
+                .catch(error => console.error(error));
+        }
     }
 
     onUpdate(e) {
@@ -75,6 +87,7 @@ export class ConfigDialog extends Component {
     render() {
         let {
             name,
+            character_data,
             character_url,
             icon_id,
             iconList,
@@ -85,7 +98,8 @@ export class ConfigDialog extends Component {
             ...otherProps,
         } = this.props;
         let {
-            pop
+            data,
+            pop,
         } = this.state;
         
         const Actions = [
@@ -137,7 +151,11 @@ export class ConfigDialog extends Component {
                 title="Name and Icon">
                 <form ref="form" onUpdate={e => this.onUpdate(e)}>
                     <TextField ref="name" fullWidth={true} floatingLabelText="Name" defaultValue={name} />
-                    <TextField ref="character_url" fullWidth={true} floatingLabelText="Character Sheet URL" defaultValue={character_url} />
+                    <TextField ref="character_url"
+                        fullWidth={true}
+                        floatingLabelText="Character Sheet URL"
+                        defaultValue={character_url}
+                        onBlur={() => this.fetchCharacter()} />
                     <div>Icon</div>
                     <div style={Styles.IconRadioGroup}>
                         <div style={Styles.Upload}>
@@ -151,7 +169,7 @@ export class ConfigDialog extends Component {
                                 <label htmlFor={lastId()}>Default</label>
                             </div>
                             <label htmlFor={lastId()}>
-                                <MessageIcon name={name} color={color} />
+                                <MessageIcon name={name} character_data={character_data} character_url={character_url} color={!character_data && color || null} />
                             </label>
                         </div>
                         {iconList.map(icon => (
@@ -161,7 +179,7 @@ export class ConfigDialog extends Component {
                                     <label htmlFor={lastId()}>{icon.name}</label>
                                 </div>
                                 <label htmlFor={lastId()} onMouseEnter={e => this.showIconPop(e.target, icon)}>
-                                    <MessageIcon {...icon} color={color} />
+                                    <MessageIcon {...icon} />
                                 </label>
                             </div>
                         ))}
@@ -238,13 +256,13 @@ export class MessageForm extends Component {
             is_first,
             name,
             character_url,
+            character_data,
             icon_id,
             user,
             removeIcon,
             createForm,
             removeForm,
         } = this.props;
-        
         let {
             configDialog,
         } = this.state;
@@ -273,7 +291,7 @@ export class MessageForm extends Component {
                     }
                    
                     <IconButton style={Styles.Icon} onTouchTap={() => this.openConfigDialog()}>
-                        <MessageIcon id={icon_id} name={name} color={makeColor(`${name}${user.id}`)} />
+                        <MessageIcon id={icon_id} name={name}  character_data={character_data} character_url={character_url}color={makeColor(`${name}${user.id}`)} />
                     </IconButton>
                     <TextField 
                         ref="message"

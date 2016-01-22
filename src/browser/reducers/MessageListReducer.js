@@ -37,6 +37,8 @@ export const messageListReducer = function(state = [], action) {
         case MESSAGE.PUSH:
             if (action.items.length > 0) notice();
             return push(state, action.items);
+        case MESSAGE.UPDATE:
+            return state.map(item => item.id == action.data.id ? Object.assign({}, action.data) : item);
         default:
             return state;
     }
