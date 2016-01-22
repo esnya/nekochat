@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Avatar } from 'material-ui';
+import { Avatar, RefreshIndicator } from 'material-ui';
 
 export const MessageIcon = (props) => {
     let {
         id,
+        type,
         character_url,
         character_data,
         name,
@@ -24,7 +25,13 @@ export const MessageIcon = (props) => {
         backgroundSize: 'cover',
     };
 
-    if (id) {
+    if (type == 'loading') {
+        return (
+            <div style={{position: 'relative', width: 60}}>
+                <RefreshIndicator size={60} loadingColor={color} left={0} top={0} status="loading" />
+            </div>
+        );
+    } else if (id) {
         return <div style={Object.assign({}, Style, ImageStyle, style, {
             backgroundImage: `url(/icon/${id})`,
         })} />;

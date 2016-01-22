@@ -20,9 +20,10 @@ const Handlers = {
     }))(Lobby),
     chat: connect(state => ({
         ...(state.room),
-        user: state.user,
+        input: state.input,
         messageList: state.messageList,
         messageForm: state.messageForm,
+        user: state.user,
     }), dispatch => ({
         join: id => dispatch(Room.join(id)),
         setRoute: route => dispatch(Route.set(route)),

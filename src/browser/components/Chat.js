@@ -46,10 +46,13 @@ export const Message = (props) => {
     
     let {
         icon_id,
+        iconType,
         name,
         character_data,
         character_url,
         user_id,
+        message,
+        created,
     } = props;
     
     let href = character_data && new URL(character_data.url, character_url) || character_url;
@@ -58,11 +61,11 @@ export const Message = (props) => {
     return (        
         <div style={Styles.ListItem}>
             <div style={Styles.Icon}>
-                <MessageIcon id={icon_id} name={name} character_data={character_data} character_url={character_url} color={color}/>
+                <MessageIcon id={icon_id} type={iconType} name={name} character_data={character_data} character_url={character_url} color={color}/>
             </div>
             <div style={Styles.MessageContainer}>
                 <div style={Styles.Header}>
-                    <span style={{color}}>{props.name}</span>
+                    <span style={{color}}>{name}</span>
                     <span>@</span>
                     <span>{props.user_id}</span>
                     {href && 
@@ -77,10 +80,10 @@ export const Message = (props) => {
                         </IconButton>}
                 </div>
                 <div style={Styles.Message}>
-                    {props.message.split(/\r\n|\n/).map((line, i) => <p key={i} style={Styles.Line}>{line}</p>)}
+                    {message && message.split(/\r\n|\n/).map((line, i) => <p key={i} style={Styles.Line}>{line}</p>)}
                 </div>
             </div>
-            <div style={Styles.Timestamp}>{new Date(props.created).toString()}</div>
+            <div style={Styles.Timestamp}>{created && new Date(created).toString()}</div>
         </div>
     );
 };
@@ -136,6 +139,7 @@ export class Chat extends Component {
             id,
             title,
             eor,
+            input,
             messageForm,
             messageList,
             user,
@@ -172,6 +176,7 @@ export class Chat extends Component {
                     {messageForm.map(form => <MessageFormContainer {...form} key={form.id} user={user} />)}
                 </div>
                 <div ref="messageList" style={Styles.List} onScroll={e => this.onScroll(e)}>
+                    {input.map(input => <Message {...input} key={input.id} iconType="loading" />)}
                     {messageList.map(message => <Message {...message} key={message.id} />)}
                     <div ref="loader" style={Object.assign({
                         display: eor ? 'none' : 'block',

@@ -249,6 +249,7 @@ export class MessageForm extends Component {
                 message,
             });
             messageField.clearValue();
+            this.endInput();
         }
     }
 
@@ -261,6 +262,27 @@ export class MessageForm extends Component {
     onUpdateForm(form) {
         this.closeConfigDialog();
         this.props.updateForm(form);
+    }
+    
+    onInput() {
+        let {
+            name,
+            beginInput,
+        } = this.props;
+
+        let message = this.refs.message.getValue();
+
+        if (message) {
+            beginInput({
+                name,
+                message: this.refs.message.getValue(),
+            });
+        } else this.endInput();
+    }
+    endInput() {
+        this.props.endInput({
+            name: this.props.name,
+        });
     }
     
     openConfigDialog() {
@@ -320,7 +342,9 @@ export class MessageForm extends Component {
                         multiLine={true}
                         rows={1}
                         style={Styles.Message}
-                        onKeyDown={e => this.onKey(e)} />
+                        onKeyDown={e => this.onKey(e)}
+                        onChange={() => this.onInput()}
+                        onFocus={() => this.onInput()} />
                     <IconButton type="submit">
                         <FontIcon className="material-icons">send</FontIcon>
                     </IconButton>

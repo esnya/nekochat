@@ -5,6 +5,7 @@ export const inputReducer = function(state = [], action) {
         case INPUT.BEGAN:
             return [{
                 id: action.id,
+                user_id: action.user_id,
                 name: action.name,
                 message: action.message,
             }, ...(state.filter(i => i.id != action.id))];
