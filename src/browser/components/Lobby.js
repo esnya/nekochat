@@ -17,7 +17,7 @@ export const RoomList = (props) => {
                     <ListItem
                         key={room.id}
                         primaryText={room.title}
-                        secondaryText={`${room.user_id}  ${room.created}`}
+                        secondaryText={`${room.user_id}  ${room.modified}`}
                         onTouchTap={() => onJoin(room.id)}
                         rightIconButton={room.user_id == user.id && <IconButton onTouchTap={() => confirm(`Remove ${room.title}?`) && removeRoom(room.id)}><FontIcon className="material-icons">delete</FontIcon></IconButton>} />
                 ))
