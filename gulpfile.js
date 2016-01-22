@@ -8,6 +8,7 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const eslint = require('gulp-eslint');
 const liveserver = require('gulp-live-server');
+const sloc = require('gulp-sloc');
 const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
 const source = require('vinyl-source-stream');
@@ -26,8 +27,9 @@ gulp.task('build:browser', ['browserify']);
 
 gulp.task('serve', ['server']);
 
-gulp.task('watch', ['watch:server', 'watch:browser'], () => {
+gulp.task('watch', ['watch:server', 'watch:browser', 'sloc'], () => {
     gulp.watch(['.eslintrc', 'gulpfile.js'], ['eslint']);
+    gulp.watch('src/**/*', ['sloc']);
 });
 gulp.task('watch:server', ['server'], () => {
     gulp.watch(['src/**/*', '!src/browser/**/*'], ['server']);
@@ -44,6 +46,11 @@ gulp.task('eslint', () =>
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError())
+);
+
+gulp.task('sloc', () =>
+    gulp.src('src/**/*.js')
+        .pipe(sloc())
 );
 
 gulp.task(
