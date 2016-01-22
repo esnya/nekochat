@@ -12,6 +12,7 @@ import React, { Component } from 'react';
 
 export const RoomList = (props) => {
     const {
+        editable,
         user,
         rooms,
         onJoin,
@@ -28,7 +29,8 @@ export const RoomList = (props) => {
                         primaryText={room.title}
                         secondaryText={`${room.user_id}  ${room.modified}`}
                         onTouchTap={() => onJoin(room.id)}
-                        rightIconButton={room.user_id === user.id && (
+                        rightIconButton={
+                            editable && room.user_id === user.id && (
                                 <IconButton
                                     onTouchTap={
                                         () => confirm(`Remove ${room.title}?`)
@@ -38,7 +40,8 @@ export const RoomList = (props) => {
                                         delete
                                     </FontIcon>
                                 </IconButton>
-                        )} />
+                            )
+                        } />
                 ))
             }
         </List>
@@ -99,6 +102,7 @@ export class Lobby extends Component {
                     onJoin={onJoin}
                     removeRoom={removeRoom} />
                 <RoomList
+                    editable={true}
                     rooms={rooms}
                     subheader="My Rooms"
                     user={user}
