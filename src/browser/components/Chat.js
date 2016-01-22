@@ -8,6 +8,7 @@ import {
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../color';
+import moment from '../moment';
 import { MessageFormContainer } from '../containers/MessageFormContainer';
 import { MessageIcon } from './MessageIcon';
 
@@ -98,7 +99,7 @@ export const Message = (props) => {
                 </div>
             </div>
             <div style={Styles.Timestamp}>
-                    {created && new Date(created).toString()}
+                    {created && moment(created).fromNow()}
             </div>
         </div>
     );

@@ -22,6 +22,8 @@ export class MessageDispatcher extends Dispatcher {
                             action.message,
                             this.socket.server.to(this.room_id)
                         ) || null,
+                        created: knex.fn.now(),
+                        modified: knex.fn.now(),
                     })
                     .then(inserted)
                     .then((id) => knex('messages')

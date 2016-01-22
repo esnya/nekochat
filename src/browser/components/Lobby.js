@@ -9,6 +9,7 @@ import {
     TextField,
 } from 'material-ui';
 import React, { Component } from 'react';
+import moment from '../moment';
 
 export const RoomList = (props) => {
     const {
@@ -27,7 +28,11 @@ export const RoomList = (props) => {
                     <ListItem
                         key={room.id}
                         primaryText={room.title}
-                        secondaryText={`${room.user_id}  ${room.modified}`}
+                        secondaryText={
+                            `@${room.user_id} ${
+                                moment(room.modified).fromNow()
+                            }`
+                        }
                         onTouchTap={() => onJoin(room.id)}
                         rightIconButton={
                             editable && room.user_id === user.id && (

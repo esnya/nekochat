@@ -18,6 +18,8 @@ export class IconDispatcher extends Dispatcher {
                         name: action.name || null,
                         type: action.mime || null,
                         data: action.file || null,
+                        created: knex.fn.now(),
+                        modified: knex.fn.now(),
                     }, 'id')
                     .then(() =>
                         knex('icons')
