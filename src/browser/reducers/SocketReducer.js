@@ -9,6 +9,6 @@ export const socketReducer = function(state = {}, action) {
     if (server) {
         socket.emit('action', others);
     }
-
+    
     return state;
 };

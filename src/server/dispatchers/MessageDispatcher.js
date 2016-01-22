@@ -1,4 +1,4 @@
-import { knex, exists, inserted } from '../knex.js';
+import { knex, inserted } from '../knex.js';
 import * as Message from '../../actions/MessageActions';
 import * as MESSAGE from '../../constants/MessageActions';
 import * as ROOM from '../../constants/RoomActions';
@@ -23,6 +23,7 @@ export class MessageDispatcher extends Dispatcher {
                     .then(message => this.dispatch(Message.push([message]), this.room_id));
             case ROOM.JOINED:
                 this.room_id = action.room.id;
+                return this.opDispatch({type: MESSAGE.FETCH});
             case MESSAGE.FETCH:
                 return (action.minId ? knex('messages').where('id', '<', action.minId) : knex('messages'))
                     .where('room_id', this.room_id)

@@ -8,7 +8,7 @@ export const getCharacter = function(url) {
                 listeners: [],
             };
             try {
-                let onError = (e) => {
+                let onError = () => {
                     let error = xhr.statusText;
                     console.error(xhr.status, error);
                     cached.listeners.forEach(listener => listener.reject(error));

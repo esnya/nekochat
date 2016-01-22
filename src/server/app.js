@@ -1,11 +1,7 @@
-import crypto from 'crypto';
 import express from 'express';
-import fs from 'fs-promise';
 import Livereload from 'connect-livereload';
-import Multiparty from 'connect-multiparty';
 import { knex, exists } from './knex';
 import { session } from './session';
-import { getUser } from './user';
 
 export const app = express();
 
@@ -46,7 +42,7 @@ app.get('/view/:roomId', function(req, res, next) {
                 });
             })
         )
-        .catch(e => next);
+        .catch(() => next);
 });
 
 app.get(['/', '/:roomId'], function(req, res) {

@@ -1,4 +1,3 @@
-import * as MessageForm from '../../actions/MessageFormActions';
 import * as MESSAGE_FORM from '../../constants/MessageFormActions';
 import * as ROOM from '../../constants/RoomActions';
 import * as USER from '../../constants/UserActions';
@@ -64,5 +63,5 @@ export const messageFormReducer = function(state = [], action) {
             return save(state.filter(form => form.id != action.id));
         default:
             return state;
-    };
+    }
 };

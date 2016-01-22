@@ -6,10 +6,10 @@ export class Dispatcher {
     }
 
     dispatch(action, to = null, excludeSelf = false) {
-        let {
-            server,
-            ..._action,
-        } = action;
+        let _action = {
+            ...action,
+            server: false,
+        };
 
         if (!to || !excludeSelf) this.socket.emit('action', _action);
         if (to) this.socket.to(to).emit('action', _action);
@@ -17,7 +17,7 @@ export class Dispatcher {
         (this.root || this).onDispatch(_action);
     }
     
-    onDispatch(action) {
+    onDispatch() {
         console.error(`${this.constructor.name}.onDispatch must be overrided`);
     }
 }

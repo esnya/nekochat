@@ -1,5 +1,5 @@
 export const makeColor = function (data) {
-    var hash = Array.prototype.reduce.call(data + data, function (sum, c, i) {
+    var hash = Array.prototype.reduce.call(data + data, (sum, c) => {
         return (sum * 31 + c.charCodeAt(0)) & 0xffffff;
     }, 0);
 

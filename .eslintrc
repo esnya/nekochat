@@ -1,0 +1,23 @@
+---
+extends: eslint:recommended
+plugins:
+    - react
+env:
+    browser: true
+    es6: true
+    node: true
+ecmaFeatures:
+    jsx: true
+    modules: true
+    experimentalObjectRestSpread: true
+globals:
+    KeyEvent: true
+rules:
+    comma-dangle:
+        - 2
+        - always-multiline
+    no-console: 1
+    no-unused-vars:
+        - 2
+        - varsIgnorePattern: React
+        

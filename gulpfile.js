@@ -4,6 +4,7 @@ const browserify = require('browserify');
 const fs = require('fs');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
+const eslint = require('gulp-eslint');
 const liveserver = require('gulp-live-server');
 const sourcemaps = require('gulp-sourcemaps');
 const gutil = require('gulp-util');
@@ -15,19 +16,30 @@ let server = liveserver.new('.');
 
 gulp.task('default', ['build']);
 
+gulp.task('lint', ['eslint']);
+
 gulp.task('build', ['build:server', 'build:browser']);
 gulp.task('build:server', ['babel']);
 gulp.task('build:browser', ['browserify']);
 
 gulp.task('serve', ['server']);
 
-gulp.task('watch', ['watch:server', 'watch:browser']);
+gulp.task('watch', ['watch:server', 'watch:browser'], () => {
+    gulp.watch('.eslintrc', ['eslint']);
+});
 gulp.task('watch:server', ['server'], () => {
     gulp.watch(['src/**/*', '!src/browser/**/*'], ['server']);
     gulp.watch(['dist/**/*', 'public/**/*', 'views/**/*'], file => server.notify(file));
 });
 gulp.task('watch:browser', ['watchify'], () =>
     gulp.watch(['src/**/*', '!src/server/**/*'], ['watchify']));
+
+gulp.task('eslint', () =>
+    gulp.src('src/**/*.js')
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError())
+);
 
 gulp.task(
     'sync-lib',
@@ -58,7 +70,7 @@ gulp.task(
 );
 
 gulp.task(
-    'babel', ['sync-lib'],
+    'babel', ['eslint', 'sync-lib'],
     () => gulp.src('src/**/*.js')
         .pipe(babel())
         .pipe(gulp.dest('lib'))

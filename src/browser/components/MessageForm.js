@@ -1,4 +1,4 @@
-import { Dialog, FlatButton, FontIcon, IconButton, Popover, RadioButton, RadioButtonGroup, TextField } from 'material-ui';
+import { Dialog, FlatButton, FontIcon, IconButton, Popover, TextField } from 'material-ui';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../color';
@@ -75,7 +75,7 @@ export class ConfigDialog extends Component {
             pop: {
                 target,
                 icon,
-            }
+            },
         });
     }
     hideIconPop() {
@@ -98,7 +98,6 @@ export class ConfigDialog extends Component {
             ...otherProps,
         } = this.props;
         let {
-            data,
             pop,
         } = this.state;
         

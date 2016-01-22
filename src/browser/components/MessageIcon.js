@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Avatar, RefreshIndicator } from 'material-ui';
 
 export const MessageIcon = (props) => {

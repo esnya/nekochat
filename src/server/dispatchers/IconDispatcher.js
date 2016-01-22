@@ -1,7 +1,7 @@
 import * as Icon from '../../actions/IconActions';
 import * as ICON from '../../constants/IconActions';
 import { generateId } from '../id';
-import { knex, exists, inserted } from '../knex.js';
+import { knex, exists } from '../knex.js';
 import { Dispatcher }  from './Dispatcher';
 
 const IconFields = ['id', 'name', 'type', 'created', 'modified'];

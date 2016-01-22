@@ -1,6 +1,6 @@
 import * as Room from '../../actions/RoomActions';
 import * as ROOM from '../../constants/RoomActions';
-import { knex, exists, inserted } from '../knex.js';
+import { knex, exists } from '../knex.js';
 import { Dispatcher } from './Dispatcher';
 import { generateId } from '../id';
 

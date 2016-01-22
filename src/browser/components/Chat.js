@@ -1,4 +1,4 @@
-import { AppBar, Avatar, CircularProgress, FontIcon, IconButton, LeftNav, MenuItem, TextField } from 'material-ui';
+import { AppBar, CircularProgress, IconButton, LeftNav, MenuItem } from 'material-ui';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../color';
@@ -143,8 +143,6 @@ export class Chat extends Component {
             messageForm,
             messageList,
             user,
-            createForm,
-            onSubmitMessage,
             setRoute,
         } = this.props;
         let {
@@ -194,4 +192,4 @@ export class Chat extends Component {
             </div>
         );
     }
-};
+}
