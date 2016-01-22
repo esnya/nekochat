@@ -4,15 +4,23 @@ import * as USER from '../../constants/UserActions';
 
 let id = 0;
 
-let user, room;
+let user = null;
+let room = null;
+
 const getKey = () => `/beniimo-online/${user.id}/${room.id}/form`;
+const save = (state) => {
+    localStorage.setItem(getKey(), JSON.stringify(state));
+    return state;
+};
 const load = (state) => {
     if (!user || !room) return state;
 
     let form = localStorage.getItem(getKey());
+
     if (form) {
         let parsed = JSON.parse(form);
-        parsed.forEach(f => id = Math.max(f.id + 1, id));
+    
+        parsed.forEach((f) => id = Math.max(f.id + 1, id));
         return parsed;
     }
     
@@ -26,10 +34,6 @@ const load = (state) => {
         icon_id: null,
     }]);
 };
-const save = (state) => {
-    localStorage.setItem(getKey(), JSON.stringify(state));
-    return state;
-};
 
 export const messageFormReducer = function(state = [], action) {
     switch (action.type) {
@@ -42,8 +46,9 @@ export const messageFormReducer = function(state = [], action) {
         case ROOM.JOINED:
             room = action.room;
             return load(state);
-        case MESSAGE_FORM.CREATE:
+        case MESSAGE_FORM.CREATE: {
             let form = action.copy ? state[0] : action;
+
             return save([
                 {
                     id: id++,
@@ -53,14 +58,15 @@ export const messageFormReducer = function(state = [], action) {
                 },
                 ...state,
             ]);
-        case MESSAGE_FORM.UPDATE:
+        } case MESSAGE_FORM.UPDATE: {
             let items = Array.isArray(action.data) ? action.data : [action.data];
+
             return save(
-                state.map(item => ({item, update: items.find(b => item.id === b.id)}))
-                    .map(({item, update}, i) => update ? Object.assign({}, item, update, {is_first: i == state.length - 1}) : item)
+                state.map((item) => ({item, update: items.find((b) => item.id === b.id)}))
+                    .map(({item, update}, i) => update ? Object.assign({}, item, update, {is_first: i === state.length - 1}) : item)
             );
-        case MESSAGE_FORM.REMOVE:
-            return save(state.filter(form => form.id != action.id));
+        } case MESSAGE_FORM.REMOVE:
+            return save(state.filter((form) => form.id !== action.id));
         default:
             return state;
     }

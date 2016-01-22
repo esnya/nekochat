@@ -7,18 +7,18 @@ export const exists = function(data) {
 };
 
 export const inserted = function(ids) {
-    return ids.length == 0 ? Promise.reject(new Error('Failed to insert')) : Promise.resolve(ids[0]);
+    return ids.length === 0 ? Promise.reject(new Error('Failed to insert')) : Promise.resolve(ids[0]);
 };
 
 Promise.all([
-    knex.schema.createTableIfNotExists('users', table => {
+    knex.schema.createTableIfNotExists('users', (table) => {
         table.string('id').primary();
         table.string('name').notNullable();
         table.timestamp('created').notNullable().defaultTo(knex.fn.now());
         table.timestamp('modified').notNullable().defaultTo(knex.fn.now());
         table.timestamp('deleted');
     }),
-    knex.schema.createTableIfNotExists('rooms', table => {
+    knex.schema.createTableIfNotExists('rooms', (table) => {
         table.string('id').primary();
         table.string('title').notNullable();
         table.string('user_id').notNullable();
@@ -26,7 +26,7 @@ Promise.all([
         table.timestamp('modified').notNullable().defaultTo(knex.fn.now());
         table.timestamp('deleted').defaultTo(null);
     }),
-    knex.schema.createTableIfNotExists('messages', table => {
+    knex.schema.createTableIfNotExists('messages', (table) => {
         table.increments('id').primary();
         table.string('room_id').notNullable();
         table.string('user_id').notNullable();
@@ -38,7 +38,7 @@ Promise.all([
         table.timestamp('modified').notNullable().defaultTo(knex.fn.now());
         table.timestamp('deleted').defaultTo(null);
     }),
-    knex.schema.createTableIfNotExists('icons', table => {
+    knex.schema.createTableIfNotExists('icons', (table) => {
         table.string('id').primary();
         table.string('user_id').notNullable();
         table.string('name').notNullable();
@@ -48,6 +48,5 @@ Promise.all([
         table.timestamp('modified').notNullable().defaultTo(knex.fn.now());
         table.timestamp('deleted').defaultTo(null);
     }),
-]).then(() => {
-    return knex.raw('CREATE VIEW IF NOT EXISTS room_histories AS SELECT rooms.* FROM messages LEFT JOIN rooms ON messages.room_id = rooms.id  GROUP BY messages.user_id, messages.room_id').then();
-});
+])
+.then(() =>  knex.raw('CREATE VIEW IF NOT EXISTS room_histories AS SELECT rooms.* FROM messages LEFT JOIN rooms ON messages.room_id = rooms.id  GROUP BY messages.user_id, messages.room_id').then());

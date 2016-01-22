@@ -103,12 +103,12 @@ export class Chat extends Component {
     }
 
     componentWillUpdate(nextProps) {
-        if (nextProps.id != this.props.id) {
+        if (nextProps.id !== this.props.id) {
             nextProps.fetch();
         }
     }
     componentDidUpdate(prevProps) {
-        if (!this.props.eor && this.props.messageList.length > 0 && prevProps.messageList.length == 0) {
+        if (!this.props.eor && this.props.messageList.length > 0 && prevProps.messageList.length === 0) {
             this.onScroll({
                 target: findDOMNode(this.refs.messageList),
             });
@@ -125,6 +125,7 @@ export class Chat extends Component {
                 messageList,
                 fetch,
             } = this.props;
+
             if (eor) return;
             fetch(messageList[messageList.length - 1].id);
         }
@@ -171,11 +172,11 @@ export class Chat extends Component {
             <div style={Styles.Container}>
                 <AppBar title={title || 'Beniimo Online'} onLeftIconButtonTouchTap={() => this.toggleLeftNav()} />
                 <div style={Styles.Form}>
-                    {messageForm.map(form => <MessageFormContainer {...form} key={form.id} user={user} />)}
+                    {messageForm.map((form) => <MessageFormContainer {...form} key={form.id} user={user} />)}
                 </div>
-                <div ref="messageList" style={Styles.List} onScroll={e => this.onScroll(e)}>
-                    {input.map(input => <Message {...input} key={input.id} iconType="loading" />)}
-                    {messageList.map(message => <Message {...message} key={message.id} />)}
+                <div ref="messageList" style={Styles.List} onScroll={(e) => this.onScroll(e)}>
+                    {input.map((i) => <Message {...i} key={i.id} iconType="loading" />)}
+                    {messageList.map((message) => <Message {...message} key={message.id} />)}
                     <div ref="loader" style={Object.assign({
                         display: eor ? 'none' : 'block',
                     }, Styles.Loader)}>

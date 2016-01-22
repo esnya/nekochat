@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Theme from '../theme';
 import { Router } from './Router';
 
-const RouterContainer = connect(state => ({ ...state.route }))(Router);
+const RouterContainer = connect((state) => ({ ...state.route }))(Router);
 
 export class App extends Component {
     static get childContextTypes() {

@@ -29,7 +29,7 @@ gulp.task('watch', ['watch:server', 'watch:browser'], () => {
 });
 gulp.task('watch:server', ['server'], () => {
     gulp.watch(['src/**/*', '!src/browser/**/*'], ['server']);
-    gulp.watch(['dist/**/*', 'public/**/*', 'views/**/*'], file => server.notify(file));
+    gulp.watch(['dist/**/*', 'public/**/*', 'views/**/*'], (file) => server.notify(file));
 });
 gulp.task('watch:browser', ['watchify'], () =>
     gulp.watch(['src/**/*', '!src/server/**/*'], ['watchify']));
@@ -43,21 +43,21 @@ gulp.task('eslint', () =>
 
 gulp.task(
     'sync-lib',
-    next => {
+    (next) => {
         if (!fs.existsSync('lib')) return next();
 
         let read = (dir) =>
             fs.readdirSync(dir)
-                .map(item => `${dir}/${item}`)
-                .map(item => 
+                .map((item) => `${dir}/${item}`)
+                .map((item) => 
                     fs.statSync(item).isDirectory()
                     ? read(item).concat([ item ])
                     : [ item ]
                 )
                 .reduce((a, b) => a.concat(b));
         read('lib')
-            .filter(item => !fs.existsSync(item.replace(/^lib/, 'src')))
-            .forEach(item => {
+            .filter((item) => !fs.existsSync(item.replace(/^lib/, 'src')))
+            .forEach((item) => {
                 gutil.log(`rm ${item}`);
                 if (fs.statSync(item).isDirectory()) {
                     fs.rmdirSync(item);
@@ -83,7 +83,7 @@ const BrowserifyConfig = {
 const bundle = function(b) {
     return function() {
         return b.bundle()
-            .on('error', e => {
+            .on('error', (e) => {
                 throw e;
             })
             .pipe(source('browser.js'))
@@ -99,7 +99,7 @@ w.on('log', gutil.log);
 gulp.task('watchify', ['babel'], bundle(w));
 gulp.task('browserify', ['babel'], bundle(browserify(BrowserifyConfig)));
 
-gulp.task('server', ['babel'], next => {
+gulp.task('server', ['babel'], (next) => {
     server.start();
     next();
 });

@@ -1,10 +1,12 @@
 export const makeColor = function (data) {
-    var hash = Array.prototype.reduce.call(data + data, (sum, c) => {
-        return (sum * 31 + c.charCodeAt(0)) & 0xffffff;
-    }, 0);
+    let hash = Array.reduce(
+        data + data,
+        (sum, c) =>  (sum * 31 + c.charCodeAt(0)) & 0xffffff,
+        0
+    );
+    let color = [];
 
-    var color = [];
-    for (var i = 0; i < 3; ++i) {
+    for (let i = 0; i < 3; ++i) {
         color.push(hash & 0xff);
         hash >>= 8;
     }

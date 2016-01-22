@@ -25,7 +25,7 @@ export const MessageIcon = (props) => {
         backgroundSize: 'cover',
     };
 
-    if (type == 'loading') {
+    if (type === 'loading') {
         return (
             <div style={{position: 'relative', width: 60}}>
                 <RefreshIndicator size={60} loadingColor={color} left={0} top={0} status="loading" />
@@ -43,6 +43,7 @@ export const MessageIcon = (props) => {
             picture,
         } = character_data;
         let url = new URL(icon || portrait || image || picture, character_url);
+
         return <div style={Object.assign({}, Style, ImageStyle, style, {
             backgroundImage: `url(${url})`,
         })} />;
@@ -50,8 +51,9 @@ export const MessageIcon = (props) => {
         let icon = name.match(/^[a-zA-Z0-9][a-zA-Z0-9]/)
             ? name.substr(0, 2)
             : name.substr(0, 1);
+ 
         return <Avatar size={60} backgroundColor={color} style={style}>{icon}</Avatar>;
-    } else {
-        return <div style={Object.assign({}, Style, style)} />;
     }
+
+    return <div style={Object.assign({}, Style, style)} />;
 };

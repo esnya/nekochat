@@ -1,17 +1,17 @@
 export const diceReplace = function (str, io) {
-    return str.replace(/([0-9]*d[0-9]*|[0-9]+)([+-][0-9]*d[0-9]*|[+-][0-9]+)*=/g, function (exp) {
-        var status = '';
+    return str.replace(/([0-9]*d[0-9]*|[0-9]+)([+-][0-9]*d[0-9]*|[+-][0-9]+)*=/g, (exp) => {
+        let status = '';
 
-        var diced = exp.replace(/([0-9]*)d([0-9]*)/g, function (dice) {
-            var s = dice.split('d');
-            var num = 1;
-            var eye = 6;
+        let diced = exp.replace(/([0-9]*)d([0-9]*)/g, (dice) => {
+            let s = dice.split('d');
+            let num = 1;
+            let eye = 6;
 
-            if (dice.charAt(0) == 'd') {
+            if (dice.charAt(0) === 'd') {
                 eye = +s[0];
             } else {
                 num = +s[0];
-                if (s.length == 2 && s[1]) {
+                if (s.length === 2 && s[1]) {
                     eye = +s[1];
                 }
             }
@@ -20,8 +20,9 @@ export const diceReplace = function (str, io) {
                 return NaN;
             }
 
-            var r = [];
-            for (var i = 0; i < num; ++i) {
+            let r = [];
+ 
+            for (let i = 0; i < num; ++i) {
                 r.push(Math.floor(Math.random() * eye + 1));
             }
 
@@ -30,13 +31,9 @@ export const diceReplace = function (str, io) {
             }
 
             if (num > 1) {
-                if (r.every(function (n) {
-                    return n == 1
-                })) {
+                if (r.every((n) => n ===1)) {
                     status = '(1ゾロ)';
-                } else if (r.every(function (n) {
-                    return n == eye
-                })) {
+                } else if (r.every((n) => n === eye)) {
                     status = '(' + eye + 'ゾロ)';
                 }
             }
@@ -44,7 +41,7 @@ export const diceReplace = function (str, io) {
             return '[' + r.join(', ') + ']';
         });
 
-        var sum = eval(diced.replace(/,/g, '+').replace(/[\[\] ]/g, '').slice(0, -1));
+        let sum = eval(diced.replace(/,/g, '+').replace(/[\[\] ]/g, '').slice(0, -1));
 
         return exp + diced + sum + status;
     });

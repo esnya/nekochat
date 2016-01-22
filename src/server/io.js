@@ -10,9 +10,9 @@ export const io = SocketIO(server);
 
 io.use(ExpressSocketIOSession(session, { autoSave: true }));
 
-io.use(function (socket, next) {
+io.use((socket, next) => {
     getUser(socket.handshake.session)
-        .then(user => {
+        .then((user) => {
             socket.user = {
                 id: user.id,
                 name: user.name,
@@ -22,11 +22,12 @@ io.use(function (socket, next) {
         .catch(next);
 });
 
-io.on('connect', function (socket) {
+io.on('connect', (socket) => {
     console.log('New Connection: ', socket.id, socket.user);
 
     let dispatcher = new ActionDispatcher(socket);
-    socket.on('action', action => dispatcher.onDispatch(action));
+
+    socket.on('action', (action) => dispatcher.onDispatch(action));
 
     socket.emit('hello', socket.user);
     socket.emit('action', loggedin(socket.user));

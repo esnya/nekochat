@@ -5,8 +5,10 @@ export const getUser = function(session) {
     let passport = session.passport || AppConfig.auth.guest && {
         user: 'guest',
     };
+
     if (passport) {
         let user = passport.user;
+
         if (user) {
             return knex('users')
                 .where('id', user)

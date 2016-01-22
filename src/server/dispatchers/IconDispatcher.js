@@ -9,8 +9,9 @@ const IconFields = ['id', 'name', 'type', 'created', 'modified'];
 export class IconDispatcher extends Dispatcher {
     onDispatch(action) {
         switch(action.type) {
-            case ICON.CREATE:
+            case ICON.CREATE: {
                 let id = generateId(Date.now() + '' + Math.random());
+
                 return knex('icons').insert({
                         id,
                         user_id: this.user_id,
@@ -25,13 +26,13 @@ export class IconDispatcher extends Dispatcher {
                             .first(...IconFields)
                     )
                     .then(exists)
-                    .then(icon => this.dispatch(Icon.push([icon])));
-            case ICON.FETCH:
+                    .then((icon) => this.dispatch(Icon.push([icon])));
+            } case ICON.FETCH:
                 return knex('icons')
                     .where('user_id', this.user_id)
                     .whereNull('deleted')
                     .select(...IconFields)
-                    .then(icons => this.dispatch(Icon.push(icons)));
+                    .then((icons) => this.dispatch(Icon.push(icons)));
             case ICON.REMOVE:
                 return knex('icons')
                     .where('id', action.id)

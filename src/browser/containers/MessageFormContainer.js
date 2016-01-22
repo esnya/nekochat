@@ -6,19 +6,19 @@ import { create as createForm, update as updateForm, remove as removeForm } from
 import { MessageForm } from '../components/MessageForm';
 
 export const MessageFormContainer = connect(
-    state => ({
+    (state) => ({
         user: state.user,
         iconList: state.iconList,
     }),
-    dispatch => ({
-        createIcon: icon => dispatch(createIcon(icon)),
-        removeIcon: id => dispatch(removeIcon(id)),
+    (dispatch) => ({
+        createIcon: (icon) => dispatch(createIcon(icon)),
+        removeIcon: (id) => dispatch(removeIcon(id)),
         fetchIcon: () => dispatch(fetchIcon()),
         createForm: () => dispatch(createForm()),
-        updateForm: form => dispatch(updateForm(form)),
-        removeForm: form => dispatch(removeForm(form)),
-        createMessage: message => dispatch(createMessage(message)),
-        beginInput: input => dispatch(beginInput(input)),
-        endInput: input => dispatch(endInput(input)),
+        updateForm: (form) => dispatch(updateForm(form)),
+        removeForm: (form) => dispatch(removeForm(form)),
+        createMessage: (message) => dispatch(createMessage(message)),
+        beginInput: (input) => dispatch(beginInput(input)),
+        endInput: (input) => dispatch(endInput(input)),
     })
 )(MessageForm);

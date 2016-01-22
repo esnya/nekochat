@@ -8,13 +8,13 @@ export const app = express();
 app.set('view engine', 'jade');
 app.use(session);
 
-app.get('/icon/:id', function(req, res, next) {
+app.get('/icon/:id', (req, res, next) => {
     knex('icons')
         .where('id', req.params.id)
         .whereNull('deleted')
         .first()
         .then(exists)
-        .then(icon => res.type(icon.type).send(icon.data))
+        .then((icon) => res.type(icon.type).send(icon.data))
         .catch(next);
 });
 
@@ -25,17 +25,17 @@ app.use('/dice3d', express.static('node_modules/dice3d/dist'));
 app.use('/js', express.static('lib/browser'));
 app.use('/src', express.static('src'));
 
-app.get('/view/:roomId', function(req, res, next) {
+app.get('/view/:roomId', (req, res, next) => {
     knex('rooms')
         .where('id', req.params.roomId)
         .whereNull('deleted')
         .first()
         .then(exists)
-        .then(room =>  knex('messages')
+        .then((room) =>  knex('messages')
             .where('room_id', room.id)
             .whereNull('deleted')
             .orderBy('id', 'asc')
-            .then(messages => {
+            .then((messages) => {
                 res.render('static', {
                     title: room.title,
                     messages,
@@ -45,6 +45,6 @@ app.get('/view/:roomId', function(req, res, next) {
         .catch(() => next);
 });
 
-app.get(['/', '/:roomId'], function(req, res) {
+app.get(['/', '/:roomId'], (req, res) => {
     res.render('index');
 });

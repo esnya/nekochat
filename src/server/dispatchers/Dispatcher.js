@@ -6,15 +6,15 @@ export class Dispatcher {
     }
 
     dispatch(action, to = null, excludeSelf = false) {
-        let _action = {
+        let clientAction = {
             ...action,
             server: false,
         };
 
-        if (!to || !excludeSelf) this.socket.emit('action', _action);
-        if (to) this.socket.to(to).emit('action', _action);
+        if (!to || !excludeSelf) this.socket.emit('action', clientAction);
+        if (to) this.socket.to(to).emit('action', clientAction);
 
-        (this.root || this).onDispatch(_action);
+        (this.root || this).onDispatch(clientAction);
     }
     
     onDispatch() {

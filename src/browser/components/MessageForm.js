@@ -5,10 +5,10 @@ import { makeColor } from '../color';
 import { getCharacter } from '../character';
 import { MessageIcon } from './MessageIcon';
 
-let _id = 0;
-const lastId = () => `MessageFormGeneratedId-${_id}`;
+let messageFormId = 0;
+const lastId = () => `MessageFormGeneratedId-${messageFormId}`;
 const genId = () => {
-    _id++;
+    messageFormId++;
     return lastId();
 };
 
@@ -26,12 +26,13 @@ export class ConfigDialog extends Component {
     
     fetchCharacter() {
         let url = this.refs.character_url.getValue();
+
         if (url) {
             getCharacter(url)
-                .then(data => {
+                .then((data) => {
                     this.refs.name.setValue(data.name);
                 })
-                .catch(error => console.error(error));
+                .catch((error) => console.error(error));
         }
     }
 
@@ -39,8 +40,8 @@ export class ConfigDialog extends Component {
         e.preventDefault();
         
         let form = findDOMNode(this.refs.form);
-        let selected = (form.icon_id.length ? Array.map(form.icon_id, a => a) : [form.icon_id])
-            .find(radio => radio.checked);
+        let selected = (form.icon_id.length ? Array.map(form.icon_id, (a) => a) : [form.icon_id])
+            .find((radio) => radio.checked);
         let icon_id = selected && selected.value || null;
 
         this.props.onUpdate({
@@ -53,13 +54,15 @@ export class ConfigDialog extends Component {
 
     onIconUpload() {
         let icon_data = findDOMNode(this.refs.icon_data);
+
         icon_data.click();
     }
     onIconFileChange(e) {
         let icon_data = e.target;
-        if (icon_data.files.length == 0) return;
+
+        if (icon_data.files.length === 0) return;
         
-        Array.map(icon_data.files, a => a).forEach(file => {
+        Array.map(icon_data.files, (a) => a).forEach((file) => {
             this.props.createIcon({
                 name: file.name,
                 mime: file.type,
@@ -109,7 +112,7 @@ export class ConfigDialog extends Component {
             <FlatButton
                 label="Update"
                 primary={true}
-                onTouchTap={e => this.onUpdate(e)} />,
+                onTouchTap={(e) => this.onUpdate(e)} />,
         ];
 
         let color = makeColor(`${name}${user.id}`);
@@ -164,7 +167,7 @@ export class ConfigDialog extends Component {
                 open={open}
                 actions={Actions}
                 title="Name and Icon">
-                <form ref="form" style={Styles.Form} onUpdate={e => this.onUpdate(e)}>
+                <form ref="form" style={Styles.Form} onUpdate={(e) => this.onUpdate(e)}>
                     <div>
                         <TextField ref="name" fullWidth={true} floatingLabelText="Name" defaultValue={name} />
                     </div>
@@ -180,7 +183,7 @@ export class ConfigDialog extends Component {
                         <div style={Styles.Upload}>
                             <IconButton style={Styles.UploadIcon} iconClassName="material-icons" onTouchTap={() => this.onIconUpload()}>file_upload</IconButton>
                             <div>Upload</div>
-                            <input ref="icon_data" type="file" style={{display: 'none'}} onChange={e => this.onIconFileChange(e)} multiple={true} />
+                            <input ref="icon_data" type="file" style={{display: 'none'}} onChange={(e) => this.onIconFileChange(e)} multiple={true} />
                         </div>
                         <div style={Styles.IconRadioItem}>
                             <div style={Styles.IconRadioText}>
@@ -191,13 +194,13 @@ export class ConfigDialog extends Component {
                                 <MessageIcon name={name} character_data={character_data} character_url={character_url} color={color} noShadow={true} />
                             </label>
                         </div>
-                        {iconList.map(icon => (
+                        {iconList.map((icon) => (
                             <div key={icon.id} style={Styles.IconRadioItem}>
                                 <div style={Styles.IconRadioText}>
-                                    <input id={genId()} type="radio" name="icon_id" value={icon.id} defaultChecked={icon.id == icon_id} />
+                                    <input id={genId()} type="radio" name="icon_id" value={icon.id} defaultChecked={icon.id === icon_id} />
                                     <label htmlFor={lastId()} style={Styles.IconRadioTextLabel}>{icon.name}</label>
                                 </div>
-                                <label htmlFor={lastId()} onMouseEnter={e => this.showIconPop(e.target, icon)}>
+                                <label htmlFor={lastId()} onMouseEnter={(e) => this.showIconPop(e.target, icon)}>
                                     <MessageIcon {...icon} />
                                 </label>
                             </div>
@@ -206,8 +209,8 @@ export class ConfigDialog extends Component {
                     <Popover 
                         open={open && !!pop} 
                         anchorEl={pop && pop.target}
-                        anchorOrigin={{"horizontal":"left","vertical":"top"}}
-                        targetOrigin={{"horizontal":"left","vertical":"bottom"}}
+                        anchorOrigin={{horizontal: "left", vertical: "top"}}
+                        targetOrigin={{horizontal: "left", vertical: "bottom"}}
                         useLayerForClickAway={false}
                         style={Styles.Popover} >
                         <div style={Styles.PopoverContents}>
@@ -234,6 +237,7 @@ export class MessageForm extends Component {
         
         let messageField = this.refs.message;
         let message = messageField.getValue();
+
         if (message) {
             let {
                 name,
@@ -253,7 +257,7 @@ export class MessageForm extends Component {
     }
 
     onKey(e) {
-        if (e.keyCode == KeyEvent.DOM_VK_RETURN && !e.shiftKey) {
+        if (e.keyCode === KeyEvent.DOM_VK_RETURN && !e.shiftKey) {
             this.onUpdate(e);
         }
     }
@@ -325,7 +329,7 @@ export class MessageForm extends Component {
 
         return (
             <div>
-                <form style={Styles.Form} onUpdate={e => this.onUpdate(e)}>
+                <form style={Styles.Form} onUpdate={(e) => this.onUpdate(e)}>
                     {is_first
                         ? <IconButton onTouchTap={createForm}><FontIcon className="material-icons">add</FontIcon></IconButton>
                         : <IconButton onTouchTap={() => removeForm(id)}><FontIcon className="material-icons">remove</FontIcon></IconButton>
@@ -341,14 +345,14 @@ export class MessageForm extends Component {
                         multiLine={true}
                         rows={1}
                         style={Styles.Message}
-                        onKeyDown={e => this.onKey(e)}
+                        onKeyDown={(e) => this.onKey(e)}
                         onChange={() => this.onInput()}
                         onFocus={() => this.onInput()} />
                     <IconButton type="submit">
                         <FontIcon className="material-icons">send</FontIcon>
                     </IconButton>
                 </form>
-                <ConfigDialog {...this.props} open={configDialog} onCancel={() => this.closeConfigDialog()} onUpdate={form => this.onUpdateForm(form)} removeIcon={removeIcon} />
+                <ConfigDialog {...this.props} open={configDialog} onCancel={() => this.closeConfigDialog()} onUpdate={(form) => this.onUpdateForm(form)} removeIcon={removeIcon} />
             </div>
         );
     }

@@ -7,11 +7,12 @@ import { generateId } from '../id';
 export class RoomDispatcher extends Dispatcher {
     onDispatch(action) {
         switch (action.type) {
-            case ROOM.CREATE:
-                let id =generateId((new Date).getTime() + '').substr(0, 16);
+            case ROOM.CREATE: {
+                let id =generateId((new Date()).getTime() + '').substr(0, 16);
+
                 return knex('rooms')
                     .insert({
-                        id: id,
+                        id,
                         title: action.title || null,
                         user_id: this.user_id,
                         created: knex.fn.now(),
@@ -23,17 +24,17 @@ export class RoomDispatcher extends Dispatcher {
                         .first()
                     )
                     .then(exists)
-                    .then(room => {
+                    .then((room) => {
                         this.dispatch(Room.push([room]));
                         this.dispatch(Room.created(room));
                     });
-            case ROOM.JOIN:
+            } case ROOM.JOIN:
                 return knex('rooms')
                     .where('id', action.id)
                     .whereNull('deleted')
                     .first()
                     .then(exists)
-                    .then(room => {
+                    .then((room) => {
                         if (this.room_id) this.socket.leave(this.room_id);
                         this.room_id = room.id;
                         this.socket.join(room.id);
@@ -49,13 +50,13 @@ export class RoomDispatcher extends Dispatcher {
                             .where('user_id', this.user_id)
                             .whereNull('deleted')
                             .orderBy('modified', 'desc')
-                            .then(rooms => this.dispatch(Room.push(rooms))),
+                            .then((rooms) => this.dispatch(Room.push(rooms))),
                         knex('room_histories')
                             .where('user_id', this.user_id)
                             .whereNull('deleted')
                             .orderBy('modified', 'desc')
                             .limit(20)
-                            .then(rooms => this.dispatch(Room.pushHistory(rooms)))
+                            .then((rooms) => this.dispatch(Room.pushHistory(rooms)))
                 );
             case ROOM.REMOVE:
                 return knex('rooms')

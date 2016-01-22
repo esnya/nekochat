@@ -6,7 +6,5 @@ let Store = KnexSessionStore(Session);
 let knex = Knex(require('../config/database').session);
 
 export const session = Session(Object.assign(require('../config/app').session, {
-    store: new Store({
-        knex: knex,
-    }),
+    store: new Store({knex}),
 }));

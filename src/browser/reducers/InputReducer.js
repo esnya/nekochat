@@ -8,9 +8,9 @@ export const inputReducer = function(state = [], action) {
                 user_id: action.user_id,
                 name: action.name,
                 message: action.message,
-            }, ...(state.filter(i => i.id != action.id))];
+            }, ...(state.filter((i) => i.id !== action.id))];
         case INPUT.ENDED:
-            return state.filter(i => i.id != action.id);
+            return state.filter((i) => i.id !== action.id);
         default:
             return state;
     }

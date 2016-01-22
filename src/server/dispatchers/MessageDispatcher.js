@@ -19,18 +19,18 @@ export class MessageDispatcher extends Dispatcher {
                         message: diceReplace(action.message, this.socket.server.to(this.room_id)) || null,
                     })
                     .then(inserted)
-                    .then(id => knex('messages').where('id', id).whereNull('deleted').first())
-                    .then(message => this.dispatch(Message.push([message]), this.room_id));
+                    .then((id) => knex('messages').where('id', id).whereNull('deleted').first())
+                    .then((message) => this.dispatch(Message.push([message]), this.room_id));
             case ROOM.JOINED:
                 this.room_id = action.room.id;
-                return this.opDispatch({type: MESSAGE.FETCH});
+                return this.onDispatch({type: MESSAGE.FETCH});
             case MESSAGE.FETCH:
                 return (action.minId ? knex('messages').where('id', '<', action.minId) : knex('messages'))
                     .where('room_id', this.room_id)
                     .whereNull('deleted')
                     .orderBy('id', 'desc')
                     .limit(20)
-                    .then(messages => {
+                    .then((messages) => {
                         this.dispatch(Message.push(messages));
                     });
         }
