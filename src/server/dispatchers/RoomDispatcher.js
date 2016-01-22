@@ -46,13 +46,15 @@ export class RoomDispatcher extends Dispatcher {
             case ROOM.FETCH:
                 return Promise.all(
                         knex('rooms')
+                            .where('user_id', this.user_id)
                             .whereNull('deleted')
-                            .orderBy('created', 'desc')
+                            .orderBy('modified', 'desc')
                             .then(rooms => this.dispatch(Room.push(rooms))),
                         knex('room_histories')
                             .where('user_id', this.user_id)
                             .whereNull('deleted')
-                            .orderBy('created', 'desc')
+                            .orderBy('modified', 'desc')
+                            .limit(20)
                             .then(rooms => this.dispatch(Room.pushHistory(rooms)))
                 );
             case ROOM.REMOVE:
