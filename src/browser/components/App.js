@@ -6,7 +6,6 @@ import { Router } from './Router';
 
 const RouterContainer = connect(state => ({ ...state.route }))(Router);
 
-console.log(Theme)
 export class App extends Component {
     static get childContextTypes() {
         return {
