@@ -3,12 +3,13 @@ import express from 'express';
 import fs from 'fs-promise';
 import Livereload from 'connect-livereload';
 import Multiparty from 'connect-multiparty';
-import { knex } from './knex';
+import { knex, exists } from './knex';
 import { session } from './session';
 import { getUser } from './user';
 
 export const app = express();
 
+app.set('view engine', 'jade');
 app.use(session);
 
 app.get('/icon/:id', function(req, res, next) {
@@ -16,6 +17,7 @@ app.get('/icon/:id', function(req, res, next) {
         .where('id', req.params.id)
         .whereNull('deleted')
         .first()
+        .then(exists)
         .then(icon => res.type(icon.type).send(icon.data))
         .catch(next);
 });
@@ -26,7 +28,6 @@ app.use('/angular-material', express.static('node_modules/angular-material'));
 app.use('/dice3d', express.static('node_modules/dice3d/dist'));
 app.use('/js', express.static('lib/browser'));
 app.use('/src', express.static('src'));
-app.use(express.static('.'));
 
 app.get('/view/:roomId', function(req, res) {
     var roomId = '#' + req.params.roomId;
@@ -78,4 +79,8 @@ app.get('/view/:roomId', function(req, res) {
 });
 app.get('/view', function(req, res) {
     res.end('<script>location.href = location.hash.substr(1);</script>');
+});
+
+app.get(['/', '/:roomId'], function(req, res) {
+    res.render('index');
 });

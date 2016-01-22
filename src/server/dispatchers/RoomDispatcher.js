@@ -8,12 +8,14 @@ export class RoomDispatcher extends Dispatcher {
     onDispatch(action) {
         switch (action.type) {
             case ROOM.CREATE:
-                let id = '#' + generateId((new Date).getTime() + '').substr(0, 16);
+                let id =generateId((new Date).getTime() + '').substr(0, 16);
                 return knex('rooms')
                     .insert({
                         id: id,
                         title: action.title || null,
                         user_id: this.user_id,
+                        created: knex.fn.now(),
+                        modified: knex.fn.now(),
                     })
                     .then(() => knex('rooms')
                         .where('id', id)
@@ -48,6 +50,15 @@ export class RoomDispatcher extends Dispatcher {
                             .orderBy('created', 'desc')
                             .then(rooms => this.dispatch(Room.pushHistory(rooms)))
                 );
+            case ROOM.REMOVE:
+                return knex('rooms')
+                    .where('id', action.id)
+                    .where('user_id', this.user_id)
+                    .whereNull('deleted')
+                    .update({
+                        deleted: knex.fn.now(),
+                    })
+                    .then(() => action.id);
         }
     }
 }

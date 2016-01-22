@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import ExpressSocketIOSession from 'express-socket.io-session'
 import SocketIO from 'socket.io';
+import { loggedin } from '../actions/UserActions';
 import { diceReplace } from './dice';
 import { knex } from './knex';
 import { server } from './server';
@@ -26,6 +27,8 @@ io.use(function (socket, next) {
 
 io.on('connect', function (socket) {
     console.log('New Connection: ', socket.id, socket.user);
+    
+    socket.emit('action', loggedin(socket.user));
 
     var _user, _room, _minId;
 

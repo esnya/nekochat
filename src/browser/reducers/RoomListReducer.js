@@ -16,6 +16,12 @@ export const roomListReducer = function(state = InitialState, action) {
                 ...state,
                 history: [...action.history, ...(state.history.filter(a => !action.history.find(b => a.id == b.id)))],
             };
+        case ROOM.REMOVE:
+            return {
+                ...state,
+                rooms: state.rooms.filter(room => room.id != action.id),
+                history: state.history.filter(room => room.id != action.id),
+            };
         default:
             return state;
     }
