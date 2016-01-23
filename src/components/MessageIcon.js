@@ -41,7 +41,7 @@ export const MessageIcon = (props) => {
 
     if (type === 'loading') {
         return (
-            <div style={{position: 'relative', width: Size}}>
+            <div style={{position: 'relative', width: Size, height: Size}}>
                 <RefreshIndicator
                     left={0} top={0}
                     loadingColor={color}
