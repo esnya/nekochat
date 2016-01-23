@@ -1,59 +1,71 @@
-const cache = {};
+import { EventEmitter } from 'fbemitter';
 
 const READY_DONE = 4;
 const HTTP_OK = 200;
+const EVENT_ERROR = 'ERROR';
+const EVENT_DATA = 'DATA';
+const cache = {};
 
-export const getCharacter = function(url) {
-    return new Promise((resolve, reject) => {
-        let cached = cache[url];
+const wait = (url) => new Promise((resolve, reject) => {
+    const emitter = cache[url].emitter;
 
-        if (cached === undefined) {
-            cached = cache[url] = {
-                loaded: false,
-                listeners: [],
-            };
-            
-            const onError = (error) => {
-                cached.listeners
-                    .forEach((listener) => listener.reject(error));
-                reject(error);
-                Reflect.deleteProperty(cache, url);
-            };
+    emitter.once(EVENT_DATA, resolve);
+    emitter.once(EVENT_ERROR, reject);
+});
 
-            try {
-                const xhr = new XMLHttpRequest();
+const req = (url) => {
+    const emitter = cache[url].emitter;
+    const onError = (error) => {
+        Reflect.deleteProperty(cache, url);
+        emitter.emit(EVENT_ERROR, error);
+    };
 
-                xhr.onreadystatechange = () => {
-                    if (xhr.readyState === READY_DONE) {
-                        if (xhr.status === HTTP_OK) {
-                            try {
-                                cached.data = JSON.parse(xhr.responseText);
-                            } catch(error) {
-                                onError(error);
-                            }
+    try {
+        const xhr = new XMLHttpRequest();
 
-                            cached.listeners.forEach(
-                                (listener) => listener.resolve(cached.data)
-                            );
-                            resolve(cached.data);
-                            Reflect.deleteProperty(cached, 'listeners');
-                        } else {
-                            onError(new Error(xhr.statusText));
-                        }
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === READY_DONE) {
+                if (xhr.status === HTTP_OK) {
+                    try {
+                        Reflect.deleteProperty(cache[url], 'emitter');
+                        emitter.emit(
+                            EVENT_DATA,
+                            (cache[url].data = JSON.parse(xhr.responseText))
+                        );
+                    } catch(error) {
+                        onError(error);
                     }
-                };
-                xhr.onerror = onError;
-                xhr.withCredentials = true;
-
-                xhr.open('GET', url, true);
-                xhr.send(null);
-            } catch(error) {
-                onError(error);
+                } else {
+                    onError(new Error(xhr.statusText));
+                }
             }
-        } else if (!cached.data) {
-            cached.listeners.push({ resolve, reject });
-        } else {
-            resolve(cached.data);
-        }
-    });
+        };
+        xhr.onerror = onError;
+        xhr.withCredentials = true;
+
+        xhr.open('GET', url, true);
+        xhr.send(null);
+    } catch(error) {
+        onError(error);
+    }
+};
+
+const get = (url) => {
+    cache[url] = {
+        emitter: new EventEmitter(),
+    };
+
+    const promise = wait(url);
+
+    req(url);
+    return promise;
+};
+
+export const getCharacter = (url) => {
+    const cached = cache[url];
+
+    if (!cached) return get(url);
+    else if (!cached.data) return wait(url);
+
+    return Promise.resolve(cached.data);
 };

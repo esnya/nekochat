@@ -38,6 +38,7 @@
     "connect-session-knex": "^1.0.17",
     "eslint-plugin-react": "^3.15.0",
     "express-session": "^1.13.0",
+    "fbemitter": "^2.0.1",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
     "gulp-eslint": "^1.1.1",
