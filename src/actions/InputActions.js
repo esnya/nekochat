@@ -1,19 +1,5 @@
 import * as INPUT from '../constants/InputActions';
 
-export const begin = function(input) {
-    return {
-        type: INPUT.BEGIN,
-        server: true,
-        ...input,
-    };
-};
-export const began = function(input) {
-    return {
-        type: INPUT.BEGAN,
-        ...input,
-    };
-};
-
 export const end = function(input) {
     return {
         type: INPUT.END,
@@ -27,3 +13,19 @@ export const ended = function(input) {
         ...input,
     };
 };
+
+export const begin = function(input) {
+    return {
+        type: INPUT.BEGIN,
+        server: true,
+        ...input,
+    };
+};
+export const began = (input) => ({
+    ...input,
+    type: INPUT.BEGAN,
+    timeout: {
+        timeout: 10 * 1000,
+        next: ended(input),
+    },
+});
