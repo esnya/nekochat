@@ -2,8 +2,14 @@ import React from 'react';
 import { Avatar, RefreshIndicator } from 'material-ui';
 
 const Size = 60;
+const Style = {
+    width: Size,
+    height: Size,
+    borderRadius: 8,
+    boxSizing: 'border-box',
+};
 
-export const ImageIcon = (props) => {
+const ImageIcon = (props) => {
     const {
         color,
         noShadow,
@@ -20,6 +26,7 @@ export const ImageIcon = (props) => {
         backgroundImage: `url(${url})`,
     })} />;
 };
+
 export const MessageIcon = (props) => {
     const {
         id,
@@ -31,13 +38,6 @@ export const MessageIcon = (props) => {
         noShadow,
         style,
     } = props;
-
-    const Style = {
-        width: Size,
-        height: Size,
-        borderRadius: 8,
-        boxSizing: 'border-box',
-    };
 
     if (type === 'loading') {
         return (
