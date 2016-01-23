@@ -1,3 +1,4 @@
+import map from 'array-map';
 import {
     Dialog,
     FlatButton,
@@ -49,7 +50,7 @@ export class ConfigDialog extends Component {
         const form = findDOMNode(this.refs.form);
         const selected = (
                 form.icon_id.length
-                ? Array.map(form.icon_id, (a) => a)
+                ? map(form.icon_id, (a) => a)
                 : [form.icon_id]
             )
             .find((radio) => radio.checked);
@@ -71,7 +72,7 @@ export class ConfigDialog extends Component {
 
         if (icon_data.files.length === 0) return;
         
-        Array.map(icon_data.files, (a) => a).forEach((file) => {
+        map(icon_data.files, (a) => a).forEach((file) => {
             this.props.createIcon({
                 name: file.name,
                 mime: file.type,
@@ -320,7 +321,9 @@ export class MessageForm extends Component {
     }
 
     onKey(e) {
-        if (e.keyCode === KeyEvent.DOM_VK_RETURN && !e.shiftKey) {
+        const VK_RETURN = 13;
+
+        if (e.keyCode === VK_RETURN && !e.shiftKey) {
             this.onUpdate(e);
         }
     }

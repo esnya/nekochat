@@ -73,6 +73,7 @@ export class Lobby extends Component {
     }
 
     render() {
+        const VK_RETURN = 13;
         const {
             history,
             rooms,
@@ -92,7 +93,7 @@ export class Lobby extends Component {
                         fullWidth={true}
                         hintText="Input the title of new room"
                         onKeyDown={(e) => 
-                            e.keyCode === KeyEvent.DOM_VK_RETURN
+                            e.keyCode === VK_RETURN
                                 && this.onCreateRoom()
                         }/>
                     <FlatButton

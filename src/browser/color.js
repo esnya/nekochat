@@ -1,10 +1,12 @@
+import reduce from 'array-reduce';
+
 const NUM = 31;
 const MASK = 0xffffff;
 const BYTEMASK = 0xff;
 const CHANNELS = 3;
 
 export const makeColor = function (data) {
-    let hash = Array.reduce(
+    let hash = reduce(
         data + data,
         (sum, c) =>  (sum * NUM + c.charCodeAt(0)) & MASK,
         0
