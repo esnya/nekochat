@@ -1,5 +1,5 @@
-import * as ROOM from '../../constants/RoomActions';
-import * as MESSAGE from '../../constants/MessageActions';
+import * as ROOM from '../constants/RoomActions';
+import * as MESSAGE from '../constants/MessageActions';
 
 export const roomReducer = function(state = null, action) {
     switch (action.type) {

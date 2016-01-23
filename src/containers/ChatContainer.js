@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { join } from '../../actions/RoomActions';
-import { set as setRoute } from '../../actions/RouteActions';
-import { fetch } from '../../actions/MessageActions';
+import { join } from '../actions/RoomActions';
+import { set as setRoute } from '../actions/RouteActions';
+import { fetch } from '../actions/MessageActions';
 import { Chat } from '../components/Chat';
 import { bindActions } from './utility';
 

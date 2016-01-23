@@ -1,7 +1,7 @@
-import * as Route from '../../actions/RouteActions';
-import * as ROUTE from '../../constants/RouteActions';
-import * as ROOM from '../../constants/RoomActions';
-import { Routes } from '../routes';
+import * as Route from '../actions/RouteActions';
+import * as ROUTE from '../constants/RouteActions';
+import * as ROOM from '../constants/RoomActions';
+import { Routes } from '../constants/Routes';
 
 const parse = function(path) {
     const s = path.split('/').slice(1);

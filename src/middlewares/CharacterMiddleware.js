@@ -1,4 +1,4 @@
-import { getCharacter } from '../character';
+import { getCharacter } from '../browser/character';
 
 export const characterMiddleWare = ({dispatch}) => (next) => (action) => {
     if (Array.isArray(action.items)

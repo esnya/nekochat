@@ -9,7 +9,7 @@ import {
     TextField,
 } from 'material-ui';
 import React, { Component } from 'react';
-import moment from '../moment';
+import moment from '../browser/moment';
 
 export const RoomList = (props) => {
     const {

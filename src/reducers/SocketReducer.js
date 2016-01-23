@@ -1,4 +1,4 @@
-import { socket } from '../socket';
+import { socket } from '../browser/socket';
 
 export const socketReducer = function(state = {}, action) {
     const {

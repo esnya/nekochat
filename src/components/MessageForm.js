@@ -1,6 +1,6 @@
 import { FontIcon, IconButton, TextField } from 'material-ui';
 import React, { Component } from 'react';
-import { makeColor } from '../color';
+import { makeColor } from '../utility/color';
 import { MessageConfigDialog } from './MessageConfigDialog';
 import { MessageIcon } from './MessageIcon';
 

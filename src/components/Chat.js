@@ -7,8 +7,8 @@ import {
 } from 'material-ui';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import { makeColor } from '../color';
-import moment from '../moment';
+import { makeColor } from '../utility/color';
+import moment from '../browser/moment';
 import { FROM_HEIGHT } from '../components/MessageForm';
 import { MessageFormContainer } from '../containers/MessageFormContainer';
 import { MessageIcon } from './MessageIcon';

@@ -1,6 +1,6 @@
-import * as MESSAGE from '../../constants/MessageActions';
-import * as ROOM from '../../constants/RoomActions';
-import { notice } from '../sound';
+import * as MESSAGE from '../constants/MessageActions';
+import * as ROOM from '../constants/RoomActions';
+import { notice } from '../browser/sound';
 
 let room = null;
 

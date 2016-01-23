@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import dice3d from 'dice3d';
-import { AppStore } from './stores/AppStore';
+import { AppStore } from '../stores/AppStore';
 import { run } from './router';
 
 const DICE_MAX = 20;

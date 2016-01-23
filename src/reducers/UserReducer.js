@@ -1,4 +1,4 @@
-import * as USER from '../../constants/UserActions';
+import * as USER from '../constants/UserActions';
 
 export const userReducer = function(state = null, action) {
     switch(action.type) {

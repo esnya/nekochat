@@ -8,9 +8,9 @@ import {
     TextField,
 } from 'material-ui';import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import { generateId } from '../../utility/id';
-import { getCharacter } from '../character';
-import { makeColor } from '../color';
+import { generateId } from '../utility/id';
+import { getCharacter } from '../browser/character';
+import { makeColor } from '../utility/color';
 import { MessageIcon } from './MessageIcon';
 
 let lastId = null;

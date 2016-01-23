@@ -1,4 +1,4 @@
-import * as ICON from '../../constants/IconActions';
+import * as ICON from '../constants/IconActions';
 
 export const iconListReducer = function(state = [], action) {
     switch(action.type) {

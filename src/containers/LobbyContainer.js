@@ -3,8 +3,8 @@ import {
     leave, fetch,
     create as createRoom,
     remove as removeRoom,
-} from '../../actions/RoomActions';
-import { set as setRoute } from '../../actions/RouteActions';
+} from '../actions/RoomActions';
+import { set as setRoute } from '../actions/RouteActions';
 import { Lobby } from '../components/Lobby';
 import { bindActions } from './utility';
 

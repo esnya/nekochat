@@ -1,4 +1,4 @@
-import { create } from '../../actions/SnackActions';
+import { create } from '../actions/SnackActions';
 
 export const snackMiddleware = ({dispatch}) => (next) => (action) => {
     if (action.type.match(/^SNACK_/)) return next(action);

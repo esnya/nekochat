@@ -1,5 +1,5 @@
-import * as Confirm from '../../actions/ConfirmActions';
-import * as CONFIRM from '../../constants/ConfirmActions';
+import * as Confirm from '../actions/ConfirmActions';
+import * as CONFIRM from '../constants/ConfirmActions';
 
 export const confirmMiddleWare = ({dispatch, getState})=>
     (next) => (action) => {

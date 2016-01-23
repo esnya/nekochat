@@ -1,4 +1,4 @@
-import * as INPUT from '../../constants/InputActions';
+import * as INPUT from '../constants/InputActions';
 
 export const inputReducer = function(state = [], action) {
     switch(action.type) {

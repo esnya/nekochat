@@ -1,6 +1,6 @@
-import * as MESSAGE_FORM from '../../constants/MessageFormActions';
-import * as ROOM from '../../constants/RoomActions';
-import * as USER from '../../constants/UserActions';
+import * as MESSAGE_FORM from '../constants/MessageFormActions';
+import * as ROOM from '../constants/RoomActions';
+import * as USER from '../constants/UserActions';
 
 let id = 0;
 

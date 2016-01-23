@@ -1,4 +1,4 @@
-import * as ROOM from '../../constants/RoomActions';
+import * as ROOM from '../constants/RoomActions';
 
 const InitialState = {
     rooms: [],

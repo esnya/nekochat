@@ -1,4 +1,4 @@
-import * as CONFIRM from '../../constants/ConfirmActions';
+import * as CONFIRM from '../constants/ConfirmActions';
 
 export const confirmListReducer = (state = [], action) => {
     switch(action.type) {

@@ -1,6 +1,6 @@
 import { Snackbar } from 'material-ui';
 import React from 'react';
-import { format } from '../../utility/format';
+import { format } from '../utility/format';
 
 export const Snack = (props) => {
     const {

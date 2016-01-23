@@ -3,18 +3,18 @@ import {
     create as createIcon,
     remove as removeIcon,
     fetch as fetchIcon,
-} from '../../actions/IconActions';
+} from '../actions/IconActions';
 import {
     begin as beginInput,
     end as endInput,
-} from '../../actions/InputActions';
-import { create as createMessage } from '../../actions/MessageActions';
+} from '../actions/InputActions';
+import { create as createMessage } from '../actions/MessageActions';
 import {
     create as createForm,
     update as updateForm,
     remove as removeForm,
-} from '../../actions/MessageFormActions';
-import { create as createSnack } from '../../actions/SnackActions';
+} from '../actions/MessageFormActions';
+import { create as createSnack } from '../actions/SnackActions';
 import { MessageForm } from '../components/MessageForm';
 import { bindActions } from './utility';
 
