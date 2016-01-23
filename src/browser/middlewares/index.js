@@ -1,4 +1,4 @@
-import { debugLoggerMiddleWare } from './DebugLoggerMiddleWare';
+import { debugLoggerMiddleWare } from './DebugLoggerMiddleware';
 import { confirmMiddleWare } from './ConfirmMiddleWare';
 import { characterMiddleWare } from './CharacterMiddleware';
 import { snackMiddleware } from './SnackMiddleware';
