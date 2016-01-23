@@ -16,6 +16,7 @@
   "author": "ukatama",
   "license": "MIT",
   "dependencies": {
+    "config": "^1.19.0",
     "connect-livereload": "^0.5.4",
     "connect-session-knex": "^1.0.17",
     "dice3d": "^1.0.2",

@@ -1,3 +1,4 @@
+import config from 'config';
 import express from 'express';
 import Livereload from 'connect-livereload';
 import { knex, exists } from './knex';
@@ -18,7 +19,9 @@ app.get('/icon/:id', (req, res, next) => {
         .catch(next);
 });
 
-app.use(Livereload());
+if (config.get('app.livereload')) {
+    app.use(Livereload());
+}
 app.use(express.static('public'));
 app.use(express.static('dist'));
 app.use('/dice3d', express.static('node_modules/dice3d/dist'));

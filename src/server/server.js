@@ -1,10 +1,10 @@
 import { Server } from 'http';
-import AppConfig from '../config/app';
+import config from 'config';
 import { app } from './app';
 
 export const server = Server(app);
 
-server.listen(AppConfig.server, () => {
+server.listen(config.get('app.server'), () => {
     const {
         address,
         family,

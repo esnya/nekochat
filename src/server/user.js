@@ -1,8 +1,8 @@
-import AppConfig from '../config/app';
+import config from 'config';
 import { knex } from './knex';
 
 export const getUser = function(session) {
-    const passport = session.passport || AppConfig.auth.guest && {
+    const passport = session.passport || config.get('app.guest') && {
         user: 'guest',
     };
 

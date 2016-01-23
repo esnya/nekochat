@@ -1,6 +1,7 @@
+import config from 'config';
 import Knex from 'knex';
 
-export const knex = Knex(require('../config/database').default);
+export const knex = Knex(config.get('database.default'));
 
 export const exists = function(data) {
     return !data

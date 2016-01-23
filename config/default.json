@@ -1,0 +1,28 @@
+{
+    "app": {
+        "guest": false,
+        "livereload": false,
+        "server": {
+            "host": "localhost",
+            "port": 8080
+        },
+        "session": {
+            "resave": true,
+            "saveUninitialized": true
+        }
+    },
+    "database": {
+        "default": {
+            "client": "sqlite3",
+            "connection": {
+                "filename": "tmp/db.sqlite"
+            }
+        },
+        "session": {
+            "client": "sqlite3",
+            "connection": {
+                "filename": "tmp/db.sqlite"
+            }
+        }
+    }
+}
