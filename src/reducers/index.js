@@ -8,7 +8,6 @@ import { roomListReducer } from './RoomListReducer';
 import { roomReducer } from './RoomReducer';
 import { routeReducer } from './RouteReducer';
 import { snackListReducer as snackList } from './SnackListReducer';
-import { socketReducer } from './SocketReducer';
 import { userReducer } from './UserReducer';
 
 export const rootReducer = combineReducers({
@@ -21,6 +20,5 @@ export const rootReducer = combineReducers({
     room: roomReducer,
     route: routeReducer,
     snackList,
-    socket: socketReducer,
     user: userReducer,
 });
