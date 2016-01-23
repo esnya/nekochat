@@ -1,3 +1,4 @@
+import { logger } from '../logger';
 import { Dispatcher } from './Dispatcher';
 import { IconDispatcher } from './IconDispatcher';
 import { InputDispatcher } from './InputDispatcher';
@@ -17,7 +18,9 @@ export class ActionDispatcher extends Dispatcher {
     }
 
     onDispatch(action) {
-        console.log('action', action.type);
-        this.dispatchers.forEach((a) => a.onDispatch(action));
+        logger.debug('action', action.type);
+        return Promise.all(
+            this.dispatchers.map((d) => d.onDispatch(action))
+        );
     }
 }

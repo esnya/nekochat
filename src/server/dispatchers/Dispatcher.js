@@ -1,3 +1,5 @@
+import { logger } from '../logger';
+
 export class Dispatcher {
     constructor(socket, root) {
         this.root = root;
@@ -14,10 +16,15 @@ export class Dispatcher {
         if (!to || !excludeSelf) this.socket.emit('action', clientAction);
         if (to) this.socket.to(to).emit('action', clientAction);
 
-        (this.root || this).onDispatch(clientAction);
+        return (this.root || this).onDispatch(clientAction);
     }
     
     onDispatch() {
-        console.error(`${this.constructor.name}.onDispatch must be overrided`);
+        const error = new Error(
+            `${this.constructor.name}.onDispatch must be overrided`
+        );
+
+        logger.error(error);
+        return Promise.reject(error);
     }
 }

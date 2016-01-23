@@ -47,7 +47,7 @@ export class RoomDispatcher extends Dispatcher {
             case ROOM.LEAVE:
                 if (this.room_id) this.socket.leave(this.room_id);
                 this.room_id = null;
-                return;
+                return Promise.resolve();
             case ROOM.FETCH:
                 return Promise.all(
                         knex('rooms')
@@ -63,7 +63,7 @@ export class RoomDispatcher extends Dispatcher {
                             .then((rooms) => this.dispatch(
                                 Room.pushHistory(rooms)
                             ))
-                );
+                    );
             case ROOM.REMOVE:
                 return knex('rooms')
                     .where('id', action.id)

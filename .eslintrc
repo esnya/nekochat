@@ -20,6 +20,7 @@ rules:
     no-unexpected-multiline: 2
     valid-jsdoc: 2
 
+    consistent-return: 2
     block-scoped-var: 2
     curly:
         - 2
