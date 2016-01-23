@@ -20,6 +20,8 @@ const genId = () => {
     return lastId();
 };
 
+export const FROM_HEIGHT = 72;
+
 export class ConfigDialog extends Component {
     constructor(props) {
         super(props);
@@ -130,7 +132,9 @@ export class ConfigDialog extends Component {
             Form: {
                 display: 'flex',
                 flexDirection: 'column',
-                maxHeight: 357,
+            },
+            TextField: {
+                flex: '0 0 72px',
             },
             IconRadioGroup: {
                 flex: '1 1 auto',
@@ -173,9 +177,10 @@ export class ConfigDialog extends Component {
 
         return (
             <Dialog {...otherProps}
+                autoScrollBodyContent={true}
                 open={open}
                 actions={Actions}
-                title="Name and Icon">
+                title="Name and Icon" >
                 <form
                     ref="form"
                     style={Styles.Form}
@@ -185,6 +190,7 @@ export class ConfigDialog extends Component {
                             ref="name"
                             fullWidth={true}
                             floatingLabelText="Name"
+                            style={Styles.TextField}
                             defaultValue={name} />
                     </div>
                     <div>
@@ -192,6 +198,7 @@ export class ConfigDialog extends Component {
                             fullWidth={true}
                             floatingLabelText="Character Sheet URL"
                             defaultValue={character_url}
+                            style={Styles.TextField}
                             onBlur={() => this.fetchCharacter()} />
                     </div>
                     <div>Icon</div>
@@ -380,11 +387,13 @@ export class MessageForm extends Component {
         
         const Styles = {
             Form: {
+                flex: '0 0 72px',
                 display: 'flex',
                 alignItems: 'center',
             },
             Icon: {
-                width: 60, height: 60,
+                flex: '0 0 60px',
+                height: 60,
                 margin: '0 8px',
                 padding: 0,
             },
@@ -394,53 +403,51 @@ export class MessageForm extends Component {
         };
 
         return (
-            <div>
-                <form style={Styles.Form} onUpdate={(e) => this.onUpdate(e)}>
-                    {is_first ? (
-                            <IconButton onTouchTap={createForm}>
-                                <FontIcon className="material-icons">
-                                    add
-                                </FontIcon>
-                            </IconButton>
-                        ) : (
-                            <IconButton onTouchTap={() => removeForm(id)}>
-                                <FontIcon className="material-icons">
-                                    remove
-                                </FontIcon>
-                            </IconButton>
-                        )
-                    }
-                    <IconButton
-                        style={Styles.Icon}
-                        onTouchTap={() => this.openConfigDialog()}>
-                        <MessageIcon
-                            id={icon_id}
-                            character_data={character_data}
-                            character_url={character_url}
-                            color={makeColor(`${name}${user.id}`)}
-                            name={name} />
-                    </IconButton>
-                    <TextField 
-                        ref="message"
-                        floatingLabelText={name}
-                        fullWidth={true}
-                        multiLine={true}
-                        rows={1}
-                        style={Styles.Message}
-                        onKeyDown={(e) => this.onKey(e)}
-                        onChange={() => this.onInput()}
-                        onFocus={() => this.onInput()} />
-                    <IconButton type="submit">
-                        <FontIcon className="material-icons">send</FontIcon>
-                    </IconButton>
-                </form>
+            <form style={Styles.Form} onUpdate={(e) => this.onUpdate(e)}>
+                {is_first ? (
+                        <IconButton onTouchTap={createForm}>
+                            <FontIcon className="material-icons">
+                                add
+                            </FontIcon>
+                        </IconButton>
+                    ) : (
+                        <IconButton onTouchTap={() => removeForm(id)}>
+                            <FontIcon className="material-icons">
+                                remove
+                            </FontIcon>
+                        </IconButton>
+                    )
+                }
+                <IconButton
+                    style={Styles.Icon}
+                    onTouchTap={() => this.openConfigDialog()}>
+                    <MessageIcon
+                        id={icon_id}
+                        character_data={character_data}
+                        character_url={character_url}
+                        color={makeColor(`${name}${user.id}`)}
+                        name={name} />
+                </IconButton>
+                <TextField
+                    ref="message"
+                    floatingLabelText={name}
+                    fullWidth={true}
+                    multiLine={true}
+                    rows={1}
+                    style={Styles.Message}
+                    onKeyDown={(e) => this.onKey(e)}
+                    onChange={() => this.onInput()}
+                    onFocus={() => this.onInput()} />
+                <IconButton type="submit">
+                    <FontIcon className="material-icons">send</FontIcon>
+                </IconButton>
                 <ConfigDialog
                     {...this.props}
                     open={configDialog}
                     onCancel={() => this.closeConfigDialog()}
                     onUpdate={(form) => this.onUpdateForm(form)}
                     removeIcon={removeIcon} />
-            </div>
+            </form>
         );
     }
 }

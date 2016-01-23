@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../color';
 import moment from '../moment';
+import { FROM_HEIGHT } from '../components/MessageForm';
 import { MessageFormContainer } from '../containers/MessageFormContainer';
 import { MessageIcon } from './MessageIcon';
 
@@ -183,9 +184,13 @@ export class Chat extends Component {
                 display: 'flex',
                 flexDirection: 'column',
             },
+            FormList: {
+                flex: `0 0 ${FROM_HEIGHT * messageForm.length}px`,
+            },
             List: {
                 flex: '1 1 auto',
                 overflow: 'auto',
+                WebkitOverflowScrolling: 'touch',
             },
             Loader: {
                 textAlign: 'center',
@@ -199,7 +204,7 @@ export class Chat extends Component {
                 <AppBar
                     title={title || 'Beniimo Online'}
                     onLeftIconButtonTouchTap={() => this.toggleLeftNav()} />
-                <div style={Styles.Form}>
+                <div style={Styles.FormList}>
                     {messageForm.map((form) => (
                         <MessageFormContainer
                             {...form}
