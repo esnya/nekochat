@@ -1,5 +1,5 @@
 import { debugLoggerMiddleWare } from './DebugLoggerMiddleware';
-import { confirmMiddleWare } from './ConfirmMiddleWare';
+import { confirmMiddleWare } from './ConfirmMiddleware';
 import { characterMiddleWare } from './CharacterMiddleware';
 import { snackMiddleware } from './SnackMiddleware';
 
