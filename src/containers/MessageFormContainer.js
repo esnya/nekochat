@@ -22,6 +22,7 @@ export const MessageFormContainer = connect(
     (state) => ({
         user: state.user,
         iconList: state.iconList,
+        hideConfig: state.confirmList && state.confirmList.length > 0,
     }),
     bindActions({
         createIcon,

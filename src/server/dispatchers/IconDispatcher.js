@@ -10,7 +10,12 @@ export class IconDispatcher extends Dispatcher {
     onDispatch(action) {
         switch(action.type) {
             case ICON.CREATE: {
-                const id = generateId(Date.now() + '' + Math.random());
+                const id = generateId([
+                    this.user_id,
+                    action.name,
+                    action.mime,
+                    action.data,
+                ].join());
 
                 return knex('icons').insert({
                         id,
@@ -28,20 +33,22 @@ export class IconDispatcher extends Dispatcher {
                             .first(...IconFields)
                     )
                     .then(exists)
-                    .then((icon) => this.dispatch(Icon.push([icon])));
+                    .then((icon) => this.dispatch(Icon.push([icon])))
+                    .catch(() => Promise.reject('Failed to upload icon'));
             } case ICON.FETCH:
                 return knex('icons')
                     .where('user_id', this.user_id)
                     .whereNull('deleted')
+                    .orderBy('name')
                     .select(...IconFields)
                     .then((icons) => this.dispatch(Icon.push(icons)));
             case ICON.REMOVE:
                 return knex('icons')
                     .where('id', action.id)
                     .where('user_id', this.user_id)
-                    .whereNull('deleted')
-                    .update('deleted', knex.fn.now())
-                    .then(() => action.id);
+                    .delete('deleted')
+                    .then(() => action.id)
+                    .catch(() => Promise.reject('Failed to delete icon'));
         }
     }
 }

@@ -2,11 +2,11 @@ import map from 'array-map';
 import {
     Dialog,
     FlatButton,
-    FontIcon,
     IconButton,
-    Popover,
     TextField,
-} from 'material-ui';import React, { Component } from 'react';
+} from 'material-ui';
+import { Colors } from 'material-ui/lib/styles'
+import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { generateId } from '../utility/id';
 import { getCharacter } from '../browser/character';
@@ -20,14 +20,20 @@ export class MessageConfigDialog extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pop: null,
+            deleteMode: false,
         };
     }
-    
+
     componentDidMount() {
         this.props.fetchIcon();        
     }
+    componentWillUpdate(nextProps) {
+        if (!nextProps.open && this.state.deletedMode) {
+            this.setState({deleteMode: false});
+        }
+    }
     
+
     fetchCharacter() {
         const url = this.refs.character_url.getValue();
 
@@ -44,7 +50,7 @@ export class MessageConfigDialog extends Component {
 
     onUpdate(e) {
         e.preventDefault();
-        
+
         const form = findDOMNode(this.refs.form);
         const selected = (
                 form.icon_id.length
@@ -80,20 +86,6 @@ export class MessageConfigDialog extends Component {
         
         icon_data.value = '';
     }
-    
-    showIconPop(target, icon) {
-        this.setState({
-            pop: {
-                target,
-                icon,
-            },
-        });
-    }
-    hideIconPop() {
-        this.setState({
-            pop: null,
-        });
-    }    
 
     render() {
         const {
@@ -104,12 +96,13 @@ export class MessageConfigDialog extends Component {
             iconList,
             open,
             user,
+            hide,
             removeIcon,
             onCancel,
             ...otherProps,
         } = this.props;
         const {
-            pop,
+            deleteMode,
         } = this.state;
 
         const Actions = [
@@ -131,6 +124,9 @@ export class MessageConfigDialog extends Component {
             },
             TextField: {
                 flex: '0 0 72px',
+            },
+            IconHeader: {
+                display: 'flex',
             },
             IconRadioGroup: {
                 flex: '1 1 auto',
@@ -154,6 +150,10 @@ export class MessageConfigDialog extends Component {
             IconRadioTextLabel: {
                 whiteSpace: 'nowrap',
             },
+            IconDeleteIcon: {
+                width: 'auto', height: 'auto',
+                padding: 0,
+            },
             Upload: {
                 flex: '0 0 76px',
                 display: 'flex',
@@ -163,18 +163,15 @@ export class MessageConfigDialog extends Component {
             UploadIcon: {
                 flex: '0 0 60px',
             },
-            Popover: {
-            },
-            PopoverContents: {
-                display: 'flex',
-                alignItems: 'center',
+            Flex: {
+                flex: '1 1 0',
             },
         };
 
         return (
             <Dialog {...otherProps}
                 autoScrollBodyContent={true}
-                open={open}
+                open={open && !hide}
                 actions={Actions}
                 title="Name and Icon" >
                 <form
@@ -197,7 +194,20 @@ export class MessageConfigDialog extends Component {
                             style={Styles.TextField}
                             onBlur={() => this.fetchCharacter()} />
                     </div>
-                    <div>Icon</div>
+                    <div style={Styles.IconHeader} >
+                        <div>Icon</div>
+                        <IconButton
+                            iconClassName="material-icons"
+                            iconStyle={{
+                                color: deleteMode ? Colors.red700 : null,
+                            }}
+                            style={Styles.IconDeleteIcon}
+                            onTouchTap={() => this.setState({
+                                deleteMode: !deleteMode,
+                            })}>
+                            delete
+                        </IconButton>
+                    </div>
                     <div style={Styles.IconRadioGroup}>
                         <div style={Styles.Upload}>
                             <IconButton
@@ -240,47 +250,37 @@ export class MessageConfigDialog extends Component {
                         {iconList.map((icon) => (
                             <div key={icon.id} style={Styles.IconRadioItem}>
                                 <div style={Styles.IconRadioText}>
-                                    <input 
-                                        id={genId()}
-                                        name="icon_id"
-                                        type="radio"
-                                        value={icon.id} 
-                                        defaultChecked={icon.id === icon_id} />
+                                    {
+                                        deleteMode
+                                        ? <IconButton
+                                            id={genId()}
+                                            iconClassName="material-icons"
+                                            iconStyle={{color: Colors.red700}}
+                                            style={Styles.IconDeleteIcon}
+                                            onTouchTap={() => removeIcon(icon)}>
+                                            delete
+                                        </IconButton>
+                                        : <input 
+                                            id={genId()}
+                                            name="icon_id"
+                                            type="radio"
+                                            value={icon.id} 
+                                            defaultChecked={
+                                                icon.id === icon_id
+                                            } />
+                                    }
                                     <label
                                         htmlFor={lastId}
                                         style={Styles.IconRadioTextLabel}>
                                         {icon.name}
                                     </label>
                                 </div>
-                                <label
-                                    htmlFor={lastId}
-                                    onMouseEnter={
-                                        (e) => this.showIconPop(e.target, icon)
-                                    }>
+                                <label htmlFor={lastId} >
                                     <MessageIcon {...icon} />
                                 </label>
                             </div>
                         ))}
                     </div>
-                    <Popover 
-                        open={open && !!pop} 
-                        anchorEl={pop && pop.target}
-                        anchorOrigin={{horizontal: "left", vertical: "top"}}
-                        targetOrigin={{horizontal: "left", vertical: "bottom"}}
-                        useLayerForClickAway={false}
-                        style={Styles.Popover} >
-                        <div style={Styles.PopoverContents}>
-                            <FontIcon className="material-icons">
-                                keyboard_arrow_down
-                            </FontIcon>
-                            <IconButton
-                                iconClassName="material-icons"
-                                iconStyle={{color: 'red'}}
-                                onTouchTap={() => removeIcon(pop.icon)}>
-                                    delete
-                            </IconButton>
-                        </div>
-                    </Popover>
                 </form>
             </Dialog>
         );

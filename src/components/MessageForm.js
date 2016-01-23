@@ -88,6 +88,7 @@ export class MessageForm extends Component {
             character_data,
             icon_id,
             user,
+            hideConfig,
             removeIcon,
             createForm,
             removeForm,
@@ -155,6 +156,7 @@ export class MessageForm extends Component {
                 </IconButton>
                 <MessageConfigDialog
                     {...this.props}
+                    hide={hideConfig}
                     open={configDialog}
                     createSnack={createSnack}
                     onCancel={() => this.closeConfigDialog()}

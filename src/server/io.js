@@ -1,6 +1,7 @@
 import ExpressSocketIOSession from 'express-socket.io-session'
 import SocketIO from 'socket.io';
 import { loggedin } from '../actions/UserActions';
+import { create as createSnack } from '../actions/SnackActions';
 import { ActionDispatcher } from './dispatchers/ActionDispatcher';
 import { logger } from './logger';
 import { server } from './server';
@@ -29,7 +30,15 @@ io.on('connect', (socket) => {
     const dispatcher = new ActionDispatcher(socket);
 
     socket.on('action', (action) => 
-        dispatcher.onDispatch(action).catch((e) => logger(e))
+        dispatcher.onDispatch(action)
+            .catch((e) => {
+                logger.error(e)
+                if (typeof(e) === 'string') {
+                    socket.emit('action', createSnack({
+                        message: e,
+                    }));
+                }
+            })
     );
 
     socket.emit('hello', socket.user);
