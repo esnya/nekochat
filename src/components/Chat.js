@@ -31,6 +31,7 @@ export const Message = (props) => {
             alignItems: 'center',
             color: 'rgba(0, 0, 0, 0.54)',
             fontSize: 14,
+            height: 27,
         },
         Link: {
             margin: '0 4px',
