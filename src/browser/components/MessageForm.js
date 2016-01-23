@@ -42,7 +42,9 @@ export class ConfigDialog extends Component {
                 .then((data) => {
                     this.refs.name.setValue(data.name);
                 })
-                .catch((error) => console.error(error));
+                .catch(() => this.props.createSnack({
+                    message: `Failed to load character at "${url}"`,
+                }));
         }
     }
 
@@ -280,11 +282,7 @@ export class ConfigDialog extends Component {
                             <IconButton
                                 iconClassName="material-icons"
                                 iconStyle={{color: 'red'}}
-                                onTouchTap={
-                                    () => 
-                                        confirm(`Delete ${pop.icon.name}?`)
-                                        && removeIcon(pop.icon.id)
-                                }>
+                                onTouchTap={() => removeIcon(pop.icon)}>
                                     delete
                             </IconButton>
                         </div>
@@ -380,6 +378,7 @@ export class MessageForm extends Component {
             removeIcon,
             createForm,
             removeForm,
+            createSnack,
         } = this.props;
         const {
             configDialog,
@@ -444,6 +443,7 @@ export class MessageForm extends Component {
                 <ConfigDialog
                     {...this.props}
                     open={configDialog}
+                    createSnack={createSnack}
                     onCancel={() => this.closeConfigDialog()}
                     onUpdate={(form) => this.onUpdateForm(form)}
                     removeIcon={removeIcon} />

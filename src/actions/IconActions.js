@@ -8,11 +8,15 @@ export const create = function(data) {
     };
 };
 
-export const remove = function(id) {
+export const remove = function(icon) {
     return {
+        ...icon,
         type: ICON.REMOVE,
+        confirm: {
+            title: 'Delete Icon',
+            message: 'Delete icon "${name}"',
+        },
         server: true,
-        id,
     };
 };
 

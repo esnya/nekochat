@@ -11,6 +11,10 @@ export const created = function(room) {
     return {
         type: ROOM.CREATED,
         room,
+        snack: {
+            data: room,
+            message: 'Room "${title}" created',
+        },
     };
 };
 
@@ -21,12 +25,20 @@ export const update = function(data) {
     };
 };
 
-export const remove = function(id) {
+export const remove = function(room) {
     return {
+        ...room,
         type: ROOM.REMOVE,
         server: true,
-        id,
-    }
+        confirm: {
+            title: 'Delete Room',
+            message: 'Delete room "${title}"',
+        },
+        snack: {
+            data: room,
+            message: 'Room "${title}" deleted',
+        },
+    };
 };
 
 export const join = function(id) {

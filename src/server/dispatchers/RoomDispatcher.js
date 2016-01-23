@@ -1,8 +1,9 @@
 import * as Room from '../../actions/RoomActions';
+import * as Snack from '../../actions/SnackActions';
 import * as ROOM from '../../constants/RoomActions';
 import { knex, exists } from '../knex.js';
 import { Dispatcher } from './Dispatcher';
-import { generateId } from '../id';
+import { generateId } from '../../utility/id';
 
 const ID_LENGTH = 16;
 const HISTORY_LIMIT = 20;
@@ -38,14 +39,35 @@ export class RoomDispatcher extends Dispatcher {
                     .whereNull('deleted')
                     .first()
                     .then(exists)
+                    .then((room) =>
+                        this.room_id
+                            ? this.opDispatch({type: ROOM.LEAVE})
+                                .then(() => room)
+                            : Promise.resolve(room)
+                    )
                     .then((room) => {
-                        if (this.room_id) this.socket.leave(this.room_id);
                         this.room_id = room.id;
                         this.socket.join(room.id);
+                        this.socket.to(room.id).emit(
+                            'action',
+                            Snack.create({
+                                message:
+                                    `${this.socket.user.name}@${this.user_id} attended`,
+                            })
+                        );
                         this.dispatch(Room.joined(room));
                     });
             case ROOM.LEAVE:
-                if (this.room_id) this.socket.leave(this.room_id);
+                if (this.room_id) {
+                    this.socket.to(this.room_id).emit(
+                        'action',
+                        Snack.create({
+                            message:
+                                `${this.socket.user.name}@${this.user_id} left`,
+                        })
+                    );                    
+                    this.socket.leave(this.room_id);
+                }
                 this.room_id = null;
                 return Promise.resolve();
             case ROOM.FETCH:

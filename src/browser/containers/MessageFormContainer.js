@@ -14,22 +14,25 @@ import {
     update as updateForm,
     remove as removeForm,
 } from '../../actions/MessageFormActions';
+import { create as createSnack } from '../../actions/SnackActions';
 import { MessageForm } from '../components/MessageForm';
+import { bindActions } from './utility';
 
 export const MessageFormContainer = connect(
     (state) => ({
         user: state.user,
         iconList: state.iconList,
     }),
-    (dispatch) => ({
-        createIcon: (icon) => dispatch(createIcon(icon)),
-        removeIcon: (id) => dispatch(removeIcon(id)),
-        fetchIcon: () => dispatch(fetchIcon()),
-        createForm: () => dispatch(createForm()),
-        updateForm: (form) => dispatch(updateForm(form)),
-        removeForm: (form) => dispatch(removeForm(form)),
-        createMessage: (message) => dispatch(createMessage(message)),
-        beginInput: (input) => dispatch(beginInput(input)),
-        endInput: (input) => dispatch(endInput(input)),
+    bindActions({
+        createIcon,
+        removeIcon,
+        fetchIcon,
+        createForm,
+        updateForm,
+        removeForm,
+        createMessage,
+        beginInput,
+        endInput,
+        createSnack,
     })
 )(MessageForm);

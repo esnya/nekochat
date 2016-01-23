@@ -37,10 +37,7 @@ export const RoomList = (props) => {
                         rightIconButton={
                             editable && room.user_id === user.id && (
                                 <IconButton
-                                    onTouchTap={
-                                        () => confirm(`Remove ${room.title}?`)
-                                            && removeRoom(room.id)
-                                    }>
+                                    onTouchTap={() => removeRoom(room)}>
                                     <FontIcon className="material-icons">
                                         delete
                                     </FontIcon>

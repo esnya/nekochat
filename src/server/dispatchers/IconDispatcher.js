@@ -1,6 +1,6 @@
 import * as Icon from '../../actions/IconActions';
 import * as ICON from '../../constants/IconActions';
-import { generateId } from '../id';
+import { generateId } from '../../utility/id';
 import { knex, exists } from '../knex.js';
 import { Dispatcher }  from './Dispatcher';
 

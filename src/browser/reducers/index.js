@@ -1,15 +1,18 @@
 import { combineReducers } from 'redux';
-import { iconListReducer } from '../reducers/IconListReducer';
-import { inputReducer } from '../reducers/InputReducer';
-import { messageFormReducer } from '../reducers/MessageFormReducer';
-import { messageListReducer } from '../reducers/MessageListReducer';
-import { roomListReducer } from '../reducers/RoomListReducer';
-import { roomReducer } from '../reducers/RoomReducer';
-import { routeReducer } from '../reducers/RouteReducer';
-import { socketReducer } from '../reducers/SocketReducer';
-import { userReducer } from '../reducers/UserReducer';
+import { confirmListReducer } from './ConfirmListReducer';
+import { iconListReducer } from './IconListReducer';
+import { inputReducer } from './InputReducer';
+import { messageFormReducer } from './MessageFormReducer';
+import { messageListReducer } from './MessageListReducer';
+import { roomListReducer } from './RoomListReducer';
+import { roomReducer } from './RoomReducer';
+import { routeReducer } from './RouteReducer';
+import { snackListReducer as snackList } from './SnackListReducer';
+import { socketReducer } from './SocketReducer';
+import { userReducer } from './UserReducer';
 
 export const rootReducer = combineReducers({
+    confirmList: confirmListReducer,
     iconList: iconListReducer,
     input: inputReducer,
     messageForm: messageFormReducer,
@@ -17,6 +20,7 @@ export const rootReducer = combineReducers({
     roomList: roomListReducer,
     room: roomReducer,
     route: routeReducer,
+    snackList,
     socket: socketReducer,
     user: userReducer,
 });

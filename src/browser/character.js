@@ -12,31 +12,33 @@ export const getCharacter = function(url) {
                 loaded: false,
                 listeners: [],
             };
+            
+            const onError = (error) => {
+                cached.listeners
+                    .forEach((listener) => listener.reject(error));
+                reject(error);
+                Reflect.deleteProperty(cache, url);
+            };
+
             try {
                 const xhr = new XMLHttpRequest();
-
-                const onError = () => {
-                    const error = xhr.statusText;
-
-                    console.error(xhr.status, error);
-                    cached.listeners
-                        .forEach((listener) => listener.reject(error));
-                    reject(error);
-                    Reflect.deleteProperty(cache, url);
-                };
 
                 xhr.onreadystatechange = () => {
                     if (xhr.readyState === READY_DONE) {
                         if (xhr.status === HTTP_OK) {
-                            const data = JSON.parse(xhr.responseText);
+                            try {
+                                cached.data = JSON.parse(xhr.responseText);
+                            } catch(error) {
+                                onError(error);
+                            }
 
-                            cached.data = data;
-                            cached.listeners
-                                .forEach((listener) => listener.resolve(data));
-                            resolve(data);
+                            cached.listeners.forEach(
+                                (listener) => listener.resolve(cached.data)
+                            );
+                            resolve(cached.data);
                             Reflect.deleteProperty(cached, 'listeners');
                         } else {
-                            onError();
+                            onError(new Error(xhr.statusText));
                         }
                     }
                 };
@@ -46,10 +48,7 @@ export const getCharacter = function(url) {
                 xhr.open('GET', url, true);
                 xhr.send(null);
             } catch(error) {
-                console.error(error);
-                cached.listeners.forEach((listener) => listener.reject(error));
-                reject(error);
-                Reflect.deleteProperty(cache, url);
+                onError(error);
             }
         } else if (!cached.data) {
             cached.listeners.push({ resolve, reject });

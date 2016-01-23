@@ -13,7 +13,10 @@ export const characterMiddleWare = ({dispatch}) => (next) => (action) => {
                 .map((item) => getCharacter(item.character_url)
                     .then(
                         (data) => Promise.resolve({item, data}),
-                        () => Promise.resolve({item})
+                        () => Promise.resolve({item: {
+                            ...item,
+                            character_url: null,
+                        }})
                     )
                 )
         ).then((results) => dispatch({
