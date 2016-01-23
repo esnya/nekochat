@@ -302,10 +302,10 @@ export class MessageForm extends Component {
             configDialog: false,
         };
     }
-    
-    onUpdate(e) {
+
+    onSubmit(e) {
         e.preventDefault();
-        
+
         const messageField = this.refs.message;
         const message = messageField.getValue();
 
@@ -331,15 +331,15 @@ export class MessageForm extends Component {
         const VK_RETURN = 13;
 
         if (e.keyCode === VK_RETURN && !e.shiftKey) {
-            this.onUpdate(e);
+            this.onSubmit(e);
         }
     }
-    
+
     onUpdateForm(form) {
         this.closeConfigDialog();
         this.props.updateForm(form);
     }
-    
+
     onInput() {
         const {
             name,
@@ -360,7 +360,7 @@ export class MessageForm extends Component {
             name: this.props.name,
         });
     }
-    
+
     openConfigDialog() {
         this.setState({configDialog: true});
     }
@@ -384,7 +384,7 @@ export class MessageForm extends Component {
         const {
             configDialog,
         } = this.state;
-        
+
         const Styles = {
             Form: {
                 flex: '0 0 72px',
@@ -403,7 +403,7 @@ export class MessageForm extends Component {
         };
 
         return (
-            <form style={Styles.Form} onUpdate={(e) => this.onUpdate(e)}>
+            <form style={Styles.Form} onSubmit={(e) => this.onSubmit(e)}>
                 {is_first ? (
                         <IconButton onTouchTap={createForm}>
                             <FontIcon className="material-icons">

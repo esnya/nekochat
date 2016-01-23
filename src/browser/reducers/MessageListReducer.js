@@ -1,9 +1,6 @@
 import * as MESSAGE from '../../constants/MessageActions';
 import * as ROOM from '../../constants/RoomActions';
-
-const notice = () => {
-    document.getElementById('notice-sound').play();
-};
+import { notice } from '../sound';
 
 let room = null;
 
