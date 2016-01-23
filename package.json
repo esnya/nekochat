@@ -2,6 +2,10 @@
   "name": "beniimo-chat",
   "version": "0.0.1",
   "description": "Beniimo TRPG chat system",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ukatama/beniimo-online.git"
+  },
   "main": "lib/server",
   "directories": {
     "test": "test"
