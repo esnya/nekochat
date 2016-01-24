@@ -52,7 +52,7 @@ export class RoomDispatcher extends Dispatcher {
                             'action',
                             Snack.create({
                                 message:
-                                    `${this.socket.user.name}@${this.user_id} attended`,
+                                    `${this.socket.user.name}@${this.user_id} joined`,
                             })
                         );
                         this.dispatch(Room.joined(room));
