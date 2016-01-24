@@ -121,11 +121,6 @@ export class Chat extends Component {
         this.state = {
             leftNav: false,
         };
-
-        setTimeout(() => {
-            props.join(props.roomId);
-            props.fetch();
-        });
     }
 
     componentDidMount() {
@@ -143,11 +138,6 @@ export class Chat extends Component {
     componentWillUnmount() {
         window.removeEventListener('focus', this.onWindowFocus);
         window.removeEventListener('blur', this.onWindowBlur);
-    }
-    componentWillUpdate(nextProps) {
-        if (nextProps.id !== this.props.id) {
-            nextProps.fetch();
-        }
     }
     componentDidUpdate(prevProps) {
         if (!this.props.eor

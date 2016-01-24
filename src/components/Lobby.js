@@ -87,11 +87,6 @@ export const RoomList = (props) => {
 export class Lobby extends Component {
     constructor(props) {
         super(props);
-
-        setTimeout(() => {
-            props.leave();
-            props.fetch();
-        });
     }
 
     onCreateRoom() {

@@ -26,6 +26,8 @@ io.use((socket, next) => {
 
 io.on('connect', (socket) => {
     logger.info('New Connection: ', socket.id, socket.user);
+    socket.on('disconnect', () => 
+        logger.info('Disconnected', socket.id, socket.user));
 
     const dispatcher = new ActionDispatcher(socket);
 

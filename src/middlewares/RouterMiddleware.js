@@ -1,7 +1,7 @@
 import * as ROUTE from '../constants/RouteActions';
 import { parse } from '../router/Parser';
 
-export const routerMiddleware = () => (next) => (action) => {
+export const routerMiddleware = ({dispatch}) => (next) => (action) => {
     if (action.type === ROUTE.SET && !action.route) {
         const {
             path,
@@ -15,9 +15,12 @@ export const routerMiddleware = () => (next) => (action) => {
             history.pushState({}, 'Beniimo Online', abs);
         }
 
+        const route = parse(abs);
+        
+        if (route.onEnter) route.onEnter(dispatch)(route.params);
         return next({
             ...nextAction,
-            route: parse(abs),
+            route,
         });
     }
 

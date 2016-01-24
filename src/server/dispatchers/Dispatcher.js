@@ -4,6 +4,7 @@ export class Dispatcher {
     constructor(socket, root) {
         this.root = root;
         this.socket = socket;
+        this.user = socket.user;
         this.user_id = socket.user.id;
     }
 

@@ -10,3 +10,6 @@ export const LEFT = 'ROOM_LEFT';
 export const FETCH = 'ROOM_LIST_FETCH';
 export const PUSH = 'ROOM_LIST_PUSH';
 export const PUSH_HISTORY = 'ROOM_LIST_PUSH_HISTORY';
+
+export const USER_JOINED = 'ROOM_USER_JOINED';
+export const USER_LEFT = 'ROOM_USER_LEFT';

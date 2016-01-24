@@ -1,5 +1,4 @@
 import * as Room from '../../actions/RoomActions';
-import * as Snack from '../../actions/SnackActions';
 import * as ROOM from '../../constants/RoomActions';
 import { knex, exists } from '../knex.js';
 import { Dispatcher } from './Dispatcher';
@@ -9,6 +8,17 @@ const ID_LENGTH = 16;
 const HISTORY_LIMIT = 20;
 
 export class RoomDispatcher extends Dispatcher {
+    constructor(socket, root) {
+        super(socket, root);
+
+        socket.on('disconnect', () => {
+            if (this.room_id) {
+                socket.server.to(this.room_id)
+                    .emit('action', Room.userLeft(this.user));
+            }
+        });
+    }
+
     onDispatch(action) {
         switch (action.type) {
             case ROOM.CREATE: {
@@ -41,7 +51,7 @@ export class RoomDispatcher extends Dispatcher {
                     .then(exists)
                     .then((room) =>
                         this.room_id
-                            ? this.opDispatch({type: ROOM.LEAVE})
+                            ? this.onDispatch({type: ROOM.LEAVE})
                                 .then(() => room)
                             : Promise.resolve(room)
                     )
@@ -50,11 +60,7 @@ export class RoomDispatcher extends Dispatcher {
                         this.socket.join(room.id);
                         this.socket.to(room.id).emit(
                             'action',
-                            Snack.create({
-                                icon: 'person',
-                                message:
-                                    `${this.socket.user.name}@${this.user_id} joined`,
-                            })
+                            Room.userJoined(this.user)
                         );
                         this.dispatch(Room.joined(room));
                     });
@@ -62,16 +68,12 @@ export class RoomDispatcher extends Dispatcher {
                 if (this.room_id) {
                     this.socket.to(this.room_id).emit(
                         'action',
-                        Snack.create({
-                            icon: 'person_outline',
-                            message:
-                                `${this.socket.user.name}@${this.user_id} left`,
-                        })
-                    );                    
+                        Room.userLeft(this.user)
+                    );
                     this.socket.leave(this.room_id);
                 }
                 this.room_id = null;
-                return Promise.resolve();
+                return this.onDispatch({type: ROOM.FETCH});
             case ROOM.FETCH:
                 return Promise.all([
                     knex('rooms')

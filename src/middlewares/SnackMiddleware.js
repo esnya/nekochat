@@ -9,6 +9,7 @@ export const snackMiddleware = ({dispatch}) => (next) => (action) => {
 
     if (!snack) return next(action);
 
-    dispatch(create(snack));
+    dispatch(create(snack, dispatch));
+
     return next(nextAction);
 };

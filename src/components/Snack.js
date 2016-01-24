@@ -8,7 +8,6 @@ export const Snack = (props) => {
         remove,
     } = props;
     const snack = snackList[0] || {};
-    const action = snack.action || 'close';
     const message = snack.message && format(snack.message, snack.data) || '';
 
     const MessageStyle = {
@@ -24,7 +23,7 @@ export const Snack = (props) => {
 
     return (
         <Snackbar
-            action={action}
+            action={snack.action || 'close'}
             autoHideDuration={5000}
             message={
                 <div style={MessageStyle}>
@@ -40,7 +39,12 @@ export const Snack = (props) => {
                 </div>
             }
             open={snackList.length > 0}
-            onActionTouchTap={() => remove(snack)}
+            onActionTouchTap={() => {
+                if (snack.onAction) {
+                    snack.onAction(snack.data);
+                }
+                remove(snack);
+            }}
             onRequestClose={() => remove(snack)} />
     );
 };
