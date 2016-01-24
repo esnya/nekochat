@@ -17,6 +17,7 @@ const DialogFeatures = {
     width: 360,
     height: 640,
     resizabe: true,
+    scrollbars: true,
 };
 const DialogFeatureString = Object.keys(DialogFeatures)
     .map((key) => ({key, value: DialogFeatures[key]}))
