@@ -1,5 +1,5 @@
 import zip from 'array-zip';
-import { Routes } from './routes';
+import { Routes } from './Routes';
 
 export const parser = (routes) => (path) => {
     const s = path.split('/').slice(1);
