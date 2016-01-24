@@ -16,7 +16,7 @@ const wait = (url) => new Promise((resolve, reject) => {
 const req = (url) => {
     const emitter = cache[url].emitter;
     const onError = (error) => {
-        Reflect.deleteProperty(cache, url);
+        cache.url = null;
         emitter.emit(EVENT_ERROR, error);
     };
 
@@ -27,7 +27,7 @@ const req = (url) => {
             if (xhr.readyState === READY_DONE) {
                 if (xhr.status === HTTP_OK) {
                     try {
-                        Reflect.deleteProperty(cache[url], 'emitter');
+                        cache[url].emitter = null;
                         emitter.emit(
                             EVENT_DATA,
                             (cache[url].data = JSON.parse(xhr.responseText))
