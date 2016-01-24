@@ -1,8 +1,7 @@
 import * as SNACK from '../constants/SnackActions';
 import { genId } from '../utility/id';
 
-export const create = (snack, dispatch = null) => 
-(console.log(snack, dispatch) || {
+export const create = (snack, dispatch = null) => ({
     type: SNACK.CREATE,
     snack: {
         ...snack,
