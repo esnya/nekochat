@@ -51,6 +51,7 @@ export class RoomDispatcher extends Dispatcher {
                         this.socket.to(room.id).emit(
                             'action',
                             Snack.create({
+                                icon: 'person',
                                 message:
                                     `${this.socket.user.name}@${this.user_id} joined`,
                             })
@@ -62,6 +63,7 @@ export class RoomDispatcher extends Dispatcher {
                     this.socket.to(this.room_id).emit(
                         'action',
                         Snack.create({
+                            icon: 'person_outline',
                             message:
                                 `${this.socket.user.name}@${this.user_id} left`,
                         })

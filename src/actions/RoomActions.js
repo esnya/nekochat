@@ -13,6 +13,7 @@ export const created = function(room) {
         room,
         snack: {
             data: room,
+            icon: 'done',
             message: 'Room "${title}" created',
         },
     };
@@ -36,6 +37,7 @@ export const remove = function(room) {
         },
         snack: {
             data: room,
+            icon: 'done',
             message: 'Room "${title}" deleted',
         },
     };
