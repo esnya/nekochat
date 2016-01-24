@@ -1,0 +1,3 @@
+[submodule "beniimo-dev"]
+	path = beniimo-dev
+	url = https://github.com/ukatama/beniimo-dev.git
