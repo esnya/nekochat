@@ -1,4 +1,4 @@
-import { Dialog, FlatButton } from 'material-ui'
+import { Dialog, FlatButton } from 'material-ui';
 import React from 'react';
 import { format } from '../utility/format';
 

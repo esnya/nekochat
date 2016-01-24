@@ -142,6 +142,7 @@ rules:
         - as-needed
     require-jsdoc: 2
     semi-spacing: 2
+    semi: 2
     sort-vars: 2
     space-in-parens: 2
     spaced-comment: 2

@@ -5,7 +5,7 @@ import {
     IconButton,
     TextField,
 } from 'material-ui';
-import { Colors } from 'material-ui/lib/styles'
+import { Colors } from 'material-ui/lib/styles';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { generateId } from '../utility/id';

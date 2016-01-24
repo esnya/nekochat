@@ -1,9 +1,8 @@
 import * as Route from '../actions/RouteActions';
 import * as ROUTE from '../constants/RouteActions';
 import * as ROOM from '../constants/RoomActions';
-import { parse } from '../router/Parser';
 
-export const routeReducer = function(state = parse(location.pathname), action) {
+export const routeReducer = function(state = null, action) {
     switch (action.type) {
         case ROUTE.SET:
             if (!action.route) return state;

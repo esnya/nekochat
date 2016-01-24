@@ -1,4 +1,4 @@
-import ExpressSocketIOSession from 'express-socket.io-session'
+import ExpressSocketIOSession from 'express-socket.io-session';
 import SocketIO from 'socket.io';
 import { loggedin } from '../actions/UserActions';
 import { create as createSnack } from '../actions/SnackActions';
@@ -32,7 +32,7 @@ io.on('connect', (socket) => {
     socket.on('action', (action) => 
         dispatcher.onDispatch(action)
             .catch((e) => {
-                logger.error(e)
+                logger.error(e);
                 if (typeof(e) === 'string') {
                     socket.emit('action', createSnack({
                         message: e,

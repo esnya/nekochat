@@ -43,4 +43,4 @@ export const Snack = (props) => {
             onActionTouchTap={() => remove(snack)}
             onRequestClose={() => remove(snack)} />
     );
-}
+};
