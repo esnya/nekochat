@@ -2,6 +2,6 @@
 /* eslint arrow-body-style: 0 */
 
 export const debugLoggerMiddleWare = ({getState}) => (next) => (action) => {
-    // console.log(action.type, action, getState());
+    console.log(action.type, action, getState());
     return next(action);
 };
