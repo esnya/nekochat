@@ -221,7 +221,8 @@ export class Chat extends Component {
             },
             List: {
                 flex: '1 1 auto',
-                overflow: 'auto',
+                overflow: 'hidden',
+                overflowY: 'auto',
                 WebkitOverflowScrolling: 'touch',
             },
             Loader: {

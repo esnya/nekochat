@@ -1,15 +1,26 @@
 import {
     AppBar,
     FlatButton,
-    FontIcon,
     IconButton,
     List,
     ListItem,
     Paper,
     TextField,
 } from 'material-ui';
+import isMobile from 'is-mobile';
 import React, { Component } from 'react';
 import moment from '../browser/moment';
+
+const IsMobile = isMobile();
+
+const DialogFeatures = {
+    width: 360,
+    height: 640,
+    resizabe: true,
+};
+const DialogFeatureString = Object.keys(DialogFeatures)
+    .map((key) => ({key, value: DialogFeatures[key]}))
+    .map((a) => `${a.key}=${a.value === true ? 'yes' : a.value}`);
 
 export const RoomList = (props) => {
     const {
@@ -35,14 +46,36 @@ export const RoomList = (props) => {
                         }
                         onTouchTap={() => onJoin(room.id)}
                         rightIconButton={
-                            editable && room.user_id === user.id && (
+                            <div>
                                 <IconButton
-                                    onTouchTap={() => removeRoom(room)}>
-                                    <FontIcon className="material-icons">
-                                        delete
-                                    </FontIcon>
+                                    iconClassName="material-icons"
+                                    onTouchTap={() => onJoin(room.id)}>
+                                    open_in_browser
                                 </IconButton>
-                            )
+                                {
+                                    IsMobile
+                                    ? null
+                                    : (
+                                        <IconButton
+                                            iconClassName="material-icons"
+                                            onTouchTap={ () => window.open(
+                                                `/${room.id}`,
+                                                room.id,
+                                                DialogFeatureString
+                                            )}>
+                                            open_in_new
+                                        </IconButton>
+                                    )
+                                }
+                                <IconButton
+                                    disabled={
+                                        !editable || room.user_id !== user.id
+                                    }
+                                    iconClassName="material-icons"
+                                    onTouchTap={() => removeRoom(room)}>
+                                    delete
+                                </IconButton>
+                            </div>
                         } />
                 ))
             }

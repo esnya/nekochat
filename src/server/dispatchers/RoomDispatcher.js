@@ -71,21 +71,21 @@ export class RoomDispatcher extends Dispatcher {
                 this.room_id = null;
                 return Promise.resolve();
             case ROOM.FETCH:
-                return Promise.all(
-                        knex('rooms')
-                            .where('user_id', this.user_id)
-                            .whereNull('deleted')
-                            .orderBy('modified', 'desc')
-                            .then((rooms) => this.dispatch(Room.push(rooms))),
-                        knex('room_histories')
-                            .where('user_id', this.user_id)
-                            .whereNull('deleted')
-                            .orderBy('modified', 'desc')
-                            .limit(HISTORY_LIMIT)
-                            .then((rooms) => this.dispatch(
-                                Room.pushHistory(rooms)
-                            ))
-                    );
+                return Promise.all([
+                    knex('rooms')
+                        .where('user_id', this.user_id)
+                        .whereNull('deleted')
+                        .orderBy('modified', 'desc')
+                        .then((rooms) => this.dispatch(Room.push(rooms))),
+                    knex('room_histories')
+                        .where('user_id', this.user_id)
+                        .whereNull('deleted')
+                        .orderBy('modified', 'desc')
+                        .limit(HISTORY_LIMIT)
+                        .then((rooms) => this.dispatch(
+                            Room.pushHistory(rooms)
+                        )),
+                ]);
             case ROOM.REMOVE:
                 return knex('rooms')
                     .where('id', action.id)

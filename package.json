@@ -50,6 +50,7 @@
     "gulp-sloc": "^1.0.4",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
+    "is-mobile": "^0.2.2",
     "log4js": "^0.6.29",
     "material-ui": "^0.14.2",
     "moment": "^2.11.1",
