@@ -6,7 +6,7 @@ let room = null;
 
 const push = (state, items) => {
     if (items.length === 0) return state;
-    
+
     if (!room || items[0].room_id !== room.id) return state;
 
     const filtered = state.filter((a) => !items.find((b) => a.id === b.id));
@@ -30,7 +30,7 @@ const push = (state, items) => {
 
 export const messageListReducer = function(state = [], action) {
     switch (action.type) {
-        case ROOM.JOINED: 
+        case ROOM.JOINED:
             room = action.room;
             return [];
         case ROOM.LEAVE:
@@ -43,7 +43,7 @@ export const messageListReducer = function(state = [], action) {
             const items = Array.isArray(action.data)
                 ? action.data
                 : [action.data];
- 
+
             return state.map((item) => ({
                         item,
                         update: items.find((b) => item.id === b.id),

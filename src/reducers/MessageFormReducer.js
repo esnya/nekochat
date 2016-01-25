@@ -19,11 +19,11 @@ const load = (state) => {
 
     if (form) {
         const parsed = JSON.parse(form);
-    
+
         parsed.forEach((f) => id = Math.max(f.id + 1, id));
         return parsed;
     }
-    
+
     if (state.length > 0) return save(state);
 
     return save([{

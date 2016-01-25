@@ -25,14 +25,14 @@ export class MessageConfigDialog extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchIcon();        
+        this.props.fetchIcon();
     }
     componentWillUpdate(nextProps) {
         if (!nextProps.open && this.state.deletedMode) {
             this.setState({deleteMode: false});
         }
     }
-    
+
 
     fetchCharacter() {
         const url = this.refs.character_url.getValue();
@@ -75,7 +75,7 @@ export class MessageConfigDialog extends Component {
         const icon_data = e.target;
 
         if (icon_data.files.length === 0) return;
-        
+
         map(icon_data.files, (a) => a).forEach((file) => {
             this.props.createIcon({
                 name: file.name,
@@ -83,7 +83,7 @@ export class MessageConfigDialog extends Component {
                 file,
             });
         }, this);
-        
+
         icon_data.value = '';
     }
 
@@ -260,11 +260,11 @@ export class MessageConfigDialog extends Component {
                                             onTouchTap={() => removeIcon(icon)}>
                                             delete
                                         </IconButton>
-                                        : <input 
+                                        : <input
                                             id={genId()}
                                             name="icon_id"
                                             type="radio"
-                                            value={icon.id} 
+                                            value={icon.id}
                                             defaultChecked={
                                                 icon.id === icon_id
                                             } />

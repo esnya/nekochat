@@ -52,7 +52,7 @@ export const Message = (props) => {
             padding: '0 8px',
         },
     };
-    
+
     const {
         icon_id,
         iconType,
@@ -63,12 +63,12 @@ export const Message = (props) => {
         user_id,
         created,
     } = props;
-    
+
     const href = character_data
         && new URL(character_data.url, character_url) || character_url;
     const color = makeColor(`${name}${user_id}`);
-    
-    return (        
+
+    return (
         <div style={Styles.ListItem}>
             <div style={Styles.Icon}>
                 <MessageIcon
@@ -153,7 +153,7 @@ export class Chat extends Component {
         const loader = findDOMNode(this.refs.loader);
         const list = e.target;
 
-        if (list.scrollTop + list.offsetHeight 
+        if (list.scrollTop + list.offsetHeight
             >= loader.offsetTop - list.offsetTop + loader.offsetHeight) {
             const {
                 eor,
@@ -165,7 +165,7 @@ export class Chat extends Component {
             fetch(messageList[messageList.length - 1].id);
         }
     }
-    
+
     toggleLeftNav() {
         this.setState({leftNav: !this.state.leftNav});
     }

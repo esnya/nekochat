@@ -68,7 +68,7 @@ export const MessageIcon = (props) => {
             icon || portrait || image || picture,
             character_url
         );
-  
+
         return (
             <ImageIcon
                 color={color}
@@ -80,7 +80,7 @@ export const MessageIcon = (props) => {
         const icon = name.match(/^[a-zA-Z0-9][a-zA-Z0-9]/)
             ? name.substr(0, 2)
             : name.substr(0, 1);
- 
+
         return (
             <Avatar backgroundColor={color} size={Size} style={style}>
                 {icon}

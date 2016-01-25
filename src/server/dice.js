@@ -25,7 +25,7 @@ export const diceReplace = function (str, io) {
                 }
 
                 const r = [];
-    
+
                 for (let i = 0; i < num; ++i) {
                     r.push(Math.floor(Math.random() * eye + 1));
                 }

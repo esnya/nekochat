@@ -6,7 +6,7 @@ export const Routes = [
         onEnter: (dispatch) => () => dispatch(leave()),
     },
     {
-        path: '/:roomId', route: 'chat', 
+        path: '/:roomId', route: 'chat',
         onEnter: (dispatch) => ({roomId}) => dispatch(join(roomId)),
     },
 ];

@@ -19,7 +19,7 @@ export class Dispatcher {
 
         return (this.root || this).onDispatch(clientAction);
     }
-    
+
     onDispatch() {
         const error = new Error(
             `${this.constructor.name}.onDispatch must be overrided`

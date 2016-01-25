@@ -118,7 +118,7 @@ export class Lobby extends Component {
                         floatingLabelText="Create Chat Room"
                         fullWidth={true}
                         hintText="Input the title of new room"
-                        onKeyDown={(e) => 
+                        onKeyDown={(e) =>
                             e.keyCode === VK_RETURN
                                 && this.onCreateRoom()
                         }/>
