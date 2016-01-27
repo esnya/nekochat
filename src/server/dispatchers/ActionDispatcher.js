@@ -4,6 +4,7 @@ import { IconDispatcher } from './IconDispatcher';
 import { InputDispatcher } from './InputDispatcher';
 import { MessageDispatcher } from './MessageDispatcher';
 import { RoomDispatcher } from './RoomDispatcher';
+import { VideoDispatcher } from './VideoDispatcher';
 
 const logger = getLogger('[ACTION]');
 
@@ -16,6 +17,7 @@ export class ActionDispatcher extends Dispatcher {
             new InputDispatcher(socket, this),
             new MessageDispatcher(socket, this),
             new RoomDispatcher(socket, this),
+            new VideoDispatcher(socket, this),
         ];
     }
 

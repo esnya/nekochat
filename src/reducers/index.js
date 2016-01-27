@@ -12,6 +12,8 @@ import { roomListReducer } from './RoomListReducer';
 import { roomReducer } from './RoomReducer';
 import { routeReducer } from './RouteReducer';
 import { userReducer } from './UserReducer';
+import { videoReducer } from './VideoReducer';
+import { videoListReducer } from './VideoListReducer';
 
 export const rootReducer = combineReducers({
     characters,
@@ -27,4 +29,6 @@ export const rootReducer = combineReducers({
     room: roomReducer,
     route: routeReducer,
     user: userReducer,
+    video: videoReducer,
+    videoList: videoListReducer,
 });

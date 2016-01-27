@@ -8,6 +8,7 @@ import { routerMiddleware } from './RouterMiddleware';
 import { socketMiddleware } from './SocketMiddleware';
 import { systemNotificationMiddleware } from './SystemNotificationMiddleware';
 import { timeoutMiddleware } from './TimeoutMiddleware';
+import { videoMiddleware } from './VideoMiddleware';
 
 export const middlewares = [
     domMiddleware,
@@ -19,5 +20,6 @@ export const middlewares = [
     routerMiddleware,
     socketMiddleware,
     timeoutMiddleware,
+    videoMiddleware,
     debugLoggerMiddleWare,
 ];
