@@ -1,4 +1,5 @@
 {
+    "name": "beniimo-online",
     "app": {
         "guest": false,
         "livereload": false,
@@ -24,5 +25,10 @@
                 "filename": "tmp/db.sqlite"
             }
         }
+    },
+    "etcd": {
+        "enabled": false,
+        "hostname": "127.0.0.1",
+        "port": 4001
     }
 }
