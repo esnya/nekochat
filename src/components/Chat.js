@@ -123,22 +123,6 @@ export class Chat extends Component {
         };
     }
 
-    componentDidMount() {
-        this.onWindowFocus = () => {
-            this.unreadBase = null;
-            this.setTitle();
-        };
-        window.addEventListener('focus', this.onWindowFocus);
-
-        this.onWindowBlur = () => {
-            this.unreadBase = this.props.messageList.length;
-        };
-        window.addEventListener('blur', this.onWindowBlur);
-    }
-    componentWillUnmount() {
-        window.removeEventListener('focus', this.onWindowFocus);
-        window.removeEventListener('blur', this.onWindowBlur);
-    }
     componentDidUpdate(prevProps) {
         if (!this.props.eor
             && this.props.messageList.length > 0
@@ -188,6 +172,7 @@ export class Chat extends Component {
         const {
             eor,
             id,
+            dom,
             input,
             messageForm,
             messageList,
@@ -221,7 +206,13 @@ export class Chat extends Component {
             },
         };
 
-        this.setTitle();
+        if (dom.focused) {
+            this.prevMsgs = messageList.length;
+            document.title = `${title} - Beniimo Online`;
+        } else if (messageList.length > this.prevMsgs) {
+            document.title =
+                `(${messageList.length - this.prevMsgs})${title} - Beniimo Online`;
+        }
 
         return (
             <div style={Styles.Container}>

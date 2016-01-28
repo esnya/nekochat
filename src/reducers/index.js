@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { confirmListReducer } from './ConfirmListReducer';
+import { domReducer } from './DOMReducer';
 import { iconListReducer } from './IconListReducer';
 import { inputReducer } from './InputReducer';
 import { messageFormReducer } from './MessageFormReducer';
@@ -12,6 +13,7 @@ import { userReducer } from './UserReducer';
 
 export const rootReducer = combineReducers({
     confirmList: confirmListReducer,
+    dom: domReducer,
     iconList: iconListReducer,
     input: inputReducer,
     messageForm: messageFormReducer,
