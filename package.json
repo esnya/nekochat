@@ -11,6 +11,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "node .",
     "lint": "gulp lint",
     "build": "gulp build",
     "serve": "gulp serve",
