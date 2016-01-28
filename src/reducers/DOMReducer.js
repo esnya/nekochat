@@ -1,6 +1,6 @@
 import * as DOM from '../constants/DOMActions';
 
-export const domReducer = (state = {}, action) => {
+export const domReducer = (state = { focused: true }, action) => {
     switch (action.type) {
         case DOM.LOAD:
             return {
