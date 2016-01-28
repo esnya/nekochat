@@ -2,15 +2,7 @@
     "name": "beniimo-online",
     "app": {
         "guest": false,
-        "livereload": false,
-        "server": {
-            "host": "localhost",
-            "port": 8080
-        },
-        "session": {
-            "resave": true,
-            "saveUninitialized": true
-        }
+        "livereload": false
     },
     "database": {
         "default": {
@@ -30,5 +22,13 @@
         "enabled": false,
         "hostname": "127.0.0.1",
         "port": 4001
+    },
+    "server": {
+        "host": "localhost",
+        "port": 8080
+    },
+    "session": {
+        "resave": true,
+        "saveUninitialized": true
     }
 }

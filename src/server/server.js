@@ -5,7 +5,7 @@ import { logger } from './logger';
 
 export const server = Server(app);
 
-server.listen(config.get('app.server'), () => {
+server.listen(config.get('server'), () => {
     const {
         address,
         family,

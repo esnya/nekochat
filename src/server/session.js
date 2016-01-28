@@ -7,7 +7,7 @@ const Store = KnexSessionStore(Session);
 const knex = Knex(config.get('database.session'));
 
 export const session = Session({
-    ...config.get('app.session'),
+    ...config.get('session'),
     secret: config.get('app.secret'),
     store: new Store({knex}),
 });
