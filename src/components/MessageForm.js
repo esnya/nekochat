@@ -51,7 +51,9 @@ export class MessageForm extends Component {
         this.props.updateForm(form);
     }
 
-    onInput() {
+    onInput(e) {
+        if (this.composition) return;
+
         const {
             name,
             beginInput,
@@ -67,6 +69,7 @@ export class MessageForm extends Component {
         } else this.endInput();
     }
     endInput() {
+        this.composition = false;
         this.props.endInput({
             name: this.props.name,
         });
@@ -150,7 +153,10 @@ export class MessageForm extends Component {
                     style={Styles.Message}
                     onKeyDown={(e) => this.onKey(e)}
                     onChange={() => this.onInput()}
-                    onFocus={() => this.onInput()} />
+                    onFocus={() => this.onInput()}
+                    onCompositionStart={(e) => this.composition = true}
+                    onCompositionUpdate={(e) => this.composition = true}
+                    onCompositionEnd={(e) => this.composition = false} />
                 <IconButton type="submit">
                     <FontIcon className="material-icons">send</FontIcon>
                 </IconButton>
