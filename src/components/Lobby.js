@@ -108,10 +108,10 @@ export class Lobby extends Component {
             removeRoom,
         } = this.props;
 
-        document.title = "Beniimo Online";
+        document.title = "NekoChat";
         return (
             <div>
-                <AppBar title="Beniimo Online" showMenuIconButton={false} />
+                <AppBar title="NekoChat" showMenuIconButton={false} />
                 <Paper style={{ display: 'flex', padding: '0 16px' }}>
                     <TextField
                         ref="title"

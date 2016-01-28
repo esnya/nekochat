@@ -12,7 +12,7 @@ export const routerMiddleware = ({dispatch}) => (next) => (action) => {
             : `/${path}`;
 
         if (abs !== location.pathname) {
-            history.pushState({}, 'Beniimo Online', abs);
+            history.pushState({}, 'NekoChat', abs);
         }
 
         const route = parse(abs);

@@ -7,7 +7,7 @@ let id = 0;
 let user = null;
 let room = null;
 
-const getKey = () => `/beniimo-online/${user.id}/${room.id}/form`;
+const getKey = () => `/nekochat/${user.id}/${room.id}/form`;
 const save = (state) => {
     localStorage.setItem(getKey(), JSON.stringify(state));
     return state;

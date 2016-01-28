@@ -162,9 +162,9 @@ export class Chat extends Component {
 
         if (this.unreadBase !== null && messageList.length > this.unreadBase) {
             document.title =
-                `(${messageList.length - this.unreadBase}) ${title} - Beniimo Online`;
+                `(${messageList.length - this.unreadBase}) ${title} - NekoChat`;
         } else if (title) {
-            document.title = `${title} - Beniimo Online`;
+            document.title = `${title} - NekoChat`;
         }
     }
 
@@ -208,16 +208,16 @@ export class Chat extends Component {
 
         if (dom.focused) {
             this.prevMsgs = messageList.length;
-            document.title = `${title} - Beniimo Online`;
+            document.title = `${title} - NekoChat`;
         } else if (messageList.length > this.prevMsgs) {
             document.title =
-                `(${messageList.length - this.prevMsgs}) ${title} - Beniimo Online`;
+                `(${messageList.length - this.prevMsgs}) ${title} - NekoChat`;
         }
 
         return (
             <div style={Styles.Container}>
                 <AppBar
-                    title={title || 'Beniimo Online'}
+                    title={title || 'NekoChat'}
                     onLeftIconButtonTouchTap={() => this.toggleLeftNav()} />
                 <div style={Styles.FormList}>
                     {messageForm.map((form) => (
@@ -245,7 +245,7 @@ export class Chat extends Component {
                 </div>
                 <LeftNav open={leftNav} docked={false}>
                     <AppBar
-                        title={title || 'Beniimo Online'}
+                        title={title || 'NekoChat'}
                         iconElementLeft={(
                             <IconButton
                                 iconClassName="material-icons"

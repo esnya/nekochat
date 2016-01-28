@@ -1,10 +1,10 @@
 {
-  "name": "beniimo-chat",
+  "name": "nekochat",
   "version": "0.0.1",
-  "description": "Beniimo TRPG chat system",
+  "description": "The online chat system, part of NekoRPG.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ukatama/beniimo-online.git"
+    "url": "https://github.com/ukatama/nekochat.git"
   },
   "main": "lib/server",
   "directories": {
