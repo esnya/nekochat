@@ -26,6 +26,12 @@ export const fetch = function(minId = null) {
 export const push = function(items) {
     return {
         type: MESSAGE.PUSH,
+        notify: {
+            title: '${name}',
+            body: '${message}',
+            icon: '/icon/${icon_id}',
+            tag: '${room_id}',
+        },
         items,
     };
 };

@@ -211,7 +211,7 @@ export class Chat extends Component {
             document.title = `${title} - Beniimo Online`;
         } else if (messageList.length > this.prevMsgs) {
             document.title =
-                `(${messageList.length - this.prevMsgs})${title} - Beniimo Online`;
+                `(${messageList.length - this.prevMsgs}) ${title} - Beniimo Online`;
         }
 
         return (

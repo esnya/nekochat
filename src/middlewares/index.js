@@ -2,6 +2,7 @@ import { debugLoggerMiddleWare } from './DebugLoggerMiddleware';
 import { domMiddleware } from './DOMMiddleware';
 import { confirmMiddleWare } from './ConfirmMiddleware';
 import { characterMiddleWare } from './CharacterMiddleware';
+import { notificationMiddleware } from './NotificationMiddleware';
 import { routerMiddleware } from './RouterMiddleware';
 import { snackMiddleware } from './SnackMiddleware';
 import { socketMiddleware } from './SocketMiddleware';
@@ -12,6 +13,7 @@ export const middlewares = [
     confirmMiddleWare,
     snackMiddleware,
     characterMiddleWare,
+    notificationMiddleware,
     routerMiddleware,
     socketMiddleware,
     timeoutMiddleware,
