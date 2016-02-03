@@ -1,14 +1,14 @@
 import { getCharacter } from '../browser/character';
 
 export const characterMiddleWare = ({dispatch}) => (next) => (action) => {
-    if (Array.isArray(action.items)
-        || action.data && action.data.character_url) {
+    if (Array.isArray(action.items) ||
+        action.data && action.data.character_url) {
         Promise.all(
             (Array.isArray(action.items) ? action.items : [action.data])
-                .filter((item) => item
-                    && item.id != null
-                    && item.character_url
-                    && item.character_url !== item.character_data_url
+                .filter((item) => item &&
+                    item.id != null &&
+                    item.character_url &&
+                    item.character_url !== item.character_data_url
                 )
                 .map((item) => getCharacter(item.character_url)
                     .then(

@@ -119,8 +119,8 @@ export class Lobby extends Component {
                         fullWidth={true}
                         hintText="Input the title of new room"
                         onKeyDown={(e) =>
-                            e.keyCode === VK_RETURN
-                                && this.onCreateRoom()
+                            e.keyCode === VK_RETURN &&
+                                this.onCreateRoom()
                         }/>
                     <FlatButton
                         primary={true}

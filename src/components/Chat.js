@@ -64,8 +64,8 @@ export const Message = (props) => {
         created,
     } = props;
 
-    const href = character_data
-        && new URL(character_data.url, character_url) || character_url;
+    const href = character_data &&
+        new URL(character_data.url, character_url) || character_url;
     const color = makeColor(`${name}${user_id}`);
 
     return (
@@ -124,9 +124,9 @@ export class Chat extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!this.props.eor
-            && this.props.messageList.length > 0
-            && prevProps.messageList.length === 0) {
+        if (!this.props.eor &&
+            this.props.messageList.length > 0 &&
+            prevProps.messageList.length === 0) {
             this.onScroll({
                 target: findDOMNode(this.refs.messageList),
             });
@@ -137,8 +137,8 @@ export class Chat extends Component {
         const loader = findDOMNode(this.refs.loader);
         const list = e.target;
 
-        if (list.scrollTop + list.offsetHeight
-            >= loader.offsetTop - list.offsetTop + loader.offsetHeight) {
+        if (list.scrollTop + list.offsetHeight >=
+            loader.offsetTop - list.offsetTop + loader.offsetHeight) {
             const {
                 eor,
                 messageList,
