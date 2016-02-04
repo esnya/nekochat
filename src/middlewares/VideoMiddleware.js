@@ -3,9 +3,9 @@ import * as ROOM from '../constants/RoomActions';
 import * as VIDEO from '../constants/VideoActions';
 import Peer from 'peerjs_fork_firefox40';
 
-navigator.getUserMedia = navigator.getUserMedia
-                         || navigator.webkitGetUserMedia
-                         || navigator.mozGetUserMedia;
+navigator.getUserMedia = navigator.getUserMedia ||
+                            navigator.webkitGetUserMedia ||
+                            navigator.mozGetUserMedia;
 const getVideoStream = (p) => new Promise((resolve, reject) => {
     if (p.mystream) return resolve(p.mystream);
     navigator.getUserMedia(
