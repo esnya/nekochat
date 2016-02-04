@@ -6,9 +6,6 @@ import {
 } from 'material-ui';
 import React, { Component } from 'react';
 import { FROM_HEIGHT } from '../components/MessageForm';
-import {
-    MessageConfigDialogContainer,
-} from '../containers/MessageConfigDialogContainer';
 import { MessageFormContainer } from '../containers/MessageFormContainer';
 import { MessageList } from '../containers/MessageList';
 
@@ -105,7 +102,6 @@ export class Chat extends Component {
                         Static View
                     </MenuItem>
                 </LeftNav>
-                <MessageConfigDialogContainer />
             </div>
         );
     }
