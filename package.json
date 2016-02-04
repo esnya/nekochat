@@ -12,6 +12,7 @@
   },
   "scripts": {
     "start": "node .",
+    "gulp": "gulp",
     "lint": "gulp lint",
     "build": "gulp build",
     "serve": "gulp serve",
@@ -54,6 +55,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
     "is-mobile": "^0.2.2",
+    "jest-cli": "^0.8.2",
     "log4js": "^0.6.29",
     "material-ui": "^0.14.2",
     "moment": "^2.11.1",
