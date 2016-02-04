@@ -1,7 +1,6 @@
 import { FontIcon, IconButton, TextField } from 'material-ui';
 import React, { Component } from 'react';
 import { makeColor } from '../utility/color';
-import { MessageConfigDialog } from './MessageConfigDialog';
 import { MessageIcon } from './MessageIcon';
 
 export const FROM_HEIGHT = 72;
@@ -9,9 +8,6 @@ export const FROM_HEIGHT = 72;
 export class MessageForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            configDialog: false,
-        };
     }
 
     onSubmit(e) {
@@ -75,13 +71,6 @@ export class MessageForm extends Component {
         });
     }
 
-    openConfigDialog() {
-        this.setState({configDialog: true});
-    }
-    closeConfigDialog() {
-        this.setState({configDialog: false});
-    }
-
     render() {
         const {
             id,
@@ -91,15 +80,10 @@ export class MessageForm extends Component {
             character_data,
             icon_id,
             user,
-            hideConfig,
-            removeIcon,
             createForm,
             removeForm,
-            createSnack,
+            openDialog,
         } = this.props;
-        const {
-            configDialog,
-        } = this.state;
 
         const Styles = {
             Form: {
@@ -136,7 +120,7 @@ export class MessageForm extends Component {
                 }
                 <IconButton
                     style={Styles.Icon}
-                    onTouchTap={() => this.openConfigDialog()}>
+                    onTouchTap={() => openDialog('message-config', id)}>
                     <MessageIcon
                         id={icon_id}
                         character_data={character_data}
@@ -160,14 +144,6 @@ export class MessageForm extends Component {
                 <IconButton type="submit">
                     <FontIcon className="material-icons">send</FontIcon>
                 </IconButton>
-                <MessageConfigDialog
-                    {...this.props}
-                    hide={hideConfig}
-                    open={configDialog}
-                    createSnack={createSnack}
-                    onCancel={() => this.closeConfigDialog()}
-                    onUpdate={(form) => this.onUpdateForm(form)}
-                    removeIcon={removeIcon} />
             </form>
         );
     }
