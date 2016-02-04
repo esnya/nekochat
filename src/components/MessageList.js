@@ -16,10 +16,7 @@ const Style = {
         textAlign: 'center',
         overflow: 'hidden',
     },
-};
-
-export const MessageListItem = (props) => {
-    const Styles = {
+    ListItem: {
         ListItem: {
             display: 'flex',
             padding: '8px 0',
@@ -56,67 +53,77 @@ export const MessageListItem = (props) => {
             flex: '0 0 auto',
             padding: '0 8px',
         },
-    };
-
-    const {
-        icon_id,
-        iconType,
-        character_data,
-        character_url,
-        message,
-        name,
-        user_id,
-        created,
-    } = props;
-
-    const href = character_data &&
-        new URL(character_data.url, character_url) || character_url;
-    const color = makeColor(`${name}${user_id}`);
-
-    return (
-        <div style={Styles.ListItem}>
-            <div style={Styles.Icon}>
-                <MessageIcon
-                    id={icon_id}
-                    character_data={character_data}
-                    character_url={character_url}
-                    color={color}
-                    name={name}
-                    type={iconType} />
-            </div>
-            <div style={Styles.MessageContainer}>
-                <div style={Styles.Header}>
-                    <span style={{color}}>{name}</span>
-                    <span>@</span>
-                    <span>{props.user_id}</span>
-                    {href && <IconButton
-                        containerElement="a"
-                        href={href}
-                        target="_blank"
-                        style={Styles.Link}
-                        iconClassName="material-icons"
-                        iconStyle={Styles.LinkIcon} >
-                        open_in_new
-                    </IconButton>}
-                </div>
-                <div style={Styles.Message}>
-                    {message && message.split(/\r\n|\n/).map((line, i) => (
-                        <p key={i} style={Styles.Line}>
-                            {
-                                line.match(/^https?:\/\/[^ ]+$/)
-                                ? <a href={line} target="_blank">{line}</a>
-                                : line
-                            }
-                        </p>
-                    ))}
-                </div>
-            </div>
-            <div style={Styles.Timestamp}>
-                    {created && moment(created).fromNow()}
-            </div>
-        </div>
-    );
+    },
 };
+
+export class MessageListItem extends Component {
+    componentDidMount() {
+        const element = findDOMNode(this.refs.message);
+
+        this.props.scroll(element.offsetTop, element.offsetHeight);
+    }
+
+    render() {
+        const {
+            icon_id,
+            iconType,
+            character_data,
+            character_url,
+            message,
+            name,
+            user_id,
+            created,
+        } = this.props;
+
+        const href = character_data &&
+            new URL(character_data.url, character_url) || character_url;
+        const color = makeColor(`${name}${user_id}`);
+
+        return (
+            <div ref="message" style={Style.ListItem.ListItem}>
+                <div style={Style.ListItem.Icon}>
+                    <MessageIcon
+                        id={icon_id}
+                        character_data={character_data}
+                        character_url={character_url}
+                        color={color}
+                        name={name}
+                        type={iconType} />
+                </div>
+                <div style={Style.ListItem.MessageContainer}>
+                    <div style={Style.ListItem.Header}>
+                        <span style={{color}}>{name}</span>
+                        <span>@</span>
+                        <span>{user_id}</span>
+                        {href && <IconButton
+                            containerElement="a"
+                            href={href}
+                            target="_blank"
+                            style={Style.ListItem.Link}
+                            iconClassName="material-icons"
+                            iconStyle={Style.ListItem.LinkIcon} >
+                            open_in_new
+                        </IconButton>}
+                    </div>
+                    <div style={Style.ListItem.Message}>
+                        {message && message.split(/\r\n|\n/).map((line, i) => (
+                            <p key={i} style={Style.ListItem.Line}>
+                                {
+                                    line.match(/^https?:\/\/[^ ]+$/)
+                                    ? <a href={line} target="_blank">{line}</a>
+                                    : line
+                                }
+                            </p>
+                        ))}
+                    </div>
+                </div>
+                <div style={Style.ListItem.Timestamp}>
+                        {created && moment(created).fromNow()}
+                </div>
+            </div>
+        );
+    }
+}
 
 export class MessageList extends Component {
     componentDidUpdate(prevProps) {
@@ -129,12 +136,10 @@ export class MessageList extends Component {
         }
     }
 
-    onScroll(e) {
-        const loader = findDOMNode(this.refs.loader);
-        const list = e.target;
+    onScroll() {
+        const list = findDOMNode(this.refs.messageList);
 
-        if (list.scrollTop + list.offsetHeight >=
-            loader.offsetTop - list.offsetTop + loader.offsetHeight) {
+        if (list.scrollTop === 0) {
             const {
                 eor,
                 messageList,
@@ -142,7 +147,20 @@ export class MessageList extends Component {
             } = this.props;
 
             if (eor) return;
-            fetch(messageList[messageList.length - 1].id);
+
+            fetch(messageList[0].id);
+        }
+    }
+
+    scroll(top, height) {
+        const list = findDOMNode(this.refs.messageList);
+
+        if (
+            top - height / 2 <=
+                list.offsetTop + list.offsetHeight + list.scrollTop
+        ) {
+            list.scrollTop += height + top -
+                (list.offsetTop + list.offsetHeight + list.scrollTop);
         }
     }
 
@@ -158,18 +176,21 @@ export class MessageList extends Component {
                 ref="messageList"
                 style={Style.List}
                 onScroll={(e) => this.onScroll(e)}>
-                {input.map((i) => (
-                    <Message {...i} key={i.id} iconType="loading" />
-                ))}
-                {messageList.map((message) => (
-                    <MessageListItem {...message} key={message.id} />
-                ))}
                 <div ref="loader" style={{
                     ...Style.Loader,
                     display: eor ? 'none' : 'block',
                 }}>
                     <CircularProgress />
                 </div>
+                {input.map((i) => (
+                    <Message {...i} key={i.id} iconType="loading" />
+                ))}
+                {messageList.map((message) => (
+                    <MessageListItem
+                        {...message}
+                        key={message.id}
+                        scroll={(t, s) => this.scroll(t, s)} />
+                ))}
             </div>
         );
     }

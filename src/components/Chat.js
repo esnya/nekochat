@@ -76,6 +76,7 @@ export class Chat extends Component {
                 <AppBar
                     title={title || 'NekoChat'}
                     onLeftIconButtonTouchTap={() => this.toggleLeftNav()} />
+                <MessageList />
                 <div style={Styles.FormList}>
                     {messageForm.map((form) => (
                         <MessageFormContainer
@@ -84,7 +85,6 @@ export class Chat extends Component {
                             user={user} />
                     ))}
                 </div>
-                <MessageList />
                 <LeftNav open={leftNav} docked={false}>
                     <AppBar
                         title={title || 'NekoChat'}
