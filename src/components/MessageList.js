@@ -182,13 +182,17 @@ export class MessageList extends Component {
                 }}>
                     <CircularProgress />
                 </div>
-                {input.map((i) => (
-                    <Message {...i} key={i.id} iconType="loading" />
-                ))}
                 {messageList.map((message) => (
                     <MessageListItem
                         {...message}
                         key={message.id}
+                        scroll={(t, s) => this.scroll(t, s)} />
+                ))}
+                {input.map((i) => (
+                    <MessageListItem
+                        {...i}
+                        key={i.id}
+                        iconType="loading"
                         scroll={(t, s) => this.scroll(t, s)} />
                 ))}
             </div>
