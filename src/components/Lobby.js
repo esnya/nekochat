@@ -1,11 +1,8 @@
 import {
     AppBar,
-    FlatButton,
     IconButton,
     List,
     ListItem,
-    Paper,
-    TextField,
 } from 'material-ui';
 import isMobile from 'is-mobile';
 import React, { Component } from 'react';
@@ -89,21 +86,12 @@ export class Lobby extends Component {
         super(props);
     }
 
-    onCreateRoom() {
-        const title = this.refs.title.getValue();
-
-        if (title) {
-            this.props.createRoom({title});
-            this.refs.title.clearValue();
-        }
-    }
-
     render() {
-        const VK_RETURN = 13;
         const {
             history,
             rooms,
             user,
+            open,
             onJoin,
             removeRoom,
         } = this.props;
@@ -111,22 +99,16 @@ export class Lobby extends Component {
         document.title = "NekoChat";
         return (
             <div>
-                <AppBar title="NekoChat" showMenuIconButton={false} />
-                <Paper style={{ display: 'flex', padding: '0 16px' }}>
-                    <TextField
-                        ref="title"
-                        floatingLabelText="Create Chat Room"
-                        fullWidth={true}
-                        hintText="Input the title of new room"
-                        onKeyDown={(e) =>
-                            e.keyCode === VK_RETURN &&
-                                this.onCreateRoom()
-                        }/>
-                    <FlatButton
-                        primary={true}
-                        label="Create"
-                        onTouchTap={() => this.onCreateRoom()} />
-                </Paper>
+                <AppBar
+                    showMenuIconButton={false}
+                    title="NekoChat"
+                    iconElementRight={
+                        <IconButton
+                            iconClassName="material-icons"
+                            onTouchTap={() => open('room-create')}>
+                            add
+                        </IconButton>
+                    } />
                 <RoomList
                     rooms={history}
                     subheader="Recentry Joined Rooms"

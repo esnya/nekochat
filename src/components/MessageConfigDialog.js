@@ -16,6 +16,58 @@ import { MessageIcon } from './MessageIcon';
 let lastId = null;
 const genId = () => (lastId = generateId());
 
+
+const Style = {
+    Form: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    TextField: {
+        flex: '0 0 72px',
+    },
+    IconHeader: {
+        display: 'flex',
+    },
+    IconRadioGroup: {
+        flex: '1 1 auto',
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        overflowY: 'auto',
+    },
+    IconRadioItem: {
+        flex: '0 0 76px',
+        display: 'flex',
+        flexDirection: 'column-reverse',
+        alignItems: 'center',
+        overflow: 'hidden',
+    },
+    IconRadioText: {
+        display: 'flex',
+        width: '100%',
+        alignItems: 'center',
+    },
+    IconRadioTextLabel: {
+        whiteSpace: 'nowrap',
+    },
+    IconDeleteIcon: {
+        width: 'auto', height: 'auto',
+        padding: 0,
+    },
+    Upload: {
+        flex: '0 0 76px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    UploadIcon: {
+        flex: '0 0 60px',
+    },
+    Flex: {
+        flex: '1 1 0',
+    },
+};
+
 export class MessageConfigDialog extends Component {
     constructor(props) {
         super(props);
@@ -60,12 +112,18 @@ export class MessageConfigDialog extends Component {
             .find((radio) => radio.checked);
         const icon_id = selected && selected.value || null;
 
-        this.props.onUpdate({
-            id: this.props.id,
+        const {
+            updateForm,
+            close,
+        } = this.props;
+
+        updateForm({
+            id: this.props.form.id,
             name: this.refs.name.getValue(),
             character_url: this.refs.character_url.getValue(),
             icon_id,
         });
+        close();
     }
 
     onIconUpload() {
@@ -89,18 +147,19 @@ export class MessageConfigDialog extends Component {
 
     render() {
         const {
+            form,
+            iconList,
+            open,
+            user,
+            removeIcon,
+            close,
+        } = this.props;
+        const {
             name,
             character_data,
             character_url,
             icon_id,
-            iconList,
-            open,
-            user,
-            hide,
-            removeIcon,
-            onCancel,
-            ...otherProps,
-        } = this.props;
+        } = form;
         const {
             deleteMode,
         } = this.state;
@@ -109,81 +168,30 @@ export class MessageConfigDialog extends Component {
             <FlatButton
                 label="Cancel"
                 secondary={true}
-                onTouchTap={onCancel} />,
+                onTouchTap={close} />,
             <FlatButton
                 label="Update"
                 primary={true}
                 onTouchTap={(e) => this.onUpdate(e)} />,
         ];
-        const color = makeColor(`${name}${user.id}`);
-
-        const Styles = {
-            Form: {
-                display: 'flex',
-                flexDirection: 'column',
-            },
-            TextField: {
-                flex: '0 0 72px',
-            },
-            IconHeader: {
-                display: 'flex',
-            },
-            IconRadioGroup: {
-                flex: '1 1 auto',
-                display: 'flex',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                overflowY: 'auto',
-            },
-            IconRadioItem: {
-                flex: '0 0 76px',
-                display: 'flex',
-                flexDirection: 'column-reverse',
-                alignItems: 'center',
-                overflow: 'hidden',
-            },
-            IconRadioText: {
-                display: 'flex',
-                width: '100%',
-                alignItems: 'center',
-            },
-            IconRadioTextLabel: {
-                whiteSpace: 'nowrap',
-            },
-            IconDeleteIcon: {
-                width: 'auto', height: 'auto',
-                padding: 0,
-            },
-            Upload: {
-                flex: '0 0 76px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            },
-            UploadIcon: {
-                flex: '0 0 60px',
-            },
-            Flex: {
-                flex: '1 1 0',
-            },
-        };
+        const color = makeColor(`${name}${user && user.id}`);
 
         return (
-            <Dialog {...otherProps}
+            <Dialog
                 autoScrollBodyContent={true}
-                open={open && !hide}
                 actions={Actions}
-                title="Name and Icon" >
+                title="Name and Icon"
+                open={open} >
                 <form
                     ref="form"
-                    style={Styles.Form}
+                    style={Style.Form}
                     onUpdate={(e) => this.onUpdate(e)}>
                     <div>
                         <TextField
                             ref="name"
                             fullWidth={true}
                             floatingLabelText="Name"
-                            style={Styles.TextField}
+                            style={Style.TextField}
                             defaultValue={name} />
                     </div>
                     <div>
@@ -191,28 +199,28 @@ export class MessageConfigDialog extends Component {
                             fullWidth={true}
                             floatingLabelText="Character Sheet URL"
                             defaultValue={character_url}
-                            style={Styles.TextField}
+                            style={Style.TextField}
                             onBlur={() => this.fetchCharacter()} />
                     </div>
-                    <div style={Styles.IconHeader} >
+                    <div style={Style.IconHeader} >
                         <div>Icon</div>
                         <IconButton
                             iconClassName="material-icons"
                             iconStyle={{
                                 color: deleteMode ? Colors.red700 : null,
                             }}
-                            style={Styles.IconDeleteIcon}
+                            style={Style.IconDeleteIcon}
                             onTouchTap={() => this.setState({
                                 deleteMode: !deleteMode,
                             })}>
                             delete
                         </IconButton>
                     </div>
-                    <div style={Styles.IconRadioGroup}>
-                        <div style={Styles.Upload}>
+                    <div style={Style.IconRadioGroup}>
+                        <div style={Style.Upload}>
                             <IconButton
                                 iconClassName="material-icons"
-                                style={Styles.UploadIcon}
+                                style={Style.UploadIcon}
                                 onTouchTap={() => this.onIconUpload()}>
                                 file_upload
                             </IconButton>
@@ -224,8 +232,8 @@ export class MessageConfigDialog extends Component {
                                 type="file"
                                 onChange={(e) => this.onIconFileChange(e)} />
                         </div>
-                        <div style={Styles.IconRadioItem}>
-                            <div style={Styles.IconRadioText}>
+                        <div style={Style.IconRadioItem}>
+                            <div style={Style.IconRadioText}>
                                 <input
                                     id={genId()}
                                     name="icon_id"
@@ -234,7 +242,7 @@ export class MessageConfigDialog extends Component {
                                     defaultChecked={!icon_id} />
                                 <label
                                     htmlFor={lastId}
-                                    style={Styles.IconRadioTextLabel}>
+                                    style={Style.IconRadioTextLabel}>
                                     Default
                                 </label>
                             </div>
@@ -248,15 +256,15 @@ export class MessageConfigDialog extends Component {
                             </label>
                         </div>
                         {iconList.map((icon) => (
-                            <div key={icon.id} style={Styles.IconRadioItem}>
-                                <div style={Styles.IconRadioText}>
+                            <div key={icon.id} style={Style.IconRadioItem}>
+                                <div style={Style.IconRadioText}>
                                     {
                                         deleteMode
                                         ? <IconButton
                                             id={genId()}
                                             iconClassName="material-icons"
                                             iconStyle={{color: Colors.red700}}
-                                            style={Styles.IconDeleteIcon}
+                                            style={Style.IconDeleteIcon}
                                             onTouchTap={() => removeIcon(icon)}>
                                             delete
                                         </IconButton>
@@ -271,7 +279,7 @@ export class MessageConfigDialog extends Component {
                                     }
                                     <label
                                         htmlFor={lastId}
-                                        style={Styles.IconRadioTextLabel}>
+                                        style={Style.IconRadioTextLabel}>
                                         {icon.name}
                                     </label>
                                 </div>

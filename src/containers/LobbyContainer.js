@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { open } from '../actions/DialogActions';
 import {
     leave, fetch,
     create as createRoom,
@@ -16,6 +17,7 @@ export const LobbyContainer = connect(
     }),
     (dispatch) => ({
         ...bindActions({
+            open,
             leave,
             fetch,
             createRoom,
