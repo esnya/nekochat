@@ -5,6 +5,8 @@ import { notice } from '../browser/sound';
 let room = null;
 
 const push = (state, items) => {
+    items.reverse();
+
     if (items.length === 0) return state;
 
     if (!room || items[0].room_id !== room.id) return state;
@@ -15,13 +17,13 @@ const push = (state, items) => {
 
     if (items[items.length - 1].id > filtered[0].id) {
         return [
-            ...items,
             ...filtered,
+            ...items,
         ];
     } else if (items[0].id < filtered[filtered.length - 1].id) {
         return [
-            ...filtered,
             ...items,
+            ...filtered,
         ];
     }
 
