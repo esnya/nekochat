@@ -100,8 +100,12 @@ export class Lobby extends Component {
         return (
             <div>
                 <AppBar
-                    showMenuIconButton={false}
                     title="NekoChat"
+                    iconElementLeft = {
+                        <a href="/">
+                            <img src="/img/nekokoro48.png" />
+                        </a>
+                    }
                     iconElementRight={
                         <IconButton
                             iconClassName="material-icons"

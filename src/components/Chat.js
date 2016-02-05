@@ -87,7 +87,7 @@ export class Chat extends Component {
                 </div>
                 <LeftNav open={leftNav} docked={false}>
                     <AppBar
-                        title={title || 'NekoChat'}
+                        title="NekoChat"
                         iconElementLeft={(
                             <IconButton
                                 iconClassName="material-icons"
