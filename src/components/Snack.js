@@ -18,7 +18,10 @@ export const Snack = (props) => {
     const IconStyle = {
         marginRight: 8,
     };
-    const InnerStyle = {
+    const SnackStyle = {
+        left: '50%',
+        width: 0,
+        justifyContent: 'center',
     };
 
     return (
@@ -35,10 +38,11 @@ export const Snack = (props) => {
                             {snack.icon}
                         </FontIcon>
                     )}
-                    <div style={InnerStyle}>{message}</div>
+                    <div>{message}</div>
                 </div>
             }
             open={snackList.length > 0}
+            style={SnackStyle}
             onActionTouchTap={() => {
                 if (snack.onAction) {
                     snack.onAction(snack.data);
