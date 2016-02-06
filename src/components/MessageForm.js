@@ -16,6 +16,7 @@ export class MessageForm extends Component {
         if (prev === next) return;
 
         const messageField = this.refs.message;
+        if (!messageField) return;
         if (!messageField.getValue().match(/^(@[^ ]+ ?)?$/)) return;
 
         this.refs.message.setValue(`@${next} `);
