@@ -1,13 +1,14 @@
 import io from 'socket.io-client';
 import dice3d from 'dice3d';
+import * as Socket from '../actions/SocketActions';
 import { AppStore } from '../stores/AppStore';
-import { run } from './router';
 
 const DICE_MAX = 20;
 
 export const socket = io.connect();
 
-socket.on('connect', () => run());
+socket.on('connect', () => AppStore.dispatch(Socket.connect()));
+socket.on('disconnect', () => AppStore.dispatch(Socket.disconnect()));
 socket.on('action', (action) => AppStore.dispatch(action));
 
 let diceCounter = 0;

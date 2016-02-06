@@ -3,6 +3,7 @@ import express from 'express';
 import Livereload from 'connect-livereload';
 import { knex, exists } from './knex';
 import { session } from './session';
+import { getUser } from './user';
 
 export const app = express();
 
@@ -48,5 +49,7 @@ app.get('/view/:roomId', (req, res, next) => {
 });
 
 app.get(['/', '/:roomId'], (req, res) => {
-    res.render('index');
+    getUser(req.session)
+        .then((user) => res.render('index', { user }))
+        .catch(() => res.sendCode(401));
 });
