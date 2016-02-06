@@ -62,13 +62,13 @@ const Style = {
         UserLink: {
             color: Styles.Colors.grey600,
             textDecoration: 'none',
+            cursor: 'pointer',
         },
     },
 };
 
 export const UserId = ({user_id, whisperTo}) => (
-    <a
-        href="#"
+    <span
         style={Style.ListItem.UserLink}
         onTouchTap={(e) => {
             e.preventDefault();
@@ -77,7 +77,7 @@ export const UserId = ({user_id, whisperTo}) => (
     >
         <span>@</span>
         <span>{user_id}</span>
-    </a>
+    </span>
 );
 
 export const MessageBody = ({message, whisper_to, whisperTo}) => {
@@ -221,7 +221,7 @@ export class MessageList extends Component {
                 fetch,
             } = this.props;
 
-            if (eor) return;
+            if (eor || !messageList[0]) return;
 
             fetch(messageList[0].id);
         }
