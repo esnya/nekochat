@@ -25,7 +25,7 @@ export const began = (input) => ({
     ...input,
     type: INPUT.BEGAN,
     timeout: {
-        timeout: 10 * 1000,
+        timeout: 30 * 1000,
         next: ended(input),
     },
 });
