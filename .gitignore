@@ -1,8 +1,3 @@
-.hg*
-server/node_modules
-css/materialize.*
-.sass-cache
-css
 lib
 node_modules
 npm-debug.log
