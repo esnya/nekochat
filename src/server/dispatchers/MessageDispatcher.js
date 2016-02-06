@@ -34,7 +34,11 @@ export class MessageDispatcher extends Dispatcher {
                     )
                     .then((message) => this.dispatch(
                         Message.push([message]),
-                        this.room_id
+                        message.whisper_to
+                            ? [
+                                    `${this.room_id}/${this.user_id}`,
+                                    `${this.room_id}/${message.whisperTo}`,
+                            ] : this.room_id
                     ));
             case ROOM.JOINED:
                 this.room_id = action.room.id;
@@ -51,7 +55,7 @@ export class MessageDispatcher extends Dispatcher {
                     .whereNull('deleted')
                     .where(function() {
                         this.whereNull('whisper_to')
-                            .orWhere('whisper_to', 'guest')
+                            .orWhere('whisper_to', user_id)
                             .orWhere('user_id', user_id);
                     })
                     .orderBy('id', 'desc')

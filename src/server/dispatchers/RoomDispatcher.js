@@ -58,6 +58,7 @@ export class RoomDispatcher extends Dispatcher {
                     .then((room) => {
                         this.room_id = room.id;
                         this.socket.join(room.id);
+                        this.socket.join(`${room.id}/${this.user_id}`);
                         this.socket.to(room.id).emit(
                             'action',
                             Room.userJoined(this.user)

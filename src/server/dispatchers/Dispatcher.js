@@ -15,7 +15,15 @@ export class Dispatcher {
         };
 
         if (!to || !excludeSelf) this.socket.emit('action', clientAction);
-        if (to) this.socket.to(to).emit('action', clientAction);
+        if (to) {
+            if (Array.isArray(to)) {
+                to.forEach((t) => {
+                    this.socket.to(t).emit('action', clientAction);
+                });
+            } else {
+                this.socket.to(to).emit('action', clientAction);
+            }
+        }
 
         return (this.root || this).onDispatch(clientAction);
     }
