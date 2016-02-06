@@ -37,7 +37,7 @@ export class MessageDispatcher extends Dispatcher {
                         message.whisper_to
                             ? [
                                     `${this.room_id}/${this.user_id}`,
-                                    `${this.room_id}/${message.whisperTo}`,
+                                    `${this.room_id}/${message.whisper_to}`,
                             ] : this.room_id
                     ));
             case ROOM.JOINED:
