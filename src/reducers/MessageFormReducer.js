@@ -9,7 +9,12 @@ let room = null;
 
 const getKey = () => `/nekochat/${user.id}/${room.id}/form`;
 const save = (state) => {
-    localStorage.setItem(getKey(), JSON.stringify(state));
+    localStorage.setItem(getKey(), JSON.stringify(state.map(
+       (form) => ({
+           ...form,
+           whisper_to: null,
+       })
+    )));
     return state;
 };
 const load = (state) => {
@@ -76,6 +81,14 @@ export const messageFormReducer = function(state = [], action) {
             );
         } case MESSAGE_FORM.REMOVE:
             return save(state.filter((form) => form.id !== action.id));
+        case MESSAGE_FORM.WHISPER_TO:
+            return save([
+                ...state.slice(0, state.length - 1),
+                {
+                    ...state[state.length - 1],
+                    whisper_to: action.whisper_to,
+                },
+            ]);
         default:
             return state;
     }

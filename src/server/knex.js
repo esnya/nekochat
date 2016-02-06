@@ -54,6 +54,8 @@ Promise.all([
             .references('id').inTable('users');
         table.string('icon_id')
             .references('id').inTable('icons');
+        table.string('whisper_to').nullable()
+            .references('id').inTable('users');
         table.string('name').notNullable();
         table.string('message').notNullable();
         table.string('character_url');

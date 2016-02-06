@@ -21,3 +21,10 @@ export const remove = function(id) {
         id,
     };
 };
+
+export const whisperTo = function(whisper_to) {
+    return {
+        type: MESSAGE_FORM.WHISPER_TO,
+        whisper_to,
+    };
+};

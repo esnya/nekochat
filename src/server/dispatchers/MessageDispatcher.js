@@ -15,9 +15,10 @@ export class MessageDispatcher extends Dispatcher {
                     .insert({
                         user_id: this.user_id,
                         room_id: this.room_id,
+                        icon_id: action.icon_id || null,
+                        whisper_to: action.whisper_to || null,
                         name: action.name || null,
                         character_url: action.character_url || null,
-                        icon_id: action.icon_id || null,
                         message: diceReplace(
                             action.message,
                             this.socket.server.to(this.room_id)
@@ -38,7 +39,9 @@ export class MessageDispatcher extends Dispatcher {
             case ROOM.JOINED:
                 this.room_id = action.room.id;
                 return this.onDispatch({type: MESSAGE.FETCH});
-            case MESSAGE.FETCH:
+            case MESSAGE.FETCH: {
+                const user_id = this.user_id;
+
                 return (
                         action.minId
                         ? knex('messages').where('id', '<', action.minId)
@@ -46,11 +49,17 @@ export class MessageDispatcher extends Dispatcher {
                     )
                     .where('room_id', this.room_id)
                     .whereNull('deleted')
+                    .where(function() {
+                        this.whereNull('whisper_to')
+                            .orWhere('whisper_to', 'guest')
+                            .orWhere('user_id', user_id);
+                    })
                     .orderBy('id', 'desc')
                     .limit(MESSAGE_LIMIT)
                     .then((messages) => {
                         this.dispatch(Message.push(messages));
                     });
+            }
         }
     }
 }
