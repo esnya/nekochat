@@ -166,13 +166,13 @@ export class MessageConfigDialog extends Component {
 
         const Actions = [
             <FlatButton
-                label="Cancel"
-                secondary={true}
-                onTouchTap={close} />,
-            <FlatButton
                 label="Update"
                 primary={true}
                 onTouchTap={(e) => this.onUpdate(e)} />,
+            <FlatButton
+                label="Cancel"
+                secondary={true}
+                onTouchTap={close} />,
         ];
         const color = makeColor(`${name}${user && user.id}`);
 
