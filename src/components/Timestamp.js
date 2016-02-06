@@ -37,7 +37,7 @@ export class Timestamp extends Component {
             >
                 <Tooltip
                     {...otherProps}
-                    label={m.format('LLL')}
+                    label={m.format('llll')}
                     show={full}
                     style={{
                         boxSizing: 'border-box',
