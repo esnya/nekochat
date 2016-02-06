@@ -10,6 +10,17 @@ export class MessageForm extends Component {
         super(props);
     }
 
+    componentWillUpdate(nextProps) {
+        const prev = this.props.whisper_to;
+        const next = nextProps.whisper_to;
+        if (prev === next) return;
+
+        const messageField = this.refs.message;
+        if (!messageField.getValue().match(/^(@[^ ]+ ?)?$/)) return;
+
+        this.refs.message.setValue(`@${next} `);
+    }
+
     onSubmit(e) {
         e.preventDefault();
 

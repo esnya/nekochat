@@ -59,7 +59,66 @@ const Style = {
         WhisperTo: {
             color: Styles.Colors.deepOrange500,
         },
+        UserLink: {
+            color: Styles.Colors.grey600,
+            textDecoration: 'none',
+        },
     },
+};
+
+export const UserId = ({user_id, whisperTo}) => (
+    <a
+        href="#"
+        style={Style.ListItem.UserLink}
+        onTouchTap={(e) => {
+            e.preventDefault();
+            whisperTo(user_id);
+        }}
+    >
+        <span>@</span>
+        <span>{user_id}</span>
+    </a>
+);
+
+export const MessageBody = ({message, whisper_to, whisperTo}) => {
+    const messageStyle = {
+        ...Style.ListItem.Message,
+        color: whisper_to && Styles.Colors.deepOrange500,
+    };
+
+    return (
+        <div style={messageStyle}>
+            {message && message.split(/\r\n|\n/).map((line, i) => {
+                let body = line;
+                if (i === 0 && line.charAt(0) === '@') {
+                    const m = line.match(/^@([^ ]+) (.*)$/);
+
+                    if (m) {
+                        body = [
+                            <UserId
+                                key="whisperTo"
+                                user_id={m[1]}
+                                whisperTo={whisperTo} />,
+                            <span
+                                key="line"
+                                style={{marginLeft: 8}}
+                            >
+                                {m[2]}
+                            </span>,
+                        ];
+                    }
+                } else if (line.match(/^https?:\/\/[^ ]+$/)) {
+                    body = <a href={line} target="_blank">{line}</a>;
+                }
+
+                return (
+                    <p key={i} style={Style.ListItem.Line}>
+                        {body}
+                    </p>
+                );
+            })}
+        </div>
+    );
 };
 
 export class MessageListItem extends Component {
@@ -67,6 +126,11 @@ export class MessageListItem extends Component {
         const element = findDOMNode(this.refs.message);
 
         this.props.scroll(element.offsetTop, element.offsetHeight);
+    }
+
+    onWhisperTo(e, whisper_to) {
+        e.preventDefault();
+        this.props.whisperTo(whisper_to);
     }
 
     render() {
@@ -80,16 +144,12 @@ export class MessageListItem extends Component {
             user_id,
             whisper_to,
             created,
+            whisperTo,
         } = this.props;
 
         const href = character_data &&
             new URL(character_data.url, character_url) || character_url;
         const color = makeColor(`${name}${user_id}`);
-
-        const messageStyle = {
-            ...Style.ListItem.Message,
-            color: whisper_to && Styles.Colors.deepOrange500,
-        };
 
         return (
             <div ref="message" style={Style.ListItem.ListItem}>
@@ -105,8 +165,7 @@ export class MessageListItem extends Component {
                 <div style={Style.ListItem.MessageContainer}>
                     <div style={Style.ListItem.Header}>
                         <span style={{color}}>{name}</span>
-                        <span>@</span>
-                        <span>{user_id}</span>
+                        <UserId user_id={user_id} whisperTo={whisperTo} />
                         {href && <IconButton
                             containerElement="a"
                             href={href}
@@ -128,17 +187,10 @@ export class MessageListItem extends Component {
                             </span>
                         }
                     </div>
-                    <div style={messageStyle}>
-                        {message && message.split(/\r\n|\n/).map((line, i) => (
-                            <p key={i} style={Style.ListItem.Line}>
-                                {
-                                    line.match(/^https?:\/\/[^ ]+$/)
-                                    ? <a href={line} target="_blank">{line}</a>
-                                    : line
-                                }
-                            </p>
-                        ))}
-                    </div>
+                    <MessageBody
+                        message={message}
+                        whisper_to={whisper_to}
+                        whisperTo={whisperTo} />
                 </div>
                 <div style={Style.ListItem.Timestamp}>
                         {created && moment(created).fromNow()}
@@ -192,6 +244,7 @@ export class MessageList extends Component {
             input,
             eor,
             messageList,
+            whisperTo,
         } = this.props;
 
         return (
@@ -209,14 +262,16 @@ export class MessageList extends Component {
                     <MessageListItem
                         {...message}
                         key={message.id}
-                        scroll={(t, s) => this.scroll(t, s)} />
+                        scroll={(t, s) => this.scroll(t, s)}
+                        whisperTo={whisperTo} />
                 ))}
                 {input.map((i) => (
                     <MessageListItem
                         {...i}
                         key={i.id}
                         iconType="loading"
-                        scroll={(t, s) => this.scroll(t, s)} />
+                        scroll={(t, s) => this.scroll(t, s)}
+                         whisperTo={whisperTo} />
                 ))}
             </div>
         );
