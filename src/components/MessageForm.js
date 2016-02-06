@@ -47,7 +47,7 @@ export class MessageForm extends Component {
                 message,
             });
             messageField.setValue(whisper_to ? `@${whisper_to} ` : '');
-            this.endInput();
+            this.props.endInput();
         }
     }
 
@@ -64,28 +64,44 @@ export class MessageForm extends Component {
         this.props.updateForm(form);
     }
 
-    onInput() {
-        if (this.composition) return;
+    startInputWatcher() {
+        if (this.inputWatcher) return;
 
-        const {
-            name,
-            beginInput,
-        } = this.props;
+        this.composition = false;
+        this.prevMessage = '';
+        this.inputWatcher = setInterval(() => this.watchInput(), 1000);
+        this.watchInput();
+    }
+
+    stopInputWatcher() {
+        if (!this.inputWatcher) return;
+
+        clearTimeout(this.inputWatcher);
+        this.inputWatcher = null;
+    }
+
+    watchInput() {
+        if (this.composition) return;
 
         const message = this.refs.message.getValue();
 
-        if (message && message.charAt(0) !== '@') {
-            beginInput({
-                name,
-                message: this.refs.message.getValue(),
-            });
-        } else this.endInput();
-    }
-    endInput() {
-        this.composition = false;
-        this.props.endInput({
-            name: this.props.name,
-        });
+        if (message !== this.prevMessage) {
+            const {
+                beginInput,
+                endInput,
+            } = this.props;
+
+            if (message && message.charAt(0) !== '@') {
+                beginInput({
+                    name: this.props.name,
+                    message,
+                });
+            } else {
+                endInput();
+            }
+        }
+
+        this.prevMessage = message;
     }
 
     render() {
@@ -153,8 +169,8 @@ export class MessageForm extends Component {
                     rows={1}
                     style={Styles.Message}
                     onKeyDown={(e) => this.onKey(e)}
-                    onChange={() => this.onInput()}
-                    onFocus={() => this.onInput()}
+                    onFocus={() => this.startInputWatcher()}
+                    onBlur={() => this.stopInputWatcher()}
                     onCompositionStart={() => this.composition = true}
                     onCompositionUpdate={() => this.composition = true}
                     onCompositionEnd={() => this.composition = false} />
