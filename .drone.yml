@@ -1,0 +1,5 @@
+build:
+    image: node
+    commands:
+        - npm install
+        - npm run build
