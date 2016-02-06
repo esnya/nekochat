@@ -27,7 +27,9 @@ export const Confirm = (props) => {
         <Dialog
             actions={actions}
             open={confirmList.length > 0}
-            title={confirm.title} >
+            title={confirm.title}
+            modal={true}
+        >
             {message}
         </Dialog>
     );

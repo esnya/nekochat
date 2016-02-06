@@ -181,7 +181,9 @@ export class MessageConfigDialog extends Component {
                 autoScrollBodyContent={true}
                 actions={Actions}
                 title="Name and Icon"
-                open={open} >
+                open={open}
+                onRequestClose={close}
+            >
                 <form
                     ref="form"
                     style={Style.Form}

@@ -40,7 +40,9 @@ export class RoomCreateDialog extends Component {
             <Dialog
                 actions={Actions}
                 open={open}
-                title="Create Room">
+                title="Create Room"
+                onRequestClose={close}
+            >
                     <TextField
                         ref="title"
                         floatingLabelText="Create Chat Room"
