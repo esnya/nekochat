@@ -1,6 +1,6 @@
 {
   "name": "nekochat",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "The online chat system, part of NekoRPG.",
   "repository": {
     "type": "git",
