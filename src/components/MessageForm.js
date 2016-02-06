@@ -23,13 +23,19 @@ export class MessageForm extends Component {
                 icon_id,
             } = this.props;
 
+            const whisper = message.match(/^@([^ ]+) /);
+            const whisper_to = whisper && whisper[1] || null;
+
+            if (whisper && whisper_to.length + 2 === message.length) return;
+
             this.props.createMessage({
                 name,
                 character_url,
                 icon_id,
+                whisper_to,
                 message,
             });
-            messageField.clearValue();
+            messageField.setValue(whisper_to ? `@${whisper_to} ` : '');
             this.endInput();
         }
     }
@@ -57,7 +63,7 @@ export class MessageForm extends Component {
 
         const message = this.refs.message.getValue();
 
-        if (message) {
+        if (message && message.charAt(0) !== '@') {
             beginInput({
                 name,
                 message: this.refs.message.getValue(),

@@ -1,4 +1,4 @@
-import { CircularProgress, IconButton } from 'material-ui';
+import { CircularProgress, IconButton, Styles } from 'material-ui';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import moment from '../browser/moment';
@@ -53,6 +53,12 @@ const Style = {
             flex: '0 0 auto',
             padding: '0 8px',
         },
+        WhisperArrow: {
+            margin: '0 16px',
+        },
+        WhisperTo: {
+            color: Styles.Colors.deepOrange500,
+        },
     },
 };
 
@@ -72,12 +78,18 @@ export class MessageListItem extends Component {
             message,
             name,
             user_id,
+            whisper_to,
             created,
         } = this.props;
 
         const href = character_data &&
             new URL(character_data.url, character_url) || character_url;
         const color = makeColor(`${name}${user_id}`);
+
+        const messageStyle = {
+            ...Style.ListItem.Message,
+            color: whisper_to && Styles.Colors.deepOrange500,
+        };
 
         return (
             <div ref="message" style={Style.ListItem.ListItem}>
@@ -104,8 +116,19 @@ export class MessageListItem extends Component {
                             iconStyle={Style.ListItem.LinkIcon} >
                             open_in_new
                         </IconButton>}
+                        {
+                            whisper_to &&
+                            <span>
+                                <span style={Style.ListItem.WhisperArrow}>
+                                    &gt;
+                                </span>
+                                <span style={Style.ListItem.WhisperTo}>
+                                    {whisper_to}
+                                </span>
+                            </span>
+                        }
                     </div>
-                    <div style={Style.ListItem.Message}>
+                    <div style={messageStyle}>
                         {message && message.split(/\r\n|\n/).map((line, i) => (
                             <p key={i} style={Style.ListItem.Line}>
                                 {
