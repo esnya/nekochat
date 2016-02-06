@@ -9,7 +9,12 @@ let room = null;
 
 const getKey = () => `/nekochat/${user.id}/${room.id}/form`;
 const save = (state) => {
-    localStorage.setItem(getKey(), JSON.stringify(state));
+    localStorage.setItem(getKey(), JSON.stringify(state.map(
+       (form) => ({
+           ...form,
+           whisper_to: null,
+       })
+    )));
     return state;
 };
 const load = (state) => {
