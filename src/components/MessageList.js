@@ -1,9 +1,9 @@
 import { CircularProgress, IconButton, Styles } from 'material-ui';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from '../browser/moment';
 import { makeColor } from '../utility/color';
 import { MessageIcon } from './MessageIcon';
+import { Timestamp } from './Timestamp';
 
 const Style = {
     List: {
@@ -193,7 +193,12 @@ export class MessageListItem extends Component {
                         whisperTo={whisperTo} />
                 </div>
                 <div style={Style.ListItem.Timestamp}>
-                        {created && moment(created).fromNow()}
+                    {
+                        created &&
+                            <Timestamp
+                                timestamp={created}
+                                horizontalPosition="left" />
+                    }
                 </div>
             </div>
         );

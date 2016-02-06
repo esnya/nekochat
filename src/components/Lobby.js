@@ -6,7 +6,7 @@ import {
 } from 'material-ui';
 import isMobile from 'is-mobile';
 import React, { Component } from 'react';
-import moment from '../browser/moment';
+import { Timestamp } from './Timestamp';
 
 const IsMobile = isMobile();
 
@@ -38,9 +38,11 @@ export const RoomList = (props) => {
                         key={room.id}
                         primaryText={room.title}
                         secondaryText={
-                            `@${room.user_id} ${
-                                moment(room.modified).fromNow()
-                            }`
+                            <span>
+                                @{room.user_id}
+                                &nbsp;
+                                <Timestamp timestamp={room.modified} />
+                            </span>
                         }
                         onTouchTap={() => onJoin(room.id)}
                         rightIconButton={
