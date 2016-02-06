@@ -57,7 +57,13 @@ export const MessageIcon = (props) => {
                 noShadow={noShadow}
                 url={`/icon/${id}`} />
         );
-    } else if (character_url && character_data) {
+    } else if (character_url &&
+        character_data && (
+        character_data.icon ||
+        character_data.portrait ||
+        character_data.image ||
+        character_data.picture)
+    ) {
         const {
             icon,
             portrait,
