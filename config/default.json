@@ -26,11 +26,15 @@
         "hostname": "127.0.0.1",
         "port": 4001
     },
+    "redis": {
+        "host": "localhost"
+    },
     "server": {
         "host": "localhost",
         "port": 8080
     },
     "session": {
+        "store": "database",
         "resave": true,
         "saveUninitialized": true
     }
