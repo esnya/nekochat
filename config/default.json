@@ -4,6 +4,9 @@
         "guest": false,
         "livereload": false
     },
+    "browser": {
+        "debug": false
+    },
     "database": {
         "default": {
             "client": "sqlite3",

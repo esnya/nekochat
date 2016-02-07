@@ -5,6 +5,8 @@ import { knex, exists } from './knex';
 import { session } from './session';
 import { getUser } from './user';
 
+const browser = config.get('browser');
+
 export const app = express();
 
 app.set('view engine', 'jade');
@@ -50,6 +52,6 @@ app.get('/view/:roomId', (req, res, next) => {
 
 app.get(['/', '/:roomId'], (req, res) => {
     getUser(req.session)
-        .then((user) => res.render('index', { user }))
+        .then((user) => res.render('index', { config: browser, user }))
         .catch(() => res.sendCode(401));
 });
