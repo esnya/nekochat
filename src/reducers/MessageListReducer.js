@@ -2,14 +2,11 @@ import * as MESSAGE from '../constants/MessageActions';
 import * as ROOM from '../constants/RoomActions';
 import { notice } from '../browser/sound';
 
-let room = null;
 
 const push = (state, items) => {
     items.reverse();
 
     if (items.length === 0) return state;
-
-    if (!room || items[0].room_id !== room.id) return state;
 
     const filtered = state.filter((a) => !items.find((b) => a.id === b.id));
 
@@ -32,11 +29,7 @@ const push = (state, items) => {
 
 export const messageListReducer = function(state = [], action) {
     switch (action.type) {
-        case ROOM.JOINED:
-            room = action.room;
-            return [];
         case ROOM.LEAVE:
-            room = null;
             return [];
         case MESSAGE.PUSH:
             if (action.items.length > 0) notice();
