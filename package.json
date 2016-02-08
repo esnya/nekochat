@@ -31,7 +31,7 @@
     "express-socket.io-session": "^1.3.1",
     "fs-promise": "^0.4.1",
     "jade": "^1.11.0",
-    "knex": "github:ukatama/knex#feature-mysql2-options-build",
+    "knex": "^0.10.0-rc1",
     "mysql": "^2.10.2",
     "mysql2": "^0.15.8",
     "socket.io": "^1.3.7",
