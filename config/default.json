@@ -21,11 +21,6 @@
             }
         }
     },
-    "etcd": {
-        "enabled": false,
-        "hostname": "127.0.0.1",
-        "port": 4001
-    },
     "redis": {
         "host": "localhost"
     },
