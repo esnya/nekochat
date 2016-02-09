@@ -53,5 +53,5 @@ app.get('/view/:roomId', (req, res, next) => {
 app.get(['/', '/:roomId'], (req, res) => {
     getUser(req.session)
         .then((user) => res.render('index', { config: browser, user }))
-        .catch(() => res.sendCode(401));
+        .catch(() => res.sendStatus(401));
 });
