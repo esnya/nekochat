@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import space from 'color-space';
 
-const SCALE_Y = 0.2;
+const SCALE_Y = 0.5;
 const OFFSET_Y = 0.2;
 const OFFSET_UV = -0.5;
 
