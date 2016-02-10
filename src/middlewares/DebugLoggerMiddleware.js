@@ -1,5 +1,4 @@
-/* eslint no-unused-vars: 0 */
-/* eslint arrow-body-style: 0 */
+/* eslint no-console: 0 */
 
 import { Config } from '../browser/config';
 
