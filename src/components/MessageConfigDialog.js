@@ -40,6 +40,9 @@ const Style = {
         alignItems: 'center',
         overflow: 'hidden',
     },
+    IconRadio: {
+        flex: '0 0 auto',
+    },
     IconRadioText: {
         display: 'flex',
         width: '100%',
@@ -82,7 +85,6 @@ export class MessageConfigDialog extends Component {
             this.setState({deleteMode: false});
         }
     }
-
 
     fetchCharacter() {
         const url = this.refs.character_url.getValue();
@@ -237,6 +239,7 @@ export class MessageConfigDialog extends Component {
                                 <input
                                     id={genId()}
                                     name="icon_id"
+                                    style={Style.IconRadio}
                                     type="radio"
                                     value=""
                                     defaultChecked={!icon_id} />
@@ -271,6 +274,7 @@ export class MessageConfigDialog extends Component {
                                         : <input
                                             id={genId()}
                                             name="icon_id"
+                                            style={Style.IconRadio}
                                             type="radio"
                                             value={icon.id}
                                             defaultChecked={
