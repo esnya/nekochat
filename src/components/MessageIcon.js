@@ -1,5 +1,5 @@
 import React from 'react';
-import Avatar from 'material-ui/lib/';
+import Avatar from 'material-ui/lib/avatar';
 import RefreshIndicator from 'material-ui/lib/refresh-indicator';
 
 const Size = 60;
