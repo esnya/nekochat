@@ -13,7 +13,7 @@ export const characterMiddleWare = ({getState, dispatch}) =>
 
             if (!loading[url] && (
                 !character_data ||
-                    character_data.timestamp + 60 * 1000 < Date.now()
+                    character_data.timestamp + 10 * 60 * 1000 < Date.now()
             )) {
                 loading[url] = true;
                 get(url)
