@@ -1,10 +1,8 @@
 import map from 'array-map';
-import {
-    Dialog,
-    FlatButton,
-    IconButton,
-    TextField,
-} from 'material-ui';
+import Dialog from 'material-ui/lib/dialog';
+import FlatButton from 'material-ui/lib/flat-button';
+import IconButton from 'material-ui/lib/icon-button';
+import TextField from 'material-ui/lib/text-field';
 import { Colors } from 'material-ui/lib/styles';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';

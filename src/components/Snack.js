@@ -1,4 +1,5 @@
-import { FontIcon, Snackbar } from 'material-ui';
+import FontIcon from 'material-ui/lib/font-icon';
+import Snackbar from 'material-ui/lib/snackbar';
 import React from 'react';
 import { format } from '../utility/format';
 

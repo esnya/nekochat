@@ -1,4 +1,6 @@
-import { FontIcon, IconButton, TextField } from 'material-ui';
+import FontIcon from 'material-ui/lib/font-icon';
+import IconButton from 'material-ui/lib/icon-button';
+import TextField from 'material-ui/lib/text-field';
 import React, { Component } from 'react';
 import { makeColor } from '../utility/color';
 import { MessageIcon } from './MessageIcon';

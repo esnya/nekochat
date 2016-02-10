@@ -1,4 +1,4 @@
-import { Styles } from 'material-ui';
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Theme from '../browser/theme';
@@ -23,7 +23,7 @@ export class App extends Component {
 
     getChildContext() {
         return {
-            muiTheme: Styles.ThemeManager.getMuiTheme(Theme),
+            muiTheme: ThemeManager.getMuiTheme(Theme),
         };
     }
 

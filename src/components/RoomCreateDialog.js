@@ -1,4 +1,6 @@
-import { Dialog, TextField, FlatButton } from 'material-ui';
+import Dialog from 'material-ui/lib/dialog';
+import FlatButton from 'material-ui/lib/flat-button';
+import TextField from 'material-ui/lib/text-field';
 import React, { Component } from 'react';
 
 const VK_RETURN = 13;

@@ -1,4 +1,6 @@
-import { CircularProgress, IconButton, Styles } from 'material-ui';
+import CircularProgress from 'material-ui/lib/circular-progress';
+import IconButton from 'material-ui/lib/icon-button';
+import Colors from 'material-ui/lib/styles/colors';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../utility/color';
@@ -57,10 +59,10 @@ const Style = {
             margin: '0 16px',
         },
         WhisperTo: {
-            color: Styles.Colors.deepOrange500,
+            color: Colors.deepOrange500,
         },
         UserLink: {
-            color: Styles.Colors.grey600,
+            color: Colors.grey600,
             textDecoration: 'none',
             cursor: 'pointer',
         },
@@ -83,7 +85,7 @@ export const UserId = ({user_id, whisperTo}) => (
 export const MessageBody = ({message, whisper_to, whisperTo}) => {
     const messageStyle = {
         ...Style.ListItem.Message,
-        color: whisper_to && Styles.Colors.deepOrange500,
+        color: whisper_to && Colors.deepOrange500,
     };
 
     return (

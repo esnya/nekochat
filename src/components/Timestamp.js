@@ -1,4 +1,4 @@
-import { Tooltip } from 'material-ui';
+import Tooltip from 'material-ui/lib/tooltip';
 import React, { Component } from 'react';
 import moment from '../browser/moment';
 

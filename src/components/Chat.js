@@ -1,9 +1,7 @@
-import {
-    AppBar,
-    IconButton,
-    LeftNav,
-    MenuItem,
-} from 'material-ui';
+import AppBar from 'material-ui/lib/app-bar';
+import IconButton from 'material-ui/lib/icon-button';
+import LeftNav from 'material-ui/lib/left-nav';
+import MenuItem from 'material-ui/lib/menus/menu-item';
 import React, { Component } from 'react';
 import { FROM_HEIGHT } from '../components/MessageForm';
 import { MessageFormContainer } from '../containers/MessageFormContainer';

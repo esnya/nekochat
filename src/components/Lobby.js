@@ -1,9 +1,7 @@
-import {
-    AppBar,
-    IconButton,
-    List,
-    ListItem,
-} from 'material-ui';
+import AppBar from 'material-ui/lib/app-bar';
+import IconButton from 'material-ui/lib/icon-button';
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
 import isMobile from 'is-mobile';
 import React, { Component } from 'react';
 import { Timestamp } from './Timestamp';
