@@ -1,8 +1,7 @@
 import * as MESSAGE_FORM from '../constants/MessageFormActions';
 import * as ROOM from '../constants/RoomActions';
 import * as USER from '../constants/UserActions';
-
-let id = 0;
+import { generateId } from '../utility/id';
 
 let user = null;
 let room = null;
@@ -24,8 +23,6 @@ const load = (state) => {
 
     if (form) {
         const parsed = JSON.parse(form);
-
-        parsed.forEach((f) => id = Math.max(f.id + 1, id));
         return parsed;
     }
 
@@ -33,7 +30,7 @@ const load = (state) => {
 
     return save([{
         is_first: true,
-        id: id++,
+        id: generateId(),
         name: user.name,
         character_url: null,
         icon_id: null,
@@ -56,7 +53,7 @@ export const messageFormReducer = function(state = [], action) {
 
             return save([
                 {
-                    id: id++,
+                    id: generateId(),
                     name: form.name,
                     character_url: form.character_url,
                     icon_id: form.icon_id,
@@ -64,20 +61,13 @@ export const messageFormReducer = function(state = [], action) {
                 ...state,
             ]);
         } case MESSAGE_FORM.UPDATE: {
-            const items = Array.isArray(action.data)
-                ? action.data : [action.data];
-
             return save(
-                state.map((item) => ({
-                        item, update: items.find((b) => item.id === b.id),
-                    }))
-                    .map(({item, update}, i) => update ? Object.assign(
-                            {},
-                            item,
-                            update,
-                            {is_first: i === state.length - 1}
-                        ) : item
-                    )
+                state.map((form) => form.id === action.data.id
+                    ? {
+                        ...form,
+                        ...action.data,
+                    } : form
+                )
             );
         } case MESSAGE_FORM.REMOVE:
             return save(state.filter((form) => form.id !== action.id));

@@ -33,12 +33,17 @@ export const MessageIcon = (props) => {
         id,
         type,
         character_url,
-        character_data,
+        icon_url,
         name,
         color,
         noShadow,
         style,
+        getCharacter,
     } = props;
+
+    if (character_url && !icon_url) {
+        setTimeout(() => getCharacter(character_url));
+    }
 
     if (type === 'loading') {
         return (
@@ -58,23 +63,8 @@ export const MessageIcon = (props) => {
                 noShadow={noShadow}
                 url={`/icon/${id}`} />
         );
-    } else if (character_url &&
-        character_data && (
-        character_data.icon ||
-        character_data.portrait ||
-        character_data.image ||
-        character_data.picture)
-    ) {
-        const {
-            icon,
-            portrait,
-            image,
-            picture,
-        } = character_data;
-        const url = new URL(
-            icon || portrait || image || picture,
-            character_url
-        );
+    } else if (icon_url) {
+        const url = new URL(icon_url, character_url);
 
         return (
             <ImageIcon

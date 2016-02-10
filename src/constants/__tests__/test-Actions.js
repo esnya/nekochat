@@ -5,6 +5,7 @@ jest.autoMockOff();
 describe('Action Constants', () => {
     it('should be unique values', () => {
         const actions = [
+            require('../CharacterActions.js'),
             require('../ConfirmActions.js'),
             require('../DialogActions.js'),
             require('../DOMActions.js'),

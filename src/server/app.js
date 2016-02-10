@@ -52,6 +52,12 @@ app.get('/view/:roomId', (req, res, next) => {
 
 app.get(['/', '/:roomId'], (req, res) => {
     getUser(req.session)
-        .then((user) => res.render('index', { config: browser, user }))
+        .then((user) => res.render('index', {
+            config: browser,
+            script: process.env.NODE_ENV === 'production'
+                ? 'js/browser.min.js'
+                : 'js/browser.js',
+            user,
+        }))
         .catch(() => res.sendStatus(401));
 });
