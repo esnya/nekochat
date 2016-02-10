@@ -47,6 +47,7 @@ export const RoomList = (props) => {
                             <div>
                                 <IconButton
                                     iconClassName="material-icons"
+                                    tooltip="Join"
                                     onTouchTap={() => onJoin(room.id)}>
                                     open_in_browser
                                 </IconButton>
@@ -56,6 +57,7 @@ export const RoomList = (props) => {
                                     : (
                                         <IconButton
                                             iconClassName="material-icons"
+                                            tooltip="New window"
                                             onTouchTap={ () => window.open(
                                                 `/${room.id}`,
                                                 room.id,
@@ -70,6 +72,7 @@ export const RoomList = (props) => {
                                         !editable || room.user_id !== user.id
                                     }
                                     iconClassName="material-icons"
+                                    tooltip="Delete"
                                     onTouchTap={() => removeRoom(room)}>
                                     delete
                                 </IconButton>
