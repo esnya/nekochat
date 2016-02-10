@@ -43,6 +43,7 @@
     "array-map": "0.0.0",
     "array-reduce": "0.0.0",
     "array-zip": "^1.0.0",
+    "color-space": "^1.13.0",
     "fbemitter": "^2.0.1",
     "is-mobile": "^0.2.2",
     "material-ui": "^0.14.2",

@@ -1,23 +1,20 @@
-import reduce from 'array-reduce';
+import crypto from 'crypto';
+import space from 'color-space';
 
-const NUM = 31;
-const MASK = 0xffffff;
-const BYTEMASK = 0xff;
-const CHANNELS = 3;
+const SCALE_Y = 0.5;
+const OFFSET_Y = 0.2;
+const OFFSET_UV = -0.5;
 
 export const makeColor = function (data) {
-    let hash = reduce(
-        data + data,
-        (sum, c) =>  (sum * NUM + c.charCodeAt(0)) & MASK,
-        0
-    );
-    const color = [];
+    const hash = crypto.createHash('sha256').update(data).digest();
 
-    for (let i = 0; i < CHANNELS; ++i) {
-        color.push(hash & BYTEMASK);
-        hash >>= 8;
-    }
-    color.push(1);
+    const yuv = [
+        hash[0] / 255 * SCALE_Y + OFFSET_Y,
+        hash[1] / 255 + OFFSET_UV,
+        hash[2] / 255 + OFFSET_UV,
+    ];
 
-    return 'rgba(' + color.join(",") + ')';
+    const rgb = space.yuv.rgb(yuv).map((a) => Math.round(a));
+
+    return 'rgb(' + rgb.join(",") + ')';
 };
