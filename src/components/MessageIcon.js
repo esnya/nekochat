@@ -41,8 +41,8 @@ export const MessageIcon = (props) => {
         getCharacter,
     } = props;
 
-    if (character_url) {
-        getCharacter(character_url);
+    if (character_url && !icon_url) {
+        setTimeout(() => getCharacter(character_url));
     }
 
     if (type === 'loading') {
