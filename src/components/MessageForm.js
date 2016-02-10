@@ -3,7 +3,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import TextField from 'material-ui/lib/text-field';
 import React, { Component } from 'react';
 import { makeColor } from '../utility/color';
-import { MessageIcon } from './MessageIcon';
+import { MessageIcon } from '../containers/MessageIconContainer';
 
 export const FROM_HEIGHT = 72;
 

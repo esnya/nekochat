@@ -4,7 +4,7 @@ import Colors from 'material-ui/lib/styles/colors';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../utility/color';
-import { MessageIcon } from './MessageIcon';
+import { MessageIcon } from '../containers/MessageIconContainer';
 import { Timestamp } from './Timestamp';
 
 const Style = {

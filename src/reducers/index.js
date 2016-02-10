@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { characterReducer as characters } from './CharacterReducer';
 import { confirmListReducer } from './ConfirmListReducer';
 import { dialogReducer } from './DialogReducer';
 import { domReducer } from './DOMReducer';
@@ -13,6 +14,7 @@ import { snackListReducer as snackList } from './SnackListReducer';
 import { userReducer } from './UserReducer';
 
 export const rootReducer = combineReducers({
+    characters,
     confirmList: confirmListReducer,
     dialog: dialogReducer,
     dom: domReducer,

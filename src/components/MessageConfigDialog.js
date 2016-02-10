@@ -9,11 +9,10 @@ import { findDOMNode } from 'react-dom';
 import { generateId } from '../utility/id';
 import { getCharacter } from '../browser/character';
 import { makeColor } from '../utility/color';
-import { MessageIcon } from './MessageIcon';
+import { MessageIcon } from '../containers/MessageIconContainer';
 
 let lastId = null;
 const genId = () => (lastId = generateId());
-
 
 const Style = {
     Form: {
@@ -100,9 +99,7 @@ export class MessageConfigDialog extends Component {
         }
     }
 
-    onUpdate(e) {
-        e.preventDefault();
-
+    getIconId() {
         const form = findDOMNode(this.refs.form);
         const selected = (
                 form.icon_id.length
@@ -110,7 +107,33 @@ export class MessageConfigDialog extends Component {
                 : [form.icon_id]
             )
             .find((radio) => radio.checked);
-        const icon_id = selected && selected.value || null;
+       return selected && selected.value || null;
+    }
+
+    getValue(key) {
+        if (key === 'icon_id') {
+            return this.getIconId();
+        }
+
+        const input = this.refs[key];
+
+        return input && input.getValue();
+    }
+
+    update(key) {
+        const {
+            form,
+            updateForm,
+        } = this.props;
+
+        updateForm({
+            id: form.id,
+            [key]: this.getValue(key),
+        });
+    }
+
+    onUpdate(e) {
+        e.preventDefault();
 
         const {
             updateForm,
@@ -119,9 +142,9 @@ export class MessageConfigDialog extends Component {
 
         updateForm({
             id: this.props.form.id,
-            name: this.refs.name.getValue(),
-            character_url: this.refs.character_url.getValue(),
-            icon_id,
+            name: this.getValue('name'),
+            character_url: this.getValue('character_url'),
+            icon_id: this.getValue('icon_id'),
         });
         close();
     }
@@ -166,12 +189,8 @@ export class MessageConfigDialog extends Component {
 
         const Actions = [
             <FlatButton
-                label="Update"
+                label="Close"
                 primary={true}
-                onTouchTap={(e) => this.onUpdate(e)} />,
-            <FlatButton
-                label="Cancel"
-                secondary={true}
                 onTouchTap={close} />,
         ];
         const color = makeColor(`${name}${user && user.id}`);
@@ -194,7 +213,8 @@ export class MessageConfigDialog extends Component {
                             fullWidth={true}
                             floatingLabelText="Name"
                             style={Style.TextField}
-                            defaultValue={name} />
+                            defaultValue={name}
+                            onBlur={() => this.update('name')} />
                     </div>
                     <div>
                         <TextField ref="character_url"
@@ -202,7 +222,10 @@ export class MessageConfigDialog extends Component {
                             floatingLabelText="Character Sheet URL"
                             defaultValue={character_url}
                             style={Style.TextField}
-                            onBlur={() => this.fetchCharacter()} />
+                            onBlur={() => {
+                                this.update('character_url');
+                                this.fetchCharacter();
+                            }} />
                     </div>
                     <div style={Style.IconHeader} >
                         <div>Icon</div>
@@ -242,7 +265,8 @@ export class MessageConfigDialog extends Component {
                                     style={Style.IconRadio}
                                     type="radio"
                                     value=""
-                                    defaultChecked={!icon_id} />
+                                    defaultChecked={!icon_id}
+                                    onBlur={() => this.update('icon_id')} />
                                 <label
                                     htmlFor={lastId}
                                     style={Style.IconRadioTextLabel}>
@@ -279,6 +303,9 @@ export class MessageConfigDialog extends Component {
                                             value={icon.id}
                                             defaultChecked={
                                                 icon.id === icon_id
+                                            }
+                                            onBlur={
+                                                () => this.update('icon_id')
                                             } />
                                     }
                                     <label
