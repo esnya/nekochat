@@ -172,6 +172,8 @@ export class MessageListItem extends Component {
                             containerElement="a"
                             href={href}
                             target="_blank"
+                            tooltip="Open character sheet"
+                            tooltipPosition="top-center"
                             style={Style.ListItem.Link}
                             iconClassName="material-icons"
                             iconStyle={Style.ListItem.LinkIcon} >
