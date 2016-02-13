@@ -1,6 +1,9 @@
 import * as INPUT from '../constants/InputActions';
 
 export const inputReducer = function(state = [], action) {
+    // ToDo: for debugging
+    if (window.preventInputPreview) return state;
+
     switch(action.type) {
         case INPUT.BEGAN:
             return [{
