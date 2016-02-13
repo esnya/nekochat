@@ -31,17 +31,7 @@ export class Timestamp extends Component {
                     cursor: 'pointer',
                     position: 'relative',
                 }}
-                onMouseEnter={() => this.toggle(true)}
-                onMouseLeave={() => this.toggle(false)}
-                onTouchTap={() => this.toggle(!full)}
             >
-                <Tooltip
-                    {...otherProps}
-                    label={m.format('llll')}
-                    show={full}
-                    style={{
-                        boxSizing: 'border-box',
-                    }} />
                 {m.fromNow()}
             </span>
         );
