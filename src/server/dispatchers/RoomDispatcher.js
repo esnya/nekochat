@@ -13,7 +13,9 @@ export class RoomDispatcher extends Dispatcher {
 
         socket.on('disconnect', () => {
             if (this.room_id) {
-                socket.server.to(this.room_id)
+                socket
+                    .server
+                    .to(this.room_id)
                     .emit('action', Room.userLeft(this.user));
             }
         });
@@ -59,18 +61,24 @@ export class RoomDispatcher extends Dispatcher {
                         this.room_id = room.id;
                         this.socket.join(room.id);
                         this.socket.join(`${room.id}/${this.user_id}`);
-                        this.socket.to(room.id).emit(
-                            'action',
-                            Room.userJoined(this.user)
-                        );
+                        this
+                            .socket
+                            .to(room.id)
+                            .emit(
+                                'action',
+                                Room.userJoined(this.user)
+                            );
                         this.dispatch(Room.joined(room));
                     });
             case ROOM.LEAVE:
                 if (this.room_id) {
-                    this.socket.to(this.room_id).emit(
-                        'action',
-                        Room.userLeft(this.user)
-                    );
+                    this
+                        .socket
+                        .to(this.room_id)
+                        .emit(
+                            'action',
+                            Room.userLeft(this.user)
+                        );
                     this.socket.leave(this.room_id);
                 }
                 this.room_id = null;

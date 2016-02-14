@@ -1,7 +1,7 @@
 import * as DIALOG from '../constants/DialogActions';
 
 export const dialogReducer = (state = [], action) => {
-    switch(action.type) {
+    switch (action.type) {
         case DIALOG.OPEN:
             return [
                 {

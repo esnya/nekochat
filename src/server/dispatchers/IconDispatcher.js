@@ -8,7 +8,7 @@ const IconFields = ['id', 'name', 'type', 'created', 'modified'];
 
 export class IconDispatcher extends Dispatcher {
     onDispatch(action) {
-        switch(action.type) {
+        switch (action.type) {
             case ICON.CREATE: {
                 const id = generateId([
                     this.user_id,
@@ -17,7 +17,8 @@ export class IconDispatcher extends Dispatcher {
                     action.data,
                 ].join());
 
-                return knex('icons').insert({
+                return knex('icons')
+                    .insert({
                         id,
                         user_id: this.user_id,
                         name: action.name || null,

@@ -5,7 +5,10 @@ export const parser = (routes) => (path) => {
     const s = path.split('/').slice(1);
 
     return routes.map((route) => {
-        const t = route.path.split('/').slice(1);
+        const t = route
+            .path
+            .split('/')
+            .slice(1);
 
         if (s.length !== t.length) return false;
 

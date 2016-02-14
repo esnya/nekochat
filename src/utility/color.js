@@ -6,7 +6,10 @@ const OFFSET_Y = 0.2;
 const OFFSET_UV = -0.5;
 
 export const makeColor = function (data) {
-    const hash = crypto.createHash('sha256').update(data).digest();
+    const hash = crypto
+        .createHash('sha256')
+        .update(data)
+        .digest();
 
     const yuv = [
         hash[0] / 255 * SCALE_Y + OFFSET_Y,
@@ -14,7 +17,10 @@ export const makeColor = function (data) {
         hash[2] / 255 + OFFSET_UV,
     ];
 
-    const rgb = space.yuv.rgb(yuv).map((a) => Math.round(a));
+    const rgb = space
+        .yuv
+        .rgb(yuv)
+        .map((a) => Math.round(a));
 
     return 'rgb(' + rgb.join(",") + ')';
 };

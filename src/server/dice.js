@@ -46,7 +46,10 @@ export const diceReplace = function (str) {
             });
 
             const sum = eval(
-                diced.replace(/,/g, '+').replace(/[\[\] ]/g, '').slice(0, 0 - 1)
+                diced
+                    .replace(/,/g, '+')
+                    .replace(/[\[\] ]/g, '')
+                    .slice(0, 0 - 1)
             );
 
             return exp + diced + sum + status;

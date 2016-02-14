@@ -18,10 +18,16 @@ export class Dispatcher {
         if (to) {
             if (Array.isArray(to)) {
                 to.forEach((t) => {
-                    this.socket.to(t).emit('action', clientAction);
+                    this
+                        .socket
+                        .to(t)
+                        .emit('action', clientAction);
                 });
             } else {
-                this.socket.to(to).emit('action', clientAction);
+                this
+                    .socket
+                    .to(to)
+                    .emit('action', clientAction);
             }
         }
 

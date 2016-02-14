@@ -1,7 +1,7 @@
 import * as SNACK from '../constants/SnackActions';
 
 export const snackListReducer = (state = [], action) => {
-    switch(action.type) {
+    switch (action.type) {
         case SNACK.CREATE:
             return [
                 ...state,

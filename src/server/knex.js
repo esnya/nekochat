@@ -16,62 +16,106 @@ export const inserted = function(ids) {
 };
 
 Promise.all([
-    knex.schema.createTableIfNotExists('users', (table) => {
-        table.string('id').primary();
-        table.string('name').notNullable();
-        table.timestamp('created').notNullable().defaultTo(knex.fn.now());
-        table.timestamp('modified').notNullable().defaultTo(knex.fn.now());
-        table.timestamp('deleted');
-    })
-    .then(() => {
-        if (config.get('app.guest')) {
-            return knex('users').where('id', 'guest')
-                .first()
-                .then((user) => {
-                    if (!user) {
-                        return knex('users').insert({
-                            id: 'guest',
-                            name: 'Guest',
-                        });
-                    }
-                });
-        }
-    }),
+    knex
+        .schema
+        .createTableIfNotExists('users', (table) => {
+            table.string('id').primary();
+            table.string('name').notNullable();
+            table
+                .timestamp('created')
+                .notNullable()
+                .defaultTo(knex.fn.now());
+            table
+                .timestamp('modified')
+                .notNullable()
+                .defaultTo(knex.fn.now());
+            table.timestamp('deleted');
+        })
+        .then(() => {
+            if (config.get('app.guest')) {
+                return knex('users')
+                    .where('id', 'guest')
+                    .first()
+                    .then((user) => {
+                        if (!user) {
+                            return knex('users').insert({
+                                id: 'guest',
+                                name: 'Guest',
+                            });
+                        }
+                    });
+            }
+        }),
     knex.schema.createTableIfNotExists('rooms', (table) => {
         table.string('id').primary();
         table.string('title').notNullable();
-        table.string('user_id').notNullable()
-            .references('id').inTable('users');
-        table.timestamp('created').notNullable().defaultTo(knex.fn.now());
-        table.timestamp('modified').notNullable().defaultTo(knex.fn.now());
+        table
+            .string('user_id')
+            .notNullable()
+            .references('id')
+            .inTable('users');
+        table
+            .timestamp('created')
+            .notNullable()
+            .defaultTo(knex.fn.now());
+        table
+            .timestamp('modified')
+            .notNullable()
+            .defaultTo(knex.fn.now());
         table.timestamp('deleted').defaultTo(null);
     }),
     knex.schema.createTableIfNotExists('messages', (table) => {
         table.increments('id').primary();
-        table.string('room_id').notNullable()
-            .references('id').inTable('rooms');
-        table.string('user_id').notNullable()
-            .references('id').inTable('users');
-        table.string('icon_id')
-            .references('id').inTable('icons');
-        table.string('whisper_to').nullable()
-            .references('id').inTable('users');
+        table
+            .string('room_id')
+            .notNullable()
+            .references('id')
+            .inTable('rooms');
+        table
+            .string('user_id')
+            .notNullable()
+            .references('id')
+            .inTable('users');
+        table
+            .string('icon_id')
+            .references('id')
+            .inTable('icons');
+        table
+            .string('whisper_to')
+            .nullable()
+            .references('id')
+            .inTable('users');
         table.string('name').notNullable();
         table.string('message').notNullable();
         table.string('character_url');
-        table.timestamp('created').notNullable().defaultTo(knex.fn.now());
-        table.timestamp('modified').notNullable().defaultTo(knex.fn.now());
+        table
+            .timestamp('created')
+            .notNullable()
+            .defaultTo(knex.fn.now());
+        table
+            .timestamp('modified')
+            .notNullable()
+            .defaultTo(knex.fn.now());
         table.timestamp('deleted').defaultTo(null);
     }),
     knex.schema.createTableIfNotExists('icons', (table) => {
         table.string('id').primary();
-        table.string('user_id').notNullable()
-            .references('id').inTable('users');
+        table
+            .string('user_id')
+            .notNullable()
+            .references('id')
+            .inTable('users');
         table.string('name').notNullable();
         table.string('type').notNullable();
         table.binary('data').notNullable();
-        table.timestamp('created').notNullable().defaultTo(knex.fn.now());
-        table.timestamp('modified').notNullable().defaultTo(knex.fn.now());
+        table
+            .timestamp('created')
+            .notNullable()
+            .defaultTo(knex.fn.now());
+        table
+            .timestamp('modified')
+            .notNullable()
+            .defaultTo(knex.fn.now());
         table.timestamp('deleted').defaultTo(null);
     }),
 ])

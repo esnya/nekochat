@@ -1,7 +1,7 @@
 import * as ICON from '../constants/IconActions';
 
 export const iconListReducer = function(state = [], action) {
-    switch(action.type) {
+    switch (action.type) {
         case ICON.PUSH:
             return [
                 ...action.icons,

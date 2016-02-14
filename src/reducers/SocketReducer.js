@@ -1,7 +1,7 @@
 import * as SOCKET from '../contants/SocketActions';
 
 export const socketReducer = (state = {}, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case SOCKET.CONNECT:
             return {
                 ...state,

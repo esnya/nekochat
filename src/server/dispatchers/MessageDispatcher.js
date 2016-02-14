@@ -9,7 +9,7 @@ const MESSAGE_LIMIT = 20;
 
 export class MessageDispatcher extends Dispatcher {
     onDispatch(action) {
-        switch(action.type) {
+        switch (action.type) {
             case MESSAGE.CREATE:
                 return diceReplace(`${action.message || ''}`)
                     .then((diceMessage) =>
@@ -33,7 +33,10 @@ export class MessageDispatcher extends Dispatcher {
                             )
                             .then((message) => {
                                 diceMessage.results.forEach((dice) => {
-                                    this.socket.server.to(this.room_id)
+                                    this
+                                        .socket
+                                        .server
+                                        .to(this.room_id)
                                         .emit('dice', ...dice);
                                 });
                                 this.dispatch(
@@ -60,7 +63,8 @@ export class MessageDispatcher extends Dispatcher {
                     .where('room_id', this.room_id)
                     .whereNull('deleted')
                     .where(function() {
-                        this.whereNull('whisper_to')
+                        this
+                            .whereNull('whisper_to')
                             .orWhere('whisper_to', user_id)
                             .orWhere('user_id', user_id);
                     })

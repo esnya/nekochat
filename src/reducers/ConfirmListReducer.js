@@ -1,7 +1,7 @@
 import * as CONFIRM from '../constants/ConfirmActions';
 
 export const confirmListReducer = (state = [], action) => {
-    switch(action.type) {
+    switch (action.type) {
         case CONFIRM.CREATE:
             return [
                 ...state,

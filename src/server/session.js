@@ -5,7 +5,7 @@ import KnexSessionStore from 'connect-session-knex';
 import Knex from 'knex';
 
 const getStore = (type) => {
-    switch(type) {
+    switch (type) {
         case 'database': {
             const Store = KnexSessionStore(Session);
             const knex = Knex(config.get('database.session'));

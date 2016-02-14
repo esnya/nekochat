@@ -41,15 +41,20 @@ export const characterMiddleWare = ({getState, dispatch}) =>
                             }})
                         )
                     )
-            ).then((results) => dispatch({
-                type:
-                    `${action.type.match(/^(.*?)((_LIST)?_[A-Z]+)$/)[1]}_UPDATE`,
-                data: results.map((result) => ({
-                    ...result.item,
-                    character_data: result.data,
-                    character_data_url: result.item.character_url,
-                })),
-            }));
+            ).then((results) => {
+                const type = action
+                    .type
+                    .match(/^(.*?)((_LIST)?_[A-Z]+)$/)[1];
+
+                dispatch({
+                    type: `${type}_UPDATE`,
+                    data: results.map((result) => ({
+                        ...result.item,
+                        character_data: result.data,
+                        character_data_url: result.item.character_url,
+                    })),
+                });
+            });
         }
 
         return next(action);

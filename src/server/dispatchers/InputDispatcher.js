@@ -5,7 +5,7 @@ import { Dispatcher }  from './Dispatcher';
 
 export class InputDispatcher extends Dispatcher {
     onDispatch(action) {
-        switch(action.type) {
+        switch (action.type) {
             case ROOM.JOINED:
                 this.room_id = action.room.id;
                 return;

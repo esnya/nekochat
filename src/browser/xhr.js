@@ -11,7 +11,7 @@ export const get = (url) =>
                     try {
                         const data = JSON.parse(xhr.responseText);
                         resolve(data);
-                    } catch(error) {
+                    } catch (error) {
                         reject(error);
                     }
                 } else {

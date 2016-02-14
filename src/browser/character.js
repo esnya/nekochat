@@ -32,7 +32,7 @@ const req = (url) => {
                             EVENT_DATA,
                             (cache[url].data = JSON.parse(xhr.responseText))
                         );
-                    } catch(error) {
+                    } catch (error) {
                         onError(error);
                     }
                 } else {
@@ -45,7 +45,7 @@ const req = (url) => {
 
         xhr.open('GET', url, true);
         xhr.send(null);
-    } catch(error) {
+    } catch (error) {
         onError(error);
     }
 };
