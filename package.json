@@ -17,7 +17,8 @@
     "build": "gulp build",
     "serve": "gulp serve",
     "test": "gulp test",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "test-build": "gulp test build"
   },
   "author": "ukatama",
   "license": "MIT",
