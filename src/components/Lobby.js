@@ -85,10 +85,6 @@ export const RoomList = (props) => {
 };
 
 export class Lobby extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const {
             history,

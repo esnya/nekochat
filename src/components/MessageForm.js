@@ -8,10 +8,6 @@ import { MessageIcon } from '../containers/MessageIconContainer';
 export const FROM_HEIGHT = 72;
 
 export class MessageForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentWillUpdate(nextProps) {
         const prev = this.props.whisper_to;
         const next = nextProps.whisper_to;
