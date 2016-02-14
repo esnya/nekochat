@@ -11,35 +11,41 @@ export class MessageDispatcher extends Dispatcher {
     onDispatch(action) {
         switch(action.type) {
             case MESSAGE.CREATE:
-                return knex('messages')
-                    .insert({
-                        user_id: this.user_id,
-                        room_id: this.room_id,
-                        icon_id: action.icon_id || null,
-                        whisper_to: action.whisper_to || null,
-                        name: action.name || null,
-                        character_url: action.character_url || null,
-                        message: diceReplace(
-                            action.message,
-                            this.socket.server.to(this.room_id)
-                        ) || null,
-                        created: knex.fn.now(),
-                        modified: knex.fn.now(),
-                    })
-                    .then(inserted)
-                    .then((id) => knex('messages')
-                        .where('id', id)
-                        .whereNull('deleted')
-                        .first()
-                    )
-                    .then((message) => this.dispatch(
-                        Message.push([message]),
-                        message.whisper_to
-                            ? [
-                                    `${this.room_id}/${this.user_id}`,
-                                    `${this.room_id}/${message.whisper_to}`,
-                            ] : this.room_id
-                    ));
+                return diceReplace(`${action.message || ''}`)
+                    .then((diceMessage) =>
+                        knex('messages')
+                            .insert({
+                                user_id: this.user_id,
+                                room_id: this.room_id,
+                                icon_id: action.icon_id || null,
+                                whisper_to: action.whisper_to || null,
+                                name: action.name || null,
+                                character_url: action.character_url || null,
+                                message: diceMessage.message || null,
+                                created: knex.fn.now(),
+                                modified: knex.fn.now(),
+                            })
+                            .then(inserted)
+                            .then((id) => knex('messages')
+                                .where('id', id)
+                                .whereNull('deleted')
+                                .first()
+                            )
+                            .then((message) => {
+                                diceMessage.results.forEach((dice) => {
+                                    this.socket.server.to(this.room_id)
+                                        .emit('dice', ...dice);
+                                });
+                                this.dispatch(
+                                    Message.push([message]),
+                                    message.whisper_to
+                                        ? [
+                                            `${this.room_id}/${this.user_id}`,
+                                            `${this.room_id}/${message.whisper_to}`,
+                                        ] : this.room_id
+                                );
+                            })
+                    );
             case ROOM.JOINED:
                 this.room_id = action.room.id;
                 return this.onDispatch({type: MESSAGE.FETCH});

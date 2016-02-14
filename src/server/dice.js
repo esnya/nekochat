@@ -1,7 +1,9 @@
 const NUM_MAX = 9999;
 
-export const diceReplace = function (str, io) {
-    return str.replace(
+export const diceReplace = function (str) {
+    const results = [];
+
+    const replaced = str.replace(
         /([0-9]*d[0-9]*|[0-9]+)([+-][0-9]*d[0-9]*|[+-][0-9]+)*=/g,
         (exp) => {
             let status = '';
@@ -30,9 +32,7 @@ export const diceReplace = function (str, io) {
                     r.push(Math.floor(Math.random() * eye + 1));
                 }
 
-                if (io) {
-                    io.emit('dice', eye, r);
-                }
+                results.push([eye, r]);
 
                 if (num > 1) {
                     if (r.every((n) => n ===1)) {
@@ -52,4 +52,9 @@ export const diceReplace = function (str, io) {
             return exp + diced + sum + status;
         }
     );
+
+    return Promise.resolve({
+        message: replaced,
+        results,
+    });
 };
