@@ -18,8 +18,8 @@ export const characterMiddleWare = ({getState, dispatch}) =>
                 loading[url] = true;
                 get(url)
                     .then((data) => dispatch(Character.set(url, data)))
-                    .catch(() => null)
-                    .then(() => loading[url] = false);
+                    .catch(() => {})
+                    .then(() => (loading[url] = false));
             }
         }
 

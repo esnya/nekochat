@@ -5,14 +5,9 @@ import { RoomCreateDialog } from '../components/RoomCreateDialog';
 import { bindActions } from './utility';
 
 export const RoomCreateDialoggContainer = connect(
-    (state) => {
-        const {
-        } = state;
-
-        return {
-            open: !!getDialog(state, 'room-create'),
-        };
-    },
+    (state) => ({
+        open: !!getDialog(state, 'room-create'),
+    }),
     bindActions({
         create,
         close: () => close('room-create'),

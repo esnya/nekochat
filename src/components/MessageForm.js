@@ -189,9 +189,9 @@ export class MessageForm extends Component {
                     onKeyDown={(e) => this.onKey(e)}
                     onFocus={() => this.startInputWatcher()}
                     onBlur={() => this.stopInputWatcher()}
-                    onCompositionStart={() => this.composition = true}
-                    onCompositionUpdate={() => this.composition = true}
-                    onCompositionEnd={() => this.composition = false} />
+                    onCompositionStart={() => (this.composition = true)}
+                    onCompositionUpdate={() => (this.composition = true)}
+                    onCompositionEnd={() => (this.composition = false)} />
                 <IconButton type="submit">
                     <FontIcon className="material-icons">send</FontIcon>
                 </IconButton>
