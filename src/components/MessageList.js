@@ -5,6 +5,9 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../utility/color';
 import { MessageIcon } from '../containers/MessageIconContainer';
+import {
+    CharacterLinkButton,
+} from '../containers/CharacterLinkButtonContainer';
 import { Timestamp } from './Timestamp';
 
 const Style = {
@@ -36,15 +39,6 @@ const Style = {
             color: 'rgba(0, 0, 0, 0.54)',
             fontSize: 14,
             height: 27,
-        },
-        Link: {
-            margin: '0 4px',
-            padding: 0,
-            width: 'auto', height: 'auto',
-        },
-        LinkIcon: {
-            color: 'rgba(0, 0, 0, 0.54)',
-            fontSize: 18,
         },
         Message: {
         },
@@ -124,6 +118,10 @@ export const MessageBody = ({message, whisper_to, whisperTo}) => {
 };
 
 export class MessageListItem extends Component {
+    shouldComponentUpdate(nextProps) {
+        return !(this.props.modified > nextProps.modified);
+    }
+
     componentDidMount() {
         const element = findDOMNode(this.refs.message);
 
@@ -139,7 +137,7 @@ export class MessageListItem extends Component {
         const {
             icon_id,
             iconType,
-            character_data,
+            character_link,
             character_url,
             message,
             name,
@@ -147,10 +145,9 @@ export class MessageListItem extends Component {
             whisper_to,
             created,
             whisperTo,
+            getCharacter,
         } = this.props;
 
-        const href = character_data &&
-            new URL(character_data.url, character_url) || character_url;
         const color = makeColor(`${name}${user_id}`);
 
         return (
@@ -158,7 +155,6 @@ export class MessageListItem extends Component {
                 <div style={Style.ListItem.Icon}>
                     <MessageIcon
                         id={icon_id}
-                        character_data={character_data}
                         character_url={character_url}
                         color={color}
                         name={name}
@@ -168,15 +164,7 @@ export class MessageListItem extends Component {
                     <div style={Style.ListItem.Header}>
                         <span style={{color}}>{name}</span>
                         <UserId user_id={user_id} whisperTo={whisperTo} />
-                        {href && <IconButton
-                            containerElement="a"
-                            href={href}
-                            target="_blank"
-                            style={Style.ListItem.Link}
-                            iconClassName="material-icons"
-                            iconStyle={Style.ListItem.LinkIcon} >
-                            open_in_new
-                        </IconButton>}
+                        <CharacterLinkButton character_url={character_url} />
                         {
                             whisper_to &&
                             <span>

@@ -41,8 +41,7 @@ export const MessageIcon = (props) => {
         getCharacter,
     } = props;
 
-    // ToDo: to debugging
-    if (!window.disableCharacterIcon && character_url && !icon_url) {
+    if (character_url && !icon_url) {
         setTimeout(() => getCharacter(character_url));
     }
 
