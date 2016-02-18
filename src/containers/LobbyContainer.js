@@ -12,7 +12,7 @@ import { bindActions } from './utility';
 
 export const LobbyContainer = connect(
     (state) => ({
-        ...state.roomList,
+        roomList: state.roomList,
         user: state.user,
     }),
     (dispatch) => ({
