@@ -72,6 +72,18 @@ export const remove = function(room) {
     };
 };
 
+/**
+ * Push room list
+ * @param{Array} list - array of rooms
+ * @returns{Object} action
+ */
+export function list(list) {
+    return {
+        type: ROOM.LIST,
+        list,
+    };
+}
+
 export const fetch = function() {
     return {
         type: ROOM.FETCH,
