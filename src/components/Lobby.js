@@ -38,7 +38,7 @@ export class RoomListItem extends Component {
 
         const path = `/${room.id}`;
 
-        return  (
+        return (
             <ListItem
                 key={room.id}
                 href={path}
@@ -50,7 +50,7 @@ export class RoomListItem extends Component {
                         <Timestamp timestamp={room.modified} />
                     </span>
                 }
-                onTouchTap={(e) => setRoute(path, e)}>
+                onTouchTap={(e) => setRoute(path, e)}
                 rightIconButton={
                     <div style={{
                         display: 'flex',
