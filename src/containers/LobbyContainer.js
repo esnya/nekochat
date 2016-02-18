@@ -22,6 +22,7 @@ export const LobbyContainer = connect(
             fetch,
             createRoom,
             removeRoom,
+            setRoute,
         })(dispatch),
         onJoin: (id) => dispatch(setRoute(`/${id}`)),
     })

@@ -93,7 +93,9 @@ export class Chat extends Component {
                                 close
                             </IconButton>
                         )} />
-                    <MenuItem onTouchTap={() => setRoute('/')}>Leave</MenuItem>
+                    <MenuItem href="/" onTouchTap={(e) => setRoute('/', e)}>
+                        Leave
+                    </MenuItem>
                     <MenuItem
                         href={`/view/${id}`}
                         target="_blank">

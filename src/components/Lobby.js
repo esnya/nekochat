@@ -22,10 +22,76 @@ const DialogFeatureString = Object.keys(DialogFeatures)
 export class RoomListItem extends Component {
     shouldComponentUpdate(nextProps) {
         const {
-            modified,
+            room,
         } = this.props;
 
-        return modified !== nextProps.modified;
+        return room.modified !== nextProps.room.modified;
+    }
+
+    render() {
+        const {
+            room,
+            user,
+            setRoute,
+            removeRoom,
+        } = this.props;
+
+        const path = `/${room.id}`;
+
+        return  (
+            <ListItem
+                key={room.id}
+                href={path}
+                primaryText={room.title}
+                secondaryText={
+                    <span>
+                        @{room.user_id}
+                        &nbsp;
+                        <Timestamp timestamp={room.modified} />
+                    </span>
+                }
+                onTouchTap={(e) => setRoute(path, e)}>
+                rightIconButton={
+                    <div style={{
+                        display: 'flex',
+                    }}>
+                        <IconButton
+                            href={path}
+                            iconClassName="material-icons"
+                            tooltip="Join"
+                            onTouchTap={(e) => setRoute(path, e)}>
+                            open_in_browser
+                        </IconButton>
+                        {
+                            IsMobile
+                            ? null
+                            : (
+                                <IconButton
+                                    iconClassName="material-icons"
+                                    tooltip="New window"
+                                    onTouchTap={ () =>
+                                        window.open(
+                                            path,
+                                            room.id,
+                                            DialogFeatureString
+                                        )
+                                    }
+                                >
+                                    open_in_new
+                                </IconButton>
+                            )
+                        }
+                        <IconButton
+                            disabled={room.user_id !== user.id}
+                            iconClassName="material-icons"
+                            tooltip="Delete"
+                            onTouchTap={() => removeRoom(room)}>
+                            delete
+                        </IconButton>
+                    </div>
+                }
+            />
+        );
     }
 }
 
@@ -33,10 +99,8 @@ export class RoomList extends Component {
     shouldComponentUpdate(nextProps) {
         const {
             rooms,
+            onJoin,
         } = this.props;
-
-        /* eslint no-console: 1 */
-        console.log();
 
         return rooms.length !== nextProps.rooms.length ||
             zip(rooms, nextProps.rooms).some(([room, next]) =>
@@ -49,65 +113,23 @@ export class RoomList extends Component {
         const {
             user,
             rooms,
-            onJoin,
             removeRoom,
+            setRoute,
             ...otherProps,
         } = this.props;
 
         return (
             <List {...otherProps}>
                 {
-                    rooms.map((room) => (
-                        <ListItem
+                    rooms.map((room) =>
+                        <RoomListItem
                             key={room.id}
-                            primaryText={room.title}
-                            secondaryText={
-                                <span>
-                                    @{room.user_id}
-                                    &nbsp;
-                                    <Timestamp timestamp={room.modified} />
-                                </span>
-                            }
-                            onTouchTap={() => onJoin(room.id)}
-                            rightIconButton={
-                                <div>
-                                    <IconButton
-                                        iconClassName="material-icons"
-                                        tooltip="Join"
-                                        onTouchTap={() => onJoin(room.id)}>
-                                        open_in_browser
-                                    </IconButton>
-                                    {
-                                        IsMobile
-                                        ? null
-                                        : (
-                                            <IconButton
-                                                iconClassName="material-icons"
-                                                tooltip="New window"
-                                                onTouchTap={ () =>
-                                                    window.open(
-                                                        `/${room.id}`,
-                                                        room.id,
-                                                        DialogFeatureString
-                                                    )
-                                                }
-                                            >
-                                                open_in_new
-                                            </IconButton>
-                                        )
-                                    }
-                                    <IconButton
-                                        disabled={
-                                            room.user_id !== user.id
-                                        }
-                                        iconClassName="material-icons"
-                                        tooltip="Delete"
-                                        onTouchTap={() => removeRoom(room)}>
-                                        delete
-                                    </IconButton>
-                                </div>
-                            } />
-                    ))
+                            room={room}
+                            user={user}
+                            removeRoom={removeRoom}
+                            setRoute={setRoute}
+                        />
+                    )
                 }
             </List>
         );
@@ -120,8 +142,8 @@ export class Lobby extends Component {
             roomList,
             user,
             open,
-            onJoin,
             removeRoom,
+            setRoute,
         } = this.props;
 
         document.title = "NekoChat";
@@ -144,8 +166,8 @@ export class Lobby extends Component {
                 <RoomList
                     rooms={roomList}
                     user={user}
-                    onJoin={onJoin}
-                    removeRoom={removeRoom} />
+                    removeRoom={removeRoom}
+                    setRoute={setRoute} />
             </div>
         );
     }
