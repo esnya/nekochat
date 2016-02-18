@@ -1,25 +1,19 @@
-/* eslint max-nested-callbacks: 0, global-require: 0 */
-
-jest.autoMockOff();
-
 describe('Action Constants', () => {
     it('should be unique values', () => {
-        const actions = [
-            require('../CharacterActions.js'),
-            require('../ConfirmActions.js'),
-            require('../DialogActions.js'),
-            require('../DOMActions.js'),
-            require('../IconActions.js'),
-            require('../InputActions.js'),
-            require('../MessageActions.js'),
-            require('../MessageFormActions.js'),
-            require('../RoomActions.js'),
-            require('../RouteActions.js'),
-            require('../SnackActions.js'),
-            require('../UserActions.js'),
-        ];
+        const fs = require('fs');
+        const path = require('path');
 
-        actions.forEach((action) => {
+        const actions = fs.readdirSync(path.join(__dirname, '../'))
+            .map((p) => path.basename(p))
+            .map((p) => p.match(/^(.*)\.js$/))
+            .filter((m) => m)
+            .map((m) => `../${m[1]}`);
+
+        actions.forEach((p) => jest.dontMock(p));
+
+        actions.forEach((p) => {
+            const action = require(p);
+
             const table = {};
 
             Object.keys(action)
