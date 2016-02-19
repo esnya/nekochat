@@ -1,5 +1,6 @@
 # Nekochat
 [![Build Status](https://img.shields.io/travis/ukatama/nekochat/master.svg?style=flat-square)](https://travis-ci.org/ukatama/nekochat)
+[![Coverage Status](https://img.shields.io/coveralls/ukatama/nekochat.svg?style=flat-square)](https://coveralls.io/github/ukatama/nekochat)
 [![PeerDependencies](https://img.shields.io/david/peer/ukatama/nekochat.svg?style=flat-square)](https://david-dm.org/ukatama/nekochat#info=peerDependencies&view=list)
 [![Dependencies](https://img.shields.io/david/ukatama/nekochat.svg?style=flat-square)](https://david-dm.org/ukatama/nekochat)
 [![DevDependencies](https://img.shields.io/david/dev/ukatama/nekochat.svg?style=flat-square)](https://david-dm.org/ukatama/nekochat#info=devDependencies&view=list)
