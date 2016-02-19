@@ -2,4 +2,5 @@
 !.gitignore
 !default.json
 !development.json
+!test.json
 !production.json

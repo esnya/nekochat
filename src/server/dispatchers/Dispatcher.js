@@ -1,4 +1,6 @@
-import { logger } from '../logger';
+import { getLogger } from 'log4js';
+
+const logger = getLogger('[DISPATCHER]');
 
 export class Dispatcher {
     constructor(socket, root) {

@@ -91,20 +91,6 @@ export const fetch = function() {
     };
 };
 
-export const push = function(items) {
-    return {
-        type: ROOM.PUSH,
-        rooms: items,
-    };
-};
-
-export const pushHistory = function(items) {
-    return {
-        type: ROOM.PUSH_HISTORY,
-        history: items,
-    };
-};
-
 export const userJoined = (user) => ({
     type: ROOM.USER_JOINED,
     user,

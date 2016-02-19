@@ -1,12 +1,14 @@
 import ExpressSocketIOSession from 'express-socket.io-session';
+import { getLogger } from 'log4js';
 import SocketIO from 'socket.io';
 import { loggedin } from '../actions/UserActions';
 import { create as createSnack } from '../actions/SnackActions';
 import { ActionDispatcher } from './dispatchers/ActionDispatcher';
-import { logger } from './logger';
 import { server } from './server';
 import { session } from './session';
 import { getUser } from './user';
+
+const logger = getLogger('[SOCKET]');
 
 export const io = SocketIO(server);
 
