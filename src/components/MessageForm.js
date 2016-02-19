@@ -70,11 +70,6 @@ export class MessageForm extends Component {
         }
     }
 
-    onUpdateForm(form) {
-        this.closeConfigDialog();
-        this.props.updateForm(form);
-    }
-
     startInputWatcher() {
         // ToDo: for debugging
         if (window.disableInputWatcher) return;
@@ -90,7 +85,7 @@ export class MessageForm extends Component {
     stopInputWatcher() {
         if (!this.inputWatcher) return;
 
-        clearTimeout(this.inputWatcher);
+        clearInterval(this.inputWatcher);
         this.inputWatcher = null;
     }
 
