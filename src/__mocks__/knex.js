@@ -1,7 +1,7 @@
 const mockPromise = {
     then: jest.genMockFn().mockReturnValue(mockPromise),
     catch: jest.genMockFn().mockReturnValue(mockPromise),
-}
+};
 
 const mockKnex = jest.genMockFn();
 mockKnex.schema = {
