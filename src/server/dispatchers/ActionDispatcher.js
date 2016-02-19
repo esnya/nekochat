@@ -1,9 +1,11 @@
-import { logger } from '../logger';
+import { getLogger } from 'log4js';
 import { Dispatcher } from './Dispatcher';
 import { IconDispatcher } from './IconDispatcher';
 import { InputDispatcher } from './InputDispatcher';
 import { MessageDispatcher } from './MessageDispatcher';
 import { RoomDispatcher } from './RoomDispatcher';
+
+const logger = getLogger('[ACTION]');
 
 export class ActionDispatcher extends Dispatcher {
     constructor(socket) {
@@ -18,7 +20,7 @@ export class ActionDispatcher extends Dispatcher {
     }
 
     onDispatch(action) {
-        logger.debug('action', action.type);
+        logger.debug(action.type);
         return Promise.all(
             this.dispatchers.map((d) => d.onDispatch(action))
         );

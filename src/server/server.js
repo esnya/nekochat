@@ -1,7 +1,9 @@
 import { Server } from 'http';
 import config from 'config';
+import { getLogger } from 'log4js';
 import { app } from './app';
-import { logger } from './logger';
+
+const logger = getLogger('[SERVER]');
 
 export const server = Server(app);
 
