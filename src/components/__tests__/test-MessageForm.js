@@ -60,7 +60,10 @@ describe('MessageForm', () => {
     let input;
     it('should have textarea', () => {
         input = findRenderedComponentWithType(form, TextField)
-            .refs.input.refs.input;
+            .refs
+            .input
+            .refs
+            .input;
     });
 
     it('should send a message with enter', () => {

@@ -3,8 +3,7 @@
 jest.autoMockOff();
 
 describe('RouteReducer', () => {
-    const {
-    } = require('../../constants/RouteActions');
+    // require('../../constants/RouteActions');
     const reducer = require('../RouteReducer').routeReducer;
 
     let state;

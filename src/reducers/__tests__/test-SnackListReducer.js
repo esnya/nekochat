@@ -3,8 +3,7 @@
 jest.autoMockOff();
 
 describe('SnackListReducer', () => {
-    const {
-    } = require('../../constants/SnackActions');
+    // require('../../constants/SnackActions');
     const reducer = require('../SnackListReducer').snackListReducer;
 
     let state;

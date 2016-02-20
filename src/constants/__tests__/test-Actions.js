@@ -3,7 +3,8 @@ describe('Action Constants', () => {
         const fs = require('fs');
         const path = require('path');
 
-        const actions = fs.readdirSync(path.join(__dirname, '../'))
+        const actions = fs
+            .readdirSync(path.join(__dirname, '../'))
             .map((p) => path.basename(p))
             .map((p) => p.match(/^(.*)\.js$/))
             .filter((m) => m)

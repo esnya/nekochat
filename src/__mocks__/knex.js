@@ -1,11 +1,6 @@
-const mockPromise = {
-    then: jest.genMockFn().mockReturnValue(mockPromise),
-    catch: jest.genMockFn().mockReturnValue(mockPromise),
-};
-
 const mockKnex = jest.genMockFn();
 mockKnex.schema = {
-    createTableIfNotExists: jest.genMockFn().mockReturnValue(mockPromise),
+    createTableIfNotExists: jest.genMockFn().mockReturnValue(Promise.resolve()),
 };
 
 const Knex = module.exports = jest.genMockFn().mockReturnValue(mockKnex);

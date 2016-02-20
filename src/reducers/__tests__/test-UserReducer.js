@@ -3,8 +3,7 @@
 jest.autoMockOff();
 
 describe('UserReducer', () => {
-    const {
-    } = require('../../constants/UserActions');
+    // require('../../constants/UserActions');
     const reducer = require('../UserReducer').userReducer;
 
     let state;
