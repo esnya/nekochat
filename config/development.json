@@ -1,6 +1,7 @@
 {
     "app": {
         "guest": true,
-        "livereload": true
+        "livereload": true,
+        "secret": "Must be overrided"
     }
 }
