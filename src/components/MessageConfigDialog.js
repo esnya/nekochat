@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/lib/flat-button';
 import IconButton from 'material-ui/lib/icon-button';
 import TextField from 'material-ui/lib/text-field';
 import { Colors } from 'material-ui/lib/styles';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { generateId } from '../utility/id';
 import { getCharacter } from '../browser/character';
@@ -68,7 +68,83 @@ const Style = {
     },
 };
 
+export const RadioItem = ({
+    deleteMode,
+    icon,
+    icon_id,
+    removeIcon,
+    onUpdate,
+}) => (
+    <div key={icon.id} style={Style.IconRadioItem}>
+        <div style={Style.IconRadioText}>
+            {deleteMode
+                ? <IconButton
+                    iconClassName="material-icons"
+                    iconStyle={{color: Colors.red700}}
+                    id={genId()}
+                    style={Style.IconDeleteIcon}
+                    onTouchTap={() => removeIcon(icon)}
+                  >
+                    delete
+                </IconButton>
+                : <input
+                    defaultChecked={
+                        icon.id === icon_id
+                    }
+                    id={genId()}
+                    name="icon_id"
+                    style={Style.IconRadio}
+                    type="radio"
+                    value={icon.id}
+                    onBlur={() => onUpdate('icon_id')}
+                  />
+            }
+            <label
+                htmlFor={lastId}
+                style={Style.IconRadioTextLabel}
+            >
+                {icon.name}
+            </label>
+        </div>
+        <label htmlFor={lastId} >
+            <MessageIcon {...icon} />
+        </label>
+    </div>
+);
+RadioItem.propTypes = {
+    deleteMode: PropTypes.bool.isRequired,
+    icon: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+    }).isRequired,
+    removeIcon: PropTypes.func.isRequired,
+};
 export class MessageConfigDialog extends Component {
+    static get propTypes() {
+        return {
+            form: PropTypes.object.isRequired,
+            iconList: PropTypes.arrayOf(
+                PropTypes.shape({
+                    id: PropTypes.string.isRequired,
+                    type: PropTypes.string.isRequired,
+                    name: PropTypes.string.isRequired,
+                })
+            ).isRequired,
+            open: PropTypes.bool.isRequired,
+            user: PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                name: PropTypes.string.isRequired,
+            }).isRequired,
+            close: PropTypes.func.isRequired,
+            fetchIcon: PropTypes.func.isRequired,
+            updateForm: PropTypes.func.isRequired,
+            createIcon: PropTypes.func.isRequired,
+            removeIcon: PropTypes.func.isRequired,
+            createSnack: PropTypes.func.isRequired,
+        };
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -86,12 +162,12 @@ export class MessageConfigDialog extends Component {
     }
 
     fetchCharacter() {
-        const url = this.refs.character_url.getValue();
+        const url = this.character_url.getValue();
 
         if (url) {
             getCharacter(url)
                 .then((data) => {
-                    this.refs.name.setValue(data.name);
+                    this.name.setValue(data.name);
                 })
                 .catch(() => this.props.createSnack({
                     message: `Failed to load character at "${url}"`,
@@ -100,7 +176,7 @@ export class MessageConfigDialog extends Component {
     }
 
     getIconId() {
-        const form = findDOMNode(this.refs.form);
+        const form = findDOMNode(this.form);
         const selected = (
                 form.icon_id.length
                 ? map(form.icon_id, (a) => a)
@@ -115,7 +191,7 @@ export class MessageConfigDialog extends Component {
             return this.getIconId();
         }
 
-        const input = this.refs[key];
+        const input = this[key];
 
         return input && input.getValue();
     }
@@ -150,7 +226,7 @@ export class MessageConfigDialog extends Component {
     }
 
     onIconUpload() {
-        findDOMNode(this.refs.icon_data).click();
+        findDOMNode(this.icon_data).click();
     }
     onIconFileChange(e) {
         const icon_data = e.target;
@@ -188,44 +264,46 @@ export class MessageConfigDialog extends Component {
         } = this.state;
 
         const Actions = [
-            <FlatButton
+            <FlatButton primary
+                key="close"
                 label="Close"
-                primary={true}
-                onTouchTap={close} />,
+                onTouchTap={close}
+            />,
         ];
         const color = makeColor(`${name}${user && user.id}`);
 
         return (
-            <Dialog
-                autoScrollBodyContent={true}
+            <Dialog autoScrollBodyContent
                 actions={Actions}
-                title="Name and Icon"
                 open={open}
+                title="Name and Icon"
                 onRequestClose={close}
             >
                 <form
-                    ref="form"
+                    ref={(c) => c && (this.form = c)}
                     style={Style.Form}
-                    onUpdate={(e) => this.onUpdate(e)}>
+                    onUpdate={(e) => this.onUpdate(e)}
+                >
                     <div>
-                        <TextField
-                            ref="name"
-                            fullWidth={true}
-                            floatingLabelText="Name"
-                            style={Style.TextField}
+                        <TextField fullWidth
                             defaultValue={name}
-                            onBlur={() => this.update('name')} />
+                            floatingLabelText="Name"
+                            ref={(c) => c && (this.name = c)}
+                            style={Style.TextField}
+                            onBlur={() => this.update('name')}
+                        />
                     </div>
                     <div>
-                        <TextField ref="character_url"
-                            fullWidth={true}
-                            floatingLabelText="Character Sheet URL"
+                        <TextField fullWidth
                             defaultValue={character_url}
+                            floatingLabelText="Character Sheet URL"
+                            ref={(c) => c && (this.character_url = c)}
                             style={Style.TextField}
                             onBlur={() => {
                                 this.update('character_url');
                                 this.fetchCharacter();
-                            }} />
+                            }}
+                        />
                     </div>
                     <div style={Style.IconHeader} >
                         <div>Icon</div>
@@ -237,7 +315,8 @@ export class MessageConfigDialog extends Component {
                             style={Style.IconDeleteIcon}
                             onTouchTap={() => this.setState({
                                 deleteMode: !deleteMode,
-                            })}>
+                            })}
+                        >
                             delete
                         </IconButton>
                     </div>
@@ -246,78 +325,54 @@ export class MessageConfigDialog extends Component {
                             <IconButton
                                 iconClassName="material-icons"
                                 style={Style.UploadIcon}
-                                onTouchTap={() => this.onIconUpload()}>
+                                onTouchTap={() => this.onIconUpload()}
+                            >
                                 file_upload
                             </IconButton>
                             <div>Upload</div>
-                            <input
-                                ref="icon_data"
-                                multiple={true}
+                            <input multiple
+                                ref={(c) => c && (this.icon_data = c)}
                                 style={{display: 'none'}}
                                 type="file"
-                                onChange={(e) => this.onIconFileChange(e)} />
+                                onChange={(e) => this.onIconFileChange(e)}
+                            />
                         </div>
                         <div style={Style.IconRadioItem}>
                             <div style={Style.IconRadioText}>
                                 <input
+                                    defaultChecked={!icon_id}
                                     id={genId()}
                                     name="icon_id"
                                     style={Style.IconRadio}
                                     type="radio"
                                     value=""
-                                    defaultChecked={!icon_id}
-                                    onBlur={() => this.update('icon_id')} />
+                                    onBlur={() => this.update('icon_id')}
+                                />
                                 <label
                                     htmlFor={lastId}
-                                    style={Style.IconRadioTextLabel}>
+                                    style={Style.IconRadioTextLabel}
+                                >
                                     Default
                                 </label>
                             </div>
                             <label htmlFor={lastId}>
-                                <MessageIcon
+                                <MessageIcon noShadow
                                     character_data={character_data}
                                     character_url={character_url}
                                     color={color}
                                     name={name}
-                                    noShadow={true} />
+                                />
                             </label>
                         </div>
                         {iconList.map((icon) => (
-                            <div key={icon.id} style={Style.IconRadioItem}>
-                                <div style={Style.IconRadioText}>
-                                    {
-                                        deleteMode
-                                        ? <IconButton
-                                            id={genId()}
-                                            iconClassName="material-icons"
-                                            iconStyle={{color: Colors.red700}}
-                                            style={Style.IconDeleteIcon}
-                                            onTouchTap={() => removeIcon(icon)}>
-                                            delete
-                                        </IconButton>
-                                        : <input
-                                            id={genId()}
-                                            name="icon_id"
-                                            style={Style.IconRadio}
-                                            type="radio"
-                                            value={icon.id}
-                                            defaultChecked={
-                                                icon.id === icon_id
-                                            }
-                                            onBlur={
-                                                () => this.update('icon_id')
-                                            } />
-                                    }
-                                    <label
-                                        htmlFor={lastId}
-                                        style={Style.IconRadioTextLabel}>
-                                        {icon.name}
-                                    </label>
-                                </div>
-                                <label htmlFor={lastId} >
-                                    <MessageIcon {...icon} />
-                                </label>
-                            </div>
+                            <RadioItem
+                                deleteMode={deleteMode}
+                                icon={icon}
+                                icon_id={icon_id}
+                                key={icon.id}
+                                removeIcon={removeIcon}
+                                onUpdate={(key) => this.update(key)}
+                            />
                         ))}
                     </div>
                 </form>

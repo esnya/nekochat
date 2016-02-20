@@ -1,29 +1,20 @@
 import Tooltip from 'material-ui/lib/tooltip';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import moment from '../browser/moment';
 
 export class Timestamp extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            full: false,
+    static get propTypes() {
+        return {
+            timestamp: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number,
+                PropTypes.instanceOf(Date),
+            ]).isRequired,
         };
     }
 
-    toggle(full) {
-        this.setState({ full });
-    }
-
     render() {
-        const {
-            timestamp,
-            ...otherProps,
-        } = this.props;
-        const {
-            full,
-        } = this.state;
-        const m = moment(timestamp);
+        const m = moment(this.props.timestamp);
 
         return (
             <span

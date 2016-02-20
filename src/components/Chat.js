@@ -2,12 +2,27 @@ import AppBar from 'material-ui/lib/app-bar';
 import IconButton from 'material-ui/lib/icon-button';
 import LeftNav from 'material-ui/lib/left-nav';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { FROM_HEIGHT } from '../components/MessageForm';
 import { MessageFormContainer } from '../containers/MessageFormContainer';
 import { MessageList } from '../containers/MessageList';
 
 export class Chat extends Component {
+    static get propTypes() {
+        return {
+            id: PropTypes.string,
+            dom: PropTypes.object.isRequired,
+            messageForm: PropTypes.array.isRequired,
+            messageList: PropTypes.array.isRequired,
+            title: PropTypes.string,
+            user: PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                name: PropTypes.string.isRequired,
+            }).isRequired,
+            setRoute: PropTypes.func.isRequired,
+        };
+    }
+
     constructor(props) {
         super(props);
 
@@ -73,32 +88,37 @@ export class Chat extends Component {
             <div style={Styles.Container}>
                 <AppBar
                     title={title || 'NekoChat'}
-                    onLeftIconButtonTouchTap={() => this.toggleLeftNav()} />
+                    onLeftIconButtonTouchTap={() => this.toggleLeftNav()}
+                />
                 <MessageList />
                 <div style={Styles.FormList}>
                     {messageForm.map((form) => (
                         <MessageFormContainer
                             {...form}
                             key={form.id}
-                            user={user} />
+                            user={user}
+                        />
                     ))}
                 </div>
-                <LeftNav open={leftNav} docked={false}>
+                <LeftNav docked={false} open={leftNav}>
                     <AppBar
-                        title="NekoChat"
                         iconElementLeft={(
                             <IconButton
                                 iconClassName="material-icons"
-                                onTouchTap={() => this.toggleLeftNav()}>
+                                onTouchTap={() => this.toggleLeftNav()}
+                            >
                                 close
                             </IconButton>
-                        )} />
+                        )}
+                        title="NekoChat"
+                    />
                     <MenuItem href="/" onTouchTap={(e) => setRoute('/', e)}>
                         Leave
                     </MenuItem>
                     <MenuItem
                         href={`/view/${id}`}
-                        target="_blank">
+                        target="_blank"
+                    >
                         Static View
                     </MenuItem>
                 </LeftNav>

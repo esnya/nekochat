@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Avatar from 'material-ui/lib/avatar';
 import RefreshIndicator from 'material-ui/lib/refresh-indicator';
 
@@ -23,24 +23,37 @@ const ImageIcon = (props) => {
         backgroundSize: 'cover',
     };
 
-    return <div style={Object.assign({}, style, ImageStyle, {
-        backgroundImage: `url(${url})`,
-    })} />;
+    return (
+        <div
+            style={{
+                ...ImageStyle,
+                ...style,
+                backgroundImage: `url(${url})`,
+            }}
+        />
+    );
+};
+ImageIcon.propTypes = {
+    color: PropTypes.string.isRequired,
+    noShadow: PropTypes.bool,
+    style: PropTypes.object,
+    url: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.instanceOf(URL),
+    ]).isRequired,
 };
 
-export const MessageIcon = (props) => {
-    const {
-        id,
-        type,
-        character_url,
-        icon_url,
-        name,
-        color,
-        noShadow,
-        style,
-        getCharacter,
-    } = props;
-
+export const MessageIcon = ({
+    id,
+    type,
+    character_url,
+    icon_url,
+    name,
+    color,
+    noShadow,
+    style,
+    getCharacter,
+}) => {
     if (character_url && !icon_url) {
         setTimeout(() => getCharacter(character_url));
     }
@@ -49,19 +62,22 @@ export const MessageIcon = (props) => {
         return (
             <div style={{position: 'relative', width: Size, height: Size}}>
                 <RefreshIndicator
-                    left={0} top={0}
+                    left={0}
                     loadingColor={color}
                     size={Size}
-                    status="loading" />
+                    status="loading"
+                    top={0}
+                />
             </div>
         );
     } else if (id) {
         return (
             <ImageIcon
                 color={color}
-                style={{...Style, ...style}}
                 noShadow={noShadow}
-                url={`/icon/${id}`} />
+                style={{...Style, ...style}}
+                url={`/icon/${id}`}
+            />
         );
     } else if (icon_url) {
         const url = new URL(icon_url, character_url);
@@ -69,9 +85,10 @@ export const MessageIcon = (props) => {
         return (
             <ImageIcon
                 color={color}
-                style={{...Style, ...style}}
                 noShadow={noShadow}
-                url={url} />
+                style={{...Style, ...style}}
+                url={url}
+            />
         );
     } else if (name) {
         const icon = name.match(/^[a-zA-Z0-9][a-zA-Z0-9]/)
@@ -86,4 +103,15 @@ export const MessageIcon = (props) => {
     }
 
     return <div style={{...Style, ...style}} />;
+};
+MessageIcon.propTypes = {
+    character_url: PropTypes.string,
+    color: PropTypes.string,
+    getCharacter: PropTypes.func.isRequired,
+    id: PropTypes.string,
+    icon_url: PropTypes.string,
+    name: PropTypes.string,
+    noShadow: PropTypes.bool,
+    style: PropTypes.object,
+    type: PropTypes.string,
 };

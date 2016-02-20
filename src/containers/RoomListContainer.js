@@ -6,13 +6,13 @@ import {
     remove as removeRoom,
 } from '../actions/RoomActions';
 import { set as setRoute } from '../actions/RouteActions';
-import { Lobby } from '../components/Lobby';
+import { RoomList } from '../components/RoomList';
 import { bindActions } from './utility';
 
 
-export const LobbyContainer = connect(
+export const RoomListContainer = connect(
     (state) => ({
-        roomList: state.roomList,
+        rooms: state.roomList,
         user: state.user,
     }),
     (dispatch) => ({
@@ -26,4 +26,4 @@ export const LobbyContainer = connect(
         })(dispatch),
         onJoin: (id) => dispatch(setRoute(`/${id}`)),
     })
-)(Lobby);
+)(RoomList);
