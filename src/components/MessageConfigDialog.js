@@ -68,7 +68,7 @@ const Style = {
     },
 };
 
-export const RadioItem = ({deleteMode, icon, icon_id, removeIcon}) => (
+export const RadioItem = ({deleteMode, icon, icon_id, removeIcon, onUpdate}) => (
     <div key={icon.id} style={Style.IconRadioItem}>
         <div style={Style.IconRadioText}>
             {deleteMode
@@ -90,7 +90,7 @@ export const RadioItem = ({deleteMode, icon, icon_id, removeIcon}) => (
                     style={Style.IconRadio}
                     type="radio"
                     value={icon.id}
-                    onBlur={() => this.update('icon_id')}
+                    onBlur={() => onUpdate('icon_id')}
                   />
             }
             <label
@@ -365,6 +365,7 @@ export class MessageConfigDialog extends Component {
                                 icon_id={icon_id}
                                 key={icon.id}
                                 removeIcon={removeIcon}
+                                onUpdate={(key) => this.update(key)}
                             />
                         ))}
                     </div>
