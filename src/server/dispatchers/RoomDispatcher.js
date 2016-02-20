@@ -85,7 +85,6 @@ export class RoomDispatcher extends Dispatcher {
                 return this.onDispatch({type: ROOM.FETCH});
             case ROOM.FETCH:
                 return knex('rooms')
-                        .where('user_id', this.user_id)
                         .whereNull('deleted')
                         .orderBy('created', 'desc')
                         .then((rooms) => this.dispatch(Room.list(rooms)));
