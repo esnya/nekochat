@@ -68,7 +68,13 @@ const Style = {
     },
 };
 
-export const RadioItem = ({deleteMode, icon, icon_id, removeIcon, onUpdate}) => (
+export const RadioItem = ({
+    deleteMode,
+    icon,
+    icon_id,
+    removeIcon,
+    onUpdate,
+}) => (
     <div key={icon.id} style={Style.IconRadioItem}>
         <div style={Style.IconRadioText}>
             {deleteMode
