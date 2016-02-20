@@ -105,6 +105,11 @@ export const MessageBody = ({message, whisper_to, whisperTo}) => {
         </div>
     );
 };
+MessageBody.propTypes = {
+    message: PropTypes.string.isRequired,
+    whisper_to: PropTypes.string,
+    whisperTo: PropTypes.func.isRequired,
+};
 
 export class MessageListItem extends Component {
     static get propTypes() {

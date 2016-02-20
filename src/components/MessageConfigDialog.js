@@ -118,8 +118,11 @@ RadioItem.propTypes = {
         type: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
     }).isRequired,
+    icon_id: PropTypes.string.isRequired,
     removeIcon: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired,
 };
+
 export class MessageConfigDialog extends Component {
     static get propTypes() {
         return {
