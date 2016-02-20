@@ -1,6 +1,6 @@
 import FontIcon from 'material-ui/lib/font-icon';
 import Snackbar from 'material-ui/lib/snackbar';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { format } from '../utility/format';
 
 export const Snack = (props) => {
@@ -35,7 +35,8 @@ export const Snack = (props) => {
                         <FontIcon
                             className="material-icons"
                             color="white"
-                            style={IconStyle}>
+                            style={IconStyle}
+                        >
                             {snack.icon}
                         </FontIcon>
                     )}
@@ -50,6 +51,11 @@ export const Snack = (props) => {
                 }
                 remove(snack);
             }}
-            onRequestClose={() => remove(snack)} />
+            onRequestClose={() => remove(snack)}
+        />
     );
+};
+Snack.propTypes = {
+    snackList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    remove: PropTypes.func.isRequired,
 };

@@ -1,5 +1,5 @@
-import React from 'react';
-import { LobbyContainer as lobby } from '../containers/LobbyContainer';
+import React, { PropTypes } from 'react';
+import { Lobby as lobby } from './Lobby';
 import { ChatContainer as chat } from '../containers/ChatContainer';
 
 const Handlers = {
@@ -14,5 +14,9 @@ export const Router = (props) => {
     } = props;
     const Handler = Handlers[route] || 'div';
 
-    return <Handler {...params} />;
+    return Handler ? <Handler {...params} /> : <div>Loading...</div>;
+};
+Router.propTypes = {
+    route: PropTypes.string,
+    params: PropTypes.object,
 };

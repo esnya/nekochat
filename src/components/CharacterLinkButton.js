@@ -1,5 +1,5 @@
 import IconButton from 'material-ui/lib/icon-button';
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 const Style = {
     Button: {
@@ -31,12 +31,16 @@ export const CharacterLinkButton = (props) => {
         <IconButton
             containerElement="a"
             href={href}
-            target="_blank"
-            style={Style.Button}
             iconClassName="material-icons"
             iconStyle={Style.Icon}
+            style={Style.Button}
+            target="_blank"
         >
             open_in_new
         </IconButton>
     );
+};
+CharacterLinkButton.propTypes = {
+    character_url: PropTypes.string,
+    character_link: PropTypes.string,
 };
