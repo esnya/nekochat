@@ -11,7 +11,6 @@ import { notificationReducer as notifications } from './NotificationReducer';
 import { roomListReducer } from './RoomListReducer';
 import { roomReducer } from './RoomReducer';
 import { routeReducer } from './RouteReducer';
-import { snackListReducer as snackList } from './SnackListReducer';
 import { userReducer } from './UserReducer';
 
 export const rootReducer = combineReducers({
@@ -27,6 +26,5 @@ export const rootReducer = combineReducers({
     roomList: roomListReducer,
     room: roomReducer,
     route: routeReducer,
-    snackList,
     user: userReducer,
 });
