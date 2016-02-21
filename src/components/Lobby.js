@@ -7,7 +7,7 @@ import { zip } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { RoomListContainer } from '../containers/RoomListContainer';
 
-export const Lobby = () => {
+export const Lobby = ({open}) => {
     document.title = "NekoChat";
 
     return (
@@ -31,4 +31,7 @@ export const Lobby = () => {
             <RoomListContainer />
         </div>
     );
+};
+Lobby.propTypes = {
+    open: PropTypes.func.isRequired,
 };

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Lobby as lobby } from './Lobby';
+import { LobbyContainer as lobby } from '../containers/LobbyContainer';
 import { ChatContainer as chat } from '../containers/ChatContainer';
 
 const Handlers = {
