@@ -41,10 +41,7 @@ export class RoomDispatcher extends Dispatcher {
                         .first()
                     )
                     .then(exists)
-                    .then((room) => {
-                        this.dispatch(Room.push([room]));
-                        this.dispatch(Room.created(room));
-                    });
+                    .then((room) => this.dispatch(Room.created(room)));
             } case ROOM.JOIN:
                 return knex('rooms')
                     .where('id', action.id)
