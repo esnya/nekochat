@@ -28,6 +28,7 @@ export const Lobby = ({open}) => {
                 }
                 title="NekoChat"
             />
+            <div id="notification-anchor" />
             <RoomListContainer />
         </div>
     );

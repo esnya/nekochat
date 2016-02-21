@@ -2,7 +2,7 @@ import ExpressSocketIOSession from 'express-socket.io-session';
 import { getLogger } from 'log4js';
 import SocketIO from 'socket.io';
 import { loggedin } from '../actions/UserActions';
-import { create as createSnack } from '../actions/SnackActions';
+import { notify } from '../actions/NotificationActions';
 import { ActionDispatcher } from './dispatchers/ActionDispatcher';
 import { server } from './server';
 import { session } from './session';
@@ -37,11 +37,9 @@ io.on('connect', (socket) => {
         dispatcher.onDispatch(action)
             .catch((e) => {
                 logger.error(e);
-                if (typeof(e) === 'string') {
-                    socket.emit('action', createSnack({
-                        message: e,
-                    }));
-                }
+                socket.emit('action', notify({
+                    message: `${e}`,
+                }));
             })
     );
 

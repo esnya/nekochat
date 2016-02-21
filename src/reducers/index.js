@@ -7,6 +7,7 @@ import { iconListReducer } from './IconListReducer';
 import { inputReducer } from './InputReducer';
 import { messageFormReducer } from './MessageFormReducer';
 import { messageListReducer } from './MessageListReducer';
+import { notificationReducer as notifications } from './NotificationReducer';
 import { roomListReducer } from './RoomListReducer';
 import { roomReducer } from './RoomReducer';
 import { routeReducer } from './RouteReducer';
@@ -22,6 +23,7 @@ export const rootReducer = combineReducers({
     input: inputReducer,
     messageForm: messageFormReducer,
     messageList: messageListReducer,
+    notifications,
     roomList: roomListReducer,
     room: roomReducer,
     route: routeReducer,

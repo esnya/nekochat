@@ -90,6 +90,7 @@ export class Chat extends Component {
                     title={title || 'NekoChat'}
                     onLeftIconButtonTouchTap={() => this.toggleLeftNav()}
                 />
+                <div id="notification-anchor" />
                 <MessageList />
                 <div style={Styles.FormList}>
                     {messageForm.map((form) => (

@@ -6,7 +6,7 @@ import { ConfirmContainer } from '../containers/ConfirmContainer';
 import {
     MessageConfigDialogContainer,
 } from '../containers/MessageConfigDialogContainer';
-import { SnackContainer } from '../containers/SnackContainer';
+import { NotificationContainer } from '../containers/NotificationContainer';
 import {
     RoomCreateDialoggContainer,
 } from '../containers/RoomCreateDialogContainer';
@@ -34,7 +34,7 @@ export class App extends Component {
                 <RoomCreateDialoggContainer />
                 <MessageConfigDialogContainer />
                 <ConfirmContainer />
-                <SnackContainer />
+                <NotificationContainer />
             </div>
         );
     }

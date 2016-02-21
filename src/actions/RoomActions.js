@@ -38,12 +38,11 @@ export const created = function(room) {
     return {
         type: ROOM.CREATED,
         room,
-        snack: {
-            data: room,
+        notify: {
             action: 'Join',
             next: setRoute(`/${room.id}`),
             icon: 'done',
-            message: 'Room "${title}" created',
+            message: 'Room "${room.title}" created',
         },
     };
 };
@@ -94,18 +93,16 @@ export const fetch = function() {
 export const userJoined = (user) => ({
     type: ROOM.USER_JOINED,
     user,
-    snack: {
-        data: user,
+    notify: {
         icon: 'person',
-        message: '"${name}" joined',
+        message: '"${user.name}" joined',
     },
 });
 export const userLeft = (user) => ({
     type: ROOM.USER_LEFT,
     user,
-    snack: {
-        data: user,
+    notify: {
         icon: 'person_outline',
-        message: '"${name}" left',
+        message: '"${user.name}" left',
     },
 });

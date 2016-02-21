@@ -144,7 +144,7 @@ export class MessageConfigDialog extends Component {
             updateForm: PropTypes.func.isRequired,
             createIcon: PropTypes.func.isRequired,
             removeIcon: PropTypes.func.isRequired,
-            createSnack: PropTypes.func.isRequired,
+            onNotify: PropTypes.func.isRequired,
         };
     }
 
@@ -172,7 +172,7 @@ export class MessageConfigDialog extends Component {
                 .then((data) => {
                     this.name.setValue(data.name);
                 })
-                .catch(() => this.props.createSnack({
+                .catch(() => this.props.onNotify({
                     message: `Failed to load character at "${url}"`,
                 }));
         }
