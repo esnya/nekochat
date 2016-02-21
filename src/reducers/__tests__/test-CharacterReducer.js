@@ -3,8 +3,7 @@
 jest.autoMockOff();
 
 describe('CharacterReducer', () => {
-    const {
-    } = require('../../constants/CharacterActions');
+    // require('../../constants/CharacterActions');
     const reducer = require('../CharacterReducer').characterReducer;
 
     let state;

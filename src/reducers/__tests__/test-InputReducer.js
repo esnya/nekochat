@@ -3,8 +3,7 @@
 jest.autoMockOff();
 
 describe('InputReducer', () => {
-    const {
-    } = require('../../constants/InputActions');
+    // require('../../constants/InputActions');
     const reducer = require('../InputReducer').inputReducer;
 
     let state;

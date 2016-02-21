@@ -5,7 +5,6 @@ import { Dispatcher } from './Dispatcher';
 import { generateId } from '../../utility/id';
 
 const ID_LENGTH = 16;
-const HISTORY_LIMIT = 20;
 
 export class RoomDispatcher extends Dispatcher {
     constructor(socket, root) {

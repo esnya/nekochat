@@ -3,8 +3,7 @@
 jest.autoMockOff();
 
 describe('MessageFormReducer', () => {
-    const {
-    } = require('../../constants/MessageFormActions');
+    // require('../../constants/MessageFormActions');
     const reducer = require('../MessageFormReducer').messageFormReducer;
 
     let state;

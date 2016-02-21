@@ -3,8 +3,6 @@ describe('Notification', () => {
     jest.dontMock('material-ui/lib/lists/list-item');
     jest.dontMock('material-ui/lib/popover/popover');
 
-    const List = require('material-ui/lib/lists/list');
-    const ListItem = require('material-ui/lib/lists/list-item');
     const Popover = require('material-ui/lib/popover/popover');
 
     jest.dontMock('react');
@@ -17,8 +15,6 @@ describe('Notification', () => {
 
     jest.dontMock('react-addons-test-utils');
     const {
-        Simulate,
-        findRenderedComponentWithType,
         findRenderedDOMComponentWithClass,
         renderIntoDocument,
         scryRenderedComponentsWithType,

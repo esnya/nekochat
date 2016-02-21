@@ -1,5 +1,3 @@
-import CircularProgress from 'material-ui/lib/circular-progress';
-import IconButton from 'material-ui/lib/icon-button';
 import Colors from 'material-ui/lib/styles/colors';
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
@@ -120,7 +118,6 @@ export class MessageListItem extends Component {
             ]),
             icon_id: PropTypes.string,
             iconType: PropTypes.string,
-            character_link: PropTypes.string,
             character_url: PropTypes.string,
             message: PropTypes.string.isRequired,
             modified: PropTypes.oneOfType([
@@ -154,7 +151,6 @@ export class MessageListItem extends Component {
         const {
             icon_id,
             iconType,
-            character_link,
             character_url,
             message,
             name,

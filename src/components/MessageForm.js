@@ -95,9 +95,6 @@ export class MessageForm extends Component {
     }
 
     startInputWatcher() {
-        // ToDo: for debugging
-        if (window.disableInputWatcher) return;
-
         if (this.inputWatcher) return;
 
         this.composition = false;

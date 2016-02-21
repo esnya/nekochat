@@ -1,4 +1,3 @@
-import { getCharacter } from '../browser/character';
 import { get } from '../browser/xhr';
 import * as Character from '../actions/CharacterActions';
 import * as CHARACTER from '../constants/CharacterActions';

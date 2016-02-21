@@ -1,4 +1,4 @@
 describe('theme', () => {
     jest.dontMock('../theme');
-    const theme = require('../theme');
+    require('../theme');
 });

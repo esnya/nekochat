@@ -3,8 +3,7 @@
 jest.autoMockOff();
 
 describe('RoomListReducer', () => {
-    const {
-    } = require('../../constants/RoomActions');
+    // require('../../constants/RoomActions');
     const reducer = require('../RoomListReducer').roomListReducer;
 
     let state;

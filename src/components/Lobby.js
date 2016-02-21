@@ -1,10 +1,6 @@
 import AppBar from 'material-ui/lib/app-bar';
 import IconButton from 'material-ui/lib/icon-button';
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import isMobile from 'is-mobile';
-import { zip } from 'lodash';
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { RoomListContainer } from '../containers/RoomListContainer';
 
 export const Lobby = ({open}) => {

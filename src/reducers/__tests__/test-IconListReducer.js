@@ -3,8 +3,7 @@
 jest.autoMockOff();
 
 describe('IconListReducer', () => {
-    const {
-    } = require('../../constants/IconActions');
+    // require('../../constants/IconActions');
     const reducer = require('../IconListReducer').iconListReducer;
 
     let state;

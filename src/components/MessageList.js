@@ -1,15 +1,8 @@
 import CircularProgress from 'material-ui/lib/circular-progress';
-import IconButton from 'material-ui/lib/icon-button';
 import Colors from 'material-ui/lib/styles/colors';
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
-import { makeColor } from '../utility/color';
-import { MessageIcon } from '../containers/MessageIconContainer';
-import {
-    CharacterLinkButton,
-} from '../containers/CharacterLinkButtonContainer';
 import { MessageListItem } from './MessageListItem';
-import { Timestamp } from './Timestamp';
 
 const Style = {
     List: {

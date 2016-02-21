@@ -1,4 +1,3 @@
-import Tooltip from 'material-ui/lib/tooltip';
 import React, { Component, PropTypes } from 'react';
 import moment from '../browser/moment';
 

@@ -3,8 +3,7 @@
 jest.autoMockOff();
 
 describe('MessageListReducer', () => {
-    const {
-    } = require('../../constants/MessageActions');
+    // require('../../constants/MessageActions');
     const reducer = require('../MessageListReducer').messageListReducer;
 
     let state;
