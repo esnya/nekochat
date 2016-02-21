@@ -35,7 +35,7 @@ export class MessageForm extends Component {
     componentWillUpdate(nextProps) {
         const prev = this.props.whisper_to;
         const next = nextProps.whisper_to;
-        if (prev === next) return;
+        if (!next || prev === next) return;
 
         const messageField = this.message;
         if (!messageField) return;
