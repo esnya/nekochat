@@ -6,7 +6,7 @@ import {
     remove as removeIcon,
 } from '../actions/IconActions';
 import { update as updateForm } from '../actions/MessageFormActions';
-import { create as createSnack } from '../actions/SnackActions';
+import { notify as onNotify } from '../actions/NotificationActions';
 import { MessageConfigDialog } from '../components/MessageConfigDialog';
 import { bindActions } from './utility';
 
@@ -35,7 +35,7 @@ export const MessageConfigDialogContainer = connect(
         fetchIcon,
         removeIcon,
         updateForm,
-        createSnack,
+        onNotify,
         close: () => close('message-config'),
     })
 )(MessageConfigDialog);

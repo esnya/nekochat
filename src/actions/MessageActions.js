@@ -26,7 +26,7 @@ export const fetch = function(minId = null) {
 export const push = function(items) {
     return {
         type: MESSAGE.PUSH,
-        notify: {
+        systemNotify: {
             title: '${name}',
             body: '${message}',
             icon: '/icon/${icon_id}',
