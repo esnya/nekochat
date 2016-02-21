@@ -56,6 +56,6 @@ export const Snack = (props) => {
     );
 };
 Snack.propTypes = {
-    snackList: PropTypes.arrayOf(PropTypes.object).isRequired,
     remove: PropTypes.func.isRequired,
+    snackList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

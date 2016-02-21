@@ -35,12 +35,12 @@ const ImageIcon = (props) => {
 };
 ImageIcon.propTypes = {
     color: PropTypes.string.isRequired,
-    noShadow: PropTypes.bool,
-    style: PropTypes.object,
     url: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.instanceOf(URL),
     ]).isRequired,
+    noShadow: PropTypes.bool,
+    style: PropTypes.object,
 };
 
 export const MessageIcon = ({
@@ -105,11 +105,11 @@ export const MessageIcon = ({
     return <div style={{...Style, ...style}} />;
 };
 MessageIcon.propTypes = {
+    getCharacter: PropTypes.func.isRequired,
     character_url: PropTypes.string,
     color: PropTypes.string,
-    getCharacter: PropTypes.func.isRequired,
-    id: PropTypes.string,
     icon_url: PropTypes.string,
+    id: PropTypes.string,
     name: PropTypes.string,
     noShadow: PropTypes.bool,
     style: PropTypes.object,

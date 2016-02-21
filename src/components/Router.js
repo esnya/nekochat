@@ -17,6 +17,6 @@ export const Router = (props) => {
     return Handler ? <Handler {...params} /> : <div>Loading...</div>;
 };
 Router.propTypes = {
-    route: PropTypes.string,
     params: PropTypes.object,
+    route: PropTypes.string,
 };

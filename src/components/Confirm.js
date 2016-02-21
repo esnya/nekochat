@@ -37,9 +37,9 @@ export const Confirm = (props) => {
     );
 };
 Confirm.propTypes = {
+    cancel: PropTypes.func.isRequired,
     confirmList: PropTypes.arrayOf(PropTypes.shape({
         message: PropTypes.string.isRequired,
     })).isRequired,
     ok: PropTypes.func.isRequired,
-    cancel: PropTypes.func.isRequired,
 };

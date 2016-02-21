@@ -41,6 +41,6 @@ export const CharacterLinkButton = (props) => {
     );
 };
 CharacterLinkButton.propTypes = {
-    character_url: PropTypes.string,
     character_link: PropTypes.string,
+    character_url: PropTypes.string,
 };
