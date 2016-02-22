@@ -6,12 +6,7 @@ import { bindActions } from './utility';
 export const MessageIcon = connect(
     ({ characters }, { character_url }) => {
         const character_data = character_url && characters[character_url];
-        if (
-            !character_data ||
-                character_data.timestamp + 10 * 60 * 1000 < Date.now()
-        ) {
-            return {};
-        }
+        if (!character_data) return {};
 
         const data = character_data.data;
         if (!data) return {};

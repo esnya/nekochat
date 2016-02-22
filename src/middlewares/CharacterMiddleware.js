@@ -10,10 +10,7 @@ export const characterMiddleWare = ({getState, dispatch}) =>
             const url = action.url;
             const character_data = getState().characters[url];
 
-            if (!loading[url] && (
-                !character_data ||
-                    character_data.timestamp + 10 * 60 * 1000 < Date.now()
-            )) {
+            if (!loading[url] && !character_data) {
                 loading[url] = true;
                 get(url)
                     .then((data) => dispatch(Character.set(url, data)))
