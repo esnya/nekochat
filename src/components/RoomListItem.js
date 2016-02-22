@@ -81,6 +81,7 @@ export class RoomListItem extends Component {
                         <FontIcon className="material-icons">
                             open_in_browser
                         </FontIcon>
+                        &nbsp;
                         Join
                     </div>
                 </MenuItem>
@@ -96,7 +97,20 @@ export class RoomListItem extends Component {
                         <FontIcon className="material-icons">
                             open_in_new
                         </FontIcon>
+                        &nbsp;
                         Popup
+                    </div>
+                </MenuItem>
+                <MenuItem
+                    href={`/view/${room.id}`}
+                    target="_blank"
+                >
+                    <div style={MenuItemStyle}>
+                        <FontIcon className="material-icons">
+                             view_headline
+                        </FontIcon>
+                        &nbsp;
+                        Text View
                     </div>
                 </MenuItem>
                 <MenuItem
@@ -108,6 +122,7 @@ export class RoomListItem extends Component {
                         <FontIcon className="material-icons">
                             delete
                         </FontIcon>
+                        &nbsp;
                         Delete
                     </div>
                 </MenuItem>
