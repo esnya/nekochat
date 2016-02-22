@@ -27,10 +27,10 @@ export const push = function(items) {
     return {
         type: MESSAGE.PUSH,
         systemNotify: {
-            title: '${name}',
-            body: '${message}',
-            icon: '/icon/${icon_id}',
-            tag: '${room_id}',
+            title: '${items[0] && items[0].name}',
+            body: '${items[0] && items[0].message}',
+            icon: '/icon/${items[0] && items[0].icon_id}',
+            tag: '${items[0] && items[0].room_id}',
         },
         items,
     };

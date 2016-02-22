@@ -1,7 +1,6 @@
-import { transform } from 'lodash';
+import { template, transform } from 'lodash';
 import { getCharacter } from '../browser/character';
 import { notify } from '../browser/notification';
-import { format } from '../utility/format';
 
 export const systemNotificationMiddleware =
     ({getState}) => (next) => (action) => {
@@ -24,7 +23,7 @@ export const systemNotificationMiddleware =
                 const msg = transform(
                     action.systemNotify,
                     (result, value, key) => {
-                        result[key] = format(value, item, false);
+                        result[key] = template(value)(action);
                     },
                 {}
                 );

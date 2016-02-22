@@ -1,7 +1,7 @@
+import { template } from 'lodash';
 import Dialog from 'material-ui/lib/dialog';
 import FlatButton from 'material-ui/lib/flat-button';
 import React, { PropTypes } from 'react';
-import { format } from '../utility/format';
 
 export const Confirm = (props) => {
     const {
@@ -24,7 +24,7 @@ export const Confirm = (props) => {
         />,
     ];
 
-    const message = confirm.message && format(confirm.message, confirm.next);
+    const message = confirm.message && template(confirm.message)(confirm.next);
 
     return (
         <Dialog modal
