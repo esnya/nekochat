@@ -23,15 +23,33 @@ export const fetch = function(minId = null) {
     };
 };
 
-export const push = function(items) {
+export const push = function(item) {
     return {
         type: MESSAGE.PUSH,
         systemNotify: {
-            title: '${items[0] && items[0].name}',
-            body: '${items[0] && items[0].message}',
-            icon: '/icon/${items[0] && items[0].icon_id}',
-            tag: '${items[0] && items[0].room_id}',
+            title: '${item.name}',
+            body: '${item.message}',
+            icon:
+                '${item.icon_id ? ("/icon/" + item.icon_id) : icon}',
+            tag: '${item.room_id}',
+            character_url: item.character_url,
         },
-        items,
+        item,
     };
 };
+
+export const list = (items) => ({
+    type: MESSAGE.LIST,
+    items,
+});
+
+export const requestPast = (lastId) => ({
+    type: MESSAGE.REQUEST_PAST,
+    server: true,
+    lastId: parseInt(lastId, 10),
+});
+
+export const prependList = (items) => ({
+    type: MESSAGE.PREPEND_LIST,
+    items,
+});

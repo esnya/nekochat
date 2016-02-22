@@ -1,41 +1,44 @@
 import { template, transform } from 'lodash';
-import { getCharacter } from '../browser/character';
+import { get as getCharacter } from '../actions/CharacterActions';
 import { notify } from '../browser/notification';
 
 export const systemNotificationMiddleware =
-    ({getState}) => (next) => (action) => {
-        if (action.systemNotify && !getState().dom.focused) {
-            const item = action.items[0];
+    ({dispatch, getState}) => (next) => (action) => {
+        const {
+            systemNotify,
+            ...nextAction,
+        } = action;
 
-            (
-                item && item.character_url
-                    ? getCharacter(item.character_url)
-                        .then(
-                            (data) => new URL(
-                                data.icon || data.portrait || data.image,
-                                item.character_url
-                            )
-                            .toString()
-                        )
-                    : Promise.resolve()
-            )
-            .then((icon) => {
-                const msg = transform(
-                    action.systemNotify,
-                    (result, value, key) => {
-                        result[key] = template(value)(action);
-                    },
+        if (systemNotify && !getState().dom.focused) {
+            const character_url = systemNotify.character_url;
+            const character_data = character_url &&
+                getState().characters[character_url];
+            const data = character_data && character_data.data;
+
+            if (character_url && !data) {
+                setTimeout(() => dispatch(getCharacter(character_url)));
+            }
+
+            const icon = data && new URL(
+                data.icon || data.image || data.portrait,
+                character_url
+            );
+
+            const msg = transform(
+                action.systemNotify,
+                (result, value, key) => {
+                    result[key] = template(value)({
+                        ...action,
+                        icon,
+                    });
+                },
                 {}
-                );
+            );
 
-                notify({
-                    ...msg,
-                    icon: icon || msg.icon,
-                }).then((n) => {
-                    setTimeout(() => n.close(), 5000);
-                });
+            notify(msg).then((n) => {
+                setTimeout(() => n.close(), 5000);
             });
         }
 
-        return next(action);
+        return next(nextAction);
     };

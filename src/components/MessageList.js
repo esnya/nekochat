@@ -66,8 +66,8 @@ export class MessageList extends Component {
             messageList: PropTypes.arrayOf(PropTypes.shape({
                 id: PropTypes.number.isRequired,
             })).isRequired,
+            requestPast: PropTypes.func.isRequired,
             whisperTo: PropTypes.func.isRequired,
-            fetch: PropTypes.func,
         };
     }
 
@@ -88,12 +88,12 @@ export class MessageList extends Component {
             const {
                 eor,
                 messageList,
-                fetch,
+                requestPast,
             } = this.props;
 
             if (eor || !messageList[0]) return;
 
-            fetch(messageList[0].id);
+            requestPast(messageList[0].id);
         }
     }
 

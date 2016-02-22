@@ -5,7 +5,7 @@ export const roomReducer = function(state = null, action) {
     switch (action.type) {
         case ROOM.JOINED:
             return Object.assign({}, action.room);
-        case MESSAGE.PUSH:
+        case MESSAGE.PREPEND_LIST:
             if (action.items.length > 0) return state;
             return Object.assign({}, state, {
                 eor: true,

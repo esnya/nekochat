@@ -9,6 +9,8 @@ const MESSAGE_LIMIT = 20;
 
 export class MessageDispatcher extends Dispatcher {
     onDispatch(action) {
+        const user_id = this.user_id;
+
         switch (action.type) {
             case MESSAGE.CREATE:
                 return diceReplace(`${action.message || ''}`)
@@ -40,7 +42,7 @@ export class MessageDispatcher extends Dispatcher {
                                         .emit('dice', ...dice);
                                 });
                                 this.dispatch(
-                                    Message.push([message]),
+                                    Message.push(message),
                                     message.whisper_to
                                         ? [
                                             `${this.room_id}/${this.user_id}`,
@@ -52,14 +54,8 @@ export class MessageDispatcher extends Dispatcher {
             case ROOM.JOINED:
                 this.room_id = action.room.id;
                 return this.onDispatch({type: MESSAGE.FETCH});
-            case MESSAGE.FETCH: {
-                const user_id = this.user_id;
-
-                return (
-                        action.minId
-                        ? knex('messages').where('id', '<', action.minId)
-                        : knex('messages')
-                    )
+            case MESSAGE.FETCH:
+                return knex('messages')
                     .where('room_id', this.room_id)
                     .whereNull('deleted')
                     .where(function() {
@@ -71,9 +67,24 @@ export class MessageDispatcher extends Dispatcher {
                     .orderBy('id', 'desc')
                     .limit(MESSAGE_LIMIT)
                     .then((messages) => {
-                        this.dispatch(Message.push(messages));
+                        this.dispatch(Message.list(messages));
                     });
-            }
+            case MESSAGE.REQUEST_PAST:
+                return knex('messages')
+                    .where('id', '<', action.lastId)
+                    .where('room_id', this.room_id)
+                    .whereNull('deleted')
+                    .where(function() {
+                        this
+                            .whereNull('whisper_to')
+                            .orWhere('whisper_to', user_id)
+                            .orWhere('user_id', user_id);
+                    })
+                    .orderBy('id', 'desc')
+                    .limit(MESSAGE_LIMIT)
+                    .then((messages) => {
+                        this.dispatch(Message.prependList(messages));
+                    });
         }
     }
 }

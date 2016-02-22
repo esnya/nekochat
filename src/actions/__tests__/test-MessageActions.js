@@ -8,8 +8,10 @@ describe('MessageActions', () => {
             ['create', 'CREATE', {}],
             ['update', 'UPDATE', {}],
             ['fetch', 'FETCH'],
-            ['fetch', 'FETCH', 'id'],
+            ['fetch', 'FETCH'],
             ['push', 'PUSH', {id: 'id'}],
+            ['requestPast', 'REQUEST_PAST', 10],
+            ['prependList', 'PREPEND_LIST', []],
         ].forEach(([akey, ckey, ...args]) => {
             expect(Actions[akey](...args).type)
                 .toEqual(ACTIONS[ckey]);

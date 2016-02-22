@@ -8,7 +8,7 @@ import { bindActions } from './utility';
 export const CharacterLinkButton = connect(
     ({ characters }, { character_url }) => {
         const character_data = character_url && characters[character_url];
-        if (character_data) return {};
+        if (!character_data) return {};
 
         const data = character_data.data;
         if (!data) return {};
