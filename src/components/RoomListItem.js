@@ -1,10 +1,11 @@
+import FontIcon from 'material-ui/lib/font-icon';
 import IconButton from 'material-ui/lib/icon-button';
+import IconMenu from 'material-ui/lib/menus/icon-menu';
 import ListItem from 'material-ui/lib/lists/list-item';
-import isMobile from 'is-mobile';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import { findDOMNode } from 'react-dom';
 import React, { Component, PropTypes } from 'react';
 import { Timestamp } from './Timestamp';
-
-const IsMobile = isMobile();
 
 const DialogFeatures = {
     width: 360,
@@ -52,47 +53,79 @@ export class RoomListItem extends Component {
 
         const path = `/${room.id}`;
 
+        const MenuItemStyle = {
+            display: 'flex',
+            alignItems: 'center',
+        };
+        const CloseItemStyle = {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 48,
+        };
+
+        const rightIconMenu = (
+            <IconMenu
+                iconButtonElement={
+                    <IconButton iconClassName="material-icons">
+                        more_vert
+                    </IconButton>
+                }
+                ref={(c) => c && (this.menu = c)}
+            >
+                <MenuItem
+                    href={path}
+                    onTouchTap={(e) => setRoute(path, e)}
+                >
+                    <div style={MenuItemStyle}>
+                        <FontIcon className="material-icons">
+                            open_in_browser
+                        </FontIcon>
+                        Join
+                    </div>
+                </MenuItem>
+                <MenuItem
+                    style={MenuItemStyle}
+                    onTouchTap={() => window.open(
+                        path,
+                        room.id,
+                        DialogFeatureString
+                    )}
+                >
+                    <div style={MenuItemStyle}>
+                        <FontIcon className="material-icons">
+                            open_in_new
+                        </FontIcon>
+                        Popup
+                    </div>
+                </MenuItem>
+                <MenuItem
+                    disabled={room.user_id !== user.id}
+                    style={MenuItemStyle}
+                    onTouchTap={() => removeRoom(room)}
+                >
+                    <div style={MenuItemStyle}>
+                        <FontIcon className="material-icons">
+                            delete
+                        </FontIcon>
+                        Delete
+                    </div>
+                </MenuItem>
+                <MenuItem>
+                    <div style={CloseItemStyle}>
+                        <FontIcon className="material-icons">
+                            keyboard_arrow_up
+                        </FontIcon>
+                    </div>
+                </MenuItem>
+            </IconMenu>
+        );
+
         return (
             <ListItem
                 href={path}
                 primaryText={room.title}
-                rightIconButton={
-                    <div style={{ display: 'flex' }}>
-                        <IconButton
-                            href={path}
-                            iconClassName="material-icons"
-                            tooltip="Join"
-                            onTouchTap={(e) => setRoute(path, e)}
-                        >
-                            open_in_browser
-                        </IconButton>
-                        {
-                            IsMobile
-                                ? null
-                                : <IconButton
-                                    iconClassName="material-icons"
-                                    tooltip="New window"
-                                    onTouchTap={() =>
-                                        window.open(
-                                            path,
-                                            room.id,
-                                            DialogFeatureString
-                                        )
-                                    }
-                                  >
-                                    open_in_new
-                                </IconButton>
-                        }
-                        <IconButton
-                            disabled={room.user_id !== user.id}
-                            iconClassName="material-icons"
-                            tooltip="Delete"
-                            onTouchTap={() => removeRoom(room)}
-                        >
-                            delete
-                        </IconButton>
-                    </div>
-                }
+                rightIconButton={rightIconMenu}
                 secondaryText={
                     <span>
                         @{room.user_id}
@@ -100,6 +133,12 @@ export class RoomListItem extends Component {
                         <Timestamp timestamp={room.modified} />
                     </span>
                 }
+                onClick={(e) => {
+                    const menuButton = findDOMNode(this.menu).children[0];
+                    if (e.target === menuButton) {
+                        e.preventDefault();
+                    }
+                }}
                 onTouchTap={(e) => setRoute(path, e)}
             />
         );
