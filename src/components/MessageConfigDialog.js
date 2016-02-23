@@ -7,7 +7,6 @@ import { Colors } from 'material-ui/lib/styles';
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { generateId } from '../utility/id';
-import { getCharacter } from '../browser/character';
 import { makeColor } from '../utility/color';
 import { MessageIcon } from '../containers/MessageIconContainer';
 
@@ -126,6 +125,7 @@ RadioItem.propTypes = {
 export class MessageConfigDialog extends Component {
     static get propTypes() {
         return {
+            characters: PropTypes.object.isRequired,
             form: PropTypes.object.isRequired,
             iconList: PropTypes.arrayOf(
                 PropTypes.shape({
@@ -143,6 +143,7 @@ export class MessageConfigDialog extends Component {
             fetchIcon: PropTypes.func.isRequired,
             updateForm: PropTypes.func.isRequired,
             createIcon: PropTypes.func.isRequired,
+            onCharacterRequested: PropTypes.func.isRequired,
             removeIcon: PropTypes.func.isRequired,
             onNotify: PropTypes.func.isRequired,
         };
@@ -164,17 +165,38 @@ export class MessageConfigDialog extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.character_url &&
+            Object.keys(this.props.characters).length !==
+                Object.keys(prevProps.characters).length
+        ) {
+            this.fetchCharacter();
+        }
+    }
+
     fetchCharacter() {
         const url = this.character_url.getValue();
 
-        if (url) {
-            getCharacter(url)
-                .then((data) => {
-                    this.name.setValue(data.name);
-                })
-                .catch(() => this.props.onNotify({
-                    message: `Failed to load character at "${url}"`,
-                }));
+        console.log(`${url} !== ${this.name_url}`);
+
+        if (url !== this.name_url) {
+            const {
+                characters,
+                onCharacterRequested,
+            } = this.props;
+
+            if (!characters[url] || !characters[url].data) {
+                if (this.requesting_url !== url) {
+                    this.requesting_url = url;
+                    setTimeout(() => onCharacterRequested(url));
+                }
+            } else {
+                const name = characters[url].data.name;
+                this.name.setValue(name || '');
+                this.name_url = url;
+                this.requesting_url = null;
+                this.update('name');
+            }
         }
     }
 

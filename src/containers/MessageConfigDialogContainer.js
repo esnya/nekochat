@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { get as onCharacterRequested } from '../actions/CharacterActions';
 import { getDialog, close } from '../actions/DialogActions';
 import {
     create as createIcon,
@@ -24,6 +25,7 @@ export const MessageConfigDialogContainer = connect(
             messageForm.find(({id}) => id === dialog.data) || {};
 
         return {
+            characters: state.characters,
             iconList,
             form,
             open,
@@ -35,6 +37,7 @@ export const MessageConfigDialogContainer = connect(
         fetchIcon,
         removeIcon,
         updateForm,
+        onCharacterRequested,
         onNotify,
         close: () => close('message-config'),
     })
