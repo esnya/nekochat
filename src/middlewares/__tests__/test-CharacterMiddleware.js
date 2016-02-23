@@ -49,13 +49,19 @@ describe('CharacterMiddleware', () => {
                 url: 'http://example.com/the/test/character',
             }));
 
-        expect(store.dispatch).toBeCalledWith(Action.set(
+        expect(store.dispatch).toBeCalled();
+
+        const action = store.dispatch.mock.calls[0][0];
+        const expected = Action.set(
             'http://example.com/the/test/character.json',
             {
                 name: 'Test-Name',
                 url: 'http://example.com/the/test/character',
             }
-        ));
+        );
+
+        expect(action.url).toEqual(expected.url);
+        expect(action.data).toEqual(expected.data);
     });
 
     it('caches data', () => {
