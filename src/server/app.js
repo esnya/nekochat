@@ -1,11 +1,13 @@
 import config from 'config';
 import express from 'express';
+import { getLogger } from 'log4js';
 import Livereload from 'connect-livereload';
 import { knex, exists } from './knex';
 import { session } from './session';
 import { getUser } from './user';
 
 const browser = config.get('browser');
+const logger = getLogger('[app]');
 
 export const app = express();
 
@@ -46,7 +48,11 @@ app.get('/view/:roomId', (req, res, next) => {
                 messages,
             }))
         )
-        .then((result) => res.render('static', result))
+        .then((result) => res.render('static', {
+            ...result,
+            ga: config.has('ga') &&
+                `GA_CONFIG = ${JSON.stringify(config.get('ga'))};`,
+        }))
         .catch(() => next);
 });
 
@@ -57,7 +63,12 @@ app.get(['/', '/:roomId'], (req, res) => {
             script: process.env.NODE_ENV === 'production'
                 ? 'js/browser.min.js'
                 : 'js/browser.js',
+            ga: config.has('ga') &&
+                `GA_CONFIG = ${JSON.stringify(config.get('ga'))};`,
             user,
         }))
-        .catch(() => res.sendStatus(401));
+        .catch((e) => {
+            logger.error(e);
+            res.sendStatus(401);
+        });
 });

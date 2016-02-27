@@ -9,6 +9,16 @@ html
     link(rel="stylesheet", href="/css/style.css")
     link(rel="shortcut icon", href="/img/nekokoro16.png", type="image/png")
     link(rel="icon", href="/img/nekokoro16.png", type="image/png")
+    if ga
+        script!= ga
+        script.
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', GA_CONFIG.id, 'auto');
+            ga('send', 'pageview');
   body(data-config=config, data-user=user)
     audio#dice3d-sound(src="/dice3d/nc93322.mp3")
     audio#notice-sound(src="/audio/nc32318.wav")
