@@ -118,10 +118,4 @@ Promise.all([
             .defaultTo(knex.fn.now());
         table.timestamp('deleted').defaultTo(null);
     }),
-])
-.then(() => knex.raw([
-    'CREATE VIEW IF NOT EXISTS room_histories AS',
-    'SELECT rooms.* FROM messages',
-    'LEFT JOIN rooms ON messages.room_id = rooms.id',
-    'GROUP BY messages.user_id, messages.room_id',
-].join(' ')).then());
+]).then();
