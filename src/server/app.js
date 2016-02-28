@@ -1,7 +1,10 @@
+import { urlencoded } from 'body-parser';
 import config from 'config';
 import express from 'express';
 import { getLogger } from 'log4js';
 import Livereload from 'connect-livereload';
+import { Message } from './models/message';
+import { Room, PASSWORD_INCORRECT } from './models/room';
 import { knex, exists } from './knex';
 import { session } from './session';
 import { getUser } from './user';
@@ -33,23 +36,14 @@ app.use('/dice3d', express.static('node_modules/dice3d/dist'));
 app.use('/js', express.static('lib/browser'));
 app.use('/src', express.static('src'));
 
-app.get('/view/:roomId', (req, res, next) => {
+const staticView = (req, res, next) => {
     getUser(req.session)
-        .then((user) => knex('rooms')
-            .where('id', req.params.roomId)
-            .whereNull('deleted')
-            .where(function() {
-                this.where('user_id', user.id)
-                    .orWhere('password', req.query.password)
-                    .orWhereNull('password');
-            })
-            .first()
-            .then(exists)
+        .then((user) => Room
+            .join(req.params.roomId, req.body && req.body.password)
+            .then((room) => ({ room, user }))
         )
-        .then((room) => knex('messages')
-            .where('room_id', room.id)
-            .whereNull('deleted')
-            .orderBy('id', 'asc')
+        .then(({ room, user }) => Message
+            .findAll(room.id, user.id)
             .then((messages) => ({
                 ...room,
                 messages,
@@ -60,8 +54,21 @@ app.get('/view/:roomId', (req, res, next) => {
             ga: config.has('ga') &&
                 `GA_CONFIG = ${JSON.stringify(config.get('ga'))};`,
         }))
-        .catch(() => next);
+        .catch((e) => {
+            if (e === PASSWORD_INCORRECT) {
+                return res.redirect(`/view/${req.params.roomId}/password`);
+            }
+            return next();
+        });
+};
+app.get('/view/:roomId', staticView);
+app.post('/view/:roomId', urlencoded({ extended: false }), staticView);
+app.get('/view/:roomId/password', (req, res) => {
+    res.render('static-password', {
+        id: req.params.roomId,
+    });
 });
+
 
 app.get(['/', '/:roomId'], (req, res) => {
     getUser(req.session)

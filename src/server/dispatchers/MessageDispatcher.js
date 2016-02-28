@@ -5,8 +5,6 @@ import { Dispatcher }  from './Dispatcher';
 import { Message } from '../models/message';
 import { diceReplace } from '../dice';
 
-const MESSAGE_LIMIT = 20;
-
 export class MessageDispatcher extends Dispatcher {
     onDispatch(action) {
         const user_id = this.user_id;
@@ -47,13 +45,13 @@ export class MessageDispatcher extends Dispatcher {
                 return this.onDispatch({type: MESSAGE.FETCH});
             case MESSAGE.FETCH:
                 return Message
-                    .findAll(this.room_id, user_id)
+                    .findLimit(this.room_id, user_id)
                     .then((messages) => {
                         this.dispatch(list(messages));
                     });
             case MESSAGE.REQUEST_PAST:
                 return Message
-                    .findAll(this.room_id, user_id, 'id', '<', action.lastId)
+                    .findLimit(this.room_id, user_id, 'id', '<', action.lastId)
                     .then((messages) => {
                         this.dispatch(prependList(messages));
                     });

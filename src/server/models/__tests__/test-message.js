@@ -16,7 +16,7 @@ describe('Message', () => {
         expect(Model).toBeCalledWith('messages');
     });
 
-    pit('finds all messages in room', () => {
+    pit('finds top 20 messages in room', () => {
         const query = Promise.resolve([
             { id: 1, message: 'msg1' },
             { id: 2, message: 'msg2' },
@@ -27,7 +27,7 @@ describe('Message', () => {
         findAll.mockReturnValue(query);
 
         return Message
-            .findAll('room1', 'user1', 'id', '>', 0)
+            .findLimit('room1', 'user1', 'id', '>', 0)
             .then((messages) => {
                 expect(query.limit).toBeCalledWith(20);
                 expect(query.where).toBeCalled();

@@ -13,11 +13,15 @@ export class MessageModel extends Model {
                     .whereNull('whisper_to')
                     .orWhere('whisper_to', user_id)
                     .orWhere('user_id', user_id);
-            })
-            .limit(20);
+            });
 
         if (finder.length === 0) return query;
         return query.where(...finder);
+    }
+
+    findLimit(room_id, user_id, ...finder) {
+        return this.findAll(room_id, user_id, ...finder)
+            .limit(20);
     }
 }
 
