@@ -22,7 +22,7 @@ $ npm run build
 ## Usage
 You can run as a Node.js standalone server.
 ```bash
-$ node lib/server
+$ npm start
 ```
 
 ## Gulp tasks
