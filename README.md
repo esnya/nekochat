@@ -5,7 +5,7 @@
 [![Dependencies](https://img.shields.io/david/ukatama/nekochat.svg?style=flat-square)](https://david-dm.org/ukatama/nekochat)
 [![DevDependencies](https://img.shields.io/david/dev/ukatama/nekochat.svg?style=flat-square)](https://david-dm.org/ukatama/nekochat#info=devDependencies&view=list)
 
-Online chat made for Tabletop role-praing games.
+Online chat for tabletop role-praing games.
 
 ## Changelog
 See [CHANGELOG.md](https://github.com/ukatama/nekochat/blob/master/CHANGELOG.md)
@@ -25,8 +25,7 @@ You can run as a Node.js standalone server.
 $ node lib/server
 ```
 
-## For Developers
-Fllowing gulp tasks are availavle.
+## Gulp tasks
 * `build`: Build with babel and browserify.
 * `lint`: Lint with ESLint.
 * `test`: Test and lint with Jest and ESLint.
