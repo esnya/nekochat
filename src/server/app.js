@@ -34,11 +34,18 @@ app.use('/js', express.static('lib/browser'));
 app.use('/src', express.static('src'));
 
 app.get('/view/:roomId', (req, res, next) => {
-    knex('rooms')
-        .where('id', req.params.roomId)
-        .whereNull('deleted')
-        .first()
-        .then(exists)
+    getUser(req.session)
+        .then((user) => knex('rooms')
+            .where('id', req.params.roomId)
+            .whereNull('deleted')
+            .where(function() {
+                this.where('user_id', user.id)
+                    .orWhere('password', req.query.password)
+                    .orWhereNull('password');
+            })
+            .first()
+            .then(exists)
+        )
         .then((room) => knex('messages')
             .where('room_id', room.id)
             .whereNull('deleted')

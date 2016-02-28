@@ -11,6 +11,10 @@ export const dialogReducer = (state = [], action) => {
                 ...state,
             ];
         case DIALOG.CLOSE: {
+            if (action.all) {
+                return state.filter(({id}) => id !== action.id);
+            }
+
             const toClose = state.find(({id}) => id === action.id);
 
             return state.filter((d) => d !== toClose);

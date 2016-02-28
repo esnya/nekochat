@@ -3,8 +3,6 @@ import FlatButton from 'material-ui/lib/flat-button';
 import TextField from 'material-ui/lib/text-field';
 import React, { Component, PropTypes } from 'react';
 
-const VK_RETURN = 13;
-
 export class RoomCreateDialog extends Component {
     static get propTypes() {
         return {
@@ -14,8 +12,11 @@ export class RoomCreateDialog extends Component {
         };
     }
 
-    onCreateRoom() {
+    onCreateRoom(e) {
+        if (e) e.preventDefault();
+
         const title = this.title.getValue();
+        const password = this.password.getValue() || null;
 
         if (title) {
             const {
@@ -23,7 +24,10 @@ export class RoomCreateDialog extends Component {
                 close,
             } = this.props;
 
-            create({title});
+            create({
+                title,
+                password,
+            });
             close();
             this.title.clearValue();
         }
@@ -52,17 +56,22 @@ export class RoomCreateDialog extends Component {
             <Dialog
                 actions={Actions}
                 open={open}
-                title="Create Room"
+                title="Create Chat Room"
                 onRequestClose={close}
             >
-                <TextField fullWidth
-                    floatingLabelText="Create Chat Room"
-                    hintText="Input the title of new room"
-                    ref={(c) => c && (this.title = c)}
-                    onKeyDown={(e) =>
-                        e.keyCode === VK_RETURN && this.onCreateRoom()
-                    }
-                />
+                <form onSubmit={(e) => this.onCreateRoom(e)}>
+                    <TextField fullWidth
+                        floatingLabelText="Title"
+                        name="title"
+                        ref={(c) => c && (this.title = c)}
+                    />
+                    <TextField fullWidth
+                        floatingLabelText="Password"
+                        name="password"
+                        ref={(c) => c && (this.password = c)}
+                        type="password"
+                    />
+                </form>
             </Dialog>
         );
     }
