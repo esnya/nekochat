@@ -18,7 +18,8 @@
     "serve": "gulp serve",
     "test": "gulp test",
     "watch": "gulp watch",
-    "test-build": "gulp test build"
+    "test-build": "gulp test build",
+    "version": "update-changelog && git add CHANGELOG.md"
   },
   "author": "ukatama",
   "license": "MIT",
@@ -58,6 +59,7 @@
     "react-redux": "^4.0.6",
     "react-tap-event-plugin": "^0.2.1",
     "redux": "^3.0.5",
-    "socket.io-client": "^1.4.4"
+    "socket.io-client": "^1.4.4",
+    "update-changelog": "^1.0.1"
   }
 }
