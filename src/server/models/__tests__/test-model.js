@@ -55,6 +55,26 @@ describe('Model', () => {
             });
     });
 
+    pit('lists all of items with conditions', () => {
+        query.then.mockReturnValueOnce(Promise.resolve([
+            { id: 1 },
+            { id: 2 },
+        ]));
+
+        return new Model('items')
+            .findAll('id', '>', '0')
+            .then((items) => {
+                expect(knex).toBeCalledWith('items');
+                expect(query.orderBy).toBeCalledWith('created', 'DESC');
+                expect(query.where).toBeCalledWith('id', '>', '0');
+                expect(query.whereNull).toBeCalledWith('deleted');
+                expect(items).toEqual([
+                    { id: 1 },
+                    { id: 2 },
+                ]);
+            });
+    });
+
     pit('finds one item', () => {
         query.then.mockReturnValueOnce(Promise.resolve({
             id: 1,

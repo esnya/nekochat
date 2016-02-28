@@ -7,11 +7,13 @@ export class Model {
         this.table = table;
     }
 
-    findAll() {
-        return knex(this.table)
+    findAll(...finder) {
+        const query = knex(this.table)
             .whereNull('deleted')
-            .orderBy('created', 'DESC')
-            .then((item) => item);
+            .orderBy('created', 'DESC');
+
+        if (finder.length === 0) return query;
+        return query.where(...finder);
     }
 
     find(...finder) {
@@ -36,7 +38,6 @@ export class Model {
     del(...finder) {
         return knex(this.table)
             .where(...finder)
-            .update('deleted', knex.fn.now())
-            .then(() => {});
+            .update('deleted', knex.fn.now());
     }
 }
