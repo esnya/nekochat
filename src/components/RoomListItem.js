@@ -136,9 +136,14 @@ export class RoomListItem extends Component {
             </IconMenu>
         );
 
+        const leftIcon = room.password
+            ? <FontIcon className="material-icons">lock</FontIcon>
+            : null;
+
         return (
             <ListItem
                 href={path}
+                leftIcon={leftIcon}
                 primaryText={room.title}
                 rightIconButton={rightIconMenu}
                 secondaryText={

@@ -54,6 +54,7 @@ Promise.all([
             .notNullable()
             .references('id')
             .inTable('users');
+        table.string('password').nullable();
         table
             .timestamp('created')
             .notNullable()

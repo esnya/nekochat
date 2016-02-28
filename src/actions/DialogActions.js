@@ -5,9 +5,10 @@ export const open = (id, data) => ({
     id,
     data,
 });
-export const close = (id) => ({
+export const close = (id, all = false) => ({
     type: DIALOG.CLOSE,
     id,
+    all,
 });
 
 export const getDialog = ({

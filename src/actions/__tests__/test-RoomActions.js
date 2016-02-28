@@ -7,6 +7,7 @@ describe('RoomActions', () => {
         [
             ['join', 'JOIN', 'id'],
             ['joined', 'JOINED', {}],
+            ['password', 'PASSWORD', {}],
             ['leave', 'LEAVE'],
             ['left', 'LEFT'],
             ['create', 'CREATE', {}],

@@ -30,6 +30,7 @@ export class RoomDispatcher extends Dispatcher {
                     .insert({
                         id,
                         title: action.title || null,
+                        password: action.password || null,
                         user_id: this.user_id,
                         created: knex.fn.now(),
                         modified: knex.fn.now(),
@@ -51,20 +52,26 @@ export class RoomDispatcher extends Dispatcher {
                         this.room_id
                             ? this.onDispatch({type: ROOM.LEAVE})
                                 .then(() => room)
-                            : Promise.resolve(room)
+                            : room
                     )
                     .then((room) => {
-                        this.room_id = room.id;
-                        this.socket.join(room.id);
-                        this.socket.join(`${room.id}/${this.user_id}`);
-                        this
-                            .socket
-                            .to(room.id)
-                            .emit(
-                                'action',
-                                Room.userJoined(this.user)
-                            );
-                        this.dispatch(Room.joined(room));
+                        if (room.password === null ||
+                            room.password === action.password
+                        ) {
+                            this.room_id = room.id;
+                            this.socket.join(room.id);
+                            this.socket.join(`${room.id}/${this.user_id}`);
+                            this
+                                .socket
+                                .to(room.id)
+                                .emit(
+                                    'action',
+                                    Room.userJoined(this.user)
+                                );
+                            this.dispatch(Room.joined(room));
+                        } else {
+                            this.dispatch(Room.password(room.id));
+                        }
                     });
             case ROOM.LEAVE:
                 if (this.room_id) {
@@ -83,6 +90,10 @@ export class RoomDispatcher extends Dispatcher {
                 return knex('rooms')
                         .whereNull('deleted')
                         .orderBy('created', 'desc')
+                        .then((rooms) => rooms.map((room) => ({
+                            ...room,
+                            password: !!room.password,
+                        })))
                         .then((rooms) => this.dispatch(Room.list(rooms)));
             case ROOM.REMOVE:
                 return knex('rooms')

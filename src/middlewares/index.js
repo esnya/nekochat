@@ -3,6 +3,7 @@ import { domMiddleware } from './DOMMiddleware';
 import { confirmMiddleWare } from './ConfirmMiddleware';
 import { characterMiddleWare } from './CharacterMiddleware';
 import { notificationMiddleware } from './NotificationMiddleware';
+import { room } from './RoomMiddleware';
 import { routerMiddleware } from './RouterMiddleware';
 import { socketMiddleware } from './SocketMiddleware';
 import { systemNotificationMiddleware } from './SystemNotificationMiddleware';
@@ -14,6 +15,7 @@ export const middlewares = [
     systemNotificationMiddleware,
     characterMiddleWare,
     notificationMiddleware,
+    room,
     routerMiddleware,
     socketMiddleware,
     timeoutMiddleware,

@@ -1,17 +1,24 @@
 import * as ROOM from '../constants/RoomActions';
 import { set as setRoute } from './RouteActions';
 
-export const join = function(id) {
+export const join = function(id, password = null) {
     return {
         type: ROOM.JOIN,
         server: true,
         id,
+        password,
     };
 };
 export const joined = function(room) {
     return {
         type: ROOM.JOINED,
         room,
+    };
+};
+export const password = function(id) {
+    return {
+        type: ROOM.PASSWORD,
+        id,
     };
 };
 
