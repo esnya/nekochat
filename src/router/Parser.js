@@ -1,4 +1,4 @@
-import zip from 'array-zip';
+import { zip } from 'lodash';
 import { Routes } from './Routes';
 
 export const parser = (routes) => (path) => {

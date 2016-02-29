@@ -1,4 +1,4 @@
-import map from 'array-map';
+import { map } from 'lodash';
 import Dialog from 'material-ui/lib/dialog';
 import FlatButton from 'material-ui/lib/flat-button';
 import IconButton from 'material-ui/lib/icon-button';

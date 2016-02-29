@@ -1,11 +1,32 @@
 import { Model } from './model';
 
+export const TEXT = 'NODE_TYPE_TEXT';
+
 export class MessageModel extends Model {
     constructor() {
         super('messages');
     }
 
-    findAll(room_id, user_id, ...finder) {
+    transform(item) {
+        if (item.message) {
+            if (item.message.charAt(0) === '[') {
+                return {
+                    ...item,
+                    message: JSON.parse(item.message),
+                };
+            }
+            return {
+                ...item,
+                message: item.message.split(/\r\n|\n/g).map((line) => ([{
+                    type: TEXT,
+                    text: line,
+                }])),
+            };
+        }
+        return item;
+    }
+
+    findAllImpl(room_id, user_id, ...finder) {
         const query = super
             .findAll('room_id', room_id)
             .where(function() {
@@ -15,13 +36,20 @@ export class MessageModel extends Model {
                     .orWhere('user_id', user_id);
             });
 
-        if (finder.length === 0) return query;
-        return query.where(...finder);
+        return finder.length === 0 ? query : query.where(...finder);
+    }
+
+    findAll(room_id, user_id, ...finder) {
+        return this
+            .findAllImpl(room_id, user_id, ...finder)
+            .then((messages) => messages.map(this.transform));
     }
 
     findLimit(room_id, user_id, ...finder) {
-        return this.findAll(room_id, user_id, ...finder)
-            .limit(20);
+        return this
+            .findAllImpl(room_id, user_id, ...finder)
+            .limit(20)
+            .then((messages) => messages.map(this.transform));
     }
 }
 

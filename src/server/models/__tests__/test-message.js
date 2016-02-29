@@ -6,6 +6,7 @@ describe('Message', () => {
     jest.dontMock('../message');
     const {
         Message,
+        TEXT,
     } = require('../message');
 
     const {
@@ -19,8 +20,11 @@ describe('Message', () => {
     pit('finds top 20 messages in room', () => {
         const query = Promise.resolve([
             { id: 1, message: 'msg1' },
-            { id: 2, message: 'msg2' },
-            { id: 3, message: 'msg3' },
+            { id: 2, message: 'msg2\nline' },
+            {
+                id: 3,
+                message: '[[{"type": "NODE_TYPE_TEXT", "text": "msg3"}]]',
+            },
         ]);
         query.limit = jest.genMockFn().mockReturnValue(query);
         query.where = jest.genMockFn().mockReturnValue(query);
@@ -79,9 +83,24 @@ describe('Message', () => {
                 ]);
 
                 expect(messages).toEqual([
-                    { id: 1, message: 'msg1' },
-                    { id: 2, message: 'msg2' },
-                    { id: 3, message: 'msg3' },
+                    { id: 1, message: [[{
+                        type: TEXT,
+                        text: 'msg1',
+                    }]] },
+                    { id: 2, message: [
+                        [{
+                            type: TEXT,
+                            text: 'msg2',
+                        }],
+                        [{
+                            type: TEXT,
+                            text: 'line',
+                        }],
+                    ] },
+                    { id: 3, message: [[{
+                        type: 'NODE_TYPE_TEXT',
+                        text: 'msg3',
+                    }]]},
                 ]);
             });
     });
