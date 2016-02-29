@@ -44,15 +44,17 @@ export class MessageForm extends Component {
         this.message.setValue(`@${next} `);
     }
 
-    parseMessage(message) {
-        const whisper = message.match(/^@([^ ]+) /);
-        const whisper_to = whisper && whisper[1] || null;
+    parseMessage(text) {
+        const m = text && text.match(/^(@([^\s]+)(\s|$))?(.*?)$/);
 
-        if (whisper && whisper_to.length + 2 === message.length) return null;
+        const message = m && m[4] || null;
+        if (!message) return null;
+
+        const whisper_to = m[2] || null;
 
         return {
-            whisper_to,
             message,
+            whisper_to,
         };
     }
 

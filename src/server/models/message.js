@@ -51,6 +51,11 @@ export class MessageModel extends Model {
             .limit(20)
             .then((messages) => messages.map(this.transform));
     }
+
+    find(...finder) {
+        return super.find(...finder)
+            .then(this.transform);
+    }
 }
 
 export const Message = new MessageModel();

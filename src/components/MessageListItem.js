@@ -59,6 +59,9 @@ const Style = {
             textDecoration: 'none',
             cursor: 'pointer',
         },
+        UserId: {
+            marginRight: '0.5em',
+        },
     },
 };
 
@@ -70,36 +73,27 @@ export const MessageBody = ({message, whisper_to, whisperTo}) => {
 
     return (
         <div style={messageStyle}>
-            {message && message.split(/\r\n|\n/).map((line, i) => {
-                let body = line;
-                if (i === 0 && line.charAt(0) === '@') {
-                    const m = line.match(/^@([^ ]+) (.*)$/);
-
-                    if (m) {
-                        body = [
-                            <UserId
-                                key="whisperTo"
-                                user_id={m[1]}
-                                whisperTo={whisperTo}
-                            />,
-                            <span
-                                key="line"
-                                style={{marginLeft: 8}}
-                            >
-                                {m[2]}
-                            </span>,
-                        ];
-                    }
-                } else if (line.match(/^https?:\/\/[^ ]+$/)) {
-                    body = <a href={line} target="_blank">{line}</a>;
-                }
-
-                return (
-                    <p key={i} style={Style.ListItem.Line}>
-                        {body}
+            {
+                message && message.map((line, l) => (
+                    <p key={l} style={Style.ListItem.Line}>
+                        {
+                            (whisper_to && l === 0)
+                                ? (
+                                <UserId
+                                    style={Style.ListItem.UserId}
+                                    user_id={whisper_to}
+                                    whisperTo={whisperTo}
+                                />
+                                ) : null
+                        }
+                        {
+                            line.map((node, n) =>
+                                <span key={n}>{node.text}</span>
+                            )
+                        }
                     </p>
-                );
-            })}
+                ))
+            }
         </div>
     );
 };

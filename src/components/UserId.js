@@ -7,9 +7,12 @@ const Style = {
     cursor: 'pointer',
 };
 
-export const UserId = ({user_id, whisperTo}) => (
+export const UserId = ({style, user_id, whisperTo}) => (
     <span
-        style={Style.UserLink}
+        style={{
+            ...Style,
+            ...style,
+        }}
         onTouchTap={(e) => {
             e.preventDefault();
             whisperTo(user_id);
@@ -22,4 +25,5 @@ export const UserId = ({user_id, whisperTo}) => (
 UserId.propTypes = {
     user_id: PropTypes.string.isRequired,
     whisperTo: PropTypes.func.isRequired,
+    style: PropTypes.object,
 };
