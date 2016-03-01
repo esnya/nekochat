@@ -2,7 +2,7 @@ jest.autoMockOff();
 
 describe('NotificationReducer', () => {
     const Notification = require('../../actions/NotificationActions');
-    const reducer = require('../NotificationReducer').notificationReducer;
+    const reducer = require('../NotificationReducer').notifications;
 
     let state;
     it('should be array initially', () => {

@@ -1,6 +1,12 @@
 import * as NOTIFICATION from '../constants/NotificationActions';
 
-export const notificationReducer = (state = [], action) => {
+/**
+ * Notifications reducer
+ * @param{object} state - Atate
+ * @param{object} action - Action
+ * @returns{object} Next state
+ */
+export function notifications(state = [], action) {
     switch (action.type) {
         case NOTIFICATION.NOTIFY:
             return [
@@ -12,4 +18,4 @@ export const notificationReducer = (state = [], action) => {
         default:
             return state;
     }
-};
+}

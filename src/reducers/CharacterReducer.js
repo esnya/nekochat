@@ -1,7 +1,13 @@
 import { pick } from 'lodash';
 import * as CHARACTER from '../constants/CharacterActions';
 
-export const characterReducer = (state = {}, action) => {
+/**
+ * Characters reducer
+ * @param{object} state - Atate
+ * @param{object} action - Action
+ * @returns{object} Next state
+ */
+export function characters(state = {}, action) {
     switch (action.type) {
         case CHARACTER.SET:
             return {
@@ -11,4 +17,4 @@ export const characterReducer = (state = {}, action) => {
         default:
             return state;
     }
-};
+}

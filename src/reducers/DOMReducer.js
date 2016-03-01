@@ -1,6 +1,12 @@
 import * as DOM from '../constants/DOMActions';
 
-export const domReducer = (state = { focused: true }, action) => {
+/**
+ * DOM reducer
+ * @param{object} state - Atate
+ * @param{object} action - Action
+ * @returns{object} Next state
+ */
+export function dom(state = { focused: true }, action) {
     switch (action.type) {
         case DOM.LOAD:
             return {
@@ -20,4 +26,4 @@ export const domReducer = (state = { focused: true }, action) => {
         default:
             return state;
     }
-};
+}

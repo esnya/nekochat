@@ -1,6 +1,12 @@
 import * as CONFIRM from '../constants/ConfirmActions';
 
-export const confirmListReducer = (state = [], action) => {
+/**
+ * Confirm list reducer
+ * @param{object} state - Atate
+ * @param{object} action - Action
+ * @returns{object} Next state
+ */
+export function confirmList(state = [], action) {
     switch (action.type) {
         case CONFIRM.CREATE:
             return [
@@ -13,4 +19,4 @@ export const confirmListReducer = (state = [], action) => {
         default:
             return state;
     }
-};
+}

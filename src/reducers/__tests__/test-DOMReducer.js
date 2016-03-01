@@ -8,12 +8,12 @@ describe('DOMReducer', () => {
         BLUR,
     } = require('../../constants/DOMActions');
     const {
-        domReducer,
+        dom,
     } = require('../DOMReducer');
 
     let state;
     it('should be object', () => {
-        state = domReducer(undefined, { type: 'TEST_INIT' });
+        state = dom(undefined, { type: 'TEST_INIT' });
         expect(typeof(state)).toEqual('object');
     });
 
@@ -22,14 +22,14 @@ describe('DOMReducer', () => {
     });
 
     it('should be unfocused after blur', () => {
-        state = domReducer(state, {
+        state = dom(state, {
             type: BLUR,
         });
         expect(state.focused).toBe(false);
     });
 
     it('should be focused after focus', () => {
-        state = domReducer(state, {
+        state = dom(state, {
             type: FOCUS,
         });
         expect(state.focused).toBe(true);
