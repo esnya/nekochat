@@ -4,7 +4,7 @@ import { Lobby } from '../components/Lobby';
 import { bindState, bindActions } from './utility';
 
 export const LobbyContainer = connect(
-    bindState(),
+    () => ({}),
     bindActions({
         open,
     })
