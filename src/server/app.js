@@ -46,7 +46,7 @@ const staticView = (req, res, next) => {
             .findAll(room.id, user.id)
             .then((messages) => ({
                 ...room,
-                messages,
+                messages: messages.reverse(),
             }))
         )
         .then((result) => res.render('static', {

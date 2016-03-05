@@ -18,5 +18,9 @@ html
             each message in messages
                 tr
                     td!= message.name +  '@' + message.user_id
-                    td!= message.message.replace(/\t/g, ' ').replace(/\r?\n/g, '<br>')
+                    td
+                        each line in message.message
+                            p
+                                each node in line
+                                    span!= node.text
                     td!= message.modified

@@ -120,7 +120,7 @@ export class Chat extends Component {
                         href={`/view/${id}`}
                         target="_blank"
                     >
-                        Static View
+                        Text View
                     </MenuItem>
                 </LeftNav>
             </div>
