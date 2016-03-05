@@ -155,10 +155,7 @@ export class RoomListItem extends Component {
                 }
                 onClick={(e) => {
                     const menuButton = findDOMNode(this.menu).children[0];
-                    if (
-                        e.target === menuButton ||
-                            e.target.pareng === menuButton
-                    ) {
+                    if (menuButton && menuButton.contains(e.target)) {
                         e.preventDefault();
                     }
                 }}
