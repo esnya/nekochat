@@ -45,9 +45,14 @@ export class MessageForm extends Component {
     }
 
     parseMessage(text) {
-        const m = text && text.match(/^(@([^\s]+)(\s|$))?((.|\n)*?)$/m);
+        if (!text) return null;
 
-        const message = m && m[4] || null;
+        const lines = text.split(/\r\n|\n/);
+        if (lines.length === 0) return null;
+
+        const m = text && lines[0].match(/^(@([^\s]+)(\s|$))?((.|\n)*?)$/m);
+
+        const message = m && ([m[4], ...lines.slice(1)].join('\n')) || null;
         if (!message) return null;
 
         const whisper_to = m[2] || null;
