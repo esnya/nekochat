@@ -59,8 +59,6 @@ export class MessageForm extends Component {
     }
 
     onSubmit(e) {
-        e.preventDefault();
-
         const messageField = this.message;
         const message = this.parseMessage(messageField.getValue());
 
@@ -106,6 +104,8 @@ export class MessageForm extends Component {
     }
 
     stopInputWatcher() {
+        this.watchInput();
+
         if (!this.inputWatcher) return;
 
         clearInterval(this.inputWatcher);
