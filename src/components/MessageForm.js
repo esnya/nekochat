@@ -95,6 +95,7 @@ export class MessageForm extends Component {
         const VK_RETURN = 13;
 
         if (e.keyCode === VK_RETURN && !e.shiftKey) {
+            e.preventDefault();
             this.onSubmit(e);
         }
     }
