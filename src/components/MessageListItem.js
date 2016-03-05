@@ -71,29 +71,35 @@ export const MessageBody = ({message, whisper_to, whisperTo}) => {
         color: whisper_to && Colors.deepOrange500,
     };
 
+    const innerElement = (
+            Array.isArray(message)
+                ? message
+                : (message || '')
+                    .split(/\r\n|\n/)
+                    .map((line) => [{ text: line }])
+        ).map((line, l) => (
+            <p key={l} style={Style.ListItem.Line}>
+                {
+                    (whisper_to && l === 0)
+                        ? (
+                        <UserId
+                            style={Style.ListItem.UserId}
+                            user_id={whisper_to}
+                            whisperTo={whisperTo}
+                        />
+                        ) : null
+                }
+                {
+                    line.map((node, n) =>
+                        <span key={n}>{node.text}</span>
+                    )
+                }
+            </p>
+        ));
+
     return (
         <div style={messageStyle}>
-            {
-                message && message.map((line, l) => (
-                    <p key={l} style={Style.ListItem.Line}>
-                        {
-                            (whisper_to && l === 0)
-                                ? (
-                                <UserId
-                                    style={Style.ListItem.UserId}
-                                    user_id={whisper_to}
-                                    whisperTo={whisperTo}
-                                />
-                                ) : null
-                        }
-                        {
-                            line.map((node, n) =>
-                                <span key={n}>{node.text}</span>
-                            )
-                        }
-                    </p>
-                ))
-            }
+            {innerElement}
         </div>
     );
 };

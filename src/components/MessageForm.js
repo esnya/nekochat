@@ -45,7 +45,7 @@ export class MessageForm extends Component {
     }
 
     parseMessage(text) {
-        const m = text && text.match(/^(@([^\s]+)(\s|$))?(.*?)$/);
+        const m = text && text.match(/^(@([^\s]+)(\s|$))?((.|\n)*?)$/m);
 
         const message = m && m[4] || null;
         if (!message) return null;

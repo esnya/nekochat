@@ -23,12 +23,14 @@ export const fetch = function(minId = null) {
     };
 };
 
+/* eslint max-len: "warn" */
 export const push = function(item) {
     return {
         type: MESSAGE.PUSH,
         systemNotify: {
             title: '${item.name}',
-            body: '${item.message}',
+            body:
+                '${item.message[0] && item.message[0][0] && item.message[0][0].text || ""}',
             icon:
                 '${item.icon_id ? ("/icon/" + item.icon_id) : icon}',
             tag: '${item.room_id}',
