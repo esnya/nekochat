@@ -1,8 +1,10 @@
 describe('Notification', () => {
     jest.dontMock('material-ui/lib/lists/list');
-    jest.dontMock('material-ui/lib/lists/list-item');
+    // jest.dontMock('material-ui/lib/lists/list-item');
     jest.dontMock('material-ui/lib/popover/popover');
+    jest.dontMock('material-ui/lib/styles/getMuiTheme');
 
+    const ListItem = require('material-ui/lib/lists/list-item');
     const Popover = require('material-ui/lib/popover/popover');
 
     jest.dontMock('react');
@@ -28,7 +30,9 @@ describe('Notification', () => {
     });
 
     it('should be notify notifications', () => {
-        const notification = renderIntoDocument(
+        ListItem.mockClear();
+
+        renderIntoDocument(
             <Notification
                 notifications={[
                     { message: 'Notification 1' },
@@ -38,10 +42,11 @@ describe('Notification', () => {
             />
         );
 
-        const textContent = findDOMNode(notification.list).textContent;
-        expect(textContent).toContain('Notification 1');
-        expect(textContent).toContain('Notification 2');
-        expect(textContent).toContain('Notification 3');
+        const calls = ListItem.mock.calls;
+        expect(calls.length).toBe(3);
+        expect(calls[0][0].primaryText).toContain('Notification 1');
+        expect(calls[1][0].primaryText).toContain('Notification 2');
+        expect(calls[2][0].primaryText).toContain('Notification 3');
     });
 
     it('should be anchored to #notification-anchor', () => {
@@ -71,7 +76,9 @@ describe('Notification', () => {
     });
 
     it('should be able to use lodash template', () => {
-        const notification = renderIntoDocument(
+        ListItem.mockClear();
+
+        renderIntoDocument(
             <Notification
                 notifications={[{
                     message: 'Notification ${data1} ${data2.data}',
@@ -85,12 +92,14 @@ describe('Notification', () => {
             />
         );
 
-        const textContent = findDOMNode(notification.list).textContent;
-        expect(textContent).toContain('Notification 1 2');
+        expect(ListItem.mock.calls[0][0].primaryText)
+            .toContain('Notification 1 2');
     });
 
     it('should be able to set icons', () => {
-        const notification = renderIntoDocument(
+        ListItem.mockClear();
+
+        renderIntoDocument(
             <Notification
                 notifications={[{
                     message: 'Test',
@@ -99,11 +108,7 @@ describe('Notification', () => {
             />
         );
 
-        const icon = findRenderedDOMComponentWithClass(
-            notification.list,
-            'material-icons'
-        );
-        const textContent = findDOMNode(icon).textContent;
-        expect(textContent).toEqual('test-icon');
+        const icon = ListItem.mock.calls[0][0].leftIcon;
+        expect(icon.props.children).toEqual('test-icon');
     });
 });

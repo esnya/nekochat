@@ -3,6 +3,7 @@ require('nekodev').gulp({
         config: {
             unmockedModulePathPatterns: [
                 'depd',
+                'body-parser',
                 'lodash',
                 'react',
             ],
