@@ -13,6 +13,7 @@ export class Model {
             .orderBy('created', 'DESC');
 
         if (finder.length === 0) return query;
+
         return query.where(...finder);
     }
 

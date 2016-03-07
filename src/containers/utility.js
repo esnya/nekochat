@@ -17,5 +17,6 @@ export const bindActions = (bindings) => (dispatch) =>
         .map((key) => [key, (...args) => dispatch(bindings[key](...args))])
         .reduce((o, v) => {
             o[v[0]] = v[1];
+
             return o;
         }, {});

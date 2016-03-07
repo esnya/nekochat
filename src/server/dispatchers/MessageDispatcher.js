@@ -42,6 +42,7 @@ export class MessageDispatcher extends Dispatcher {
                     );
             case ROOM.JOINED:
                 this.room_id = action.room.id;
+
                 return this.onDispatch({type: MESSAGE.FETCH});
             case MESSAGE.FETCH:
                 return Message

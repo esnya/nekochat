@@ -42,6 +42,7 @@ export class Dispatcher {
         );
 
         logger.error(error);
+
         return Promise.reject(error);
     }
 }

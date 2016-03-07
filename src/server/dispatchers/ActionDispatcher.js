@@ -21,6 +21,7 @@ export class ActionDispatcher extends Dispatcher {
 
     onDispatch(action) {
         logger.debug(action.type);
+
         return Promise.all(
             this.dispatchers.map((d) => d.onDispatch(action))
         );

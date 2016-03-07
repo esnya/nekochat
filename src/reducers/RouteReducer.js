@@ -6,6 +6,7 @@ export const routeReducer = function(state = null, action) {
     switch (action.type) {
         case ROUTE.SET:
             if (!action.route) return state;
+
             return {
                 ...action.route,
             };

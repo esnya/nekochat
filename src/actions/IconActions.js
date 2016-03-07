@@ -33,3 +33,4 @@ export const push = function(icons) {
         icons,
     };
 };
+

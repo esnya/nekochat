@@ -9,10 +9,12 @@ const getStore = (type) => {
         case 'database': {
             const Store = KnexSessionStore(Session);
             const knex = Knex(config.get('database.session'));
+
             return new Store({knex});
         }
         case 'redis': {
             const RedisStore = ConnectRedis(Session);
+
             return new RedisStore(config.get('redis'));
         }
         default:

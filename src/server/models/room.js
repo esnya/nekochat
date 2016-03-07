@@ -33,6 +33,7 @@ export class RoomModel extends Model {
                 if (room.password && room.password !== password) {
                     return Promise.reject(PASSWORD_INCORRECT);
                 }
+
                 return this.transform(room);
             });
     }

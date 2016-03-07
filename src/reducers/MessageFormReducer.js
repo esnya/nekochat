@@ -14,6 +14,7 @@ const save = (state) => {
            whisper_to: null,
        })
     )));
+
     return state;
 };
 const load = (state) => {
@@ -23,6 +24,7 @@ const load = (state) => {
 
     if (form) {
         const parsed = JSON.parse(form);
+
         return parsed;
     }
 
@@ -41,12 +43,15 @@ export const messageFormReducer = function(state = [], action) {
     switch (action.type) {
         case USER.LOGGEDIN:
             user = action.user;
+
             return state;
         case ROOM.JOIN:
             room = null;
+
             return [];
         case ROOM.JOINED:
             room = action.room;
+
             return load(state);
         case MESSAGE_FORM.CREATE: {
             const form = action.copy ? state[0] : action;

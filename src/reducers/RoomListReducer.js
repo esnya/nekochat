@@ -4,12 +4,14 @@ export const roomListReducer = function(state = [], action) {
     switch (action.type) {
         case ROOM.CREATED:
             if (!action.room) return state;
+
             return [
                 action.room,
                 ...state,
             ];
         case ROOM.LIST:
             if (!Array.isArray(action.list)) return state;
+
             return action.list.map((i) => ({...i}));
         case ROOM.REMOVE:
             return state.filter((room) => room.id !== action.id);

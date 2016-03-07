@@ -15,6 +15,7 @@ export class MessageModel extends Model {
                     message: JSON.parse(item.message),
                 };
             }
+
             return {
                 ...item,
                 message: item.message.split(/\r\n|\n/g).map((line) => ([{
@@ -23,6 +24,7 @@ export class MessageModel extends Model {
                 }])),
             };
         }
+
         return item;
     }
 

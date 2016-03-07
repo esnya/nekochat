@@ -1,1 +1,11 @@
-require('nekodev').gulp({});
+require('nekodev').gulp({
+    jest: {
+        config: {
+            unmockedModulePathPatterns: [
+                'depd',
+                'lodash',
+                'react',
+            ],
+        },
+    },
+});

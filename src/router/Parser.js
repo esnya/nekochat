@@ -20,6 +20,7 @@ export const parser = (routes) => (path) => {
             } else if (u[0] !== u[1]) {
                 return false;
             }
+
             return true;
         })) {
             return {

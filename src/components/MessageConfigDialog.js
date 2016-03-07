@@ -177,8 +177,6 @@ export class MessageConfigDialog extends Component {
     fetchCharacter() {
         const url = this.character_url.getValue();
 
-        console.log(`${url} !== ${this.name_url}`);
-
         if (url !== this.name_url) {
             const {
                 characters,
@@ -208,6 +206,7 @@ export class MessageConfigDialog extends Component {
                 : [form.icon_id]
             )
             .find((radio) => radio.checked);
+
        return selected && selected.value || null;
     }
 

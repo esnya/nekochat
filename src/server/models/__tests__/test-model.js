@@ -122,6 +122,7 @@ describe('Model', () => {
                         modified: knex.fn.now(),
                     }).then(callback)
                 );
+
                 return Promise.resolve([2]).then(callback);
             }
         );
@@ -157,6 +158,7 @@ describe('Model', () => {
                         modified: knex.fn.now(),
                     }).then(callback)
                 );
+
                 return Promise.resolve([4]).then(callback);
             }
         );

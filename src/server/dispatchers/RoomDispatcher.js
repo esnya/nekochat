@@ -74,6 +74,7 @@ export class RoomDispatcher extends Dispatcher {
                     this.socket.leave(this.room_id);
                 }
                 this.room_id = null;
+
                 return this.onDispatch({type: ROOM.FETCH});
             case ROOM.FETCH:
                 return Room

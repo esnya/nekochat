@@ -9,6 +9,7 @@ import {
 export const RoomPasswordDialog = connect(
     (state) => {
         const dialog = getDialog(state, 'room-password');
+
         return {
             open: !!dialog,
             room_id: dialog.data,

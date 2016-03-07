@@ -8,6 +8,7 @@ export const messageListReducer = function(state = [], action) {
             return [];
         case MESSAGE.PUSH:
             notice();
+
             return [
                 ...state,
                 action.item,

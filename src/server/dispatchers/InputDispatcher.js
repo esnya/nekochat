@@ -8,6 +8,7 @@ export class InputDispatcher extends Dispatcher {
         switch (action.type) {
             case ROOM.JOINED:
                 this.room_id = action.room.id;
+
                 return;
             case INPUT.BEGIN:
                 this.dispatch(Input.began({
@@ -16,6 +17,7 @@ export class InputDispatcher extends Dispatcher {
                     name: action.name,
                     message: action.message,
                 }), this.room_id, true);
+
                 return;
             case INPUT.END:
                 this.dispatch(Input.ended({
@@ -23,6 +25,7 @@ export class InputDispatcher extends Dispatcher {
                     user_id: this.user_id,
                     name: action.name,
                 }), this.room_id, true);
+
                 return;
         }
     }

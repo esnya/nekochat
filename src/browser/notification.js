@@ -11,9 +11,11 @@ export const notify = (notification) =>
                 if (permission === 'granted') {
                     return resolve();
                 }
+
                 return reject(new Error('Premission denied'));
             });
         }
+
         return reject(new Error('Premission denied'));
     })
     .then(() => {

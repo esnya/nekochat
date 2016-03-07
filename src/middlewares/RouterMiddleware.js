@@ -24,6 +24,7 @@ export const routerMiddleware = ({dispatch}) => (next) => (action) => {
         const route = parse(abs);
 
         if (route.onEnter) route.onEnter(dispatch)(route.params);
+
         return next({
             ...nextAction,
             route,

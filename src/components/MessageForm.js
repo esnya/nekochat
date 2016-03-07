@@ -63,7 +63,7 @@ export class MessageForm extends Component {
         };
     }
 
-    onSubmit(e) {
+    onSubmit() {
         const messageField = this.message;
         const message = this.parseMessage(messageField.getValue());
 

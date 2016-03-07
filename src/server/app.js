@@ -58,6 +58,7 @@ const staticView = (req, res, next) => {
             if (e === PASSWORD_INCORRECT) {
                 return res.redirect(`/view/${req.params.roomId}/password`);
             }
+
             return next();
         });
 };
