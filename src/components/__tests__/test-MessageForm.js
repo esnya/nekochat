@@ -1,5 +1,4 @@
 describe('MessageForm', () => {
-    jest.dontMock('material-ui/lib/text-field');
     const TextField = require('material-ui/lib/text-field');
 
     jest.dontMock('react');
@@ -7,8 +6,6 @@ describe('MessageForm', () => {
 
     jest.dontMock('react-addons-test-utils');
     const {
-        Simulate,
-        findRenderedComponentWithType,
         renderIntoDocument,
     } = require('react-addons-test-utils');
 
@@ -41,9 +38,8 @@ describe('MessageForm', () => {
         endInput.mockClear();
     });
 
-    let form;
     it('should be able to render', () => {
-        form = renderIntoDocument((
+        renderIntoDocument((
             <TestWrapper
                 ChildType={MessageForm}
                 id="test-id"
@@ -59,21 +55,30 @@ describe('MessageForm', () => {
 
     let input;
     it('should have textarea', () => {
-        input = findRenderedComponentWithType(form, TextField)
-            .refs
-            .input
-            .refs
-            .input;
+        expect(TextField).toBeCalled();
+        input = TextField.mock.instances[0];
     });
 
+    let onKeyDown;
+    const keyDown = (key, code = null) => {
+        const keyCode = code === null
+            ? key.toUpperCase().charCodeAt(0)
+            : code;
+
+        return onKeyDown(new KeyboardEvent('keydown', {
+            key, keyCode,
+            which: keyCode,
+        }));
+    };
     it('should send a message with enter', () => {
-        Simulate.keyDown(input, { key: 'f', keyCode: 70, which: 70 });
-        Simulate.keyDown(input, { key: 'o', keyCode: 79, which: 79 });
-        Simulate.keyDown(input, { key: 'o', keyCode: 79, which: 79 });
+        onKeyDown = input.props.onKeyDown;
+        keyDown('f');
+        keyDown('o');
+        keyDown('o');
 
-        input.value = 'foo';
+        input.getValue.mockReturnValue('foo');
 
-        Simulate.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
+        keyDown('Enter', 13);
 
         expect(createMessage.mock.calls.length).toBe(1);
 
@@ -96,15 +101,16 @@ describe('MessageForm', () => {
     const watcherId = { the: 'test' };
     setInterval.mockReturnValue(watcherId);
 
-    let watcher;
+    let watcher, onFocus;
     it('should send preview of input', () => {
-        Simulate.keyDown(input, { key: 'b', keyCode: 66, which: 66 });
-        Simulate.focus(input);
+        onFocus = input.props.onFocus;
+        onFocus();
 
-        Simulate.keyDown(input, { key: 'a', keyCode: 65, which: 65 });
-        Simulate.keyDown(input, { key: 'r', keyCode: 82, which: 82 });
+        keyDown('b');
+        keyDown('a');
+        keyDown('r');
 
-        input.value = 'bar';
+        input.getValue.mockReturnValue('bar');
 
         expect(setInterval.mock.calls.length).toBe(1);
         watcher = setInterval.mock.calls[0][0];
@@ -117,15 +123,17 @@ describe('MessageForm', () => {
         });
     });
 
+    let onBlur;
     it('should clear watcher for input', () => {
-        Simulate.blur(input);
+        onBlur = input.props.onBlur;
+        onBlur();
 
         expect(clearInterval.mock.calls.length).toBe(1);
         expect(clearInterval.mock.calls[0][0]).toBe(watcherId);
     });
 
     it('should end preview of input', () => {
-        input.value = '';
+        input.getValue.mockReturnValue('');
 
         watcher();
 

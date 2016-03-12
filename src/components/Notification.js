@@ -5,7 +5,7 @@ import ListItem from 'material-ui/lib/lists/list-item';
 import Popover from 'material-ui/lib/popover/popover';
 import React, { Component, PropTypes } from 'react';
 
-const Item = ({
+export const Item = ({
     data,
     icon,
     message,
@@ -39,6 +39,10 @@ export class Notification extends Component {
             notifications,
         } = this.props;
 
+        const itemElements = notifications.map((notification, i) => (
+            <Item {...notification} key={i} />
+        ));
+
         return (
             <Popover
                 anchorEl={document.getElementById('notification-anchor')}
@@ -53,13 +57,7 @@ export class Notification extends Component {
                 }}
                 useLayerForClickAway={false}
             >
-                <List ref={(c) => (this.list = c)}>
-                    {
-                        notifications.map((notification, i) => (
-                            <Item {...notification} key={i} />
-                        ))
-                    }
-                </List>
+                <List ref={(c) => (this.list = c)}>{itemElements}</List>
             </Popover>
         );
     }
