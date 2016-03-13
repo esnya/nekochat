@@ -1,5 +1,6 @@
 import {
     created,
+    updated,
     joined,
     list,
     password,
@@ -85,6 +86,14 @@ export class RoomDispatcher extends Dispatcher {
                     .del({
                         id: action.id,
                         user_id: this.user_id,
+                    });
+            case ROOM.UPDATE:
+                return Room
+                    .update(this.room_id, this.user_id, {
+                        title: action.title || null,
+                    })
+                    .then((room) => {
+                        this.dispatch(updated(room), this.room_id);
                     });
         }
     }

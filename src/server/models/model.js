@@ -36,6 +36,13 @@ export class Model {
             .then((id) => this.find('id', id));
     }
 
+    update(id, user_id, data) {
+        return knex(this.table)
+            .where({ id, user_id })
+            .update(data)
+            .then(() => this.find('id', id));
+    }
+
     del(...finder) {
         return knex(this.table)
             .where(...finder)

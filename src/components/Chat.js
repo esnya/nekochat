@@ -20,6 +20,7 @@ export class Chat extends Component {
                 name: PropTypes.string.isRequired,
             }).isRequired,
             setRoute: PropTypes.func.isRequired,
+            onRoomEdit: PropTypes.func.isRequired,
         };
     }
 
@@ -59,6 +60,7 @@ export class Chat extends Component {
             title,
             user,
             setRoute,
+            onRoomEdit,
         } = this.props;
         const {
             leftNav,
@@ -87,6 +89,14 @@ export class Chat extends Component {
         return (
             <div style={Styles.Container}>
                 <AppBar
+                    iconElementRight={
+                        <IconButton
+                            iconClassName="material-icons"
+                            onTouchTap={onRoomEdit}
+                        >
+                            mode_edit
+                        </IconButton>
+                    }
                     title={title || 'NekoChat'}
                     onLeftIconButtonTouchTap={() => this.toggleLeftNav()}
                 />

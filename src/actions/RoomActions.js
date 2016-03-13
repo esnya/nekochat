@@ -56,8 +56,15 @@ export const created = function(room) {
 
 export const update = function(data) {
     return {
-        type: ROOM.UPDATE,
         ...data,
+        type: ROOM.UPDATE,
+        server: true,
+    };
+};
+export const updated = function(data) {
+    return {
+        ...data,
+        type: ROOM.UPDATED,
     };
 };
 

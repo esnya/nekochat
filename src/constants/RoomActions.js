@@ -1,6 +1,7 @@
 export const CREATE = 'ROOM_CREATE';
 export const CREATED = 'ROOM_CREATED';
 export const UPDATE = 'ROOM_UPDATE';
+export const UPDATED = 'ROOM_UPDATED';
 export const REMOVE = 'ROOM_REMOVE';
 export const JOIN = 'ROOM_JOIN';
 export const JOINED = 'ROOM_JOINED';

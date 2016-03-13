@@ -11,6 +11,9 @@ import {
     RoomCreateDialoggContainer,
 } from '../containers/RoomCreateDialogContainer';
 import {
+    RoomUpdateDialoggContainer,
+} from '../containers/RoomUpdateDialogContainer';
+import {
     RoomPasswordDialog,
 } from '../containers/RoomPasswordDialogContainer';
 import { Router } from './Router';
@@ -35,6 +38,7 @@ export class App extends Component {
             <div className="filled-container">
                 <RouterContainer />
                 <RoomCreateDialoggContainer />
+                <RoomUpdateDialoggContainer />
                 <RoomPasswordDialog />
                 <MessageConfigDialogContainer />
                 <ConfirmContainer />

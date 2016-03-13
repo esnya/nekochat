@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { open } from '../actions/DialogActions';
 import { join } from '../actions/RoomActions';
 import { set as setRoute } from '../actions/RouteActions';
 import { Chat } from '../components/Chat';
@@ -15,5 +16,6 @@ export const ChatContainer = connect(
     }), bindActions({
         join,
         setRoute,
+        onRoomEdit: () => open('room-update'),
     })
 )(Chat);
