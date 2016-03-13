@@ -5,12 +5,14 @@ import { Dispatcher }  from './Dispatcher';
 
 export class VideoDispatcher extends Dispatcher {
     onDispatch(action) {
-        switch(action.type) {
+        switch (action.type) {
             case ROOM.JOINED:
                 this.room_id = action.room.id;
+
                 return null;
             case VIDEO.CREATE:
                 if (!action.id) return null;
+
                 return this.dispatch(
                     Video.push(action.id),
                     this.room_id,

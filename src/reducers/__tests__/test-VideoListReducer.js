@@ -3,8 +3,8 @@
 jest.autoMockOff();
 
 describe('VideoListReducer', () => {
-    const {
-    } = require('../../constants/VideoActions');
+    // const {
+    // } = require('../../constants/VideoActions');
     const reducer = require('../VideoListReducer').videoListReducer;
 
     let state;

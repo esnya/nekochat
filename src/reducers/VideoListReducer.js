@@ -5,6 +5,7 @@ export const videoListReducer = (state = [], action) => {
     switch (action.type) {
         case VIDEO.PUSH:
             if (!action.stream) return state;
+
             return [
                 {
                     id: action.id,

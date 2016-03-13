@@ -45,7 +45,7 @@ export class Dispatcher {
             `${this.constructor.name}.onDispatch must be overrided`
         );
 
-        logger.error(error);
+        this.logger.error(error);
 
         return Promise.reject(error);
     }

@@ -3,42 +3,10 @@ import IconButton from 'material-ui/lib/icon-button';
 import LeftNav from 'material-ui/lib/left-nav';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import React, { Component, PropTypes } from 'react';
-import { findDOMNode } from 'react-dom';
 import { FROM_HEIGHT } from '../components/MessageForm';
 import { MessageFormContainer } from '../containers/MessageFormContainer';
 import { MessageList } from '../containers/MessageList';
-
-export class Video extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    componentDidMount() {
-        this.setSource();
-    }
-    componentDidUpdate() {
-        this.setSource();
-    }
-
-    setSource() {
-        const {
-            stream,
-        } = this.props;
-        const video = findDOMNode(this.refs.video);
-
-        video.autoplay = true;
-        video.src = window.URL.createObjectURL(stream);
-    }
-
-    render() {
-        const Style = {
-            border: '2px solid black',
-            height: 180,
-        };
-
-        return <video ref="video" style={Style} />;
-    }
-}
+import { Video } from './Video';
 
 export class Chat extends Component {
     static get propTypes() {
@@ -47,12 +15,16 @@ export class Chat extends Component {
             dom: PropTypes.object.isRequired,
             messageForm: PropTypes.array.isRequired,
             messageList: PropTypes.array.isRequired,
+            video: PropTypes.object.isRequired,
+            videoList: PropTypes.object.isRequired,
             title: PropTypes.string,
             user: PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
             }).isRequired,
             setRoute: PropTypes.func.isRequired,
+            endVideo: PropTypes.func.isRequired,
+            createVideo: PropTypes.func.isRequired,
         };
     }
 
@@ -145,17 +117,18 @@ export class Chat extends Component {
                 />
                 <div id="notification-anchor" />
                 <div
-                    style={Styles.Videos}>
+                    style={Styles.Videos}
+                >
                     {video
                         ? (
-                            <button onTouchTap={endVideo}>
-                                x
-                            </button>
+                        <button onTouchTap={endVideo}>
+                            x
+                        </button>
                         )
                         : (
-                            <button onTouchTap={createVideo}>
-                                +
-                            </button>
+                        <button onTouchTap={createVideo}>
+                            +
+                        </button>
                         )
                     }
                     {video &&  <Video {...video} onTouchTap={endVideo} />}
