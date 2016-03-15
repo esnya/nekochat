@@ -1,12 +1,11 @@
 import ExpressSocketIOSession from 'express-socket.io-session';
-import { getLogger } from 'log4js';
+import {getLogger} from 'log4js';
 import SocketIO from 'socket.io';
-import { loggedin } from '../actions/UserActions';
-import { notify } from '../actions/NotificationActions';
-import { ActionDispatcher } from './dispatchers/ActionDispatcher';
-import { server } from './server';
-import { session } from './session';
-import { getUser } from './user';
+import {loggedin} from '../actions/UserActions';
+import {Connection} from './connection';
+import {server} from './server';
+import {session} from './session';
+import {getUser} from './user';
 
 const logger = getLogger('[SOCKET]');
 
@@ -31,18 +30,8 @@ io.on('connect', (socket) => {
     socket.on('disconnect', () =>
         logger.info('Disconnected', socket.id, socket.user));
 
-    const dispatcher = new ActionDispatcher(socket);
-
-    socket.on('action', (action) =>
-        dispatcher.onDispatch(action)
-            .catch((e) => {
-                logger.error(e);
-                socket.emit('action', notify({
-                    message: `${e}`,
-                }));
-            })
-    );
+    const client = new Connection(socket, socket.user);
 
     socket.emit('hello', socket.user);
-    socket.emit('action', loggedin(socket.user));
+    client.emit(loggedin(socket.user));
 });

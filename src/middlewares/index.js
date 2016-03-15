@@ -1,4 +1,5 @@
 import { debugLoggerMiddleWare } from './DebugLoggerMiddleware';
+import { dice } from './dice';
 import { domMiddleware } from './DOMMiddleware';
 import { confirmMiddleWare } from './ConfirmMiddleware';
 import { characterMiddleWare } from './CharacterMiddleware';
@@ -10,6 +11,7 @@ import { systemNotificationMiddleware } from './SystemNotificationMiddleware';
 import { timeoutMiddleware } from './TimeoutMiddleware';
 
 export const middlewares = [
+    dice,
     domMiddleware,
     confirmMiddleWare,
     systemNotificationMiddleware,

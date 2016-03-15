@@ -2,8 +2,9 @@ require('nekodev').gulp({
     jest: {
         config: {
             unmockedModulePathPatterns: [
-                'depd',
+                'bluebird',
                 'body-parser',
+                'depd',
                 'lodash',
                 'react',
             ],
