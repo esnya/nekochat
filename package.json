@@ -17,8 +17,8 @@
     "build": "gulp build",
     "serve": "gulp serve",
     "test": "gulp test",
-    "watch": "gulp watch",
-    "test-build": "gulp test build",
+    "watch": "gulp serve build test watch",
+    "production": "gulp production",
     "version": "update-changelog && git add CHANGELOG.md"
   },
   "author": "ukatama",
