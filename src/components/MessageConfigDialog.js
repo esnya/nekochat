@@ -117,9 +117,9 @@ RadioItem.propTypes = {
         type: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
     }).isRequired,
-    icon_id: PropTypes.string.isRequired,
     removeIcon: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
+    icon_id: PropTypes.string,
 };
 
 export class MessageConfigDialog extends Component {

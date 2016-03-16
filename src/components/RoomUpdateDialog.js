@@ -9,7 +9,6 @@ export class RoomUpdateDialog extends Component {
             open: PropTypes.bool.isRequired,
             room: PropTypes.shape({
                 title: PropTypes.string.isRequired,
-                password: PropTypes.string,
             }),
             onUpdate: PropTypes.func.isRequired,
             onClose: PropTypes.func.isRequired,

@@ -104,7 +104,7 @@ export const MessageBody = ({message, whisper_to, whisperTo}) => {
     );
 };
 MessageBody.propTypes = {
-    message: PropTypes.string.isRequired,
+    message: PropTypes.array.isRequired,
     whisperTo: PropTypes.func.isRequired,
     whisper_to: PropTypes.string,
 };
@@ -119,7 +119,7 @@ export class MessageListItem extends Component {
             icon_id: PropTypes.string,
             iconType: PropTypes.string,
             character_url: PropTypes.string,
-            message: PropTypes.string.isRequired,
+            message: PropTypes.array.isRequired,
             modified: PropTypes.oneOfType([
                 PropTypes.string,
                 PropTypes.timestamp,

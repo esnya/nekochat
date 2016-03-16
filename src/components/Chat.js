@@ -171,7 +171,11 @@ export class Chat extends Component {
                         />
                     ))}
                 </div>
-                <LeftNav docked={false} open={leftNav}>
+                <LeftNav
+                    docked={false}
+                    open={leftNav}
+                    onRequestChange={() => this.toggleLeftNav()}
+                >
                     <AppBar
                         iconElementLeft={(
                             <IconButton
