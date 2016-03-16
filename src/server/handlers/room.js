@@ -78,7 +78,6 @@ export const room = (client) => (next) => (action) => {
         case ROOM.FETCH_USER:
             if (!client.room) break;
 
-            client.logger.debug(action, client.room_key);
             client.redis.hgetall(`${client.room_key}:users`, (err, obj) => {
                 if (err) {
                     client.logger.error(err);
