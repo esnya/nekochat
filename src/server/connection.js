@@ -7,6 +7,7 @@ const logger = getLogger('[connection]');
 
 export class Connection {
     constructor(socket, user) {
+        this.logger = logger;
         this.user = user;
 
         this.initSocket(socket);
@@ -48,8 +49,19 @@ export class Connection {
         this.emit(action);
     }
     onClose() {
+        this.leave();
         this.redis.quit();
         this.subscriber.quit();
+    }
+
+    touch(login = true) {
+        if (!this.room) return;
+
+        this.redis.hset(`${this.room_key}:users`, this.user.id, JSON.stringify({
+            ...this.user,
+            login,
+            timestamp: Date.now(),
+        }));
     }
 
     join(room) {
@@ -58,6 +70,7 @@ export class Connection {
 
         const room_key = this.room_key = `nekochat:${room.id}`;
 
+        this.touch(true);
         this.subscriber.subscribe(room_key);
         this.whisperSubscriber.subscribe(`${room_key}:${this.user.id}`);
     }
@@ -65,6 +78,7 @@ export class Connection {
         if (this.room) {
             this.room = null;
 
+            this.touch(false);
             this.subscriber.unsubscribe();
             this.whisperSubscriber.unsubscribe();
         }

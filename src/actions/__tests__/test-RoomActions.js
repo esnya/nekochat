@@ -17,10 +17,11 @@ describe('RoomActions', () => {
             ['fetch', 'FETCH'],
             ['userJoined', 'USER_JOINED', {}],
             ['userLeft', 'USER_LEFT', {}],
+            ['fetchUser', 'FETCH_USER'],
+            ['userList', 'USER_LIST', []],
         ].forEach(([akey, ckey, ...args]) => {
             expect(Actions[akey](...args).type)
                 .toEqual(ACTIONS[ckey]);
         });
     });
 });
-

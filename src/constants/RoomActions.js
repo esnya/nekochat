@@ -16,3 +16,6 @@ export const PUSH_HISTORY = 'ROOM_LIST_PUSH_HISTORY';
 
 export const USER_JOINED = 'ROOM_USER_JOINED';
 export const USER_LEFT = 'ROOM_USER_LEFT';
+export const FETCH_USER = 'ROOM_FETCH_USER';
+export const USER_LIST = 'ROOM_USER_LIST';
+

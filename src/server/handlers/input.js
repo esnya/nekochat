@@ -10,6 +10,7 @@ export const input = (client) => (next) => (action) => {
                 name: action.name,
                 message: action.message,
             }));
+            client.touch();
             break;
         }
         case INPUT.END: {
@@ -18,6 +19,7 @@ export const input = (client) => (next) => (action) => {
                 user_id: client.user.id,
                 name: action.name,
             }));
+            client.touch();
             break;
         }
     }

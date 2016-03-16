@@ -28,6 +28,7 @@ export const message = (client) => (next) => (action) => {
 
                     client.emit(push(message));
                     client.publish(push(message), message.whisper_to);
+                    client.touch();
                 });
             break;
         case MESSAGE.FETCH:

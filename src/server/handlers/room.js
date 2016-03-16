@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {fetch as fetchMessage} from '../../actions/MessageActions';
 import {
     created,
@@ -8,6 +9,7 @@ import {
     password,
     userLeft,
     userJoined,
+    userList,
 } from '../../actions/RoomActions';
 import * as ROOM from '../../constants/RoomActions';
 import {PASSWORD_INCORRECT, Room} from '../models/room';
@@ -72,6 +74,27 @@ export const room = (client) => (next) => (action) => {
                     client.emit(updated(room));
                     client.publish(updated(room));
                 });
+            break;
+        case ROOM.FETCH_USER:
+            if (!client.room) break;
+
+            client.logger.debug(action, client.room_key);
+            client.redis.hgetall(`${client.room_key}:users`, (err, obj) => {
+                if (err) {
+                    client.logger.error(err);
+
+                    return;
+                }
+
+                client.emit(userList(
+                    _(obj)
+                        .values()
+                        .map((json) => JSON.parse(json))
+                        .orderBy(['login', 'timestamp'], ['desc', 'desc'])
+                        .value()
+                ));
+            });
+
             break;
     }
 

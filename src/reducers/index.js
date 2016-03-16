@@ -12,6 +12,7 @@ import { roomListReducer } from './RoomListReducer';
 import { roomReducer } from './RoomReducer';
 import { routeReducer } from './RouteReducer';
 import { userReducer } from './UserReducer';
+import { users } from './users';
 
 export const rootReducer = combineReducers({
     characters,
@@ -27,4 +28,5 @@ export const rootReducer = combineReducers({
     room: roomReducer,
     route: routeReducer,
     user: userReducer,
+    users,
 });

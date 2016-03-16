@@ -5,10 +5,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Update room dialog. ([#50](https://github.com/ukatama/nekochat/issues/50))
+- User list. ([#40](https://github.com/ukatama/nekochat/issues/40))
 
 ## [1.1.3] - 2016-03-10
 ### Fixed
-- Fix the event of clicking sub-menu on room list ([#49](https://github.com/ukatama/nekochat/issues/49))
+- Fix the event of clicking sub-menu on room list. ([#49](https://github.com/ukatama/nekochat/issues/49))
 
 ## [1.1.2] - 2016-02-29
 ### Added
@@ -20,4 +21,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.1.0] - 2016-02-28
 ### Added
-- Room password ([#7](https://github.com/ukatama/nekochat/issues/7))
+- Room password. ([#7](https://github.com/ukatama/nekochat/issues/7))

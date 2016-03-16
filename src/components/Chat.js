@@ -1,11 +1,59 @@
 import AppBar from 'material-ui/lib/app-bar';
+import FontIcon from 'material-ui/lib/font-icon';
 import IconButton from 'material-ui/lib/icon-button';
 import LeftNav from 'material-ui/lib/left-nav';
 import MenuItem from 'material-ui/lib/menus/menu-item';
+import Colors from 'material-ui/lib/styles/colors';
+import Divider from 'material-ui/lib/divider';
 import React, { Component, PropTypes } from 'react';
 import { FROM_HEIGHT } from '../components/MessageForm';
 import { MessageFormContainer } from '../containers/MessageFormContainer';
 import { MessageList } from '../containers/MessageList';
+
+export const UserListItem = (props) => {
+    const {
+        id,
+        name,
+        login,
+        timestamp,
+    } = props;
+
+    const IconStyle = {
+        display: 'block',
+    };
+    const color = (Date.now() - timestamp) < 3 * 60 * 1000
+        ? Colors.green500
+        : Colors.yellow500;
+
+    const iconElement = login
+        ? (
+        <FontIcon className="material-icons" style={{...IconStyle, color}}>
+            person
+        </FontIcon>
+        ) : (
+        <FontIcon
+            className="material-icons"
+            style={{...IconStyle, color: Colors.grey500}}
+        >
+            person_outline
+        </FontIcon>
+        );
+
+    return (
+        <MenuItem>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <span>{iconElement}</span>
+                <span>{name}@{id}</span>
+            </div>
+        </MenuItem>
+    );
+};
+UserListItem.propTypes = {
+    id: PropTypes.string.isRequired,
+    login: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    timestamp: PropTypes.number.isRequired,
+};
 
 export class Chat extends Component {
     static get propTypes() {
@@ -19,7 +67,14 @@ export class Chat extends Component {
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
             }).isRequired,
+            users: PropTypes.arrayOf(PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                name: PropTypes.string.isRequired,
+                login: PropTypes.bool.isRequired,
+                timestamp: PropTypes.number.isRequired,
+            })).isRequired,
             setRoute: PropTypes.func.isRequired,
+            onFetchUser: PropTypes.func.isRequired,
             onRoomEdit: PropTypes.func.isRequired,
         };
     }
@@ -34,7 +89,11 @@ export class Chat extends Component {
     }
 
     toggleLeftNav() {
-        this.setState({leftNav: !this.state.leftNav});
+        const {leftNav} = this.state;
+
+        if (!leftNav) this.props.onFetchUser();
+
+        this.setState({leftNav: !leftNav});
     }
 
     setTitle() {
@@ -59,6 +118,7 @@ export class Chat extends Component {
             messageList,
             title,
             user,
+            users,
             setRoute,
             onRoomEdit,
         } = this.props;
@@ -132,6 +192,8 @@ export class Chat extends Component {
                     >
                         Text View
                     </MenuItem>
+                    <Divider />
+                    {users.map((u) => <UserListItem {...u} key={u.id} />)}
                 </LeftNav>
             </div>
         );

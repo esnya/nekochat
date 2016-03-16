@@ -120,3 +120,11 @@ export const userLeft = (user) => ({
         message: '"${user.name}" left',
     },
 });
+export const fetchUser = () => ({
+    type: ROOM.FETCH_USER,
+    server: true,
+});
+export const userList = (users) => ({
+    type: ROOM.USER_LIST,
+    users,
+});
