@@ -27,11 +27,14 @@ io.use((socket, next) => {
 
 io.on('connect', (socket) => {
     logger.info('New Connection: ', socket.id, socket.user);
-    socket.on('disconnect', () =>
-        logger.info('Disconnected', socket.id, socket.user));
 
-    const client = new Connection(socket, socket.user);
+    const conn = new Connection(socket, socket.user);
+
+    socket.on('disconnect', () => {
+        logger.info('Disconnected', socket.id, socket.user);
+        conn.close();
+    });
 
     socket.emit('hello', socket.user);
-    client.emit(loggedin(socket.user));
+    conn.emit(loggedin(socket.user));
 });

@@ -20,7 +20,6 @@ export class Connection {
         this.socket = socket;
 
         socket.on('action', (action) => this.dispatch(action));
-        socket.on('disconnedt', () => this.onClose());
     }
     initRedis() {
         this.redis = createClient(config.get('redis'));
@@ -48,7 +47,8 @@ export class Connection {
         logger.info('action', this.user.id, this.socket.id, action.type);
         this.emit(action);
     }
-    onClose() {
+
+    close() {
         this.leave();
         this.redis.quit();
         this.subscriber.quit();
@@ -76,9 +76,10 @@ export class Connection {
     }
     leave() {
         if (this.room) {
+            this.touch(false);
+
             this.room = null;
 
-            this.touch(false);
             this.subscriber.unsubscribe();
             this.whisperSubscriber.unsubscribe();
         }
