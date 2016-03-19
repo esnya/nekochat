@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.2.0] - 2016-03-19
 ### Added
 - Update room dialog. ([#50](https://github.com/ukatama/nekochat/issues/50))
 - User list. ([#40](https://github.com/ukatama/nekochat/issues/40))
