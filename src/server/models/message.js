@@ -10,10 +10,16 @@ export class MessageModel extends Model {
     transform(item) {
         if (item.message) {
             if (item.message.charAt(0) === '[') {
-                return {
-                    ...item,
-                    message: JSON.parse(item.message),
-                };
+                try {
+                    return {
+                        ...item,
+                        message: JSON.parse(item.message),
+                    };
+                } catch (e) {
+                    if (!(e instanceof SyntaxError)) {
+                        throw e;
+                    }
+                }
             }
 
             return {
