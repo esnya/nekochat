@@ -18,7 +18,7 @@ export const routerMiddleware = ({dispatch}) => (next) => (action) => {
             : `/${path}`;
 
         if (abs !== location.pathname) {
-            history.pushState({}, 'NekoChat', abs);
+            history.pushState({}, 'Nekochat', abs);
         }
 
         const route = parse(abs);

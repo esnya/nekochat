@@ -106,9 +106,9 @@ export class Chat extends Component {
 
         if (this.unreadBase !== null && messageList.length > this.unreadBase) {
             document.title =
-                `(${messageList.length - this.unreadBase}) ${title} - NekoChat`;
+                `(${messageList.length - this.unreadBase}) ${title} - Nekochat`;
         } else if (title) {
-            document.title = `${title} - NekoChat`;
+            document.title = `${title} - Nekochat`;
         }
     }
 
@@ -148,10 +148,10 @@ export class Chat extends Component {
 
         if (dom.focused) {
             this.prevMsgs = messageList.length;
-            document.title = `${title} - NekoChat`;
+            document.title = `${title} - Nekochat`;
         } else if (messageList.length > this.prevMsgs) {
             document.title =
-                `(${messageList.length - this.prevMsgs}) ${title} - NekoChat`;
+                `(${messageList.length - this.prevMsgs}) ${title} - Nekochat`;
         }
 
         const formDisabled = state !== 'open' && user.id !== user_id;
@@ -168,7 +168,7 @@ export class Chat extends Component {
                 <div>{title}</div>
                 {closeIcon}
             </div>
-        ) : 'NekoChat';
+        ) : 'Nekochat';
 
         return (
             <div style={Styles.Container}>
@@ -212,7 +212,7 @@ export class Chat extends Component {
                                 close
                             </IconButton>
                         )}
-                        title="NekoChat"
+                        title="Nekochat"
                     />
                     <MenuItem href="/" onTouchTap={(e) => setRoute('/', e)}>
                         Leave

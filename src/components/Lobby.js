@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 import { RoomListContainer } from '../containers/RoomListContainer';
 
 export const Lobby = ({open}) => {
-    document.title = "NekoChat";
+    document.title = "Nekochat";
 
     return (
         <div>
@@ -22,7 +22,7 @@ export const Lobby = ({open}) => {
                         add
                     </IconButton>
                 }
-                title="NekoChat"
+                title="Nekochat"
             />
             <div id="notification-anchor" />
             <RoomListContainer />
