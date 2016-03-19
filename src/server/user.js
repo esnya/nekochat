@@ -1,21 +1,13 @@
 import config from 'config';
-import { knex } from './knex';
+import {NOT_FOUND} from './models/model';
+import {User} from './models/user';
 
-export const getUser = function(session) {
-    const passport = session.passport || config.get('app.guest') && {
-        user: 'guest',
-    };
-
-    if (passport) {
-        const user = passport.user;
-
-        if (user) {
-            return knex('users')
-                .where('id', user)
-                .whereNull('deleted')
-                .first('id', 'name');
+export const getUser = (session) => User
+    .find('id', session && session.passport && session.passport.user)
+    .catch((e) => {
+        if (config.get('app.guest') && e === NOT_FOUND && session.guest) {
+            return session.guest;
         }
-    }
 
-    return Promise.reject(new Error('User not found'));
-};
+        return Promise.reject(e);
+    });

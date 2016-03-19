@@ -1,4 +1,4 @@
-import { Model } from './model';
+import {Model} from './model';
 
 export const PASSWORD_INCORRECT = 'ROOM_PASSWORD_INCORRECT';
 

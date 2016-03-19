@@ -1,4 +1,4 @@
-import { knex } from '../knex';
+import {knex} from '../knex';
 
 export const NOT_FOUND = 'MODEL_NOT_FOUND';
 

@@ -30,21 +30,6 @@ Promise.all([
                 .notNullable()
                 .defaultTo(knex.fn.now());
             table.timestamp('deleted');
-        })
-        .then(() => {
-            if (config.get('app.guest')) {
-                return knex('users')
-                    .where('id', 'guest')
-                    .first()
-                    .then((user) => {
-                        if (!user) {
-                            return knex('users').insert({
-                                id: 'guest',
-                                name: 'Guest',
-                            });
-                        }
-                    });
-            }
         }),
     knex.schema.createTableIfNotExists('rooms', (table) => {
         table.string('id').primary();
