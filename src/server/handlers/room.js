@@ -67,9 +67,14 @@ export const room = (client) => (next) => (action) => {
             break;
         case ROOM.UPDATE:
             Room
-                .update(client.room.id, client.user.id, {
-                    title: action.title || null,
-                })
+                .update(
+                    client.room.id,
+                    client.user.id,
+                    _(action)
+                        .pick(['title', 'password'])
+                        .mapValues((a) => a === '' ? null : a)
+                        .value()
+                )
                 .then((room) => {
                     client.emit(updated(room));
                     client.publish(updated(room));

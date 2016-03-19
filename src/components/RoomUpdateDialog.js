@@ -15,6 +15,14 @@ export class RoomUpdateDialog extends Component {
         };
     }
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            passwordChanged: false,
+        };
+    }
+
     handleUpdate(e) {
         if (e) e.preventDefault();
 
@@ -23,9 +31,14 @@ export class RoomUpdateDialog extends Component {
             onUpdate,
         } = this.props;
 
-        onUpdate({
+        const room = {
             title: this.title.getValue() || null,
-        });
+        };
+        if (this.state.passwordChanged) {
+            room.password = this.password.getValue() || null;
+        }
+
+        onUpdate(room);
         onClose();
     }
 
@@ -62,6 +75,16 @@ export class RoomUpdateDialog extends Component {
                         floatingLabelText="Title"
                         name="title"
                         ref={(c) => c && (this.title = c)}
+                    />
+                    <TextField fullWidth
+                        defaultValue={
+                            (room && room.password) ? '12345678' : ''
+                        }
+                        floatingLabelText="Password"
+                        name="password"
+                        ref={(c) => c && (this.password = c)}
+                        type="password"
+                        onChange={() => this.setState({passwordChanged: true})}
                     />
                 </form>
             </Dialog>
