@@ -1,4 +1,5 @@
-import { Model } from './model';
+import {Model} from './model';
+import {Room} from './room';
 
 export const TEXT = 'NODE_TYPE_TEXT';
 
@@ -57,6 +58,21 @@ export class MessageModel extends Model {
     find(...finder) {
         return super.find(...finder)
             .then(this.transform);
+    }
+
+    insert(data) {
+        return Room
+            .find('id', data.room_id)
+            .then(({user_id, state}) =>
+                state === 'open' || user_id === data.user_id
+            )
+            .then((insertable) => {
+                if (!insertable) {
+                    return Promise.reject('Cannot insert to closed room');
+                }
+
+                return super.insert(data);
+            });
     }
 }
 

@@ -56,6 +56,10 @@ Promise.all([
             .inTable('users');
         table.string('password').nullable();
         table
+            .enum('state', ['open', 'close'])
+            .notNullable()
+            .defaultTo(['open']);
+        table
             .timestamp('created')
             .notNullable()
             .defaultTo(knex.fn.now());

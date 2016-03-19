@@ -11,6 +11,7 @@ export class MessageForm extends Component {
     static get propTypes() {
         return {
             character_url: PropTypes.string,
+            disabled: PropTypes.bool,
             icon_id: PropTypes.string,
             id: PropTypes.oneOfType([
                 PropTypes.string,
@@ -150,6 +151,7 @@ export class MessageForm extends Component {
             character_url,
             icon_id,
             user,
+            disabled,
             createForm,
             removeForm,
             openDialog,
@@ -198,6 +200,7 @@ export class MessageForm extends Component {
                     />
                 </IconButton>
                 <TextField fullWidth multiLine
+                    disabled={disabled}
                     floatingLabelText={name}
                     ref={(c) => c && (this.message = c)}
                     rows={1}
@@ -209,7 +212,7 @@ export class MessageForm extends Component {
                     onFocus={() => this.startInputWatcher()}
                     onKeyDown={(e) => this.onKey(e)}
                 />
-                <IconButton type="submit">
+                <IconButton disabled={disabled} type="submit">
                     <FontIcon className="material-icons">send</FontIcon>
                 </IconButton>
             </form>

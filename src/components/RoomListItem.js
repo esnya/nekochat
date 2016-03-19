@@ -136,9 +136,25 @@ export class RoomListItem extends Component {
             </IconMenu>
         );
 
-        const leftIcon = room.password
-            ? <FontIcon className="material-icons">lock</FontIcon>
-            : null;
+        const leftIcons = [];
+        if (room.password) {
+            leftIcons.push(
+                <FontIcon className="material-icons" key="password">
+                    lock
+                </FontIcon>
+            );
+        }
+        if (room.state === "close") {
+            leftIcons.push(
+                <FontIcon className="material-icons" key="close">
+                    block
+                </FontIcon>
+            );
+        }
+
+        const leftIcon = leftIcons.length === 0
+            ? null
+            : <div style={{width: leftIcons.length * 24}}>{leftIcons}</div>;
 
         return (
             <ListItem

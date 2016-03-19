@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Update room dialog. ([#50](https://github.com/ukatama/nekochat/issues/50))
 - User list. ([#40](https://github.com/ukatama/nekochat/issues/40))
+- Room state. ([#45](https://github.com/ukatama/nekochat/issues/45))
 
 ## [1.1.3] - 2016-03-10
 ### Fixed
