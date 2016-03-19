@@ -1,5 +1,7 @@
 import Dialog from 'material-ui/lib/dialog';
 import FlatButton from 'material-ui/lib/flat-button';
+import RadioButton from 'material-ui/lib/radio-button';
+import RadioButtonGroup from 'material-ui/lib/radio-button-group';
 import TextField from 'material-ui/lib/text-field';
 import React, { Component, PropTypes } from 'react';
 
@@ -9,6 +11,8 @@ export class RoomUpdateDialog extends Component {
             open: PropTypes.bool.isRequired,
             room: PropTypes.shape({
                 title: PropTypes.string.isRequired,
+                state: PropTypes.oneOf(['open', 'close']).isRequired,
+                password: PropTypes.bool,
             }),
             onUpdate: PropTypes.func.isRequired,
             onClose: PropTypes.func.isRequired,
@@ -18,9 +22,23 @@ export class RoomUpdateDialog extends Component {
     constructor(props) {
         super(props);
 
+        const {room} = props;
+
         this.state = {
+            state: room && room.state,
             passwordChanged: false,
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {room} = nextProps;
+        const {state} = this.state;
+
+        if (room && room.state !== state) {
+            this.setState({
+                state: room.state,
+            });
+        }
     }
 
     handleUpdate(e) {
@@ -30,11 +48,16 @@ export class RoomUpdateDialog extends Component {
             onClose,
             onUpdate,
         } = this.props;
+        const {
+            state,
+            passwordChanged,
+        } = this.state;
 
         const room = {
             title: this.title.getValue() || null,
+            state,
         };
-        if (this.state.passwordChanged) {
+        if (passwordChanged) {
             room.password = this.password.getValue() || null;
         }
 
@@ -48,6 +71,9 @@ export class RoomUpdateDialog extends Component {
             room,
             onClose,
         } = this.props;
+        const {
+            state,
+        } = this.state;
 
         const Actions = [
             <FlatButton primary
@@ -61,6 +87,19 @@ export class RoomUpdateDialog extends Component {
                 onTouchTap={onClose}
             />,
         ];
+
+        const Style = {
+            Label: {
+                marginTop: 12,
+                display: 'block',
+            },
+            RadioGroup: {
+                display: 'flex',
+            },
+            Radio: {
+                flex: '1 1 auto',
+            },
+        };
 
         return (
             <Dialog
@@ -86,6 +125,27 @@ export class RoomUpdateDialog extends Component {
                         type="password"
                         onChange={() => this.setState({passwordChanged: true})}
                     />
+                    <label htmlFor="room-update-state" style={Style.Label}>
+                        State
+                    </label>
+                    <RadioButtonGroup
+                        id="room-update-state"
+                        name="state"
+                        style={Style.RadioGroup}
+                        valueSelected={state}
+                        onChange={(e, value) => this.setState({state: value})}
+                    >
+                        <RadioButton
+                            label="Open"
+                            style={Style.Radio}
+                            value="open"
+                        />
+                        <RadioButton
+                            label="Close"
+                            style={Style.Radio}
+                            value="close"
+                        />
+                    </RadioButtonGroup>
                 </form>
             </Dialog>
         );

@@ -7,7 +7,7 @@ export const roomReducer = function(state = null, action) {
         case ROOM.UPDATED:
             return {
                 ...state,
-                ...pick(action, ['title']),
+                ...pick(action, ['title', 'state']),
             };
         case ROOM.JOINED:
             return Object.assign({}, action.room);

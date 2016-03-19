@@ -71,7 +71,7 @@ export const room = (client) => (next) => (action) => {
                     client.room.id,
                     client.user.id,
                     _(action)
-                        .pick(['title', 'password'])
+                        .pick(['title', 'password', 'state'])
                         .mapValues((a) => a === '' ? null : a)
                         .value()
                 )

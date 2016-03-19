@@ -15,7 +15,7 @@ export const roomListReducer = function(state = [], action) {
                 (room) => room.id === action.id
                     ? {
                         ...room,
-                        ...pick(action, 'title'),
+                        ...pick(action, ['title', 'state']),
                     } : room
             );
         case ROOM.LIST:

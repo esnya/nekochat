@@ -62,11 +62,13 @@ export class Chat extends Component {
             dom: PropTypes.object.isRequired,
             messageForm: PropTypes.array.isRequired,
             messageList: PropTypes.array.isRequired,
+            state: PropTypes.string,
             title: PropTypes.string,
             user: PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
             }).isRequired,
+            user_id: PropTypes.string,
             users: PropTypes.arrayOf(PropTypes.shape({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
@@ -116,7 +118,9 @@ export class Chat extends Component {
             dom,
             messageForm,
             messageList,
+            state,
             title,
+            user_id,
             user,
             users,
             setRoute,
@@ -136,6 +140,10 @@ export class Chat extends Component {
             FormList: {
                 flex: `0 0 ${FROM_HEIGHT * messageForm.length}px`,
             },
+            Title: {
+                display: 'flex',
+                alignItems: 'center',
+            },
         };
 
         if (dom.focused) {
@@ -145,6 +153,22 @@ export class Chat extends Component {
             document.title =
                 `(${messageList.length - this.prevMsgs}) ${title} - NekoChat`;
         }
+
+        const formDisabled = state !== 'open' && user.id !== user_id;
+        const closeIcon = state !== 'open' ? (
+            <FontIcon
+                className="material-icons"
+                style={{color: 'white'}}
+            >
+                block
+            </FontIcon>
+        ) : null;
+        const titleElement = title ? (
+            <div style={Styles.Title}>
+                <div>{title}</div>
+                {closeIcon}
+            </div>
+        ) : 'NekoChat';
 
         return (
             <div style={Styles.Container}>
@@ -157,7 +181,7 @@ export class Chat extends Component {
                             mode_edit
                         </IconButton>
                     }
-                    title={title || 'NekoChat'}
+                    title={titleElement}
                     onLeftIconButtonTouchTap={() => this.toggleLeftNav()}
                 />
                 <div id="notification-anchor" />
@@ -166,6 +190,7 @@ export class Chat extends Component {
                     {messageForm.map((form) => (
                         <MessageFormContainer
                             {...form}
+                            disabled={formDisabled}
                             key={form.id}
                             user={user}
                         />

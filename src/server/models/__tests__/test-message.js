@@ -3,6 +3,10 @@ describe('Message', () => {
         Model,
     } = require('../model');
 
+    const {
+        Room,
+    } = require('../room');
+
     jest.dontMock('../message');
     const {
         Message,
@@ -11,6 +15,7 @@ describe('Message', () => {
 
     const {
         findAll,
+        insert,
     } = Model.prototype;
 
     it('inherits Model', () => {
@@ -103,5 +108,57 @@ describe('Message', () => {
                     }]]},
                 ]);
             });
+    });
+
+    pit('inserts message', () => {
+        Room.find.mockClear();
+        Room.find.mockReturnValue(Promise.resolve({
+            id: 'room1',
+            user_id: 'user1',
+            state: 'open',
+        }));
+
+        insert.mockClear();
+        insert.mockReturnValue(Promise.resolve({
+            room_id: 'room1',
+            mesage: 'hoge',
+        }));
+
+        return Message.insert({
+            room_id: 'room1',
+            message: 'hoge',
+        }).then((message) => {
+            expect(message).toEqual({
+                room_id: 'room1',
+                mesage: 'hoge',
+            });
+
+            expect(Room.find).toBeCalledWith('id', 'room1');
+            expect(insert).toBeCalledWith({
+                room_id: 'room1',
+                message: 'hoge',
+            });
+        });
+    });
+
+    pit('forbit to insert message on closed room', () => {
+        Room.find.mockClear();
+        Room.find.mockReturnValue(Promise.resolve({
+            id: 'room2',
+            user_id: 'user2',
+            state: 'close',
+        }));
+
+        insert.mockClear();
+
+        return Message.insert({
+            room_id: 'room2',
+            message: 'hoge',
+        }).then(() => {
+            throw new Error('Promise should not be resolved');
+        }, (e) => {
+            expect(e).toEqual('Cannot insert to closed room');
+            expect(insert).not.toBeCalled();
+        });
     });
 });
