@@ -174,12 +174,14 @@ export class Chat extends Component {
             <div style={Styles.Container}>
                 <AppBar
                     iconElementRight={
-                        <IconButton
-                            iconClassName="material-icons"
-                            onTouchTap={onRoomEdit}
-                        >
-                            mode_edit
-                        </IconButton>
+                        user_id !== user.id ? null : (
+                            <IconButton
+                                iconClassName="material-icons"
+                                onTouchTap={onRoomEdit}
+                            >
+                                mode_edit
+                            </IconButton>
+                        )
                     }
                     title={titleElement}
                     onLeftIconButtonTouchTap={() => this.toggleLeftNav()}
