@@ -23,13 +23,15 @@ export const icon = (client) => (next) => (action) => {
                     type: action.mime || null,
                     data: action.file || null,
                 })
-                .then((icon) => client.emit(push([icon])));
+                .then((icon) => client.emit(push([icon])))
+                .catch((e) => client.logger.error(e));
             break;
         }
         case ICON.FETCH:
             Icon
                 .findAll('user_id', client.user.id)
-                .then((icons) => client.emit(push(icons)));
+                .then((icons) => client.emit(push(icons)))
+                .catch((e) => client.logger.error(e));
             break;
         case ICON.REMOVE:
             Icon
@@ -37,7 +39,8 @@ export const icon = (client) => (next) => (action) => {
                     id: action.id,
                     user_id: client.user.id,
                 })
-                .then(() => action.id);
+                .then(() => action.id)
+                .catch((e) => client.logger.error(e));
             break;
     }
 

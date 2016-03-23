@@ -43,13 +43,15 @@ export const message = (client) => (next) => (action) => {
                     client.emit(push(message));
                     client.publish(push(message), message.whisper_to);
                     client.touch();
-                });
+                })
+                .catch((e) => client.logger.error(e));
             break;
         }
         case MESSAGE.FETCH:
             Message
                 .findLimit(client.room.id, client.user.id)
-                .then((messages) => client.emit(list(messages)));
+                .then((messages) => client.emit(list(messages)))
+                .catch((e) => client.logger.error(e));
             break;
         case MESSAGE.REQUEST_PAST:
              Message
@@ -58,7 +60,8 @@ export const message = (client) => (next) => (action) => {
                     client.user.id,
                     'id','<', action.lastId
                 )
-                .then((messages) => client.emit(prependList(messages)));
+                .then((messages) => client.emit(prependList(messages)))
+                .catch((e) => client.logger.error(e));
             break;
     }
 

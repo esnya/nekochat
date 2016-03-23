@@ -28,7 +28,8 @@ export const room = (client) => (next) => (action) => {
                     password: action.password || null,
                     user_id: client.user.id || null,
                 })
-                .then((room) => client.emit(created(room)));
+                .then((room) => client.emit(created(room)))
+                .catch((e) => client.logger.error(e));
             break;
         case ROOM.JOIN:
             Room
@@ -45,7 +46,8 @@ export const room = (client) => (next) => (action) => {
                     } else {
                         return Promise.reject(e);
                     }
-                });
+                })
+                .catch((e) => client.logger.error(e));
             break;
         case ROOM.LEAVE:
             client.dispatch(fetch());
@@ -55,7 +57,8 @@ export const room = (client) => (next) => (action) => {
         case ROOM.FETCH:
             Room
                 .findAll()
-                .then((rooms) => client.emit(list(rooms)));
+                .then((rooms) => client.emit(list(rooms)))
+                .catch((e) => client.logger.error(e));
             break;
         case ROOM.REMOVE:
             Room
@@ -63,7 +66,8 @@ export const room = (client) => (next) => (action) => {
                     id: action.id || null,
                     user_id: client.user.id || null,
                 })
-                .then(() => {});
+                .then(() => {})
+                .catch((e) => client.logger.error(e));
             break;
         case ROOM.UPDATE:
             Room
@@ -78,7 +82,8 @@ export const room = (client) => (next) => (action) => {
                 .then((room) => {
                     client.emit(updated(room));
                     client.publish(updated(room));
-                });
+                })
+                .catch((e) => client.logger.error(e));
             break;
         case ROOM.FETCH_USER:
             if (!client.room) break;
@@ -120,7 +125,8 @@ export const room = (client) => (next) => (action) => {
                         name: `NOTES`,
                         message: room.notes,
                     }));
-                });
+                })
+                .catch((e) => client.logger.error(e));
     }
 
     return next(action);
