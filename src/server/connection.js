@@ -93,6 +93,12 @@ export class Connection {
         );
     }
     emit(action) {
+        if (!action.type) {
+            this.logger.error('action.type must be defined');
+
+            return;
+        }
+
         this.socket.emit('action', action);
     }
     publish(action, whisper = false) {
