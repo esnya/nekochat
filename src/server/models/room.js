@@ -7,6 +7,30 @@ export class RoomModel extends Model {
         super('rooms');
     }
 
+    create(table) {
+        table.string('id').primary();
+        table.string('title').notNullable();
+        table
+            .string('user_id')
+            .notNullable()
+            .references('id')
+            .inTable('users');
+        table.string('password').nullable();
+        table
+            .enum('state', ['open', 'close'])
+            .notNullable()
+            .defaultTo(['open']);
+        table
+            .timestamp('created')
+            .notNullable()
+            .defaultTo(this.fn.now());
+        table
+            .timestamp('modified')
+            .notNullable()
+            .defaultTo(this.fn.now());
+        table.timestamp('deleted').defaultTo(null);
+    }
+
     transform(room) {
         return {
             ...room,

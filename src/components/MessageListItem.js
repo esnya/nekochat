@@ -116,6 +116,7 @@ export class MessageListItem extends Component {
                 PropTypes.string,
                 PropTypes.timestamp,
             ]),
+            file_id: PropTypes.string,
             icon_id: PropTypes.string,
             iconType: PropTypes.string,
             character_url: PropTypes.string,
@@ -149,6 +150,7 @@ export class MessageListItem extends Component {
 
     render() {
         const {
+            file_id,
             icon_id,
             iconType,
             character_url,
@@ -161,6 +163,10 @@ export class MessageListItem extends Component {
         } = this.props;
 
         const color = makeColor(`${name}${user_id}`);
+
+        const fileElement = file_id && (
+            <img src={`/file/${file_id}`} />
+        );
 
         return (
             <div
@@ -198,6 +204,7 @@ export class MessageListItem extends Component {
                         whisperTo={whisperTo}
                         whisper_to={whisper_to}
                     />
+                    {fileElement}
                 </div>
                 <div style={Style.ListItem.Timestamp}>
                     {

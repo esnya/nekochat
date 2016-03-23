@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Hide edit button on not owned room.
 ### Added
 - Guest login with any user id.
+- Upload images with message.
 
 ## [1.2.1] - 2016-03-19
 ### Added

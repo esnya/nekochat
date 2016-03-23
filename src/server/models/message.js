@@ -8,6 +8,42 @@ export class MessageModel extends Model {
         super('messages');
     }
 
+    create(table) {
+        table.increments('id').primary();
+        table
+            .string('room_id')
+            .notNullable()
+            .references('id')
+            .inTable('rooms');
+        table
+            .string('user_id')
+            .notNullable()
+            .references('id')
+            .inTable('users');
+        table
+            .string('icon_id')
+            .references('id')
+            .inTable('icons');
+        table
+            .string('whisper_to')
+            .nullable()
+            .references('id')
+            .inTable('users');
+        table.string('name').notNullable();
+        table.string('message').notNullable();
+        table.string('character_url').nullable();
+        table.string('file_id').nullable();
+        table
+            .timestamp('created')
+            .notNullable()
+            .defaultTo(this.fn.now());
+        table
+            .timestamp('modified')
+            .notNullable()
+            .defaultTo(this.fn.now());
+        table.timestamp('deleted').defaultTo(null);
+    }
+
     transform(item) {
         if (item.message) {
             if (item.message.charAt(0) === '[') {

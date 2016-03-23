@@ -1,3 +1,4 @@
+import * as MESSAGE from '../constants/MessageActions';
 import * as MESSAGE_FORM from '../constants/MessageFormActions';
 import * as ROOM from '../constants/RoomActions';
 import * as USER from '../constants/UserActions';
@@ -84,6 +85,32 @@ export const messageFormReducer = function(state = [], action) {
                     whisper_to: action.whisper_to,
                 },
             ]);
+        case MESSAGE_FORM.APPEND_FILE:
+            return state.map(
+                    (form) => form.id === action.id
+                        ? {
+                            ...form,
+                            files: [{
+                                name: action.name,
+                                mime: action.mime,
+                                blob: action.blob,
+                                url: URL.createObjectURL(action.blob),
+                            }],
+                        } : form
+            );
+        case MESSAGE.CREATE:
+            state.forEach((form) => {
+                if (form.id === action.form_id && form.files) {
+                    form.files
+                        .forEach((file) => URL.revokeObjectURL(file.url));
+                }
+            });
+
+            return state.map(
+                    (form) => form.id === action.form_id
+                        ? {...form, files: []}
+                        : form
+            );
         default:
             return state;
     }

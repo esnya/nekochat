@@ -5,6 +5,16 @@ export const NOT_FOUND = 'MODEL_NOT_FOUND';
 export class Model {
     constructor(table) {
         this.table = table;
+        this.fn = knex.fn;
+
+        knex.schema.hasTable(table)
+            .then((exists) =>
+                exists || knex.schema.createTable(
+                    table,
+                    (table) => this.create(table)
+                )
+            )
+            .then(() => {});
     }
 
     findAll(...finder) {

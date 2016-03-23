@@ -3,11 +3,12 @@ import config from 'config';
 import express from 'express';
 import {getLogger} from 'log4js';
 import Livereload from 'connect-livereload';
+import {File} from './models/file';
+import {Icon} from './models/icon';
 import {Message} from './models/message';
 import {NOT_FOUND} from './models/model';
 import {Room, PASSWORD_INCORRECT} from './models/room';
 import {User} from './models/user';
-import {knex, exists} from './knex';
 import {session} from './session';
 import {getUser} from './user';
 
@@ -20,12 +21,13 @@ app.set('view engine', 'jade');
 app.use(session);
 
 app.get('/icon/:id', (req, res, next) => {
-    knex('icons')
-        .where('id', req.params.id)
-        .whereNull('deleted')
-        .first()
-        .then(exists)
+    Icon.find('id', req.params.id)
         .then((icon) => res.type(icon.type).send(icon.data))
+        .catch(next);
+});
+app.get('/file/:id', (req, res, next) => {
+    File.find('id', req.params.id)
+        .then((file) => res.type(file.type).send(file.data))
         .catch(next);
 });
 

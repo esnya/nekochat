@@ -29,9 +29,46 @@ describe('Model', () => {
         knex.mockClear();
         knex.mockReturnValue(query);
 
+        knex.schema = {
+            hasTable: jest.fn()
+                .mockReturnValue(Promise.resolve(true)),
+            createTable: jest.fn()
+                .mockReturnValue(Promise.resolve(true)),
+        };
+
         knex.fn = {
             now: jest.genMockFn().mockReturnValue(Date.now()),
         };
+    });
+
+    pit('creates table', () => {
+        knex.schema.hasTable.mockReturnValue(Promise.resolve(false));
+
+        const model = new Model('items');
+        model.create = jest.fn();
+
+        return Promise
+            .resolve()
+            .then(() => {
+                expect(knex.schema.hasTable).toBeCalledWith('items');
+                expect(knex.schema.createTable).toBeCalled();
+                expect(knex.schema.createTable.mock.calls[0][0])
+                    .toEqual('items');
+            });
+    });
+
+    pit('does not create table if exists', () => {
+        knex.schema.hasTable.mockReturnValue(Promise.resolve(true));
+
+        const model = new Model('items');
+        model.create = jest.fn();
+
+        return Promise
+            .resolve()
+            .then(() => {
+                expect(knex.schema.hasTable).toBeCalledWith('items');
+                expect(knex.schema.createTable).not.toBeCalled();
+            });
     });
 
     pit('lists all of items which have not been deleted', () => {

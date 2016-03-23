@@ -1,7 +1,7 @@
-import * as Icon from '../../actions/IconActions';
+import {push} from '../../actions/IconActions';
 import * as ICON from '../../constants/IconActions';
-import { generateId } from '../../utility/id';
-import { knex, exists } from '../knex.js';
+import {generateId} from '../../utility/id';
+import {Icon} from '../models/icon';
 
 const IconFields = ['id', 'name', 'type', 'created', 'modified'];
 
@@ -15,39 +15,28 @@ export const icon = (client) => (next) => (action) => {
                 action.data,
             ].join());
 
-            knex('icons')
+            Icon
                 .insert({
                     id,
                     user_id: client.user.id || null,
                     name: action.name || null,
                     type: action.mime || null,
                     data: action.file || null,
-                    created: knex.fn.now(),
-                    modified: knex.fn.now(),
-                }, 'id')
-                .then(() =>
-                    knex('icons')
-                        .where('id', id)
-                        .whereNull('deleted')
-                        .first(...IconFields)
-                )
-                .then(exists)
-                .then((icon) => client.emit(Icon.push([icon])));
+                })
+                .then((icon) => client.emit(push([icon])));
             break;
         }
         case ICON.FETCH:
-            knex('icons')
-                .where('user_id', client.user.id)
-                .whereNull('deleted')
-                .orderBy('name')
-                .select(...IconFields)
-                .then((icons) => client.emit(Icon.push(icons)));
+            Icon
+                .findAll('user_id', client.user.id)
+                .then((icons) => client.emit(push(icons)));
             break;
         case ICON.REMOVE:
-            knex('icons')
-                .where('id', action.id)
-                .where('user_id', client.user.id)
-                .delete('deleted')
+            Icon
+                .del({
+                    id: action.id,
+                    user_id: client.user.id,
+                })
                 .then(() => action.id);
             break;
     }

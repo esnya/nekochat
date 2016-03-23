@@ -1,13 +1,20 @@
 import {Model} from './model';
 
-export class UserModel extends Model {
+export class FileModel extends Model {
     constructor() {
-        super('users');
+        super('files');
     }
 
     create(table) {
         table.string('id').primary();
+        table
+            .string('user_id')
+            .notNullable()
+            .references('id')
+            .inTable('users');
         table.string('name').notNullable();
+        table.string('type').notNullable();
+        table.binary('data').notNullable();
         table
             .timestamp('created')
             .notNullable()
@@ -16,8 +23,8 @@ export class UserModel extends Model {
             .timestamp('modified')
             .notNullable()
             .defaultTo(this.fn.now());
-        table.timestamp('deleted');
+        table.timestamp('deleted').defaultTo(null);
     }
 }
 
-export const User = new UserModel();
+export const File = new FileModel();

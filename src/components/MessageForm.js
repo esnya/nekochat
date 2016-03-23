@@ -24,12 +24,14 @@ export class MessageForm extends Component {
             }).isRequired,
             name: PropTypes.string,
             whisper_to: PropTypes.string,
+            files: PropTypes.array,
             createMessage: PropTypes.func.isRequired,
             beginInput: PropTypes.func.isRequired,
             endInput: PropTypes.func.isRequired,
             createForm: PropTypes.func.isRequired,
             removeForm: PropTypes.func.isRequired,
             openDialog: PropTypes.func.isRequired,
+            onAppendFile: PropTypes.func.isRequired,
         };
     }
 
@@ -70,15 +72,19 @@ export class MessageForm extends Component {
 
         if (message) {
             const {
+                id,
                 name,
                 character_url,
+                files,
                 icon_id,
             } = this.props;
 
             this.props.createMessage({
+                form_id: id,
                 name,
                 character_url,
                 icon_id,
+                files,
                 ...message,
             });
 
@@ -152,9 +158,11 @@ export class MessageForm extends Component {
             icon_id,
             user,
             disabled,
+            files,
             createForm,
             removeForm,
             openDialog,
+            onAppendFile,
         } = this.props;
 
         const Styles = {
@@ -172,7 +180,15 @@ export class MessageForm extends Component {
             Message: {
                 flex: '1 1 auto',
             },
+            File: {
+                maxWidth: 60,
+                maxHeight: 60,
+            },
         };
+
+        const fileElements = files && files.map((file, i) => (
+            <img key={i} src={file.url} style={Styles.File} />
+        ));
 
         return (
             <form style={Styles.Form} onSubmit={(e) => this.onSubmit(e)}>
@@ -199,6 +215,7 @@ export class MessageForm extends Component {
                         name={name}
                     />
                 </IconButton>
+                {fileElements}
                 <TextField fullWidth multiLine
                     disabled={disabled}
                     floatingLabelText={name}
@@ -215,6 +232,24 @@ export class MessageForm extends Component {
                 <IconButton disabled={disabled} type="submit">
                     <FontIcon className="material-icons">send</FontIcon>
                 </IconButton>
+                <IconButton
+                    disabled={disabled}
+                    iconClassName="material-icons"
+                    onTouchTap={() => this.file.click()}
+                >
+                    file_upload
+                </IconButton>
+                <input
+                    accept="image/*"
+                    ref={(c) => (this.file = c)}
+                    style={{display: 'none'}}
+                    type="file"
+                    onChange={
+                        (e) => e.target.files[0] &&
+                            e.target.files[0].type.match(/^image\//) &&
+                            onAppendFile(id, e.target.files[0])
+                    }
+                />
             </form>
         );
     }

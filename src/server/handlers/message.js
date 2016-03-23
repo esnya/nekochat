@@ -1,13 +1,26 @@
+import {pick} from 'lodash';
 import {roll} from '../../actions/DiceActions';
 import {list, prependList, push} from '../../actions/MessageActions';
 import * as MESSAGE from '../../constants/MessageActions';
+import {generateId} from '../../utility/id';
+import {File} from '../models/file';
 import {Message} from '../models/message';
 import {diceReplace} from '../dice';
 
 export const message = (client) => (next) => (action) => {
     switch (action.type) {
-        case MESSAGE.CREATE:
-            diceReplace(`${action.message || ''}`)
+        case MESSAGE.CREATE: {
+            const file = action.files && action.files[0];
+            const file_id = file ? generateId() : null;
+
+            (file ? File.insert({
+                id: file_id,
+                user_id: client.user.id,
+                name: file.name,
+                type: file.mime,
+                data: file.blob,
+            }) : Promise.resolve())
+                .then(() => diceReplace(`${action.message || ''}`))
                 .then((diceMessage) =>
                     Message.insert({
                         user_id: client.user.id || null,
@@ -17,6 +30,7 @@ export const message = (client) => (next) => (action) => {
                         name: action.name || null,
                         character_url: action.character_url || null,
                         message: diceMessage.message || null,
+                        file_id,
                     })
                     .then((message) => ({diceMessage, message}))
                 )
@@ -31,6 +45,7 @@ export const message = (client) => (next) => (action) => {
                     client.touch();
                 });
             break;
+        }
         case MESSAGE.FETCH:
             Message
                 .findLimit(client.room.id, client.user.id)

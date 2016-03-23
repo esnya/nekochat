@@ -28,3 +28,11 @@ export const whisperTo = function(whisper_to) {
         whisper_to,
     };
 };
+
+export const appendFile = (id, name, blob)  => ({
+    type: MESSAGE_FORM.APPEND_FILE,
+    id,
+    name,
+    mime: blob.type,
+    blob,
+});

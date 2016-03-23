@@ -87,6 +87,8 @@ describe('MessageForm', () => {
         expect(Object.keys(message).sort()).toEqual([
             'name',
             'character_url',
+            'files',
+            'form_id',
             'icon_id',
             'message',
             'whisper_to',
