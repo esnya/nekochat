@@ -25,6 +25,12 @@ export class IconModel extends Model {
             .defaultTo(this.fn.now());
         table.timestamp('deleted').defaultTo(null);
     }
+
+    findAll(...finder) {
+        return super
+            .findAll(...finder)
+            .select('id', 'user_id', 'name', 'type', 'created', 'modified');
+    }
 }
 
 export const Icon = new IconModel();
