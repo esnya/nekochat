@@ -4,6 +4,7 @@ html, body, .filled-container {
     margin: 0;
     padding: 0;
     font-family: 'Yu Gothic', 'Meiryo', 'Noto Sans Japanese', sans-serif;
+    overflow: hidden;
 }
 #dice3d-table {
     top: 160px;
