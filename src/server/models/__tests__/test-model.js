@@ -242,6 +242,28 @@ describe('Model', () => {
             });
     });
 
+    pit('updates not owned item', () => {
+        query.update = jest.fn().mockReturnValue(Promise.resolve({
+            id: 'item6',
+            value: 'valuevalue',
+        }));
+
+        return new Model('items')
+            .update('item6', 'user6', {
+                value: 'value6',
+            }, true)
+            .then(() => {
+                expect(query.where.mock.calls.length).toBe(2);
+                expect(query.where.mock.calls[0]).toEqual([{
+                    id: 'item6',
+                }]);
+                expect(query.where.mock.calls[1]).toEqual(['id', 'item6']);
+                expect(query.update).toBeCalledWith({
+                    value: 'value6',
+                });
+            });
+    });
+
     pit('deletes item', () => {
         query.then.mockReturnValue(Promise.resolve());
 

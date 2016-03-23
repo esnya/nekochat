@@ -8,6 +8,7 @@ import Divider from 'material-ui/lib/divider';
 import React, { Component, PropTypes } from 'react';
 import { FROM_HEIGHT } from '../components/MessageForm';
 import { MessageFormContainer } from '../containers/MessageFormContainer';
+import {Notes} from '../containers/notes';
 import { MessageList } from '../containers/MessageList';
 
 export const UserListItem = (props) => {
@@ -187,6 +188,9 @@ export class Chat extends Component {
                     onLeftIconButtonTouchTap={() => this.toggleLeftNav()}
                 />
                 <div id="notification-anchor" />
+                <div style={{flex: '0 0 auto'}}>
+                    <Notes />
+                </div>
                 <MessageList />
                 <div style={Styles.FormList}>
                     {messageForm.map((form) => (

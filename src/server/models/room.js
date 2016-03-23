@@ -20,6 +20,7 @@ export class RoomModel extends Model {
             .enum('state', ['open', 'close'])
             .notNullable()
             .defaultTo(['open']);
+        table.text('notes').nullable();
         table
             .timestamp('created')
             .notNullable()

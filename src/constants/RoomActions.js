@@ -19,3 +19,5 @@ export const USER_LEFT = 'ROOM_USER_LEFT';
 export const FETCH_USER = 'ROOM_FETCH_USER';
 export const USER_LIST = 'ROOM_USER_LIST';
 
+export const NOTES_UPDATE = 'ROOM_NOTES_UPDATE';
+export const NOTES_UPDATED = 'ROOM_NOTES_UPDATED';

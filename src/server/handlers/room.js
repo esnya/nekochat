@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {fetch as fetchMessage} from '../../actions/MessageActions';
+import {create, fetch as fetchMessage} from '../../actions/MessageActions';
 import {
     created,
     fetch,
@@ -98,8 +98,29 @@ export const room = (client) => (next) => (action) => {
                         .value()
                 ));
             });
-
             break;
+
+        case ROOM.NOTES_UPDATE:
+            if (!client.room) break;
+
+            console.log(action);
+
+            Room
+                .update(
+                    client.room.id,
+                    client.user.id,
+                    {notes: action.notes || null},
+                    true
+                )
+                .then((room) => {
+                    client.emit(updated(room));
+                    client.publish(updated(room));
+
+                    client.dispatch(create({
+                        name: `NOTES`,
+                        message: room.notes,
+                    }));
+                });
     }
 
     return next(action);
