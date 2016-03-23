@@ -128,3 +128,14 @@ export const userList = (users) => ({
     type: ROOM.USER_LIST,
     users,
 });
+
+export const notesUpdate = (notes) => ({
+    type: ROOM.NOTES_UPDATE,
+    server: true,
+    notes,
+});
+export const notesUpdated = (notes) => ({
+    type: ROOM.NOTES_UPDATED,
+    notes,
+});
+

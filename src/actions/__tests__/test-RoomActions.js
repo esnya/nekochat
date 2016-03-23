@@ -19,6 +19,8 @@ describe('RoomActions', () => {
             ['userLeft', 'USER_LEFT', {}],
             ['fetchUser', 'FETCH_USER'],
             ['userList', 'USER_LIST', []],
+            ['notesUpdate', 'NOTES_UPDATE', 'notes'],
+            ['notesUpdated', 'NOTES_UPDATED', 'notes'],
         ].forEach(([akey, ckey, ...args]) => {
             expect(Actions[akey](...args).type)
                 .toEqual(ACTIONS[ckey]);

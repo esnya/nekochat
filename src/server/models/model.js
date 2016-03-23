@@ -46,9 +46,10 @@ export class Model {
             .then((id) => this.find('id', id));
     }
 
-    update(id, user_id, data) {
+    // eslint-disable-next-line max-params
+    update(id, user_id, data, force = false) {
         return knex(this.table)
-            .where({ id, user_id })
+            .where(force ? {id} : {id, user_id})
             .update(data)
             .then(() => this.find('id', id));
     }

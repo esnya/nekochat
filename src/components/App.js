@@ -16,6 +16,7 @@ import {
 import {
     RoomPasswordDialog,
 } from '../containers/RoomPasswordDialogContainer';
+import {NotesDialog} from '../containers/notes-dialog';
 import { Router } from './Router';
 
 const RouterContainer = connect((state) => ({ ...state.route }))(Router);
@@ -43,6 +44,7 @@ export class App extends Component {
                 <MessageConfigDialogContainer />
                 <ConfirmContainer />
                 <NotificationContainer />
+                <NotesDialog />
             </div>
         );
     }

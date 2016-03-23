@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Guest login with any user id.
 - Upload images with message.
+- Session notes.
 
 ## [1.2.1] - 2016-03-19
 ### Added

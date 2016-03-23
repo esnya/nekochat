@@ -36,6 +36,7 @@ if (config.get('app.livereload')) {
 }
 app.use(express.static('public'));
 app.use(express.static('dist'));
+app.use('/sanitize.css', express.static('node_modules/sanitize.css'));
 app.use('/dice3d', express.static('node_modules/dice3d/dist'));
 app.use('/js', express.static('lib/browser'));
 app.use('/src', express.static('src'));
