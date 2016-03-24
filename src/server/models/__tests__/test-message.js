@@ -1,7 +1,9 @@
 describe('Message', () => {
-    const {
-        Model,
-    } = require('../model');
+    jest.unmock('color-convert');
+
+    const ColumnBuilder = require('knex/lib/schema/columnbuilder');
+    const TableBuilder = require('knex/lib/schema/tablebuilder');
+    const {Model} = require('../model');
 
     const {
         Room,
@@ -14,6 +16,7 @@ describe('Message', () => {
     } = require('../message');
 
     const {
+        find,
         findAll,
         insert,
     } = Model.prototype;
@@ -110,6 +113,84 @@ describe('Message', () => {
             });
     });
 
+    pit('finds all messages', () => {
+        const result = [
+            { id: 1, message: 'msg1' },
+            { id: 2, message: 'msg2\nline' },
+            {
+                id: 3,
+                message: '[[{"type": "NODE_TYPE_TEXT", "text": "msg3"}]]',
+            },
+        ];
+        const query = Promise.resolve(result);
+        query.where = jest.genMockFn().mockReturnValue(query);
+        findAll.mockReturnValue(query);
+
+        return Message.findAll('room1', 'user1')
+            .then((messages) => {
+                expect(messages).toEqual([
+                    { id: 1, message: [[{
+                        type: TEXT,
+                        text: 'msg1',
+                    }]] },
+                    { id: 2, message: [
+                        [{
+                            type: TEXT,
+                            text: 'msg2',
+                        }],
+                        [{
+                            type: TEXT,
+                            text: 'line',
+                        }],
+                    ] },
+                    { id: 3, message: [[{
+                        type: 'NODE_TYPE_TEXT',
+                        text: 'msg3',
+                    }]]},
+                ]);
+            });
+    });
+
+    pit('finds message', () => {
+        const result = { id: 1, message: 'msg1' };
+        const query = Promise.resolve(result);
+        query.where = jest.genMockFn().mockReturnValue(query);
+        find.mockReturnValue(query);
+
+        return Message.find('id', 1)
+            .then((message) => {
+                expect(message).toEqual({
+                    id: 1,
+                    message: [[{
+                        type: TEXT,
+                        text: 'msg1',
+                    }]],
+                });
+            });
+    });
+
+    it('recovers error', () => {
+        expect(Message.transform({
+            message: '[hoge]',
+        })).toEqual({message: [[{
+            type: TEXT,
+            text: '[hoge]',
+        }]]});
+
+        expect(Message.transform({id: 3})).toEqual({id: 3});
+
+        JSON.parse = null;
+
+        try {
+            Message.transform({
+                message: '[hoge]',
+            });
+            throw new Error('it throws error');
+        } catch (e) {
+            expect(e).toBeDefined();
+        }
+    });
+
     pit('inserts message', () => {
         Room.find.mockClear();
         Room.find.mockReturnValue(Promise.resolve({
@@ -160,5 +241,35 @@ describe('Message', () => {
             expect(e).toEqual('Cannot insert to closed room');
             expect(insert).not.toBeCalled();
         });
+    });
+
+    it('creates table', () => {
+        Message.fn = {
+            now: jest.fn(),
+        };
+
+        const column = new ColumnBuilder();
+        const builder = new TableBuilder();
+
+        [
+            'notNullable',
+            'nullable',
+        ].forEach((key) => {
+            column[key].mockReturnValue(column);
+        });
+        column.references.mockReturnValue({
+            inTable: jest.fn(),
+        });
+        [
+            'enum',
+            'increments',
+            'string',
+            'text',
+            'timestamp',
+        ].forEach((key) => {
+            builder[key].mockReturnValue(column);
+        });
+
+        Message.create(builder);
     });
 });
