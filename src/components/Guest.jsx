@@ -34,7 +34,7 @@ const Guest = () => (
                 name="name"
                 pattern="^[^\s]+$"
             />
-            <FlatButton primary label="Login" type="submit" />
+            <FlatButton primary label="Login" name="login" type="submit" />
         </form>
     </div>
 );
