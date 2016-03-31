@@ -108,8 +108,6 @@ export const room = (client) => (next) => (action) => {
         case ROOM.NOTES_UPDATE:
             if (!client.room) break;
 
-            console.log(action);
-
             Room
                 .update(
                     client.room.id,

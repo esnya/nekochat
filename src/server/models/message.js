@@ -8,6 +8,7 @@ export class MessageModel extends Model {
         super('messages');
     }
 
+    // eslint-disable-next-line max-statements
     create(table) {
         table.increments('id').primary();
         table

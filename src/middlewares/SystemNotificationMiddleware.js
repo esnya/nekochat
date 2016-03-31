@@ -2,6 +2,13 @@ import { template, transform } from 'lodash';
 import { get as getCharacter } from '../actions/CharacterActions';
 import { notify } from '../browser/notification';
 
+const getCharacterData = ({getState}, character_url) => {
+    const character_data = character_url &&
+        getState().characters[character_url];
+
+    return character_data && character_data.data;
+};
+
 export const systemNotificationMiddleware =
     ({dispatch, getState}) => (next) => (action) => {
         const {
@@ -10,10 +17,8 @@ export const systemNotificationMiddleware =
         } = action;
 
         if (systemNotify && !getState().dom.focused) {
-            const character_url = systemNotify.character_url;
-            const character_data = character_url &&
-                getState().characters[character_url];
-            const data = character_data && character_data.data;
+            const {character_url} = systemNotify;
+            const data = getCharacterData({getState}, character_url);
 
             if (character_url && !data) {
                 setTimeout(() => dispatch(getCharacter(character_url)));

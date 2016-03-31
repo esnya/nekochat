@@ -3,8 +3,6 @@ import * as ICON from '../../constants/IconActions';
 import {generateId} from '../../utility/id';
 import {Icon} from '../models/icon';
 
-const IconFields = ['id', 'name', 'type', 'created', 'modified'];
-
 export const icon = (client) => (next) => (action) => {
     switch (action.type) {
         case ICON.CREATE: {
