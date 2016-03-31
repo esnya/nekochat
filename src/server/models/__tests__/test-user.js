@@ -1,6 +1,4 @@
 describe('User', () => {
-    jest.unmock('color-convert');
-
     const ColumnBuilder = require('knex/lib/schema/columnbuilder');
     const TableBuilder = require('knex/lib/schema/tablebuilder');
     const {Model} = require('../model');
