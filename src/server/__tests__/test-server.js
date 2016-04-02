@@ -1,6 +1,8 @@
-jest.mock('http');
-jest.dontMock('config');
 describe('server', () => {
-    jest.dontMock('../server');
+    jest.mock('http');
+    jest.unmock('config');
+    require('config');
+
+    jest.unmock('../server');
     require('../server');
 });

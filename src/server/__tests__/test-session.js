@@ -1,5 +1,7 @@
-jest.dontMock('config');
 describe('session', () => {
-    jest.dontMock('../session');
+    jest.unmock('config');
+    require('config');
+
+    jest.unmock('../session');
     require('../session');
 });
