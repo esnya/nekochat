@@ -1,0 +1,4 @@
+app:
+    guest: true
+    livereload: true
+    secret: Must be overrided

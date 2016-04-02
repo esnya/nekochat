@@ -1,0 +1,24 @@
+name: nekochat
+app:
+    guest: false
+    livereload: false
+browser:
+    debug: false
+database:
+    default:
+        client: sqlite3
+        connection:
+            filename: tmp/db.sqlite
+    session:
+        client: sqlite3
+        connection:
+            filename: tmp/db.sqlite
+redis:
+    host: localhost
+server:
+    host: localhost
+    port: 8000
+session:
+    store: database
+    resave: true
+    saveUninitialized: true

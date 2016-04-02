@@ -1,0 +1,6 @@
+app:
+    guest: false
+    livereload: false
+server:
+    host: 0.0.0.0
+    port: 80

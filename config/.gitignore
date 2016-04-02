@@ -1,6 +1,6 @@
 *
 !.gitignore
-!default.json
-!development.json
-!test.json
-!production.json
+!default.yml
+!development.yml
+!test.yml
+!production.yml
