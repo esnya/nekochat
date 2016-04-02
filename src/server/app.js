@@ -3,6 +3,7 @@ import config from 'config';
 import express from 'express';
 import {getLogger} from 'log4js';
 import Livereload from 'connect-livereload';
+import moment from 'moment';
 import {File} from './models/file';
 import {Icon} from './models/icon';
 import {Message} from './models/message';
@@ -51,7 +52,12 @@ const staticView = (req, res, next) => {
             .findAll(room.id, user.id)
             .then((messages) => ({
                 ...room,
-                messages: messages.reverse(),
+                messages: messages
+                    .reverse()
+                    .map((message) => ({
+                        ...message,
+                        modified: moment(message.modified).format('lll'),
+                    })),
             }))
         )
         .then((result) => res.render('static', {
