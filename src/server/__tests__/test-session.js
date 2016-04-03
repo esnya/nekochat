@@ -1,6 +1,9 @@
 describe('session', () => {
-    jest.unmock('config');
-    require('config');
+    jest.setMock('config', {
+        get: jest.fn((path) => ({
+            'session.store': 'database',
+        }[path])),
+    });
 
     jest.unmock('../session');
     require('../session');
