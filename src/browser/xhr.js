@@ -23,5 +23,6 @@ export const get = (url) =>
         xhr.withCredentials = true;
 
         xhr.open('GET', url, true);
+        xhr.setRequestHeader('Accept', 'application/json');
         xhr.send(null);
     });
