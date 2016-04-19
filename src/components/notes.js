@@ -31,6 +31,7 @@ export class Notes extends Component {
             alignItems: 'center',
             display: 'flex',
             verticalAlign: 'center',
+            height: '100%',
         };
 
         const notesElement = open && notes
@@ -46,12 +47,22 @@ export class Notes extends Component {
             </IconButton>
         );
 
+        const nodesStyle = open ? {
+            flex: '1 1 auto',
+            overflow: 'auto',
+            height: '100%',
+        } : {
+            whiteSpace: 'nowrap',
+            overflowX: 'auto',
+            flex: '1 1 auto',
+        };
+
         return (
             <Paper
                 style={Style}
             >
                 {expandElement}
-                <div style={{flex: '1 1 auto'}}>{notesElement}</div>
+                <div style={nodesStyle}>{notesElement}</div>
                 <IconButton iconClassName="material-icons" onTouchTap={onEdit}>
                     mode_edit
                 </IconButton>

@@ -65,6 +65,30 @@ const Style = {
     },
 };
 
+const TextNode = ({text}) => (
+    <span>{text}</span>
+);
+TextNode.propTypes = {text: PropTypes.string.isRequired};
+
+const NotesNode = ({text}) => (
+    <div style={{fontSize: 'xx-small'}}>{text}</div>
+);
+NotesNode.propTypes = {text: PropTypes.string.isRequired};
+
+const Nodes = {
+    notes: NotesNode,
+};
+const Node = (props) => {
+    const {type} = props;
+    const Component = (type in Nodes) ? Nodes[type] : TextNode;
+
+    return <Component {...props} />;
+};
+Node.propTypes = {
+    text: PropTypes.string.isRequired,
+    type: PropTypes.string,
+};
+
 export const MessageBody = ({message, whisper_to, whisperTo}) => {
     const messageStyle = {
         ...Style.ListItem.Message,
@@ -89,11 +113,7 @@ export const MessageBody = ({message, whisper_to, whisperTo}) => {
                         />
                         ) : null
                 }
-                {
-                    line.map((node, n) =>
-                        <span key={n}>{node.text}</span>
-                    )
-                }
+                {line.map((node, n) => <Node {...node} key={n} />)}
             </p>
         ));
 

@@ -188,7 +188,7 @@ export class Chat extends Component {
                     onLeftIconButtonTouchTap={() => this.toggleLeftNav()}
                 />
                 <div id="notification-anchor" />
-                <div style={{flex: '0 0 auto'}}>
+                <div style={{flex: '0 0 auto', maxHeight: '160px'}}>
                     <Notes />
                 </div>
                 <MessageList />

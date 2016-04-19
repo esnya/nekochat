@@ -120,8 +120,13 @@ export const room = (client) => (next) => (action) => {
                     client.publish(updated(room));
 
                     client.dispatch(create({
-                        name: `NOTES`,
-                        message: room.notes,
+                        name: 'NOTES',
+                        message: JSON.stringify(room.notes
+                            .split(/\r\n|\n/)
+                            .map((line) => [{
+                                type: 'notes',
+                                text: line,
+                            }])),
                     }));
                 })
                 .catch((e) => client.logger.error(e));

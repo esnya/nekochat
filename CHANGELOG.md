@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Fixed
+- Styles of long notes.
+
 ## [1.3.0] - 2016-04-02
 ### Changed
 - Hide edit button on not owned room.

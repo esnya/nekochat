@@ -47,6 +47,7 @@ export class NotesDialog extends Component {
 
         return (
             <Dialog
+                autoScrollBodyContent
                 actions={actions}
                 open={open}
                 title="Notes"
