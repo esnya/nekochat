@@ -78,11 +78,11 @@ describe('Model', () => {
             { id: 2 },
         ]));
 
-        return new Model('items')
+        return new Model('items', 'id', 'ASC')
             .findAll()
             .then((items) => {
                 expect(knex).toBeCalledWith('items');
-                expect(query.orderBy).toBeCalledWith('created', 'DESC');
+                expect(query.orderBy).toBeCalledWith('id', 'ASC');
                 expect(query.whereNull).toBeCalledWith('deleted');
                 expect(items).toEqual([
                     { id: 0 },

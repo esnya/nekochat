@@ -2,7 +2,7 @@ import {Model} from './model';
 
 export class IconModel extends Model {
     constructor() {
-        super('icons');
+        super('icons', 'name', 'ASC');
     }
 
     create(table) {

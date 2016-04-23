@@ -3,9 +3,11 @@ import {knex} from '../knex';
 export const NOT_FOUND = 'MODEL_NOT_FOUND';
 
 export class Model {
-    constructor(table) {
+    constructor(table, orderBy = 'created', order = 'DESC') {
         this.table = table;
         this.fn = knex.fn;
+        this.orderBy = orderBy;
+        this.order = order;
 
         knex.schema.hasTable(table)
             .then((exists) =>
@@ -20,7 +22,7 @@ export class Model {
     findAll(...finder) {
         const query = knex(this.table)
             .whereNull('deleted')
-            .orderBy('created', 'DESC');
+            .orderBy(this.orderBy, this.order);
 
         if (finder.length === 0) return query;
 

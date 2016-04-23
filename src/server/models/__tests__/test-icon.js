@@ -11,7 +11,7 @@ describe('Icon', () => {
     const {Icon} = require('../icon');
 
     it('inherits Model', () => {
-        expect(Model).toBeCalledWith('icons');
+        expect(Model).toBeCalledWith('icons', 'name', 'ASC');
     });
 
     pit('finds all', () => {
