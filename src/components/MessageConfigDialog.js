@@ -146,6 +146,7 @@ export class MessageConfigDialog extends Component {
             onCharacterRequested: PropTypes.func.isRequired,
             removeIcon: PropTypes.func.isRequired,
             onNotify: PropTypes.func.isRequired,
+            onEditIcon: PropTypes.func.isRequired,
         };
     }
 
@@ -276,6 +277,7 @@ export class MessageConfigDialog extends Component {
             user,
             removeIcon,
             close,
+            onEditIcon,
         } = this.props;
         const {
             name,
@@ -333,15 +335,10 @@ export class MessageConfigDialog extends Component {
                         <div>Icon</div>
                         <IconButton
                             iconClassName="material-icons"
-                            iconStyle={{
-                                color: deleteMode ? Colors.red700 : null,
-                            }}
                             style={Style.IconDeleteIcon}
-                            onTouchTap={() => this.setState({
-                                deleteMode: !deleteMode,
-                            })}
+                            onTouchTap={onEditIcon}
                         >
-                            delete
+                            mode_edit
                         </IconButton>
                     </div>
                     <div style={Style.IconRadioGroup}>

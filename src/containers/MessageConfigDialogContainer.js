@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { get as onCharacterRequested } from '../actions/CharacterActions';
-import { getDialog, close } from '../actions/DialogActions';
+import { getDialog, close, open } from '../actions/DialogActions';
 import {
     create as createIcon,
     fetch as fetchIcon,
@@ -38,6 +38,7 @@ export const MessageConfigDialogContainer = connect(
         removeIcon,
         updateForm,
         onCharacterRequested,
+        onEditIcon: () => open('icon-edit'),
         onNotify,
         close: () => close('message-config'),
     })
