@@ -1,5 +1,7 @@
+import _ from 'lodash';
 import Dialog from 'material-ui/lib/dialog';
 import FlatButton from 'material-ui/lib/flat-button';
+import IconButton from 'material-ui/lib/icon-button';
 import React, {Component, PropTypes} from 'react';
 import {IconListItem} from './icon-list-item';
 
@@ -7,9 +9,10 @@ export class IconEditDialog extends Component {
     static get propTypes() {
         return {
             iconList: PropTypes.array.isRequired,
-            open: PropTypes.bool,
-            onClose: PropTypes.func,
-            onRemove: PropTypes.func,
+            open: PropTypes.bool.isRequired,
+            onClose: PropTypes.func.isRequired,
+            onRemove: PropTypes.func.isRequired,
+            onRemoveSelected: PropTypes.func.isRequired,
         };
     }
 
@@ -26,6 +29,7 @@ export class IconEditDialog extends Component {
             iconList,
             open,
             onRemove,
+            onRemoveSelected,
             onClose,
         } = this.props;
         const {
@@ -46,7 +50,7 @@ export class IconEditDialog extends Component {
                 <IconListItem
                     {...icon}
                     key={icon.id}
-                    selected={selections[icon.id]}
+                    selected={Boolean(selections[icon.id])}
                     onRemove={() => onRemove(icon)}
                     onSelect={
                         (e, v) => this.setState({
@@ -68,6 +72,18 @@ export class IconEditDialog extends Component {
                 title="Icons"
                 onRequestClose={onClose}
             >
+                <IconButton
+                    disabled={!_(selections).values().some()}
+                    iconClassName="material-icons"
+                    onTouchTap={
+                        (e) => onRemoveSelected(
+                            e,
+                            iconList.filter(({id}) => selections[id])
+                        )
+                    }
+                >
+                    delete
+                </IconButton>
                 <ul>{iconListItemElements}</ul>
             </Dialog>
         );

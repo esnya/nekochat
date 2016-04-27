@@ -20,6 +20,18 @@ export const remove = function(icon) {
     };
 };
 
+export const removeSelected = function(icons) {
+    return {
+        type: ICON.REMOVE_SELECTED,
+        confirm: {
+            title: 'Delete Icon',
+            message: 'Delete selected icons',
+        },
+        server: true,
+        icons,
+    };
+};
+
 export const fetch = function() {
     return {
         type: ICON.FETCH,

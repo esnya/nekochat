@@ -40,6 +40,19 @@ export const icon = (client) => (next) => (action) => {
                 .then(() => action.id)
                 .catch((e) => client.logger.error(e));
             break;
+        case ICON.REMOVE_SELECTED:
+            action
+                .icons
+                .forEach(({id}) => {
+                    Icon
+                        .del({
+                            id,
+                            user_id: client.user.id,
+                        })
+                        .then(() => action.id)
+                        .catch((e) => client.logger.error(e));
+                });
+            break;
     }
 
     return next(action);

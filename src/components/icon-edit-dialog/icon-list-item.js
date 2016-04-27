@@ -32,7 +32,7 @@ export const IconListItem = (props) => {
                 onCheck={onSelect}
             />
             <MessageIcon id={id} />
-            name
+            {name}
             <IconButton iconClassName="material-icons" onTouchTap={onRemove}>
                 delete
             </IconButton>

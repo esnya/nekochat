@@ -11,6 +11,10 @@ export const iconListReducer = function(state = [], action) {
             ];
         case ICON.REMOVE:
             return state.filter((icon) => icon.id !== action.id);
+        case ICON.REMOVE_SELECTED:
+            return state.filter((
+                {id}) => !action.icons.find((i) => i.id === id)
+            );
         default:
             return state;
     }
