@@ -64,27 +64,43 @@ export class IconEditDialog extends Component {
             )
         );
 
+        const style = {
+            body: {
+                display: 'flex',
+                flexDirection: 'column',
+            },
+            list: {
+                flex: '1 1 auto',
+                overflowY: 'scroll',
+                WebkitOverflowScrolling: 'touch',
+            },
+        };
+
         return (
             <Dialog
-                autoScrollBodyContent
                 actions={actions}
+                bodyStyle={style.body}
                 open={open}
                 title="Icons"
                 onRequestClose={onClose}
             >
-                <IconButton
-                    disabled={!_(selections).values().some()}
-                    iconClassName="material-icons"
-                    onTouchTap={
-                        (e) => onRemoveSelected(
-                            e,
-                            iconList.filter(({id}) => selections[id])
-                        )
-                    }
-                >
-                    delete
-                </IconButton>
-                <ul>{iconListItemElements}</ul>
+                <div>
+                    <IconButton
+                        disabled={!_(selections).values().some()}
+                        iconClassName="material-icons"
+                        onTouchTap={
+                            (e) => onRemoveSelected(
+                                e,
+                                iconList.filter(({id}) => selections[id])
+                            )
+                        }
+                    >
+                        delete
+                    </IconButton>
+                </div>
+                <div style={style.list}>
+                    <ul>{iconListItemElements}</ul>
+                </div>
             </Dialog>
         );
     }
