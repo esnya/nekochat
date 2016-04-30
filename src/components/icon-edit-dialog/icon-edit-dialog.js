@@ -13,6 +13,7 @@ export class IconEditDialog extends Component {
             onClose: PropTypes.func.isRequired,
             onRemove: PropTypes.func.isRequired,
             onRemoveSelected: PropTypes.func.isRequired,
+            onUploadIcon: PropTypes.func.isRequired,
         };
     }
 
@@ -28,9 +29,10 @@ export class IconEditDialog extends Component {
         const {
             iconList,
             open,
+            onClose,
             onRemove,
             onRemoveSelected,
-            onClose,
+            onUploadIcon,
         } = this.props;
         const {
             selections,
@@ -85,6 +87,19 @@ export class IconEditDialog extends Component {
                 onRequestClose={onClose}
             >
                 <div>
+                    <input
+                        multiple
+                        ref={(c) => (this.upload = c)}
+                        style={{display: 'none'}}
+                        type="file"
+                        onChange={onUploadIcon}
+                    />
+                    <IconButton
+                        iconClassName="material-icons"
+                        onTouchTap={(e) => this.upload.click()}
+                    >
+                        file_upload
+                    </IconButton>
                     <IconButton
                         disabled={!_(selections).values().some()}
                         iconClassName="material-icons"
