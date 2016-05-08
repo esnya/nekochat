@@ -1,6 +1,6 @@
 name: nekochat
 app:
-    guest: false
+    guest: true
     livereload: false
 browser:
     debug: false
