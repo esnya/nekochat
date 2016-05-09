@@ -10,6 +10,7 @@ COPY package.json /usr/src/app
 RUN npm install
 
 COPY . /usr/src/app
+ENV DISABLE_NOTIFIER true
 RUN npm run production
 
 EXPOSE 80
