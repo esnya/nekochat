@@ -20,8 +20,10 @@ $ docker build -t ukatama/nekochat nekochat
 
 ### Config
 ```bash
-$ vim /path/to/nekochat/config.yml
+$ vi /path/to/nekochat/config.yml
 $ cat /path/to/nekochat/config.yml
+app:
+    secret: <any secret value>
 redis:
     host: redis
 ```
@@ -41,6 +43,15 @@ $ npm install
 $ npm run build
 ```
 
+### Config
+You should set the value of `app.secret`.
+```bash
+$ vi config/local.yml
+$ cat config/local.yml
+app:
+    secret: <any secret value>
+```
+
 ### Run
 ```bash
 $ npm start
@@ -57,6 +68,7 @@ See also [node-config](https://github.com/lorenwest/node-config) abtout the conf
 | name             | string  | Name of the application instance.                                |
 | app.guest        | boolean | Set `true` to allow guest login.                                 |
 | app.livereload   | boolean | Set `true` to enable livereload scrpit to develop.               |
+| app.secret       | string  | Secret value for sessions.                                       |
 | browser.debug    | boolean | Set `true` to enable client debugging mode.                      |
 | database.default | object  | Default database configurations. See also [Knex.js](http://knexjs.org/#Installation-client). |
 | database.session | object  | Session database configurations. This is only used `session.store` is set to `database`. |
