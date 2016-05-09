@@ -2,6 +2,7 @@ name: nekochat
 app:
     guest: true
     livereload: false
+    secret: secret!!
 browser:
     debug: false
 database:
