@@ -150,13 +150,16 @@ describe('Model', () => {
     });
 
     pit('creates new item by insert', () => {
+        const now = Date.now();
+        Date.now = jest.fn().mockReturnValue(now);
+
         query.then.mockImpl(
             (callback) => {
                 query.then.mockImpl(
                     (callback) => Promise.resolve({
                         id: 'id3', value: 'item3',
-                        created: knex.fn.now(),
-                        modified: knex.fn.now(),
+                        created: now,
+                        modified: now,
                     }).then(callback)
                 );
 
@@ -173,26 +176,29 @@ describe('Model', () => {
                 expect(query.insert).toBeCalledWith({
                     id: 'id3',
                     value: 'item3',
-                    created: knex.fn.now(),
-                    modified: knex.fn.now(),
+                    created: now,
+                    modified: now,
                 });
 
                 expect(item).toEqual({
                     id: 'id3', value: 'item3',
-                    created: knex.fn.now(),
-                    modified: knex.fn.now(),
+                    created: now,
+                    modified: now,
                 });
             });
     });
 
     pit('creates new item by insert with autoincrements', () => {
+        const now = Date.now();
+        Date.now = jest.fn().mockReturnValue(now);
+
         query.then.mockImpl(
             (callback) => {
                 query.then.mockImpl(
                     (callback) => Promise.resolve({
                         id: 4, value: 'item4',
-                        created: knex.fn.now(),
-                        modified: knex.fn.now(),
+                        created: now,
+                        modified: now,
                     }).then(callback)
                 );
 
@@ -207,22 +213,26 @@ describe('Model', () => {
             .then((item) => {
                 expect(query.insert).toBeCalledWith({
                     value: 'item4',
-                    created: knex.fn.now(),
-                    modified: knex.fn.now(),
+                    created: now,
+                    modified: now,
                 });
 
                 expect(item).toEqual({
                     id: 4, value: 'item4',
-                    created: knex.fn.now(),
-                    modified: knex.fn.now(),
+                    created: now,
+                    modified: now,
                 });
             });
     });
 
     pit('updates item', () => {
+        const now = Date.now();
+        Date.now = jest.fn().mockReturnValue(now);
+
         query.update = jest.fn().mockReturnValue(Promise.resolve({
             id: 'item6',
             value: 'valuevalue',
+            modified: now,
         }));
 
         return new Model('items')
@@ -238,14 +248,19 @@ describe('Model', () => {
                 expect(query.where.mock.calls[1]).toEqual(['id', 'item6']);
                 expect(query.update).toBeCalledWith({
                     value: 'value6',
+                    modified: now,
                 });
             });
     });
 
     pit('updates not owned item', () => {
+        const now = Date.now();
+        Date.now = jest.fn().mockReturnValue(now);
+
         query.update = jest.fn().mockReturnValue(Promise.resolve({
             id: 'item6',
             value: 'valuevalue',
+            modified: now,
         }));
 
         return new Model('items')
@@ -260,6 +275,7 @@ describe('Model', () => {
                 expect(query.where.mock.calls[1]).toEqual(['id', 'item6']);
                 expect(query.update).toBeCalledWith({
                     value: 'value6',
+                    modified: now,
                 });
             });
     });

@@ -41,8 +41,8 @@ export class Model {
         return knex(this.table)
             .insert({
                 ...data,
-                created: knex.fn.now(),
-                modified: knex.fn.now(),
+                created: Date.now(),
+                modified: Date.now(),
             })
             .then((ids) => data.id || ids[0])
             .then((id) => this.find('id', id));
@@ -52,7 +52,10 @@ export class Model {
     update(id, user_id, data, force = false) {
         return knex(this.table)
             .where(force ? {id} : {id, user_id})
-            .update(data)
+            .update({
+                ...data,
+                modified: Date.now(),
+            })
             .then(() => this.find('id', id));
     }
 
