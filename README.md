@@ -7,6 +7,23 @@
 
 Online chat for tabletop role-praing games.
 
+## Commands
+
+### Dice roll
+You can roll the dice on the command in the message.
+
+e.g.
+- `2d6=`
+- `1d100=`
+- `2d+3=`
+- `2d+2-1=`
+
+### Whisper message
+You can send a whisper messages to start from `@user_id`.
+
+e.g.
+- `@alice This message will be displayed only in alice`
+
 ## Changelog
 See [CHANGELOG.md](https://github.com/ukatama/nekochat/blob/master/CHANGELOG.md)
 
