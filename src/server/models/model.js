@@ -1,4 +1,4 @@
-import {knex} from '../knex';
+import {knex, now} from '../knex';
 
 export const NOT_FOUND = 'MODEL_NOT_FOUND';
 
@@ -41,8 +41,8 @@ export class Model {
         return knex(this.table)
             .insert({
                 ...data,
-                created: Date.now(),
-                modified: Date.now(),
+                created: now(),
+                modified: now(),
             })
             .then((ids) => data.id || ids[0])
             .then((id) => this.find('id', id));
@@ -54,7 +54,7 @@ export class Model {
             .where(force ? {id} : {id, user_id})
             .update({
                 ...data,
-                modified: Date.now(),
+                modified: now(),
             })
             .then(() => this.find('id', id));
     }
@@ -62,6 +62,6 @@ export class Model {
     del(...finder) {
         return knex(this.table)
             .where(...finder)
-            .update('deleted', knex.fn.now());
+            .update('deleted', now());
     }
 }
