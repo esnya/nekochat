@@ -1,9 +1,22 @@
+import path from 'path';
+import { readFileSync } from 'fs';
+import PEG from 'pegjs';
+
 const NUM_MAX = 9999;
 
-export const diceReplace = function (str) {
-    const results = [];
+const data = readFileSync(path.join(__dirname, '../../pegjs/fluorite5.pegjs'));
 
-    const replaced = str.replace(
+// eslint-disable-next-line no-sync
+const parser = PEG.buildParser(data.toString(), {
+    cache: true,
+    allowedStartRules: [
+        "Expression",
+        "VMFactory",
+    ],
+});
+
+const parseSimple = function (str, results) {
+    return str.replace(
         /([0-9]*d[0-9]*|[0-9]+)([+-][0-9]*d[0-9]*|[+-][0-9]+)*=/g,
         (exp) => {
             let status = '';
@@ -55,9 +68,38 @@ export const diceReplace = function (str) {
             return exp + diced + sum + status;
         }
     );
+};
+
+export const diceReplace = function (str) {
+    // [A, B, A, ... , B, A] A: Text, B: Flu5
+    const array = parser.parse(str, {
+        startRule: "Expression",
+    });
+    const vm = new (parser.parse("standard", {
+        startRule: "VMFactory",
+    }))();
+    const results = [];
+    const messages = [];
+    let i;
+
+    for (i = 0; i < array.length; i++) {
+        if (i % 2 === 0) {
+            // Text
+            messages.push(parseSimple(array[i], results));
+        } else {
+            // Flu5
+            messages.push(array[i][0]);
+            messages.push("=");
+            try {
+                messages.push(vm.toString(array[i][1](vm, "get")));
+            } catch (e) {
+                messages.push("[Error: " + e + "]");
+            }
+        }
+    }
 
     return Promise.resolve({
-        message: replaced,
+        message: messages.join(""),
         results,
     });
 };

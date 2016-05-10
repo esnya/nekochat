@@ -1,5 +1,5 @@
 describe('dice', () => {
-    jest.dontMock('../dice');
+    jest.autoMockOff();
     const diceReplace = require('../dice').diceReplace;
 
     let random;
