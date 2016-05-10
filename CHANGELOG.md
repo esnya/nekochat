@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- FluoriteScript5 dicebot ([#56](https://github.com/ukatama/nekochat/pull/56))
+
 ## [1.3.2] - 2016-05-08
 ### Fixed
 - Styles of long notes.
