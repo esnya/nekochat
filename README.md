@@ -27,6 +27,16 @@ e.g.
 ## Changelog
 See [CHANGELOG.md](https://github.com/ukatama/nekochat/blob/master/CHANGELOG.md)
 
+## Requirements
+- Node.js 5.x and npm
+- SQL Database
+    - sqlite3 (Default, installed by npm)
+    - mysql
+    - etc... (See also: [Knex.js](http://knexjs.org/))
+- Redis Server
+- [Nekoproxy](http://github.com/ukatama/nekoproxy) [optional]
+    - Required to enable Twitter authentication.
+
 ## As a Docker Container
 ### Build
 
