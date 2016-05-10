@@ -30,8 +30,8 @@ See [CHANGELOG.md](https://github.com/ukatama/nekochat/blob/master/CHANGELOG.md)
 ## Requirements
 - Node.js 5.x and npm
 - SQL Database
-    - sqlite3 (Default, installed by npm)
-    - mysql
+    - SQLite3 (Default, installed by npm)
+    - MySQL
     - etc... (See also: [Knex.js](http://knexjs.org/))
 - Redis Server
 - [Nekoproxy](http://github.com/ukatama/nekoproxy) [optional]
@@ -60,6 +60,8 @@ redis:
 $ docker run -d --name redis --env redis
 $ docker run -d --name nekochat -p 80:80 --env NODE_ENV=production --link redis:redis -v /path/to/nekochat/config.yml:/usr/src/app/config/local.yml:ro ukatama/nekochat
 ```
+
+Add an option `-v /path/to/nekochat/tmp:/usr/src/app/tmp` to `docker run` to perpetuate SQLite3 database.
 
 ## As a Node.js application
 ### Build
