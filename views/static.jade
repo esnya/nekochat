@@ -20,10 +20,10 @@ html
         tbody
             each message in messages
                 tr
-                    td!= message.name +  '@' + message.user_id
+                    td= message.name +  '@' + message.user_id
                     td
                         each line in message.message
                             p
                                 each node in line
-                                    span!= node.text
-                    td!= message.modified
+                                    span= node.text
+                    td= message.modified
