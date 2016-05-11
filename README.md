@@ -7,6 +7,9 @@
 
 Online chat for tabletop role-praing games.
 
+- The `master` branch is **unstable**. Basically, it works successfully, but have not been fully tested.
+- To get **stable** releases, checkout version tags (i.e. `$ git checkout v1.3.0`).
+
 ## Commands
 
 ### Dice roll
