@@ -22,11 +22,13 @@ export class Connection {
         socket.on('action', (action) => this.dispatch(action));
     }
     initRedis() {
-        this.redis = createClient(config.get('redis'));
+        this.redis = createClient(config.get('redis'))
+            .on('error', (e) => logger.error(e));
     }
     initSubscriber() {
         const subscriber =
-            this.subscriber = createClient(config.get('redis'));
+            this.subscriber = createClient(config.get('redis'))
+                .on('error', (e) => logger.error(e));
 
         subscriber.on('message', (channel, message) =>
             this.onMessage(channel, JSON.parse(message))
@@ -34,7 +36,8 @@ export class Connection {
     }
     initWhisperSubscriber() {
         const subscriber =
-            this.whisperSubscriber = createClient(config.get('redis'));
+            this.whisperSubscriber = createClient(config.get('redis'))
+                .on('error', (e) => logger.error(e));
 
         subscriber.on('message', (channel, message) =>
             this.onMessage(channel, JSON.parse(message))
