@@ -180,7 +180,7 @@ export class Chat extends Component {
                                 iconClassName="material-icons"
                                 onTouchTap={onRoomEdit}
                             >
-                                mode_edit
+                                settings
                             </IconButton>
                         )
                     }
