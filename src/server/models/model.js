@@ -8,15 +8,6 @@ export class Model {
         this.fn = knex.fn;
         this.orderBy = orderBy;
         this.order = order;
-
-        knex.schema.hasTable(table)
-            .then((exists) =>
-                exists || knex.schema.createTable(
-                    table,
-                    (table) => this.create(table)
-                )
-            )
-            .then(() => {});
     }
 
     findAll(...finder) {

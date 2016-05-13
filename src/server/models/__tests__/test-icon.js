@@ -1,6 +1,4 @@
 describe('Icon', () => {
-    const ColumnBuilder = require('knex/lib/schema/columnbuilder');
-    const TableBuilder = require('knex/lib/schema/tablebuilder');
     const {Model} = require('../model');
 
     const {
@@ -28,36 +26,5 @@ describe('Icon', () => {
                 expect(query.select.mock.calls[0]).not.toContain('data');
                 expect(icons).toEqual(result);
             });
-    });
-
-    it('creates table', () => {
-        Icon.fn = {
-            now: jest.fn(),
-        };
-
-        const column = new ColumnBuilder();
-        const builder = new TableBuilder();
-
-        [
-            'notNullable',
-            'nullable',
-        ].forEach((key) => {
-            column[key].mockReturnValue(column);
-        });
-        column.references.mockReturnValue({
-            inTable: jest.fn(),
-        });
-        [
-            'binary',
-            'enum',
-            'increments',
-            'string',
-            'text',
-            'timestamp',
-        ].forEach((key) => {
-            builder[key].mockReturnValue(column);
-        });
-
-        Icon.create(builder);
     });
 });

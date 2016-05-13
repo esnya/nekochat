@@ -1,6 +1,4 @@
 describe('Message', () => {
-    const ColumnBuilder = require('knex/lib/schema/columnbuilder');
-    const TableBuilder = require('knex/lib/schema/tablebuilder');
     const {Model} = require('../model');
 
     const {
@@ -239,35 +237,5 @@ describe('Message', () => {
             expect(e).toEqual('Cannot insert to closed room');
             expect(insert).not.toBeCalled();
         });
-    });
-
-    it('creates table', () => {
-        Message.fn = {
-            now: jest.fn(),
-        };
-
-        const column = new ColumnBuilder();
-        const builder = new TableBuilder();
-
-        [
-            'notNullable',
-            'nullable',
-        ].forEach((key) => {
-            column[key].mockReturnValue(column);
-        });
-        column.references.mockReturnValue({
-            inTable: jest.fn(),
-        });
-        [
-            'enum',
-            'increments',
-            'string',
-            'text',
-            'timestamp',
-        ].forEach((key) => {
-            builder[key].mockReturnValue(column);
-        });
-
-        Message.create(builder);
     });
 });

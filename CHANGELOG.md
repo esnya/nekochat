@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - FluoriteScript5 dicebot ([#56](https://github.com/ukatama/nekochat/pull/56))
 - Icon filter
+
+### Changed
+- Database will now be migrated with Knex.js
+
 ### Fixed
 - XSS on static text view ([#57](https://github.com/ukatama/nekochat/issues/57))
 
@@ -16,6 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.3.0] - 2016-04-02
 ### Changed
 - Hide edit button on not owned room.
+
 ### Added
 - Guest login with any user id.
 - Upload images with message.

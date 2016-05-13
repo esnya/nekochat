@@ -18,3 +18,8 @@ export const inserted = function(ids) {
         ? Promise.reject(new Error('Failed to insert'))
         : Promise.resolve(ids[0]);
 };
+
+knex.migrate
+    .latest()
+    // .then(() => knex.seed.run())
+    .then(() => {});
