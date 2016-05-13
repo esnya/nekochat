@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - FluoriteScript5 dicebot ([#56](https://github.com/ukatama/nekochat/pull/56))
+- Icon filter
 ### Fixed
 - XSS on static text view ([#57](https://github.com/ukatama/nekochat/issues/57))
 

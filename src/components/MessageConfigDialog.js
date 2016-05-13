@@ -23,6 +23,7 @@ const Style = {
     },
     IconHeader: {
         display: 'flex',
+        alignItems: 'baseline',
     },
     IconRadioGroup: {
         flex: '1 1 auto',
@@ -284,6 +285,7 @@ export class MessageConfigDialog extends Component {
             character_data,
             character_url,
             icon_id,
+            iconFilter,
         } = form;
         const {
             deleteMode,
@@ -297,6 +299,21 @@ export class MessageConfigDialog extends Component {
             />,
         ];
         const color = makeColor(`${name}${user && user.id}`);
+
+        const iconElements = iconList
+            .filter(
+                ({name}) => !iconFilter || name.indexOf(iconFilter) >= 0
+            )
+            .map((icon) => (
+                <RadioItem
+                    deleteMode={deleteMode}
+                    icon={icon}
+                    icon_id={icon_id}
+                    key={icon.id}
+                    removeIcon={removeIcon}
+                    onUpdate={(key) => this.update(key)}
+                />
+            ));
 
         return (
             <Dialog autoScrollBodyContent
@@ -333,6 +350,13 @@ export class MessageConfigDialog extends Component {
                     </div>
                     <div style={Style.IconHeader} >
                         <div>Icon</div>
+                        <TextField
+                            defaultValue={iconFilter}
+                            floatingLabelText="Filter"
+                            ref={(c) => c && (this.iconFilter = c)}
+                            style={{margin: '0 12px'}}
+                            onBlur={() => this.update('iconFilter')}
+                        />
                         <IconButton
                             iconClassName="material-icons"
                             style={Style.IconDeleteIcon}
@@ -385,16 +409,7 @@ export class MessageConfigDialog extends Component {
                                 />
                             </label>
                         </div>
-                        {iconList.map((icon) => (
-                            <RadioItem
-                                deleteMode={deleteMode}
-                                icon={icon}
-                                icon_id={icon_id}
-                                key={icon.id}
-                                removeIcon={removeIcon}
-                                onUpdate={(key) => this.update(key)}
-                            />
-                        ))}
+                        {iconElements}
                     </div>
                 </form>
             </Dialog>
