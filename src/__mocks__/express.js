@@ -1,3 +1,5 @@
+'use strict';
+
 export const mockApp = {
     use: jest.genMockFn(),
     set: jest.genMockFn(),

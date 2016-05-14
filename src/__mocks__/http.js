@@ -1,3 +1,5 @@
+'use strict';
+
 const mockServer = {
     listen: jest.genMockFn(),
     address: jest.genMockFn(),

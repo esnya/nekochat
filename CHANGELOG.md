@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Fixed
+- Avoid the bug of ESLint ([#6159](https://github.com/eslint/eslint/issues/6159)) 
+
 ## [1.4.0] - 2016-05-14
 ### Added
 - FluoriteScript5 dicebot ([#56](https://github.com/ukatama/nekochat/pull/56))
