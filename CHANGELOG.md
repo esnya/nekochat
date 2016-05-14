@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.4.2] - 2016-05-15
 ### Fixed
 - Layout of RoomUpdateDialog ([#59](https://github.com/ukatama/nekochat/issues/59))
 
