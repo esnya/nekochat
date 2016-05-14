@@ -12,6 +12,15 @@ Online chat for tabletop role-praing games.
 
 ## Commands
 
+### Fluorite5: Dice script interpreter
+You can send message with [Fluorite5](https://github.com/MirrgieRiana/scriptFluorite5) script sabdwitched with `\`.
+
+e.g.
+- `\2d\` -> `2d=10`
+- `\10*2-4\` -> `16`
+- `\(1,2,3).sum()\` -> `6`
+- `\(1~3).sum()\` -> `6`
+
 ### Dice roll
 You can roll the dice on the command in the message.
 
