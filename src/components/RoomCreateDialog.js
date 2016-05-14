@@ -54,6 +54,7 @@ export class RoomCreateDialog extends Component {
 
         return (
             <Dialog
+                autoScrollBodyContent
                 actions={Actions}
                 open={open}
                 title="Create Chat Room"

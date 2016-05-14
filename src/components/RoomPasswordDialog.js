@@ -47,6 +47,7 @@ export class RoomPasswordDialog extends Component {
 
         return (
             <Dialog
+                autoScrollBodyContent
                 actions={actions}
                 open={open}
                 title="Password"
