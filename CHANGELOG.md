@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Fixed
+- Layout of RoomUpdateDialog ([#59](https://github.com/ukatama/nekochat/issues/59))
+
 ## [1.4.1] - 2016-05-14
 ### Fixed
 - Avoid the bug of ESLint ([#6159](https://github.com/eslint/eslint/issues/6159)) 

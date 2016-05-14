@@ -94,15 +94,14 @@ export class RoomUpdateDialog extends Component {
                 display: 'block',
             },
             RadioGroup: {
-                display: 'flex',
             },
             Radio: {
-                flex: '1 1 auto',
             },
         };
 
         return (
             <Dialog
+                autoScrollBodyContent
                 actions={Actions}
                 open={open}
                 title="Chat Room"
