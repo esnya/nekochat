@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.5.0] - 2016-05-22
 ### Changed
 - Fluorite5: 5.7.0 -> 5.8.1 ([#60](https://github.com/ukatama/nekochat/pull/60))
   - See also: [https://github.com/MirrgieRiana/scriptFluorite5/wiki/Update58](https://github.com/MirrgieRiana/scriptFluorite5/wiki/Update58)
