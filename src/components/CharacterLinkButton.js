@@ -1,4 +1,4 @@
-import IconButton from 'material-ui/lib/icon-button';
+import IconButton from 'material-ui/IconButton';
 import React, { PropTypes } from 'react';
 
 const Style = {

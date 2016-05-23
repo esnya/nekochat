@@ -1,5 +1,5 @@
-import Checkbox from 'material-ui/lib/checkbox';
-import IconButton from 'material-ui/lib/icon-button';
+import Checkbox from 'material-ui/Checkbox';
+import IconButton from 'material-ui/IconButton';
 import React, { PropTypes} from 'react';
 import {MessageIcon} from '../../containers/MessageIconContainer';
 

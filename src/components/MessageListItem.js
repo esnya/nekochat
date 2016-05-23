@@ -1,4 +1,4 @@
-import Colors from 'material-ui/lib/styles/colors';
+import * as Colors from 'material-ui/styles/colors';
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { makeColor } from '../utility/color';

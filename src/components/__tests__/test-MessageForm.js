@@ -1,15 +1,16 @@
 describe('MessageForm', () => {
-    const TextField = require('material-ui/lib/text-field');
+    const TextField = require('material-ui/TextField').default;
 
-    jest.dontMock('react');
+    jest.unmock('react-dom');
+    jest.unmock('react');
     const React = require('react');
 
-    jest.dontMock('react-addons-test-utils');
+    jest.unmock('react-addons-test-utils');
     const {
         renderIntoDocument,
     } = require('react-addons-test-utils');
 
-    jest.dontMock('../MessageForm');
+    jest.unmock('../MessageForm');
     const MessageForm = require('../MessageForm').MessageForm;
 
     class TestWrapper extends React.Component {

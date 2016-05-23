@@ -1,10 +1,10 @@
-import AppBar from 'material-ui/lib/app-bar';
-import FontIcon from 'material-ui/lib/font-icon';
-import IconButton from 'material-ui/lib/icon-button';
-import LeftNav from 'material-ui/lib/left-nav';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import Colors from 'material-ui/lib/styles/colors';
-import Divider from 'material-ui/lib/divider';
+import AppBar from 'material-ui/AppBar';
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import * as Colors from 'material-ui/styles/colors';
+import Divider from 'material-ui/Divider';
 import React, { Component, PropTypes } from 'react';
 import { FROM_HEIGHT } from '../components/MessageForm';
 import { MessageFormContainer } from '../containers/MessageFormContainer';
@@ -202,7 +202,7 @@ export class Chat extends Component {
                         />
                     ))}
                 </div>
-                <LeftNav
+                <Drawer
                     docked={false}
                     open={leftNav}
                     onRequestChange={() => this.toggleLeftNav()}
@@ -229,7 +229,7 @@ export class Chat extends Component {
                     </MenuItem>
                     <Divider />
                     {users.map((u) => <UserListItem {...u} key={u.id} />)}
-                </LeftNav>
+                </Drawer>
             </div>
         );
     }

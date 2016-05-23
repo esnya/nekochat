@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import Dialog from 'material-ui/lib/dialog';
-import FlatButton from 'material-ui/lib/flat-button';
-import IconButton from 'material-ui/lib/icon-button';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
 import React, {Component, PropTypes} from 'react';
 import {IconListItem} from './icon-list-item';
 
@@ -96,7 +96,7 @@ export class IconEditDialog extends Component {
                     />
                     <IconButton
                         iconClassName="material-icons"
-                        onTouchTap={(e) => this.upload.click()}
+                        onTouchTap={() => this.upload.click()}
                     >
                         file_upload
                     </IconButton>

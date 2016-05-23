@@ -1,4 +1,4 @@
-import List from 'material-ui/lib/lists/list';
+import {List} from 'material-ui/List';
 import { zip } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { RoomListItem } from './RoomListItem';

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import Avatar from 'material-ui/lib/avatar';
-import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+import Avatar from 'material-ui/Avatar';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 const Size = 60;
 const Style = {

@@ -1,5 +1,5 @@
-jest.dontMock('react');
 describe('Chat', () => {
-    jest.dontMock('../Chat');
+    jest.unmock('react');
+    jest.unmock('../Chat');
     require('../Chat');
 });

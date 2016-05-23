@@ -1,6 +1,6 @@
-import AppBar from 'material-ui/lib/app-bar';
-import FlatButton from 'material-ui/lib/flat-button';
-import TextField from 'material-ui/lib/text-field';
+import AppBar from 'material-ui/AppBar';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 import React from 'react';
 
 const Style = {

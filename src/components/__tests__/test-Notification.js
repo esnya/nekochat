@@ -1,6 +1,6 @@
 describe('Notification', () => {
-    const ListItem = require('material-ui/lib/lists/list-item');
-    const Popover = require('material-ui/lib/popover/popover');
+    const {ListItem} = require('material-ui/List');
+    const Popover = require('material-ui/Popover').default;
 
     jest.dontMock('react');
     const React = require('react');

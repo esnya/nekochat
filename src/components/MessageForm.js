@@ -1,7 +1,7 @@
-import FontIcon from 'material-ui/lib/font-icon';
-import IconButton from 'material-ui/lib/icon-button';
-import TextField from 'material-ui/lib/text-field';
-import React, { Component, PropTypes } from 'react';
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
+import TextField from 'material-ui/TextField';
+import React, {Component, PropTypes} from 'react';
 import { makeColor } from '../utility/color';
 import { MessageIcon } from '../containers/MessageIconContainer';
 
@@ -44,7 +44,12 @@ export class MessageForm extends Component {
         if (!messageField) return;
         if (!messageField.getValue().match(/^(@[^ ]+ ?)?$/)) return;
 
-        this.message.setValue(`@${next} `);
+        this.setValue(`@${next} `);
+    }
+
+    setValue(value) {
+        const input = this.message.getInputNode();
+        if (input) input.value = value;
     }
 
     parseMessage(text) {
@@ -88,7 +93,7 @@ export class MessageForm extends Component {
                 ...message,
             });
 
-            messageField.setValue(
+            this.setValue(
                 message.whisper_to
                     ? `@${message.whisper_to} `
                     : ''

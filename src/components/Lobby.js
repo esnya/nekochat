@@ -1,5 +1,5 @@
-import AppBar from 'material-ui/lib/app-bar';
-import IconButton from 'material-ui/lib/icon-button';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
 import React, { PropTypes } from 'react';
 import { RoomListContainer } from '../containers/RoomListContainer';
 

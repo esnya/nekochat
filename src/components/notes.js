@@ -1,5 +1,5 @@
-import IconButton from 'material-ui/lib/icon-button';
-import Paper from 'material-ui/lib/paper';
+import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
 import React, {Component, PropTypes} from 'react';
 
 export class Notes extends Component {

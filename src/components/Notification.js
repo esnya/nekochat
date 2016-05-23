@@ -1,8 +1,7 @@
 import { template } from 'lodash';
-import FontIcon from 'material-ui/lib/font-icon';
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Popover from 'material-ui/lib/popover/popover';
+import FontIcon from 'material-ui/FontIcon';
+import {List, ListItem} from 'material-ui/List';
+import Popover from 'material-ui/Popover';
 import React, { Component, PropTypes } from 'react';
 
 export const Item = ({

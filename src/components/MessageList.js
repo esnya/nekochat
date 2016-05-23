@@ -1,5 +1,5 @@
-import CircularProgress from 'material-ui/lib/circular-progress';
-import Colors from 'material-ui/lib/styles/colors';
+import CircularProgress from 'material-ui/CircularProgress';
+import * as Colors from 'material-ui/styles/Colors';
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { MessageListItem } from './MessageListItem';

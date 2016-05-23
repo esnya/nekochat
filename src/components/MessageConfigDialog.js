@@ -1,9 +1,9 @@
 import { map } from 'lodash';
-import Dialog from 'material-ui/lib/dialog';
-import FlatButton from 'material-ui/lib/flat-button';
-import IconButton from 'material-ui/lib/icon-button';
-import TextField from 'material-ui/lib/text-field';
-import { Colors } from 'material-ui/lib/styles';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import TextField from 'material-ui/TextField';
+import * as Colors from 'material-ui/styles/colors';
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { generateId } from '../utility/id';
