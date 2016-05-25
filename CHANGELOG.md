@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Changed
+- Update Node.js to 6.x
 - Update Material-UI to 0.15.0
 - Update Knex.js to 0.11.4
 
