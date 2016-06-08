@@ -1,13 +1,15 @@
-import { requestPast } from '../actions/MessageActions';
-import { whisperTo } from '../actions/MessageFormActions';
+import { pick } from 'lodash';
+import { fetch } from '../actions/message';
 import { connect } from 'react-redux';
-import { MessageList as Component } from '../components/MessageList';
-import { bindState, bindActions } from './utility';
+import MessageList from '../components/MessageList';
 
-export const MessageList = connect(
-    bindState('...room', 'messageList', 'input'),
-    bindActions({
-        requestPast,
-        whisperTo,
+export default connect(
+    (state) => pick(state, [
+        'messages',
+        'rooms',
+        'typings',
+    ]),
+    (dispatch) => ({
+        onFetchLog: (minId) => dispatch(fetch(minId)),
     })
-)(Component);
+)(MessageList);

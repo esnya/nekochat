@@ -18,7 +18,7 @@ describe('Message', () => {
     } = Model.prototype;
 
     it('inherits Model', () => {
-        expect(Model).toBeCalledWith('messages');
+        expect(Model).toBeCalledWith('messages', 'id', 'DESC');
     });
 
     pit('finds top 20 messages in room', () => {

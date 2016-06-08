@@ -102,18 +102,31 @@ export class Connection {
             return;
         }
 
-        this.socket.emit('action', action);
+        this.socket.emit('action', {
+            ...action,
+            meta: {
+                ...action.meta,
+                sync: false,
+            },
+        });
     }
-    publish(action, whisper = false) {
+    publish({ type, payload, meta }, whisper_to = null) {
         if (!this.room_key) return;
 
-        const channel = whisper
-            ? `${this.room_key}:${this.user.id}`
+        const channel = whisper_to
+            ? `${this.room_key}:${whisper_to}`
             : this.room_key;
 
         this.redis.publish(channel, JSON.stringify({
             sender: this.socket.id,
-            action,
+            action: {
+                type,
+                payload,
+                meta: {
+                    ...meta,
+                    sender: this.socket.id,
+                },
+            },
         }));
     }
 }

@@ -1,7 +1,8 @@
-import React, {PropTypes} from 'react';
-import {LobbyContainer as lobby} from '../containers/LobbyContainer';
-import {ChatContainer as chat} from '../containers/ChatContainer';
-import {Guest as guest} from './guest';
+import IPropTypes from 'react-immutable-proptypes';
+import React, { PropTypes } from 'react';
+import lobby from './Lobby';
+import chat from './Chat';
+import { Guest as guest } from './guest';
 
 const Handlers = {
     lobby,
@@ -9,16 +10,17 @@ const Handlers = {
     guest,
 };
 
-export const Router = (props) => {
-    const {
-        route,
-        params,
-    } = props;
-    const Handler = Handlers[route] || 'div';
+const Router = ({ route }) => {
+    const Handler = Handlers[route.get('route')] || 'div';
 
-    return Handler ? <Handler {...params} /> : <div>Loading...</div>;
+    return Handler
+        ? <Handler {...route.get('params')} />
+        : <div>Loading...</div>;
 };
 Router.propTypes = {
-    params: PropTypes.object,
-    route: PropTypes.string,
+    route: IPropTypes.contains({
+        params: PropTypes.object,
+        route: PropTypes.string,
+    }).isRequired,
 };
+export default Router;

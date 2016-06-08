@@ -1,45 +1,48 @@
-import { template } from 'lodash';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import React, { PropTypes } from 'react';
+import IPropTypes from 'react-immutable-proptypes';
+import { pureRender } from '../utility/enhancer';
 
-export const Confirm = (props) => {
+const Confirm = (props) => {
     const {
-        confirmList,
-        ok,
-        cancel,
+        dialog,
+        open,
+        onOK,
+        onClose,
     } = props;
-    const confirm = confirmList[0] || {};
 
     const actions = [
         <FlatButton primary
             key="ok"
             label="OK"
-            onTouchTap={() => ok(confirm.id)}
+            onTouchTap={onOK}
         />,
         <FlatButton secondary
             key="cancel"
             label="Cancel"
-            onTouchTap={() => cancel(confirm.id)}
+            onTouchTap={onClose}
         />,
     ];
 
-    const message = confirm.message && template(confirm.message)(confirm.next);
-
     return (
-        <Dialog modal
+        <Dialog
             actions={actions}
-            open={confirmList.length > 0}
-            title={confirm.title}
+            open={open}
+            title={dialog && dialog.get('title')}
+            onRequestClose={onClose}
         >
-            {message}
+            {dialog && dialog.get('message')}
         </Dialog>
     );
 };
 Confirm.propTypes = {
-    cancel: PropTypes.func.isRequired,
-    confirmList: PropTypes.arrayOf(PropTypes.shape({
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onOK: PropTypes.func.isRequired,
+    dialog: IPropTypes.contains({
+        title: PropTypes.string.isRequired,
         message: PropTypes.string.isRequired,
-    })).isRequired,
-    ok: PropTypes.func.isRequired,
+    }),
 };
+export default pureRender(Confirm);

@@ -1,11 +1,11 @@
 import {icon} from './icon';
-import {input} from './input';
+import {typing} from './typing';
 import {message} from './message';
 import {room} from './room';
 
 const handlers = [
     icon,
-    input,
+    typing,
     message,
     room,
 ];

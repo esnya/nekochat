@@ -1,47 +1,50 @@
-import {push} from '../../actions/IconActions';
-import * as ICON from '../../constants/IconActions';
-import {generateId} from '../../utility/id';
-import {Icon} from '../models/icon';
+import {
+    create,
+    list,
+    UPLOAD,
+    FETCH,
+    REMOVE,
+    BULK_REMOVE,
+} from '../../actions/icon';
+import { genId } from '../../utility/id';
+import { Icon } from '../models/icon';
 
 export const icon = (client) => (next) => (action) => {
-    switch (action.type) {
-        case ICON.CREATE: {
-            const id = generateId([
-                client.user.id,
-                action.name,
-                action.mime,
-                action.data,
-            ].join());
+    const { type, payload } = action;
 
-            Icon
-                .insert({
-                    id,
-                    user_id: client.user.id || null,
-                    name: action.name || null,
-                    type: action.mime || null,
-                    data: action.file || null,
-                })
-                .then((icon) => client.emit(push([icon])))
-                .catch((e) => client.logger.error(e));
+    switch (type) {
+        case UPLOAD:
+            Promise.all(
+                payload.map(({ name, type, data }) => Icon
+                    .insert({
+                        id: genId(),
+                        user_id: client.user.id || null,
+                        name: name || null,
+                        type: type || null,
+                        data: data || null,
+                    })
+                    .then((icon) => client.emit(create(icon)))
+                )
+            )
+            .catch((e) => client.logger.error(e));
             break;
-        }
-        case ICON.FETCH:
+        case FETCH:
             Icon
                 .findAll('user_id', client.user.id)
-                .then((icons) => client.emit(push(icons)))
+                .then((icons) => client.emit(list(icons)))
                 .catch((e) => client.logger.error(e));
             break;
-        case ICON.REMOVE:
+        case REMOVE:
             Icon
                 .del({
-                    id: action.id,
+                    id: payload.id,
                     user_id: client.user.id,
                 })
-                .then(() => action.id)
+                .then(() => payload.id)
                 .catch((e) => client.logger.error(e));
             break;
-        case ICON.REMOVE_SELECTED:
-            action
+        case BULK_REMOVE:
+            payload
                 .icons
                 .forEach(({id}) => {
                     Icon
@@ -49,7 +52,7 @@ export const icon = (client) => (next) => (action) => {
                             id,
                             user_id: client.user.id,
                         })
-                        .then(() => action.id)
+                        .then(() => payload.id)
                         .catch((e) => client.logger.error(e));
                 });
             break;

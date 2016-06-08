@@ -1,66 +1,73 @@
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
+import { singleState, pureRender } from '../utility/enhancer';
 
-export class RoomPasswordDialog extends Component {
-    static get propTypes() {
-        return {
-            open: PropTypes.bool.isRequired,
-            room_id: PropTypes.string,
-            onJoin: PropTypes.func.isRequired,
-            onLeave: PropTypes.func.isRequired,
-        };
-    }
+const RoomPasswordDialog = (props) => {
+    const {
+        open,
+        password,
+        room,
+        onChange,
+        onClose,
+        onJoinRoom,
+        onSetRoute,
+    } = props;
 
-    onJoin(e) {
-        e.preventDefault();
+    const handleCancel = (e) => {
+        onSetRoute(e, '/');
+        onClose(e);
+    };
 
-        const {
-            room_id,
-            onJoin,
-        } = this.props;
+    const handleJoinRoom = (e) => {
+        onJoinRoom(e, { id: room.id, password });
+        onClose(e);
+    };
 
-        onJoin(room_id, this.password.getValue() || null);
-    }
+    const actions = [
+        <FlatButton
+            primary
+            key="join"
+            label="Join"
+            onTouchTap={handleJoinRoom}
+        />,
+        <FlatButton
+            secondary
+            key="cancel"
+            label="Cancel"
+            onTouchTap={handleCancel}
+        />,
+    ];
 
-    render() {
-        const {
-            open,
-            onLeave,
-        } = this.props;
-
-        const actions = [
-            <FlatButton
-                primary
-                key="join"
-                label="Join"
-                onTouchTap={(e) => this.onJoin(e)}
-            />,
-            <FlatButton
-                secondary
-                key="leave"
-                label="Leave"
-                onTouchTap={onLeave}
-            />,
-        ];
-
-        return (
-            <Dialog
-                autoScrollBodyContent
-                actions={actions}
-                open={open}
-                title="Password"
-                onRequestClose={onLeave}
-            >
-                <form onSubmit={(e) => this.onJoin(e)}>
-                    <TextField
-                        fullWidth
-                        ref={(c) => (this.password = c)}
-                        type="password"
-                    />
-                </form>
-            </Dialog>
-        );
-    }
-}
+    return (
+        <Dialog
+            autoScrollBodyContent
+            actions={actions}
+            open={open}
+            title="Join Room"
+            onRequestClose={handleCancel}
+        >
+            <TextField
+                fullWidth
+                floatingLabelText="Password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={onChange}
+            />
+        </Dialog>
+    );
+};
+RoomPasswordDialog.propTypes = {
+    open: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onJoinRoom: PropTypes.func.isRequired,
+    onSetRoute: PropTypes.func.isRequired,
+    password: PropTypes.string,
+    room: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+    }),
+};
+export default singleState(pureRender(RoomPasswordDialog), 'password');

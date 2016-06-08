@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
 import Avatar from 'material-ui/Avatar';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
+import React, { PropTypes } from 'react';
+import { pureRender } from '../utility/enhancer';
 
 const Size = 60;
 const Style = {
@@ -45,20 +46,20 @@ ImageIcon.propTypes = {
 
 export const MessageIcon = ({
     id,
-    type,
     character_url,
     icon_url,
     name,
     color,
     noShadow,
     style,
+    typing,
     getCharacter,
 }) => {
     if (character_url && !icon_url) {
         setTimeout(() => getCharacter(character_url));
     }
 
-    if (type === 'loading') {
+    if (typing) {
         return (
             <div style={{position: 'relative', width: Size, height: Size}}>
                 <RefreshIndicator
@@ -105,13 +106,16 @@ export const MessageIcon = ({
     return <div style={{...Style, ...style}} />;
 };
 MessageIcon.propTypes = {
+    color: PropTypes.string.isRequired,
     getCharacter: PropTypes.func.isRequired,
     character_url: PropTypes.string,
-    color: PropTypes.string,
     icon_url: PropTypes.string,
     id: PropTypes.string,
     name: PropTypes.string,
     noShadow: PropTypes.bool,
     style: PropTypes.object,
     type: PropTypes.string,
+    typing: PropTypes.bool,
 };
+
+export default pureRender(MessageIcon);

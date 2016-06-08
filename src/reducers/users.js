@@ -1,13 +1,7 @@
-import * as ROOM from '../constants/RoomActions';
+import { fromJS, List } from 'immutable';
+import { handleActions } from 'redux-actions';
+import { LIST } from '../actions/user';
 
-export const users = (state = [], action) => {
-    switch (action.type) {
-        case ROOM.JOIN:
-        case ROOM.LEAVE:
-            return [];
-        case ROOM.USER_LIST:
-            return [...action.users];
-    }
-
-    return state;
-};
+export default handleActions({
+    [LIST]: (state, { payload }) => fromJS(payload),
+}, new List());

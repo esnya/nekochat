@@ -1,7 +1,7 @@
 import {map} from 'lodash';
 import {connect} from 'react-redux';
-import {getDialog, close} from '../actions/DialogActions';
-import {create, remove, removeSelected} from '../actions/IconActions';
+import {getDialog, close} from '../actions/dialog';
+import {create, remove, removeSelected} from '../actions/icon';
 import {
     IconEditDialog as Component,
 } from '../components/icon-edit-dialog/icon-edit-dialog';

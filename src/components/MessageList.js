@@ -1,8 +1,11 @@
+import { Map } from 'immutable';
 import CircularProgress from 'material-ui/CircularProgress';
 import * as Colors from 'material-ui/styles/colors';
 import React, { Component, PropTypes } from 'react';
+import IPropTypes from 'react-immutable-proptypes';
 import { findDOMNode } from 'react-dom';
-import { MessageListItem } from './MessageListItem';
+import { pureRender } from '../utility/enhancer';
+import MessageListItem from './MessageListItem';
 
 const Style = {
     List: {
@@ -57,48 +60,30 @@ const Style = {
     },
 };
 
-export class MessageList extends Component {
+class MessageList extends Component {
     static get propTypes() {
         return {
-            input: PropTypes.arrayOf(PropTypes.shape({
-            })).isRequired,
+            typings: PropTypes.instanceOf(Map).isRequired,
             eor: PropTypes.bool,
-            messageList: PropTypes.arrayOf(PropTypes.shape({
+            messages: IPropTypes.listOf(IPropTypes.contains({
                 id: PropTypes.number.isRequired,
             })).isRequired,
-            requestPast: PropTypes.func.isRequired,
-            whisperTo: PropTypes.func.isRequired,
+            onFetchLog: PropTypes.func.isRequired,
         };
     }
 
     componentDidUpdate(prevProps) {
         if (!this.props.eor &&
-            this.props.messageList.length > 0 &&
-            prevProps.messageList.length === 0) {
+            this.props.messages.length > 0 &&
+            prevProps.messages.length === 0) {
             this.onScroll({
-                target: findDOMNode(this.messageList),
+                target: findDOMNode(this.messages),
             });
         }
     }
 
-    onScroll() {
-        const list = findDOMNode(this.messageList);
-
-        if (list.scrollTop === 0) {
-            const {
-                eor,
-                messageList,
-                requestPast,
-            } = this.props;
-
-            if (eor || !messageList[0]) return;
-
-            requestPast(messageList[0].id);
-        }
-    }
-
     scroll(top, height) {
-        const list = findDOMNode(this.messageList) || {
+        const list = findDOMNode(this.messages) || {
             offsetHeight: 0,
             offsetTop: 0,
             scrollTop: 0,
@@ -113,17 +98,34 @@ export class MessageList extends Component {
         }
     }
 
+    onScroll() {
+        const list = findDOMNode(this.messages);
+
+        if (list.scrollTop === 0) {
+            const {
+                eor,
+                messages,
+                onFetchLog,
+            } = this.props;
+
+            const first = messages.first();
+
+            if (eor || !first) return;
+
+            onFetchLog(first.get('id'));
+        }
+    }
+
     render() {
         const {
-            input,
+            typings,
             eor,
-            messageList,
-            whisperTo,
+            messages,
         } = this.props;
 
         return (
             <div
-                ref={(c) => c && (this.messageList = c)}
+                ref={(c) => c && (this.messages = c)}
                 style={Style.List}
                 onScroll={(e) => this.onScroll(e)}
             >
@@ -135,24 +137,28 @@ export class MessageList extends Component {
                 >
                     <CircularProgress />
                 </div>
-                {messageList.map((message) => (
-                    <MessageListItem
-                        {...message}
-                        key={message.id}
-                        scroll={(t, s) => this.scroll(t, s)}
-                        whisperTo={whisperTo}
-                    />
-                ))}
-                {input.map((i) => (
-                    <MessageListItem
-                        {...i}
-                        iconType="loading"
-                        key={i.id}
-                        scroll={(t, s) => this.scroll(t, s)}
-                        whisperTo={whisperTo}
-                    />
-                ))}
+                {
+                    messages.map((message) => (
+                        <MessageListItem
+                            key={message.get('id')}
+                            message={message}
+                            onScroll={(t, s) => this.scroll(t, s)}
+                        />
+                    ))
+                }
+                {
+                    typings.map((typing) => (
+                        <MessageListItem
+                            typing
+                            iconType="loading"
+                            key={typing.get('id')}
+                            message={typing}
+                            onScroll={(t, s) => this.scroll(t, s)}
+                        />
+                    ))
+                }
             </div>
         );
     }
 }
+export default pureRender(MessageList);

@@ -1,54 +1,43 @@
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
 import React, { Component, PropTypes } from 'react';
+import RoomEditForm from './RoomEditForm';
 
-export class RoomCreateDialog extends Component {
+export default class RoomCreateDialog extends Component {
     static get propTypes() {
         return {
-            create: PropTypes.func.isRequired,
-            close: PropTypes.func.isRequired,
             open: PropTypes.bool.isRequired,
+            onClose: PropTypes.func.isRequired,
+            onCreateRoom: PropTypes.func.isRequired,
         };
     }
 
-    onCreateRoom(e) {
-        if (e) e.preventDefault();
-
-        const title = this.title.getValue();
-        const password = this.password.getValue() || null;
-
-        if (title) {
-            const {
-                create,
-                close,
-            } = this.props;
-
-            create({
-                title,
-                password,
-            });
-            close();
-            this.title.clearValue();
-        }
+    shouldComponentUpdate(nextProps) {
+        return nextProps.open !== this.props.open;
     }
 
     render() {
         const {
             open,
-            close,
+            onClose,
+            onCreateRoom,
         } = this.props;
+
+        const handleCreateRoom = (e) => {
+            onCreateRoom(e, this.form.data);
+            onClose(e);
+        };
 
         const Actions = [
             <FlatButton primary
                 key="create"
                 label="Create"
-                onTouchTap={() => this.onCreateRoom()}
+                onTouchTap={handleCreateRoom}
             />,
             <FlatButton secondary
                 key="cancel"
                 label="Cancel"
-                onTouchTap={close}
+                onTouchTap={onClose}
             />,
         ];
 
@@ -57,22 +46,13 @@ export class RoomCreateDialog extends Component {
                 autoScrollBodyContent
                 actions={Actions}
                 open={open}
-                title="Create Chat Room"
-                onRequestClose={close}
+                title="Create Room"
+                onRequestClose={onClose}
             >
-                <form onSubmit={(e) => this.onCreateRoom(e)}>
-                    <TextField fullWidth
-                        floatingLabelText="Title"
-                        name="title"
-                        ref={(c) => c && (this.title = c)}
-                    />
-                    <TextField fullWidth
-                        floatingLabelText="Password"
-                        name="password"
-                        ref={(c) => c && (this.password = c)}
-                        type="password"
-                    />
-                </form>
+                <RoomEditForm
+                    ref={(c) => (this.form = c)}
+                    onSubmit={handleCreateRoom}
+                />
             </Dialog>
         );
     }

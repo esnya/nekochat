@@ -1,261 +1,151 @@
-import FontIcon from 'material-ui/FontIcon';
+import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import TextField from 'material-ui/TextField';
-import React, {Component, PropTypes} from 'react';
-import { makeColor } from '../utility/color';
-import { MessageIcon } from '../containers/MessageIconContainer';
+import Add from 'material-ui/svg-icons/content/add';
+import Remove from 'material-ui/svg-icons/content/remove';
+import Send from 'material-ui/svg-icons/content/send';
+import React, { Component, PropTypes } from 'react';
+import IPropTypes from 'react-immutable-proptypes';
+import MessageIcon from '../containers/MessageIcon';
+import { pureRender } from '../utility/enhancer';
+import { nameColor } from '../utility/color';
+import FileUploadButton from './FileUploadButton';
+import MessageFormInput from './MessageFormInput';
 
-export const FROM_HEIGHT = 72;
+const Style = {
+    Form: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    Icon: {
+        flex: '0 0 auto',
+        height: 60,
+        width: 60,
+        minWidth: 60,
+        margin: '0 12px',
+    },
+};
 
-export class MessageForm extends Component {
+class MessageForm extends Component {
     static get propTypes() {
         return {
-            character_url: PropTypes.string,
-            disabled: PropTypes.bool,
-            icon_id: PropTypes.string,
-            id: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-            ]).isRequired,
-            is_first: PropTypes.bool,
-            user: PropTypes.shape({
+            characters: IPropTypes.map.isRequired,
+            name: IPropTypes.contains({
                 id: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
+                icon_id: PropTypes.stirng,
+                character_url: PropTypes.string,
             }).isRequired,
-            name: PropTypes.string,
-            whisper_to: PropTypes.string,
-            files: PropTypes.array,
-            createMessage: PropTypes.func.isRequired,
-            beginInput: PropTypes.func.isRequired,
-            endInput: PropTypes.func.isRequired,
-            createForm: PropTypes.func.isRequired,
-            removeForm: PropTypes.func.isRequired,
-            openDialog: PropTypes.func.isRequired,
-            onAppendFile: PropTypes.func.isRequired,
+            onCreateName: PropTypes.func.isRequired,
+            onEditName: PropTypes.func.isRequired,
+            onRemoveName: PropTypes.func.isRequired,
+            onSendMessage: PropTypes.func.isRequired,
+            onTyping: PropTypes.func.isRequired,
+            onUploadImage: PropTypes.func.isRequired,
+            state: PropTypes.string,
         };
-    }
-
-    componentWillUpdate(nextProps) {
-        const prev = this.props.whisper_to;
-        const next = nextProps.whisper_to;
-        if (!next || prev === next) return;
-
-        const messageField = this.message;
-        if (!messageField) return;
-        if (!messageField.getValue().match(/^(@[^ ]+ ?)?$/)) return;
-
-        this.setValue(`@${next} `);
-    }
-
-    setValue(value) {
-        const input = this.message.getInputNode();
-        if (input) input.value = value;
-    }
-
-    parseMessage(text) {
-        if (!text) return null;
-
-        const lines = text.split(/\r\n|\n/);
-        if (lines.length === 0) return null;
-
-        const m = text && lines[0].match(/^(@([^\s]+)(\s|$))?((.|\n)*?)$/m);
-
-        const message = m && ([m[4], ...lines.slice(1)].join('\n')) || null;
-        if (!message) return null;
-
-        const whisper_to = m[2] || null;
-
-        return {
-            message,
-            whisper_to,
-        };
-    }
-
-    onSubmit() {
-        const messageField = this.message;
-        const message = this.parseMessage(messageField.getValue());
-
-        if (message) {
-            const {
-                id,
-                name,
-                character_url,
-                files,
-                icon_id,
-            } = this.props;
-
-            this.props.createMessage({
-                form_id: id,
-                name,
-                character_url,
-                icon_id,
-                files,
-                ...message,
-            });
-
-            this.setValue(
-                message.whisper_to
-                    ? `@${message.whisper_to} `
-                    : ''
-            );
-
-            this.props.endInput();
-        }
-    }
-
-    onKey(e) {
-        const VK_RETURN = 13;
-
-        if (e.keyCode === VK_RETURN && !e.shiftKey) {
-            e.preventDefault();
-            this.onSubmit(e);
-        }
-    }
-
-    startInputWatcher() {
-        if (this.inputWatcher) return;
-
-        this.composition = false;
-        this.prevMessage = '';
-        this.inputWatcher = setInterval(() => this.watchInput(), 1000);
-        this.watchInput();
-    }
-
-    stopInputWatcher() {
-        this.watchInput();
-
-        if (!this.inputWatcher) return;
-
-        clearInterval(this.inputWatcher);
-        this.inputWatcher = null;
-    }
-
-    watchInput() {
-        if (this.composition || !this.message) return;
-
-        const message = this.message.getValue();
-
-        if (message !== this.prevMessage) {
-            const {
-                beginInput,
-                endInput,
-            } = this.props;
-
-            if (message && message.charAt(0) !== '@') {
-                beginInput({
-                    name: this.props.name,
-                    message,
-                });
-            } else {
-                endInput();
-            }
-        }
-
-        this.prevMessage = message;
     }
 
     render() {
         const {
-            id,
-            is_first,
             name,
-            character_url,
-            icon_id,
-            user,
-            disabled,
-            files,
-            createForm,
-            removeForm,
-            openDialog,
-            onAppendFile,
+            state,
+            onCreateName,
+            onEditName,
+            onRemoveName,
+            onSendMessage,
+            onTyping,
+            onUploadImage,
         } = this.props;
 
-        const Styles = {
-            Form: {
-                flex: '0 0 72px',
-                display: 'flex',
-                alignItems: 'center',
-            },
-            Icon: {
-                flex: '0 0 60px',
-                height: 60,
-                margin: '0 8px',
-                padding: 0,
-            },
-            Message: {
-                flex: '1 1 auto',
-            },
-            File: {
-                maxWidth: 60,
-                maxHeight: 60,
-            },
+        const parseMessage = () => {
+            const value = this.input.value || null;
+            if (!value) return null;
+
+            const match = value.match(/^(@([^ ]+) )?((.|\r|\n)*?)$/);
+            if (!match) return null;
+
+            const whisper_to = match[2] || null;
+            const message = match[3] || null;
+
+            return { whisper_to, message };
         };
 
-        const fileElements = files && files.map((file, i) => (
-            <img key={i} src={file.url} style={Styles.File} />
-        ));
+        const onSubmit = (e) => {
+            e.preventDefault();
+
+            const { whisper_to, message } = parseMessage();
+            if (!message) return;
+
+            onTyping(e, null);
+            onSendMessage(e, {
+                name: name.get('name'),
+                character_url: name.get('character_url'),
+                icon_id: name.get('icon_id'),
+                message,
+                whisper_to,
+            });
+
+            this.input.clear();
+        };
+
+        const onChange = (e, value) => {
+            if (value && value.charAt(0) !== '@') {
+                onTyping(e, name.get('name'), value);
+            }
+        };
+
+        const color = nameColor(name.get('name'));
 
         return (
-            <form style={Styles.Form} onSubmit={(e) => this.onSubmit(e)}>
-                {is_first
-                    ? <IconButton onTouchTap={() => createForm()}>
-                        <FontIcon className="material-icons">
-                            add
-                        </FontIcon>
-                    </IconButton>
-                    : <IconButton onTouchTap={() => removeForm(id)}>
-                        <FontIcon className="material-icons">
-                            remove
-                        </FontIcon>
-                    </IconButton>
-                }
+            <form
+                style={Style.Form}
+                onSubmit={(e) => onSubmit(e)}
+            >
+                <IconButton onTouchTap={(e) => onCreateName(e, name.toJS())}>
+                    <Add />
+                </IconButton>
                 <IconButton
-                    style={Styles.Icon}
-                    onTouchTap={() => openDialog('message-config', id)}
+                    onTouchTap={(e) => onRemoveName(e, name.get('id'))}
+                >
+                    <Remove />
+                </IconButton>
+                <FlatButton
+                    style={Style.Icon}
+                    onTouchTap={(e) => onEditName(e, name.get('id'))}
                 >
                     <MessageIcon
-                        character_url={character_url}
-                        color={makeColor(`${name}${user.id}`)}
-                        id={icon_id}
-                        name={name}
+                        character_url={name.get('character_url')}
+                        color={color}
+                        id={name.get('icon_id')}
+                        name={name.get('name')}
                     />
-                </IconButton>
-                {fileElements}
-                <TextField fullWidth multiLine
-                    disabled={disabled}
-                    floatingLabelText={name}
-                    ref={(c) => c && (this.message = c)}
-                    rows={1}
-                    style={Styles.Message}
-                    onBlur={() => this.stopInputWatcher()}
-                    onCompositionEnd={() => (this.composition = false)}
-                    onCompositionStart={() => (this.composition = true)}
-                    onCompositionUpdate={() => (this.composition = true)}
-                    onFocus={() => this.startInputWatcher()}
-                    onKeyDown={(e) => this.onKey(e)}
+                </FlatButton>
+                <MessageFormInput
+                    name={name.get('name')}
+                    ref={(c) => (this.input = c)}
+                    state={state}
+                    onChange={onChange}
+                    onSubmit={onSubmit}
                 />
-                <IconButton disabled={disabled} type="submit">
-                    <FontIcon className="material-icons">send</FontIcon>
+                <IconButton type="submit">
+                    <Send />
                 </IconButton>
-                <IconButton
-                    disabled={disabled}
-                    iconClassName="material-icons"
-                    onTouchTap={() => this.file.click()}
-                >
-                    file_upload
-                </IconButton>
-                <input
+                <FileUploadButton
                     accept="image/*"
-                    ref={(c) => (this.file = c)}
-                    style={{display: 'none'}}
-                    type="file"
+                    name="image"
+                    tooltip="Post Image File"
                     onChange={
-                        (e) => e.target.files[0] &&
-                            e.target.files[0].type.match(/^image\//) &&
-                            onAppendFile(id, e.target.files[0])
+                        (e, files) => {
+                            if (files[0]) {
+                                onUploadImage(e, name.toJS(), files[0]);
+                                e.target.value = '';
+                            }
+                        }
                     }
                 />
             </form>
         );
     }
 }
+
+export default pureRender(MessageForm);

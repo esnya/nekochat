@@ -1,13 +1,14 @@
 import * as Colors from 'material-ui/styles/colors';
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
+import IPropTypes from 'react-immutable-proptypes';
+import MessageIcon from '../containers/MessageIcon';
 import { makeColor } from '../utility/color';
-import { MessageIcon } from '../containers/MessageIconContainer';
-import {
-    CharacterLinkButton,
-} from '../containers/CharacterLinkButtonContainer';
 import { Timestamp } from './Timestamp';
-import { UserId } from './UserId';
+import MessageAttachedFile from './MessageAttachedFile';
+import MessageBody from './MessageBody';
+import MessageHeader from './MessageHeader';
+import { pureRender } from '../utility/enhancer';
 
 const Style = {
     List: {
@@ -65,128 +66,51 @@ const Style = {
     },
 };
 
-const TextNode = ({text}) => (
-    <span>{text}</span>
-);
-TextNode.propTypes = {text: PropTypes.string.isRequired};
-
-const NotesNode = ({text}) => (
-    <div style={{fontSize: 'xx-small'}}>{text}</div>
-);
-NotesNode.propTypes = {text: PropTypes.string.isRequired};
-
-const Nodes = {
-    notes: NotesNode,
-};
-const Node = (props) => {
-    const {type} = props;
-    const Component = (type in Nodes) ? Nodes[type] : TextNode;
-
-    return <Component {...props} />;
-};
-Node.propTypes = {
-    text: PropTypes.string.isRequired,
-    type: PropTypes.string,
-};
-
-export const MessageBody = ({message, whisper_to, whisperTo}) => {
-    const messageStyle = {
-        ...Style.ListItem.Message,
-        color: whisper_to && Colors.deepOrange500,
-    };
-
-    const innerElement = (
-            Array.isArray(message)
-                ? message
-                : (message || '')
-                    .split(/\r\n|\n/)
-                    .map((line) => [{ text: line }])
-        ).map((line, l) => (
-            <p key={l} style={Style.ListItem.Line}>
-                {
-                    (whisper_to && l === 0)
-                        ? (
-                        <UserId
-                            style={Style.ListItem.UserId}
-                            user_id={whisper_to}
-                            whisperTo={whisperTo}
-                        />
-                        ) : null
-                }
-                {line.map((node, n) => <Node {...node} key={n} />)}
-            </p>
-        ));
-
-    return (
-        <div style={messageStyle}>
-            {innerElement}
-        </div>
-    );
-};
-MessageBody.propTypes = {
-    message: PropTypes.array.isRequired,
-    whisperTo: PropTypes.func.isRequired,
-    whisper_to: PropTypes.string,
-};
-
-export class MessageListItem extends Component {
+class MessageListItem extends Component {
     static get propTypes() {
         return {
-            created: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.timestamp,
-            ]),
-            file_id: PropTypes.string,
-            icon_id: PropTypes.string,
-            iconType: PropTypes.string,
-            character_url: PropTypes.string,
-            message: PropTypes.array.isRequired,
-            modified: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.timestamp,
-            ]),
-            name: PropTypes.string,
-            scroll: PropTypes.func.isRequired,
-            user_id: PropTypes.string.isRequired,
-            whisper_to: PropTypes.string,
-            whisperTo: PropTypes.func.isRequired,
+            message: IPropTypes.contains({
+                created: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.number,
+                ]),
+                icon_id: PropTypes.string,
+                iconType: PropTypes.string,
+                character_url: PropTypes.string,
+                message: IPropTypes.list.isRequired,
+                modified: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.number,
+                ]),
+                name: PropTypes.string,
+                user_id: PropTypes.string.isRequired,
+                whisper_to: PropTypes.string,
+            }),
+            typing: PropTypes.bool,
+            onScroll: PropTypes.func.isRequired,
         };
     }
 
     componentDidMount() {
         const element = findDOMNode(this.message);
 
-        this.props.scroll(element.offsetTop, element.offsetHeight);
-    }
-
-    shouldComponentUpdate(nextProps) {
-        return !(this.props.modified > nextProps.modified);
-    }
-
-    onWhisperTo(e, whisper_to) {
-        e.preventDefault();
-        this.props.whisperTo(whisper_to);
+        this.props.onScroll(element.offsetTop, element.offsetHeight);
     }
 
     render() {
         const {
-            file_id,
+            message,
+            typing,
+        } = this.props;
+        const {
             icon_id,
             iconType,
             character_url,
-            message,
             name,
             user_id,
-            whisper_to,
-            created,
-            whisperTo,
-        } = this.props;
+        } = message.toJS();
 
         const color = makeColor(`${name}${user_id}`);
-
-        const fileElement = file_id && (
-            <img src={`/file/${file_id}`} />
-        );
 
         return (
             <div
@@ -200,42 +124,26 @@ export class MessageListItem extends Component {
                         id={icon_id}
                         name={name}
                         type={iconType}
+                        typing={typing}
                     />
                 </div>
                 <div style={Style.ListItem.MessageContainer}>
                     <div style={Style.ListItem.Header}>
-                        <span style={{color}}>{name}</span>
-                        <UserId user_id={user_id} whisperTo={whisperTo} />
-                        <CharacterLinkButton character_url={character_url} />
-                        {
-                            whisper_to &&
-                                <span>
-                                    <span style={Style.ListItem.WhisperArrow}>
-                                        &gt;
-                                    </span>
-                                    <span style={Style.ListItem.WhisperTo}>
-                                        {whisper_to}
-                                    </span>
-                                </span>
-                        }
+                        <MessageHeader message={message} />
                     </div>
-                    <MessageBody
-                        message={message}
-                        whisperTo={whisperTo}
-                        whisper_to={whisper_to}
-                    />
-                    {fileElement}
+                    <MessageBody message={message} />
+                    <MessageAttachedFile message={message} />
                 </div>
                 <div style={Style.ListItem.Timestamp}>
-                    {
-                        created &&
-                            <Timestamp
-                                horizontalPosition="left"
-                                timestamp={created}
-                            />
-                    }
+                    <Timestamp
+                        horizontalPosition="left"
+                        timestamp={
+                            message.get('created') || message.get('timestamp')
+                        }
+                    />
                 </div>
             </div>
         );
     }
 }
+export default pureRender(MessageListItem);

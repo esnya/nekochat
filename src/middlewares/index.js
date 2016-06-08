@@ -1,25 +1,39 @@
-import { debugLoggerMiddleWare } from './DebugLoggerMiddleware';
-import { dice } from './dice';
-import { domMiddleware } from './DOMMiddleware';
-import { confirmMiddleWare } from './ConfirmMiddleware';
-import { characterMiddleWare } from './CharacterMiddleware';
-import { notificationMiddleware } from './NotificationMiddleware';
-import { room } from './RoomMiddleware';
-import { routerMiddleware } from './RouterMiddleware';
-import { socketMiddleware } from './SocketMiddleware';
-import { systemNotificationMiddleware } from './SystemNotificationMiddleware';
-import { timeoutMiddleware } from './TimeoutMiddleware';
+import { Iterable } from 'immutable';
+import createLogger from 'redux-logger';
+import promise from 'redux-promise';
+import localStorage from '../browser/localStorage';
+import dialog from './dialog';
+import dice from './dice';
+import notification from './notification';
+import router from './router';
+import socket from './socket';
+import sound from './sound';
+import persistent from './persistent';
+import toast from './toast';
 
-export const middlewares = [
+const middlewares = [
+    persistent('names', 'nekochat:${room.get("id")}:names'),
+    promise,
+    dialog,
     dice,
-    domMiddleware,
-    confirmMiddleWare,
-    systemNotificationMiddleware,
-    characterMiddleWare,
-    notificationMiddleware,
-    room,
-    routerMiddleware,
-    socketMiddleware,
-    timeoutMiddleware,
-    debugLoggerMiddleWare,
+    notification,
+    router,
+    socket,
+    sound,
+    toast,
 ];
+
+if (localStorage.getItem('nekochat:debug')) {
+    middlewares.push(createLogger({
+        stateTransformer:
+            (state) => Object.keys(state).reduce((result, key) => {
+                const value = state[key];
+                result[key] =
+                    Iterable.isIterable(value) ? value.toJS() : value;
+
+                return result;
+            }, {}),
+    }));
+}
+
+export default middlewares;

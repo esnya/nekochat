@@ -1,6 +1,6 @@
 describe('handlers', () => {
     const {icon} = require('../icon');
-    const {input} = require('../input');
+    const {typing} = require('../typing');
     const {message} = require('../message');
     const {room} = require('../room');
 
@@ -10,7 +10,7 @@ describe('handlers', () => {
     it('handles', () => {
         const handlers = [
             icon,
-            input,
+            typing,
             message,
             room,
         ];

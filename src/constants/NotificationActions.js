@@ -1,2 +1,0 @@
-export const NOTIFY = 'NOTIFICATION_NOTIFY';
-export const CLOSE = 'NOTIFICATION_CLOSE';

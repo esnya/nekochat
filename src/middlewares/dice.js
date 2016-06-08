@@ -1,18 +1,18 @@
 import dice3d from 'dice3d';
-import {ROLL} from '../constants/DiceActions';
+import { ROLL } from '../actions/dice';
+import config from '../browser/config';
 
-const DICE_MAX = 20;
 let diceCounter = 0;
 
-export const dice = () => (next) => (action) => {
+export default () => (next) => (action) => {
     if (action.type === ROLL) {
         const {
             faces,
             results,
-        } = action;
+        } = action.payload;
 
         results.forEach((result) => {
-            if (diceCounter > DICE_MAX) return;
+            if (diceCounter >= config.diceLimit) return;
             diceCounter++;
             dice3d(faces, result, () => diceCounter--);
         });

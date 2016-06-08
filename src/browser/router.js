@@ -1,5 +1,5 @@
-import * as Route from '../actions/RouteActions';
-import { AppStore } from '../stores/AppStore';
+import * as Route from '../actions/route';
+import AppStore from './store';
 
 export const set = function(path) {
     AppStore.dispatch(Route.set(path));

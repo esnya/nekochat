@@ -5,7 +5,7 @@ export const TEXT = 'NODE_TYPE_TEXT';
 
 export class MessageModel extends Model {
     constructor() {
-        super('messages');
+        super('messages', 'id', 'DESC');
     }
 
     transform(item) {
