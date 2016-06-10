@@ -5,6 +5,7 @@ app:
     secret: secret!!
 browser:
     debug: false
+    feedback_form: https://docs.google.com/forms/d/1i3zWclkL6aY2mtqBC4EQhErGQaxWvGn84oUVHcE2S0w/viewform
 database:
     default:
         client: sqlite3

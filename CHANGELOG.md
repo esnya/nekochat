@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Feedback dialog
+
 ### Refactored client modules
 - According to the Flux Standard Action with redux-actions
 - Wrapped most of the components by pure render as HOC

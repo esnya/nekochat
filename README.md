@@ -104,20 +104,21 @@ Edit `config/local.yml`.
 Default values are specified by [`config/default.yml`](https://github.com/ukatama/nekochat/blob/master/config/default.yml) and  [`config/production.yml`](https://github.com/ukatama/nekochat/blob/master/config/production.yml)
 See also [node-config](https://github.com/lorenwest/node-config) abtout the configuration system.
 
-| Key              | type    | descrption                                                       |
-|------------------|---------|------------------------------------------------------------------|
-| name             | string  | Name of the application instance.                                |
-| app.guest        | boolean | Set `true` to allow guest login.                                 |
-| app.livereload   | boolean | Set `true` to enable livereload scrpit to develop.               |
-| app.secret       | string  | Secret value for sessions.                                       |
-| browser.debug    | boolean | Set `true` to enable client debugging mode.                      |
-| database.default | object  | Default database configurations. See also [Knex.js](http://knexjs.org/#Installation-client). |
-| database.session | object  | Session database configurations. This is only used `session.store` is set to `database`. |
-| redis            | object  | Redis client (`createClient()`) configuratios. See also [node_redis#redis.createClient()](https://github.com/NodeRedis/node_redis#rediscreateclient) |
-| server.host      | string  | Host address to bind.                                            |
-| server.port      | number  | Port number to bind.                                             |
-| session          | object  | See also [express-session](https://github.com/expressjs/session) |
-| session.store    | string  | Type of session store. `database` or `redis`                     |
+| Key                   | type    | descrption                                                       |
+|-----------------------|---------|------------------------------------------------------------------|
+| name                  | string  | Name of the application instance.                                |
+| app.guest             | boolean | Set `true` to allow guest login.                                 |
+| app.livereload        | boolean | Set `true` to enable livereload scrpit to develop.               |
+| app.secret            | string  | Secret value for sessions.                                       |
+| browser.debug         | boolean | Set `true` to enable client debugging mode.                      |
+| browser.feedback_form | string  | Set URL for google form or `false` to disable.                   |
+| database.default      | object  | Default database configurations. See also [Knex.js](http://knexjs.org/#Installation-client). |
+| database.session      | object  | Session database configurations. This is only used `session.store` is set to `database`. |
+| redis                 | object  | Redis client (`createClient()`) configuratios. See also [node_redis#redis.createClient()](https://github.com/NodeRedis/node_redis#rediscreateclient) |
+| server.host           | string  | Host address to bind.                                            |
+| server.port           | number  | Port number to bind.                                             |
+| session               | object  | See also [express-session](https://github.com/expressjs/session) |
+| session.store         | string  | Type of session store. `database` or `redis`                     |
 
 ## License
 MIT License

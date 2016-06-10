@@ -7,6 +7,7 @@ import RoomCreateDialog from '../containers/RoomCreateDialog';
 import RoomEditDialog from '../containers/RoomEditDialog';
 import RoomPasswordDialog from '../containers/RoomPasswordDialog';
 import Confirm from './Confirm';
+import FeedbackDialog from './FeedbackDialog';
 
 const table = {
     confirm: Confirm,
@@ -45,7 +46,7 @@ const Dialog = (props) => {
             );
         });
 
-    return <div>{elements}</div>;
+    return <div>{elements}<FeedbackDialog /></div>;
 };
 Dialog.propTypes = {
     dialogs: IPropTypes.listOf(IPropTypes.contains({

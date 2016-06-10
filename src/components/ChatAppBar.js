@@ -4,6 +4,7 @@ import IPropTypes from 'react-immutable-proptypes';
 import User from '../browser/user';
 import RoomEditButton from '../containers/RoomEditButton';
 import { pureRender } from '../utility/enhancer';
+import FeedbackButton from './FeedbackButton';
 
 const ChatAppBar = (props) => {
     const {
@@ -17,7 +18,12 @@ const ChatAppBar = (props) => {
 
     return (
         <AppBar
-            iconElementRight={iconElementRight}
+            iconElementRight={
+                <div>
+                    {iconElementRight}
+                    <FeedbackButton color="white" />
+                </div>
+            }
             title={room.get('title') || 'Nekochat'}
             onLeftIconButtonTouchTap={onOpenDrawer}
             onRightIconButtonTouchTap={onEditRoom}
