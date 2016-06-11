@@ -66,6 +66,16 @@ export class MessageModel extends Model {
             .then(this.transform);
     }
 
+    getRoomInfo(room_id) {
+        return this.query
+            .where({ room_id })
+            .whereNull('deleted')
+            .min('id as first_message')
+            .count('id as messages')
+            .first()
+            .then((info) => info || { first_messge: null, messages: 0 });
+    }
+
     insert(data) {
         return Room
             .find('id', data.room_id)

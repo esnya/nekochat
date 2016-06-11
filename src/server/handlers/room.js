@@ -29,6 +29,7 @@ import {
     FETCH as UFETCH,
 } from '../../actions/user';
 import {PASSWORD_INCORRECT, Room} from '../models/room';
+import { Message } from '../models/message';
 import {generateId} from '../../utility/id';
 
 const ID_LENGTH = 16;
@@ -56,6 +57,10 @@ export const room = (client) => (next) => (action) => {
         case JOIN:
             Room
                 .join(payload.id, payload.password || null)
+                .then((room) => Message.getRoomInfo(room.id).then((info) => ({
+                    ...room,
+                    ...info,
+                })))
                 .then((room) => {
                     client.join(room);
                     client.emit(join(room));

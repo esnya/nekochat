@@ -10,6 +10,10 @@ export class Model {
         this.order = order;
     }
 
+    get query() {
+        return knex(this.table);
+    }
+
     findAll(...finder) {
         const query = knex(this.table)
             .whereNull('deleted')

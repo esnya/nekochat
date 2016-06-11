@@ -1,11 +1,11 @@
 import { Map } from 'immutable';
-import CircularProgress from 'material-ui/CircularProgress';
 import * as Colors from 'material-ui/styles/colors';
 import React, { Component, PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
 import { findDOMNode } from 'react-dom';
 import { pureRender } from '../utility/enhancer';
 import MessageListItem from './MessageListItem';
+import MessageLoadingProgress from './MessageLoadingProgress';
 
 const Style = {
     List: {
@@ -64,7 +64,7 @@ class MessageList extends Component {
     static get propTypes() {
         return {
             typings: PropTypes.instanceOf(Map).isRequired,
-            eor: PropTypes.bool,
+            first_message: PropTypes.number,
             messages: IPropTypes.listOf(IPropTypes.contains({
                 id: PropTypes.number.isRequired,
             })).isRequired,
@@ -73,8 +73,7 @@ class MessageList extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!this.props.eor &&
-            this.props.messages.length > 0 &&
+        if (this.props.messages.length > 0 &&
             prevProps.messages.length === 0) {
             this.onScroll({
                 target: findDOMNode(this.messages),
@@ -103,14 +102,14 @@ class MessageList extends Component {
 
         if (list.scrollTop === 0) {
             const {
-                eor,
+                first_message,
                 messages,
                 onFetchLog,
             } = this.props;
 
             const first = messages.first();
 
-            if (eor || !first) return;
+            if (!first || first_message === first.get('id')) return;
 
             onFetchLog(first.get('id'));
         }
@@ -119,7 +118,6 @@ class MessageList extends Component {
     render() {
         const {
             typings,
-            eor,
             messages,
         } = this.props;
 
@@ -129,13 +127,8 @@ class MessageList extends Component {
                 style={Style.List}
                 onScroll={(e) => this.onScroll(e)}
             >
-                <div
-                    style={{
-                        ...Style.Loader,
-                        display: eor ? 'none' : 'block',
-                    }}
-                >
-                    <CircularProgress />
+                <div style={Style.Loader}>
+                    <MessageLoadingProgress />
                 </div>
                 {
                     messages.map((message) => (
