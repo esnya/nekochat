@@ -3,6 +3,7 @@ import React from 'react';
 import RoomCreateButton from '../containers/RoomCreateButton';
 import RoomList from '../containers/RoomList';
 import { staticRender } from '../utility/enhancer';
+import FeedbackButton from './FeedbackButton';
 
 const Lobby = () => {
     document.title = "Nekochat";
@@ -32,7 +33,12 @@ const Lobby = () => {
                             <img src="/img/nekokoro48.png" />
                         </a>
                     }
-                    iconElementRight={<RoomCreateButton />}
+                    iconElementRight={
+                        <div>
+                            <RoomCreateButton />
+                            <FeedbackButton color="white" />
+                        </div>
+                    }
                     title="Nekochat"
                 />
             </div>
