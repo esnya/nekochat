@@ -1,7 +1,7 @@
 import { Iterable } from 'immutable';
 import createLogger from 'redux-logger';
 import promise from 'redux-promise';
-import localStorage from '../browser/localStorage';
+import config from '../browser/config';
 import dialog from './dialog';
 import dice from './dice';
 import notification from './notification';
@@ -23,7 +23,7 @@ const middlewares = [
     toast,
 ];
 
-if (localStorage.getItem('nekochat:debug')) {
+if (config.debug) {
     middlewares.push(createLogger({
         stateTransformer:
             (state) => Object.keys(state).reduce((result, key) => {
