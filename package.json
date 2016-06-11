@@ -18,7 +18,7 @@
     "serve": "gulp serve",
     "test": "gulp test",
     "watch": "gulp serve build test watch",
-    "production": "gulp production",
+    "production": "sh -c \"NODE_ENV=production gulp production\"",
     "version": "update-changelog && git add CHANGELOG.md"
   },
   "author": "ukatama",
