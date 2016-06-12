@@ -59,10 +59,10 @@ class MessageForm extends Component {
 
         const parseMessage = () => {
             const value = this.input.value || null;
-            if (!value) return null;
+            if (!value) return {};
 
             const match = value.match(/^(@([^ ]+) )?((.|\r|\n)*?)$/);
-            if (!match) return null;
+            if (!match) return {};
 
             const whisper_to = match[2] || null;
             const message = match[3] || null;
