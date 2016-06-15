@@ -44,7 +44,7 @@ exports.up = (knex, Promise) => Promise.all([
             .timestamp('modified')
             .notNullable()
             .defaultTo(knex.fn.now());
-        table.timestamp('deleted').defaultTo(null);
+        table.timestamp('deleted');
     }),
     create(knex, 'icons', (table) => {
         table.string('id').primary();
@@ -64,7 +64,7 @@ exports.up = (knex, Promise) => Promise.all([
             .timestamp('modified')
             .notNullable()
             .defaultTo(knex.fn.now());
-        table.timestamp('deleted').defaultTo(null);
+        table.timestamp('deleted');
     }),
     create(knex, 'messages', (table) => {
         table.increments('id').primary();
@@ -99,7 +99,7 @@ exports.up = (knex, Promise) => Promise.all([
             .timestamp('modified')
             .notNullable()
             .defaultTo(knex.fn.now());
-        table.timestamp('deleted').defaultTo(null);
+        table.timestamp('deleted');
     }),
     create(knex, 'files', (table) => {
         table.string('id').primary();
@@ -119,7 +119,7 @@ exports.up = (knex, Promise) => Promise.all([
             .timestamp('modified')
             .notNullable()
             .defaultTo(knex.fn.now());
-        table.timestamp('deleted').defaultTo(null);
+        table.timestamp('deleted');
     }),
 ]);
 
