@@ -58,7 +58,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "redis": "^2.5.1",
     "redux": "^3.0.5",
-    "redux-actions": "^0.9.1",
+    "redux-actions": "^0.10.0",
     "redux-logger": "^2.6.1",
     "redux-promise": "^0.5.3",
     "sanitize.css": "^3.3.0",
