@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Changed
+- Remove SQL clients from package.json.
+    - They will automatically be installed in prestart.
+
+### Fixed
+- Fix errors on creating table with MariaDB.
+
 ## [2.0.0-beta-1] - 2016-06-12
 ### Added
 - Feedback dialog
