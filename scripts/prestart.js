@@ -3,7 +3,16 @@
 const { spawn } = require('child_process');
 const config = require('config');
 
-const client = config.get('database.default.client');
+const aliases = {
+    maria: 'mariasql',
+    madiadb: 'mariasql',
+    postgres: 'pq',
+    postgresql: 'pq',
+    sqlite: 'sqlite3',
+};
+
+const clientConf = config.get('database.default.client');
+const client = aliases[clientConf] || clientConf;
 
 try {
     console.log('checking module', client);
