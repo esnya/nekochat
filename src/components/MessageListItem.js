@@ -129,7 +129,7 @@ class MessageListItem extends Component {
                 </div>
                 <div style={Style.ListItem.MessageContainer}>
                     <div style={Style.ListItem.Header}>
-                        <MessageHeader message={message} />
+                        <MessageHeader color={color} message={message} />
                     </div>
                     <MessageBody message={message} />
                     <MessageAttachedFile message={message} />
