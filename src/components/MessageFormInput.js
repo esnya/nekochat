@@ -53,7 +53,7 @@ export default class MessageFormInput extends Component {
         const { value } = this.state;
 
         const handleKeyDown = (e) => {
-            if (e.key !== 'Enter' || e.shiftKey) return;
+            if (e.key !== 'Enter' || e.shiftKey || this.composition) return;
             e.preventDefault();
             onSubmit(e, value || null);
         };

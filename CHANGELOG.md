@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix errors on creating table with MariaDB.
 - Fix typo of an option for AJAX request
 - Fix color of names
+- Disable to submit message by Enter durning IME enabled
 
 ## [2.0.0-beta-1] - 2016-06-12
 ### Added
