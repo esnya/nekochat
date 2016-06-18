@@ -22,7 +22,7 @@ export function get(url) {
 
     return axios({
             url,
-            widthCredentials: true,
+            withCredentials: true,
             headers: {
                 Accept: 'application/json',
             },
