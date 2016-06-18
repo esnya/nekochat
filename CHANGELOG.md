@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Fix errors on creating table with MariaDB.
-- Fix typo of an option for AJAX request
+- Fix typo of `withCredentials`
 - Fix color of names
 - Disable to submit message by Enter durning IME enabled
 
