@@ -8,6 +8,7 @@ COPY nekodev /usr/src/app/nekodev
 COPY package.json /usr/src/app
 
 RUN npm install
+RUN npm install sqlite3 mysql mysql2 mariasql
 
 COPY . /usr/src/app
 ENV DISABLE_NOTIFIER true
