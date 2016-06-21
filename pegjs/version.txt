@@ -1,4 +1,1 @@
-https://github.com/MirrgieRiana/scriptFluorite5/commit/f2bce77d859f7137e85614427142796a502c58b2
-
-395: -          this.id = Math.floor(Math.random() * 1000000);
-395: +          //this.id = Math.floor(Math.random() * 1000000);
+https://github.com/MirrgieRiana/scriptFluorite5/commit/a29edf870ad3eaa267a7c11e303a52dec48a13eb

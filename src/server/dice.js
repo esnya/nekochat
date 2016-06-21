@@ -70,6 +70,16 @@ const parseSimple = function (str, results) {
     );
 };
 
+const runFluorite5 = function (messages, formula, vm) {
+    messages.push(formula[0]);
+    messages.push("=");
+    try {
+        messages.push(vm.toString(formula[1](vm, "get", [])));
+    } catch (e) {
+        messages.push("[Error: " + e + "]");
+    }
+};
+
 export const diceReplace = function (str) {
     // [A, B, A, ... , B, A] A: Text, B: Flu5
     const array = parser.parse(str, {
@@ -88,13 +98,7 @@ export const diceReplace = function (str) {
             messages.push(parseSimple(array[i], results));
         } else {
             // Flu5
-            messages.push(array[i][0]);
-            messages.push("=");
-            try {
-                messages.push(vm.toString(array[i][1](vm, "get")));
-            } catch (e) {
-                messages.push("[Error: " + e + "]");
-            }
+            runFluorite5(messages, array[i], vm);
         }
     }
 
