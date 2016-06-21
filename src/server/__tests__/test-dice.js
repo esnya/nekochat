@@ -29,14 +29,19 @@ describe('dice', () => {
     });
 
     pit('fluorite5 script', () => {
-        return diceReplace('\\1 + 20 - 7 * 2\\ \\$a = 100; $a * 10\\ '
-                + '\\"text".length()\\ \\1 ~ 3 --> $_ * 2 => "|".join\\ ')
+        return diceReplace('\\1 + 20 - 7 * 2\\ '
+                + '\\$a = 100; $a * 10\\ '
+                + '\\"text".length()\\ '
+                + '\\1 ~ 3 --> $_ * 2 => "|".join\\ ')
             .then((result) => {
                 expect(result.results).toEqual([
                 ]);
                 expect(result.message)
                     .toEqual(
-                        '7 1000 4 2|4|6 '
+                        '{1 + 20 - 7 * 2}=7 '
+                            + '{$a = 100; $a * 10}=1000 '
+                            + '{"text".length()}=4 '
+                            + '{1 ~ 3 --> $_ * 2 => "|".join}=2|4|6 '
                     );
             });
     });
