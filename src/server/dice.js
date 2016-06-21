@@ -71,8 +71,9 @@ const parseSimple = function (str, results) {
 };
 
 const runFluorite5 = function (messages, formula, vm) {
+    messages.push("{");
     messages.push(formula[0]);
-    messages.push("=");
+    messages.push("}=");
     try {
         messages.push(vm.toString(formula[1](vm, "get", [])));
     } catch (e) {
