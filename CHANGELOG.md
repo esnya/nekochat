@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Changed
+- Fluorite5: 5.8.1 -> 5.9.0 ([#60](https://github.com/ukatama/nekochat/pull/60))
+  - See also: [https://github.com/MirrgieRiana/scriptFluorite5/wiki/Update59](https://github.com/MirrgieRiana/scriptFluorite5/wiki/Update59)
+
 ## [2.0.0] - 2016-06-18
 ### Changed
 - Remove SQL clients from package.json.
