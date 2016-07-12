@@ -3,6 +3,11 @@ import React, { PropTypes } from 'react';
 import RoomListItem from './RoomListItem';
 import { pureRender } from '../utility/enhancer';
 
+const Style = {
+    margin: 0,
+    padding: 0,
+};
+
 const RoomList = (props) => {
     const {
         rooms,
@@ -12,7 +17,7 @@ const RoomList = (props) => {
     } = props;
 
     return (
-        <ul>
+        <ul style={Style}>
             {
                 rooms.map((room) =>
                     <RoomListItem

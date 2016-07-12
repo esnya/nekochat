@@ -16,3 +16,7 @@ html, body, .filled-container {
     align-items: center;
     justify-content: center;
 }
+html [type=button] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
