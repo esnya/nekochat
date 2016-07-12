@@ -2,6 +2,7 @@ import config from 'config';
 import Knex from 'knex';
 
 export const knex = Knex(config.get('database.default'));
+export default knex;
 
 export const now = config.get('database.default.client') === 'sqlite3'
     ? () => Date.now()

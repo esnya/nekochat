@@ -3,7 +3,7 @@ import {NOT_FOUND} from './models/model';
 import {User} from './models/user';
 
 export const getUser = (session) => User
-    .find('id', session && session.passport && session.passport.user)
+    .find('id', session && session.passport && session.passport.user || null)
     .catch((e) => {
         if (config.get('app.guest') && e === NOT_FOUND && session.guest) {
             return session.guest;

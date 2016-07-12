@@ -1,7 +1,13 @@
 /* eslint no-underscore-dangle: 0 */
 
 describe('Model', () => {
-    const {knex, now} = require('../../knex');
+    const {knex} = require('../../knex');
+
+    const moment = require('moment');
+    const _now = 'now';
+    moment.mockReturnValue({
+        format: () => _now,
+    });
 
     jest.dontMock('../model');
     const {
@@ -9,7 +15,7 @@ describe('Model', () => {
         Model,
     } = require('../model');
 
-    let query, _now;
+    let query;
     beforeEach(() => {
         query = {};
 
@@ -37,9 +43,6 @@ describe('Model', () => {
             createTable: jest.fn()
                 .mockReturnValue(Promise.resolve(true)),
         };
-
-        _now = Date.now();
-        now.mockReturnValue(_now);
     });
 
     pit('lists all of items which have not been deleted', () => {
@@ -252,7 +255,7 @@ describe('Model', () => {
                     id: 'id5',
                     user_id: 'user1',
                 });
-                expect(query.update).toBeCalledWith('deleted', knex.fn.now());
+                expect(query.update).toBeCalledWith('deleted', _now);
             });
     });
 });

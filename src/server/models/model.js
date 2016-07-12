@@ -1,4 +1,5 @@
-import {knex, now} from '../knex';
+import moment from 'moment';
+import knex from '../knex';
 
 export const NOT_FOUND = 'MODEL_NOT_FOUND';
 
@@ -33,11 +34,13 @@ export class Model {
     }
 
     insert(data) {
+        const now = moment().format();
+
         return knex(this.table)
             .insert({
                 ...data,
-                created: now(),
-                modified: now(),
+                created: now,
+                modified: now,
             })
             .then((ids) => data.id || ids[0])
             .then((id) => this.find('id', id));
@@ -45,11 +48,13 @@ export class Model {
 
     // eslint-disable-next-line max-params
     update(id, user_id, data, force = false) {
+        const now = moment().format();
+
         return knex(this.table)
             .where(force ? {id} : {id, user_id})
             .update({
                 ...data,
-                modified: now(),
+                modified: now,
             })
             .then(() => this.find('id', id));
     }
@@ -57,6 +62,6 @@ export class Model {
     del(...finder) {
         return knex(this.table)
             .where(...finder)
-            .update('deleted', now());
+            .update('deleted', moment().format());
     }
 }
