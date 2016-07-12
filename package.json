@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/ukatama/nekochat.git"
   },
-  "main": "lib/server",
+  "main": "index.js",
   "directories": {
     "test": "test"
   },

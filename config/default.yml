@@ -24,3 +24,14 @@ session:
     store: database
     resave: true
     saveUninitialized: true
+data_cleaner:
+    file:
+        enabled: true
+        interval: PT1H
+        soft: P7D
+        hard: P14D
+    room:
+        enabled: false
+        interval: PT1H
+        soft: P14D
+        hard: P21D

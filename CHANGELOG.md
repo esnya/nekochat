@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- Old data (files/rooms) cleaner
+
 ## [2.1.0] - 2016-06-26
 ### Changed
 - Fluorite5: 5.8.1 -> 5.9.0 ([#60](https://github.com/ukatama/nekochat/pull/60))
