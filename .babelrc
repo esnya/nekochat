@@ -5,6 +5,6 @@
         "react",
         "stage-1"
     ],
-    "sourceMaps": true,
+    "sourceMaps": "both",
     "sourceRoot": "src"
 }

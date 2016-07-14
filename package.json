@@ -11,11 +11,15 @@
     "test": "test"
   },
   "scripts": {
+    "postinstall": "npm run clean",
     "prestart": "node scripts/prestart.js",
     "start": "node .",
     "build": "run-p -l build:*",
     "build:babel": "babel -d lib src",
     "build:browserify": "browserify -d -t babelify -e src/browser | exorcist dist/js/browser.js.map > dist/js/browser.js",
+    "clean": "run-s -l clean:rimraf clean:mkdirp",
+    "clean:rimraf": "rimraf dist/js/* lib/*",
+    "clean:mkdirp": "mkdirp dist/js lib",
     "lint": "run-p -l lint:*",
     "lint:modules": "eslint --color -c ./eslint/modules.yml --ignore-pattern **/__tests__/**/*.js --ignore-pattern **/__mocks__/**/*.js src/**/*.js",
     "lint:scripts": "eslint --color -c ./eslint/scripts.yml --ignore-pattern **/__tests__/**/*.js --ignore-pattern **/__mocks__/**/*.js --ignore-pattern src/**/*.js **/*.js",
@@ -33,7 +37,8 @@
     "watch:test": "run-p -l watch:test:*",
     "watch:test:jest": "nodemon -w src --exec \"npm run -s test:jset\"",
     "watch:server": "nodemon -w lib index.js",
-    "production": "cross-env NODE_ENV=production browserify -d -t babelify -g uglifyify -e src/browser | exorcist dist/js/browser.min.js.map > dist/js/browser.min.js",
+    "production": "run-s -l clean lint:* test:* build:* prod:*",
+    "prod:browserify": "cross-env NODE_ENV=production browserify -d -t babelify -g uglifyify -e src/browser | exorcist dist/js/browser.min.js.map > dist/js/browser.min.js",
     "version": "update-changelog && git add CHANGELOG.md"
   },
   "author": "ukatama",
@@ -100,8 +105,10 @@
     "exorcist": "^0.4.0",
     "jasmine-immutablejs-matchers": "^0.1.2",
     "jest-cli": "^13.2.3",
+    "mkdirp": "^0.5.1",
     "nodemon": "^1.9.2",
     "npm-run-all": "^2.1.1",
+    "rimraf": "^2.5.3",
     "uglifyify": "^3.0.2",
     "watchify": "^3.7.0"
   },
