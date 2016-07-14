@@ -1,0 +1,9 @@
+---
+extends: ./common.yml
+parserOptions:
+    sourceType: script
+rules:
+    global-require: off
+    strict:
+        - error
+        - safe

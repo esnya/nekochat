@@ -1,8 +1,0 @@
-clone:
-    recursive: true
-    submodule_update_remote: true
-build:
-    image: node
-    commands:
-        - npm install
-        - npm run build

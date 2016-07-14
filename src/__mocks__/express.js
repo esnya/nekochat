@@ -1,6 +1,4 @@
-'use strict';
-
-export const mockApp = {
+const mockApp = {
     use: jest.genMockFn(),
     set: jest.genMockFn(),
     get: jest.genMockFn(),
@@ -8,6 +6,7 @@ export const mockApp = {
 };
 
 const express = jest.genMockFn().mockReturnValue(mockApp);
-export default express;
-
 express.static = jest.genMockFn();
+express.mockApp = mockApp;
+
+module.exports = express;

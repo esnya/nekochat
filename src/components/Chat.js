@@ -18,11 +18,11 @@ const Style = {
 
 const Chat = () => (
     <div style={Style.Container}>
-        <div style={{ flex: "0 0 auto" }}>
+        <div style={{ flex: '0 0 auto' }}>
             <ChatAppBar />
         </div>
         <div id="notification-anchor" />
-        <div style={{flex: '0 0 auto', maxHeight: '160px'}}>
+        <div style={{ flex: '0 0 auto', maxHeight: '160px' }}>
             <Memo />
         </div>
         <MessageList />

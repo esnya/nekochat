@@ -2,7 +2,7 @@ describe('reducers', () => {
     describe('route', () => {
         jest.autoMockOff();
 
-        const { fromJS }  = require('immutable');
+        const { fromJS } = require('immutable');
 
         const { set } = require('../../actions/route');
         const reducer = require('../route').default;

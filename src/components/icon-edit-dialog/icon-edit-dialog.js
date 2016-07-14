@@ -2,8 +2,8 @@ import _ from 'lodash';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import React, {Component, PropTypes} from 'react';
-import {IconListItem} from './icon-list-item';
+import React, { Component, PropTypes } from 'react';
+import { IconListItem } from './icon-list-item';
 
 export class IconEditDialog extends Component {
     static get propTypes() {
@@ -90,7 +90,7 @@ export class IconEditDialog extends Component {
                     <input
                         multiple
                         ref={(c) => (this.upload = c)}
-                        style={{display: 'none'}}
+                        style={{ display: 'none' }}
                         type="file"
                         onChange={onUploadIcon}
                     />
@@ -106,7 +106,7 @@ export class IconEditDialog extends Component {
                         onTouchTap={
                             (e) => onRemoveSelected(
                                 e,
-                                iconList.filter(({id}) => selections[id])
+                                iconList.filter(({ id }) => selections[id])
                             )
                         }
                     >

@@ -3,7 +3,7 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import ArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
-import React, {  PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
 import { pureRender } from '../utility/enhancer';
 import IconGrid from '../containers/IconGrid';

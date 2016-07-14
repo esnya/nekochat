@@ -11,12 +11,12 @@ const MessageAttachedFile = (props) => {
     const {
         message,
     } = props;
-    const file_id = message.get('file_id');
+    const fileId = message.get('file_id');
 
-    if (!file_id) return null;
+    if (!fileId) return null;
 
     return (
-        <img src={`/file/${file_id}`} style={Style} />
+        <img alt={fileId} src={`/file/${fileId}`} style={Style} />
     );
 };
 MessageAttachedFile.propTypes = {

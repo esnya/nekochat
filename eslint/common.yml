@@ -1,0 +1,20 @@
+---
+extends: airbnb
+env:
+    browser: true
+    es6: true
+    node: true
+parserOptions:
+    exmaVersion: 7
+    ecmaFeatures:
+        experimentalObjectRestSpread: true
+rules:
+    indent:
+        - error
+        - 4
+    react/jsx-indent:
+        - error
+        - 4
+    react/jsx-indent-props:
+        - error
+        - 4

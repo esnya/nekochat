@@ -8,13 +8,14 @@ import { getUser } from './user';
 
 const logger = getLogger('[SOCKET]');
 
-export const io = SocketIO(server);
+export const io = new SocketIO(server);
 
-io.use(ExpressSocketIOSession(session, { autoSave: true }));
+io.use(new ExpressSocketIOSession(session, { autoSave: true }));
 
 io.use((socket, next) => {
     getUser(socket.handshake.session)
         .then((user) => {
+            // eslint-disable-next-line no-param-reassign
             socket.user = {
                 id: user.id,
                 name: user.name,

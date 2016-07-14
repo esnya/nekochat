@@ -4,7 +4,6 @@ MAINTAINER ukatama dev.ukatama@gmail.com
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY nekodev /usr/src/app/nekodev
 COPY package.json /usr/src/app
 
 RUN npm install

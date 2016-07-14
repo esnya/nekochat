@@ -1,4 +1,4 @@
-import {createAction} from 'redux-actions';
+import { createAction } from 'redux-actions';
 // import {parse} from '../router/Parser';
 
 export const SET = 'ROUTE_SET';

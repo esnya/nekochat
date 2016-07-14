@@ -1,10 +1,12 @@
+/* eslint camelcase: "off" */
+
 import * as Colors from 'material-ui/styles/colors';
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import IPropTypes from 'react-immutable-proptypes';
 import MessageIcon from '../containers/MessageIcon';
 import { makeColor } from '../utility/color';
-import { Timestamp } from './Timestamp';
+import Timestamp from './Timestamp';
 import MessageAttachedFile from './MessageAttachedFile';
 import MessageBody from './MessageBody';
 import MessageHeader from './MessageHeader';

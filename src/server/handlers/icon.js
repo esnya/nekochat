@@ -9,12 +9,13 @@ import {
 import { genId } from '../../utility/id';
 import { Icon } from '../models/icon';
 
-export const icon = (client) => (next) => (action) => {
+export default (client) => (next) => (action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case UPLOAD:
-            Promise.all(
+    case UPLOAD:
+        Promise.all(
+            // eslint-disable-next-line no-shadow
                 payload.map(({ name, type, data }) => Icon
                     .insert({
                         id: genId(),
@@ -27,26 +28,26 @@ export const icon = (client) => (next) => (action) => {
                 )
             )
             .catch((e) => client.logger.error(e));
-            break;
-        case FETCH:
-            Icon
+        break;
+    case FETCH:
+        Icon
                 .findAll('user_id', client.user.id)
                 .then((icons) => client.emit(list(icons)))
                 .catch((e) => client.logger.error(e));
-            break;
-        case REMOVE:
-            Icon
+        break;
+    case REMOVE:
+        Icon
                 .del({
                     id: payload.id,
                     user_id: client.user.id,
                 })
                 .then(() => payload.id)
                 .catch((e) => client.logger.error(e));
-            break;
-        case BULK_REMOVE:
-            payload
+        break;
+    case BULK_REMOVE:
+        payload
                 .icons
-                .forEach(({id}) => {
+                .forEach(({ id }) => {
                     Icon
                         .del({
                             id,
@@ -55,7 +56,9 @@ export const icon = (client) => (next) => (action) => {
                         .then(() => payload.id)
                         .catch((e) => client.logger.error(e));
                 });
-            break;
+        break;
+
+    default: break;
     }
 
     return next(action);

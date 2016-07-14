@@ -1,5 +1,5 @@
-import {createAction} from 'redux-actions';
-import {genId} from '../utility/id';
+import { createAction } from 'redux-actions';
+import { genId } from '../utility/id';
 
 export const OPEN = 'DIALOG_OPEN';
 export const open = createAction(OPEN, (type, dialog) => ({

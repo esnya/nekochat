@@ -1,0 +1,11 @@
+---
+extends: ./common.yml
+env:
+    jest: true
+parserOptions:
+    sourceType: module
+rules:
+    global-require: off
+    strict:
+        - error
+        - safe

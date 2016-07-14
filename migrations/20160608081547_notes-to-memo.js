@@ -1,3 +1,4 @@
+'use strict';
 
 exports.up = (knex) => knex.schema.table('rooms', (table) => {
     table.renameColumn('notes', 'memo');

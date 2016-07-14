@@ -1,0 +1,10 @@
+{
+    "presets": [
+        "es2015",
+        "es2016",
+        "react",
+        "stage-1"
+    ],
+    "sourceMaps": true,
+    "sourceRoot": "src"
+}

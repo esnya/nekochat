@@ -28,23 +28,23 @@ import {
     list as ulist,
     FETCH as UFETCH,
 } from '../../actions/user';
-import {PASSWORD_INCORRECT, Room} from '../models/room';
+import { PASSWORD_INCORRECT, Room } from '../models/room';
 import { Message } from '../models/message';
-import {generateId} from '../../utility/id';
+import { generateId } from '../../utility/id';
 
 const ID_LENGTH = 16;
 
-export const room = (client) => (next) => (action) => {
+export default (client) => (next) => (action) => {
     const {
         payload,
         type,
    } = action;
 
     switch (type) {
-        case CREATE:
-            Room
+    case CREATE:
+        Room
                 .insert({
-                    id: generateId((new Date()).getTime() + '')
+                    id: generateId(`${(new Date()).getTime()}`)
                             .substr(0, ID_LENGTH),
                     title: payload.title || null,
                     password: payload.password || null,
@@ -53,9 +53,9 @@ export const room = (client) => (next) => (action) => {
                 })
                 .then((room) => client.emit(create(room)))
                 .catch((e) => client.logger.error(e));
-            break;
-        case JOIN:
-            Room
+        break;
+    case JOIN:
+        Room
                 .join(payload.id, payload.password || null)
                 .then((room) => Message.getRoomInfo(room.id).then((info) => ({
                     ...room,
@@ -78,35 +78,35 @@ export const room = (client) => (next) => (action) => {
                     return Promise.reject(e);
                 })
                 .catch((e) => client.logger.error(e));
-            break;
-        case LEAVE:
-            client.dispatch(fetch());
-            client.publish(left(client.user));
-            client.leave();
-            break;
-        case FETCH:
-            Room
+        break;
+    case LEAVE:
+        client.dispatch(fetch());
+        client.publish(left(client.user));
+        client.leave();
+        break;
+    case FETCH:
+        Room
                 .findAll()
                 .then((rooms) => client.emit(list(rooms)))
                 .catch((e) => client.logger.error(e));
-            break;
-        case REMOVE:
-            Room
+        break;
+    case REMOVE:
+        Room
                 .del({
                     id: payload.id || null,
                     user_id: client.user.id || null,
                 })
                 .then(() => {})
                 .catch((e) => client.logger.error(e));
-            break;
-        case UPDATE:
-            Room
+        break;
+    case UPDATE:
+        Room
                 .update(
                     client.room.id,
                     client.user.id,
                     _(payload)
                         .pick(['title', 'password', 'state'])
-                        .mapValues((a) => a === '' ? null : a)
+                        .mapValues((a) => (a === '' ? null : a))
                         .value()
                 )
                 .then((room) => {
@@ -114,31 +114,31 @@ export const room = (client) => (next) => (action) => {
                     client.publish(update(room));
                 })
                 .catch((e) => client.logger.error(e));
-            break;
-        case UFETCH:
-            if (!client.room) break;
+        break;
+    case UFETCH:
+        if (!client.room) break;
 
-            client.redis.hgetall(`${client.room_key}:users`, (err, obj) => {
-                if (err) {
-                    client.logger.error(err);
+        client.redis.hgetall(`${client.room_key}:users`, (err, obj) => {
+            if (err) {
+                client.logger.error(err);
 
-                    return;
-                }
+                return;
+            }
 
-                client.emit(ulist(
+            client.emit(ulist(
                     _(obj)
                         .values()
                         .map((json) => JSON.parse(json))
                         .orderBy(['login', 'timestamp'], ['desc', 'desc'])
                         .value()
                 ));
-            });
-            break;
+        });
+        break;
 
-        case MUPDATE:
-            if (!client.room) break;
+    case MUPDATE:
+        if (!client.room) break;
 
-            Room
+        Room
                 .update(
                     client.room.id,
                     client.user.id,
@@ -160,6 +160,9 @@ export const room = (client) => (next) => (action) => {
                     }));
                 })
                 .catch((e) => client.logger.error(e));
+        break;
+
+    default: break;
     }
 
     return next(action);

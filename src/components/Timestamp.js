@@ -1,29 +1,26 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import moment from '../browser/moment';
+import { pureRender } from '../utility/enhancer';
 
-export class Timestamp extends Component {
-    static get propTypes() {
-        return {
-            timestamp: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-                PropTypes.instanceOf(Date),
-            ]).isRequired,
-        };
-    }
+const Timestamp = (props) => {
+    const m = moment(props.timestamp);
 
-    render() {
-        const m = moment(this.props.timestamp);
-
-        return (
-            <span
-                style={{
-                    cursor: 'pointer',
-                    position: 'relative',
-                }}
-            >
-                {m.fromNow()}
-            </span>
-        );
-    }
-}
+    return (
+        <span
+            style={{
+                cursor: 'pointer',
+                position: 'relative',
+            }}
+        >
+            {m.fromNow()}
+        </span>
+    );
+};
+Timestamp.propTypes = {
+    timestamp: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.instanceOf(Date),
+    ]).isRequired,
+};
+export default pureRender(Timestamp);

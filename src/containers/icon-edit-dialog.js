@@ -1,7 +1,7 @@
-import {map} from 'lodash';
-import {connect} from 'react-redux';
-import {getDialog, close} from '../actions/dialog';
-import {create, remove, removeSelected} from '../actions/icon';
+import { map } from 'lodash';
+import { connect } from 'react-redux';
+import { getDialog, close } from '../actions/dialog';
+import { create, remove, removeSelected } from '../actions/icon';
 import {
     IconEditDialog as Component,
 } from '../components/icon-edit-dialog/icon-edit-dialog';
@@ -14,11 +14,11 @@ export const IconEditDialog = connect(
     (dispatch) => ({
         onClose: () => dispatch(close('icon-edit')),
         onUploadIcon: (e) => {
-            const icon_data = e.target;
+            const iconData = e.target;
 
-            if (icon_data.files.length === 0) return;
+            if (iconData.files.length === 0) return;
 
-            map(icon_data.files, (a) => a).forEach((file) => {
+            map(iconData.files, (a) => a).forEach((file) => {
                 dispatch(create({
                     name: file.name,
                     mime: file.type,
@@ -26,7 +26,7 @@ export const IconEditDialog = connect(
                 }));
             }, this);
 
-            icon_data.value = '';
+            iconData.value = '';
         },
         onRemove: (icon) => dispatch(remove(icon)),
         onRemoveSelected: (e, icons) => dispatch(removeSelected(icons)),

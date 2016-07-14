@@ -1,4 +1,4 @@
-import {createAction} from 'redux-actions';
+import { createAction } from 'redux-actions';
 
 const sync = () => ({ sync: true });
 
@@ -8,6 +8,7 @@ export const create =
         sync: true,
         sound: 'notice',
         notify: id ? {
+            // eslint-disable-next-line camelcase
             title: `${name}@${user_id}`,
             body:
                 message.map(

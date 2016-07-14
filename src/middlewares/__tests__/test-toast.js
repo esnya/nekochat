@@ -3,7 +3,7 @@ describe('middlewares', () => {
         jest.unmock('redux-actions');
         jest.unmock('redux-actions/lib/createAction');
 
-        const {genId} = require('../../utility/id');
+        const { genId } = require('../../utility/id');
 
         jest.unmock('../../actions/toast');
         const { create, remove } = require('../../actions/toast');
@@ -37,14 +37,14 @@ describe('middlewares', () => {
             const next = jest.fn();
             const action = {
                 type: 'ANOTHER_ACTION',
-                payload: {pay: 'load'},
+                payload: { pay: 'load' },
                 meta: {
-                    toast: {message: 'message'},
+                    toast: { message: 'message' },
                     me: 'ta',
                 },
             };
 
-            middleware({dispatch})(next)(action);
+            middleware({ dispatch })(next)(action);
 
             expect(dispatch).toBeCalledWith(create(action.meta.toast));
             expect(next).toBeCalledWith(action);

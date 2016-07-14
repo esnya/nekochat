@@ -10,13 +10,13 @@ const data = readFileSync(path.join(__dirname, '../../pegjs/fluorite5.pegjs'));
 const parser = PEG.buildParser(data.toString(), {
     cache: true,
     allowedStartRules: [
-        "Expression",
-        "VMFactory",
+        'Expression',
+        'VMFactory',
     ],
 });
 
-const parseSimple = function (str, results) {
-    return str.replace(
+const parseSimple = (str, results) =>
+    str.replace(
         /([0-9]*d[0-9]*|[0-9]+)([+-][0-9]*d[0-9]*|[+-][0-9]+)*=/g,
         (exp) => {
             let status = '';
@@ -48,16 +48,17 @@ const parseSimple = function (str, results) {
                 results.push([eye, r]);
 
                 if (num > 1) {
-                    if (r.every((n) => n ===1)) {
+                    if (r.every((n) => n === 1)) {
                         status = '(1ゾロ)';
                     } else if (r.every((n) => n === eye)) {
-                        status = '(' + eye + 'ゾロ)';
+                        status = `(${eye}ゾロ)`;
                     }
                 }
 
-                return '[' + r.join(', ') + ']';
+                return `[${r.join(', ')}]`;
             });
 
+            // eslint-disable-next-line no-eval
             const sum = eval(
                 diced
                     .replace(/,/g, '+')
@@ -68,26 +69,25 @@ const parseSimple = function (str, results) {
             return exp + diced + sum + status;
         }
     );
-};
 
-const runFluorite5 = function (messages, formula, vm) {
-    messages.push("{");
+const runFluorite5 = (messages, formula, vm) => {
+    messages.push('{');
     messages.push(formula[0]);
-    messages.push("}=");
+    messages.push('}=');
     try {
-        messages.push(vm.toString(formula[1](vm, "get", [])));
+        messages.push(vm.toString(formula[1](vm, 'get', [])));
     } catch (e) {
-        messages.push("[Error: " + e + "]");
+        messages.push(`[Error: ${e}]`);
     }
 };
 
-export const diceReplace = function (str) {
+export const diceReplace = (str) => {
     // [A, B, A, ... , B, A] A: Text, B: Flu5
     const array = parser.parse(str, {
-        startRule: "Expression",
+        startRule: 'Expression',
     });
-    const vm = new (parser.parse("standard", {
-        startRule: "VMFactory",
+    const vm = new (parser.parse('standard', {
+        startRule: 'VMFactory',
     }))();
     const results = [];
     const messages = [];
@@ -104,7 +104,7 @@ export const diceReplace = function (str) {
     }
 
     return Promise.resolve({
-        message: messages.join(""),
+        message: messages.join(''),
         results,
     });
 };

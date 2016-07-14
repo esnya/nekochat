@@ -1,5 +1,5 @@
 describe('File', () => {
-    const {Model} = require('../model');
+    const { Model } = require('../model');
 
     jest.dontMock('../file');
     require('../file');

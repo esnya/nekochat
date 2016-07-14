@@ -10,7 +10,7 @@ describe('middlewares', () => {
         });
 
         jest.unmock('../../actions/dice');
-        const {roll} = require('../../actions/dice');
+        const { roll } = require('../../actions/dice');
 
         jest.unmock('../dice');
         const middleware = require('../dice').default;

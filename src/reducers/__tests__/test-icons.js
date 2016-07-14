@@ -15,7 +15,7 @@ describe('reducers', () => {
 
         let state;
         it('has state of empty List initially', () => {
-            state = reducer(undefined, {type: 'TEST_INIT'});
+            state = reducer(undefined, { type: 'TEST_INIT' });
             expect(state).isEmpty();
         });
 

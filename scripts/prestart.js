@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint no-console: off */
+
 const { spawn } = require('child_process');
 const config = require('config');
 

@@ -1,4 +1,4 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { update } from '../actions/memo';
 import MemoEditDialog from '../components/MemoEditDialog';
 

@@ -1,6 +1,6 @@
 import config from 'config';
-import {NOT_FOUND} from './models/model';
-import {User} from './models/user';
+import { NOT_FOUND } from './models/model';
+import { User } from './models/user';
 
 export const getUser = (session) => User
     .find('id', session && session.passport && session.passport.user || null)

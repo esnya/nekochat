@@ -122,9 +122,9 @@ export function singleState(
         onChange: PropTypes.any,
     };
     const propTypes = watchProps && propRequired ? {
-            ...propTypesWithoutHandler,
-            [key]: PropTypes.any.isRequired,
-        } : propTypesWithoutHandler;
+        ...propTypesWithoutHandler,
+        [key]: PropTypes.any.isRequired,
+    } : propTypesWithoutHandler;
 
     return class SingleStateWrapper extends Component {
         static get displayName() {
@@ -135,7 +135,7 @@ export function singleState(
             return propTypes;
         }
 
-        constructor(props)  {
+        constructor(props) {
             super(props);
 
             this.state = {

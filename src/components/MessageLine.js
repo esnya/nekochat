@@ -8,7 +8,7 @@ const MessageLine = (props) => {
     } = props;
 
     return (
-        <p>
+        <p style={{ margin: 0 }}>
             {
                 line.map(
                     (node, i) => <MessageNode key={i} node={node} />

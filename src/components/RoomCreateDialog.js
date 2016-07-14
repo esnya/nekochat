@@ -29,12 +29,14 @@ export default class RoomCreateDialog extends Component {
         };
 
         const Actions = [
-            <FlatButton primary
+            <FlatButton
+                primary
                 key="create"
                 label="Create"
                 onTouchTap={handleCreateRoom}
             />,
-            <FlatButton secondary
+            <FlatButton
+                secondary
                 key="cancel"
                 label="Cancel"
                 onTouchTap={onClose}

@@ -1,3 +1,5 @@
+/* eslint camelcase: "off" */
+
 import { roll } from '../../actions/dice';
 import {
     create,
@@ -7,10 +9,10 @@ import {
     FETCH,
     IMAGE,
 } from '../../actions/message';
-import {generateId} from '../../utility/id';
-import {File} from '../models/file';
-import {Message} from '../models/message';
-import {diceReplace} from '../dice';
+import { generateId } from '../../utility/id';
+import { File } from '../models/file';
+import { Message } from '../models/message';
+import { diceReplace } from '../dice';
 
 const processFile = (client, action) => {
     const file = action.files && action.files[0];
@@ -19,24 +21,24 @@ const processFile = (client, action) => {
     if (!file) return Promise.resolve();
 
     return File.insert({
-            id: file_id,
-            user_id: client.user.id,
-            name: file.name,
-            type: file.mime,
-            data: file.blob,
-        })
+        id: file_id,
+        user_id: client.user.id,
+        name: file.name,
+        type: file.mime,
+        data: file.blob,
+    })
         .then(() => file_id);
 };
 
-export const message = (client) => (next) => (action) => {
+export default (client) => (next) => (action) => {
     const {
         type,
         payload,
     } = action;
 
     switch (type) {
-        case CREATE: {
-            processFile(client, action)
+    case CREATE: {
+        processFile(client, action)
                 .then(
                     (file_id) => diceReplace(`${action.payload.message || ''}`)
                         .then((diceMessage) => ({
@@ -57,7 +59,7 @@ export const message = (client) => (next) => (action) => {
                     })
                     .then((message) => ({ diceMessage, message }))
                 )
-                .then(({diceMessage, message}) => {
+                .then(({ diceMessage, message }) => {
                     diceMessage.results.forEach((dice) => {
                         client.emit(roll(...dice));
                         client.publish(roll(...dice), message.whisper_to);
@@ -68,10 +70,10 @@ export const message = (client) => (next) => (action) => {
                     client.touch();
                 })
                 .catch((e) => client.logger.error(e));
-            break;
-        }
-        case IMAGE:
-            File
+        break;
+    }
+    case IMAGE:
+        File
                 .insert({
                     id: generateId(),
                     user_id: client.user.id || null,
@@ -93,24 +95,26 @@ export const message = (client) => (next) => (action) => {
                     client.publish(create(message));
                     client.touch();
                 });
-            break;
-        case FETCH:
-            if (!action.payload) {
-                Message
+        break;
+    case FETCH:
+        if (!action.payload) {
+            Message
                     .findLimit(client.room.id, client.user.id)
                     .then((messages) => client.emit(list(messages.reverse())))
                     .catch((e) => client.logger.error(e));
-            } else {
-                Message
+        } else {
+            Message
                     .findLimit(
                         client.room.id,
                         client.user.id,
-                        'id','<', action.payload
+                        'id', '<', action.payload
                     )
                     .then((messages) => client.emit(old(messages.reverse())))
                     .catch((e) => client.logger.error(e));
-            }
-            break;
+        }
+        break;
+
+    default: break;
     }
 
     return next(action);

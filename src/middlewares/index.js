@@ -28,6 +28,7 @@ if (config.debug) {
         stateTransformer:
             (state) => Object.keys(state).reduce((result, key) => {
                 const value = state[key];
+                // eslint-disable-next-line no-param-reassign
                 result[key] =
                     Iterable.isIterable(value) ? value.toJS() : value;
 

@@ -30,7 +30,7 @@ describe('middlewares', () => {
             const action = {
                 type: 'TEST',
                 payload: {
-                    data: {test: 1234},
+                    data: { test: 1234 },
                 },
                 meta: {
                     notify: {
@@ -57,7 +57,7 @@ describe('middlewares', () => {
             const action = {
                 type: 'TEST',
                 payload: {
-                    data: {test: 1234},
+                    data: { test: 1234 },
                 },
                 meta: {
                     notify: {
@@ -82,7 +82,7 @@ describe('middlewares', () => {
             const action = {
                 type: 'TEST',
                 payload: {
-                    data: {test: 1234},
+                    data: { test: 1234 },
                 },
                 meta: {
                     notify: {

@@ -17,13 +17,13 @@ const MessageWhisperTo = (props) => {
         message,
     } = props;
 
-    const whisper_to = message.get('whisper_to');
-    if (!whisper_to) return null;
+    const whisperTo = message.get('whisper_to');
+    if (!whisperTo) return null;
 
     return (
         <span style={Style.Container}>
             <span style={Style.Arrow}>{'>'}</span>
-            <span>{whisper_to}</span>
+            <span>{whisperTo}</span>
         </span>
     );
 };

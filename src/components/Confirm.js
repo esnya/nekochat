@@ -13,12 +13,14 @@ const Confirm = (props) => {
     } = props;
 
     const actions = [
-        <FlatButton primary
+        <FlatButton
+            primary
             key="ok"
             label="OK"
             onTouchTap={onOK}
         />,
-        <FlatButton secondary
+        <FlatButton
+            secondary
             key="cancel"
             label="Cancel"
             onTouchTap={onClose}

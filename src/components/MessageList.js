@@ -81,6 +81,25 @@ class MessageList extends Component {
         }
     }
 
+    onScroll() {
+        const list = findDOMNode(this.messages);
+
+        if (list.scrollTop === 0) {
+            const {
+                first_message,
+                messages,
+                onFetchLog,
+            } = this.props;
+
+            const first = messages.first();
+
+            // eslint-disable-next-line camelcase
+            if (!first || first_message === first.get('id')) return;
+
+            onFetchLog(first.get('id'));
+        }
+    }
+
     scroll(top, height) {
         const list = findDOMNode(this.messages) || {
             offsetHeight: 0,
@@ -94,24 +113,6 @@ class MessageList extends Component {
         ) {
             list.scrollTop += height + top -
                 (list.offsetTop + list.offsetHeight + list.scrollTop);
-        }
-    }
-
-    onScroll() {
-        const list = findDOMNode(this.messages);
-
-        if (list.scrollTop === 0) {
-            const {
-                first_message,
-                messages,
-                onFetchLog,
-            } = this.props;
-
-            const first = messages.first();
-
-            if (!first || first_message === first.get('id')) return;
-
-            onFetchLog(first.get('id'));
         }
     }
 

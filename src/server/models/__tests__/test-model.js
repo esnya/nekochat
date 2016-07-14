@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 
 describe('Model', () => {
-    const {knex} = require('../../knex');
+    const { knex } = require('../../knex');
 
     const moment = require('moment');
     const _now = 'now';
@@ -125,16 +125,16 @@ describe('Model', () => {
 
     pit('creates new item by insert', () => {
         query.then.mockImpl(
-            (callback) => {
+            (cb1) => {
                 query.then.mockImpl(
-                    (callback) => Promise.resolve({
+                    (cb2) => Promise.resolve({
                         id: 'id3', value: 'item3',
                         created: _now,
                         modified: _now,
-                    }).then(callback)
+                    }).then(cb2)
                 );
 
-                return Promise.resolve([2]).then(callback);
+                return Promise.resolve([2]).then(cb1);
             }
         );
 
@@ -161,16 +161,16 @@ describe('Model', () => {
 
     pit('creates new item by insert with autoincrements', () => {
         query.then.mockImpl(
-            (callback) => {
+            (cb1) => {
                 query.then.mockImpl(
-                    (callback) => Promise.resolve({
+                    (cb2) => Promise.resolve({
                         id: 4, value: 'item4',
                         created: _now,
                         modified: _now,
-                    }).then(callback)
+                    }).then(cb2)
                 );
 
-                return Promise.resolve([4]).then(callback);
+                return Promise.resolve([4]).then(cb1);
             }
         );
 

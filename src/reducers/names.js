@@ -13,7 +13,7 @@ export default handleActions({
     [CREATE]: (state, { payload }) => state.push(new Map(payload)),
     [UPDATE]: (state, { payload }) =>
         state.map(
-            (name) => name.get('id') === payload.id ? new Map(payload) : name
+            (name) => (name.get('id') === payload.id ? new Map(payload) : name)
         ),
     [REMOVE]: (state, { payload }) => {
         if (state.size > 1) {
@@ -22,7 +22,7 @@ export default handleActions({
 
         return INITIAL_STATE;
     },
-    [JOIN]: (state, { payload }) => payload.id
+    [JOIN]: (state, { payload }) => (payload.id
         ? load(`nekochat:${payload.id}:names`, INITIAL_STATE)
-        : state,
+        : state),
 }, INITIAL_STATE);

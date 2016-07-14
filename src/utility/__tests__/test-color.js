@@ -2,7 +2,7 @@ describe('color', () => {
     jest.autoMockOff();
 
     jest.unmock('../color');
-    const {makeColor} = require('../color');
+    const { makeColor } = require('../color');
 
     it('makes color', () => {
         expect(makeColor('test1')).toMatch(/^rgb\([0-9]+,[0-9]+,[0-9]+\)$/);

@@ -1,24 +1,24 @@
 import config from 'config';
-import Knex from 'knex';
+import createKnex from 'knex';
 
-export const knex = Knex(config.get('database.default'));
+export const knex = createKnex(config.get('database.default'));
 export default knex;
 
 export const now = config.get('database.default.client') === 'sqlite3'
     ? () => Date.now()
     : () => knex.fn.now();
 
-export const exists = function(data) {
-    return !data
+export const exists = (data) => (
+    !data
         ? Promise.reject(new Error('Not found'))
-        : Promise.resolve(data);
-};
+        : Promise.resolve(data)
+);
 
-export const inserted = function(ids) {
-    return ids.length === 0
+export const inserted = (ids) => (
+    ids.length === 0
         ? Promise.reject(new Error('Failed to insert'))
-        : Promise.resolve(ids[0]);
-};
+        : Promise.resolve(ids[0])
+);
 
 knex.migrate
     .latest()

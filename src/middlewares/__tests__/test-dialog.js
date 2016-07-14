@@ -19,7 +19,7 @@ describe('middlewares', () => {
             const next = jest.fn();
             const action = {
                 type: 'ANY_ACTION',
-                payload: {some: 'data'},
+                payload: { some: 'data' },
                 meta: {
                     dialog: {
                         type: 'confirm',

@@ -14,7 +14,7 @@ export const parser = (routes) => (path) => {
 
         const params = {};
 
-        if (zip(s, t).every((u) => {
+        const match = zip(s, t).every((u) => {
             if (u[1].charAt(0) === ':') {
                 params[u[1].substr(1)] = u[0];
             } else if (u[0] !== u[1]) {
@@ -22,7 +22,9 @@ export const parser = (routes) => (path) => {
             }
 
             return true;
-        })) {
+        });
+
+        if (match) {
             return {
                 ...route,
                 params,

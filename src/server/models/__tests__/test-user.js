@@ -1,5 +1,5 @@
 describe('User', () => {
-    const {Model} = require('../model');
+    const { Model } = require('../model');
 
     jest.dontMock('../user');
     require('../user');

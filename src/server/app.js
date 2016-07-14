@@ -1,17 +1,17 @@
 import { urlencoded } from 'body-parser';
 import config from 'config';
 import express from 'express';
-import {getLogger} from 'log4js';
+import { getLogger } from 'log4js';
 import Livereload from 'connect-livereload';
 import moment from 'moment';
-import {File} from './models/file';
-import {Icon} from './models/icon';
-import {Message} from './models/message';
-import {NOT_FOUND} from './models/model';
-import {Room, PASSWORD_INCORRECT} from './models/room';
-import {User} from './models/user';
-import {session} from './session';
-import {getUser} from './user';
+import { File } from './models/file';
+import { Icon } from './models/icon';
+import { Message } from './models/message';
+import { NOT_FOUND } from './models/model';
+import { Room, PASSWORD_INCORRECT } from './models/room';
+import { User } from './models/user';
+import { session } from './session';
+import { getUser } from './user';
 
 const browser = config.get('browser');
 const logger = getLogger('[app]');
@@ -33,7 +33,7 @@ app.get('/file/:id', (req, res, next) => {
 });
 
 if (config.get('app.livereload')) {
-    app.use(Livereload());
+    app.use(new Livereload());
 }
 app.use(express.static('public'));
 app.use(express.static('dist'));
@@ -48,7 +48,7 @@ const staticView = (req, res, next) => {
             .join(req.params.roomId, req.body && req.body.password)
             .then((room) => ({ room, user }))
         )
-        .then(({room, user}) => Message
+        .then(({ room, user }) => Message
             .findAll(room.id, user.id)
             .then((messages) => ({
                 ...room,
@@ -77,7 +77,7 @@ const staticView = (req, res, next) => {
         });
 };
 app.get('/view/:roomId', staticView);
-app.post('/view/:roomId', urlencoded({extended: false}), staticView);
+app.post('/view/:roomId', urlencoded({ extended: false }), staticView);
 app.get('/view/:roomId/password', (req, res) => {
     res.render('static-password', {
         id: req.params.roomId,
@@ -86,19 +86,20 @@ app.get('/view/:roomId/password', (req, res) => {
 
 const renderIndex = (res, user = null) =>
     res.render('index', {
-                config: browser,
-                script: process.env.NODE_ENV === 'production'
+        config: browser,
+        script: process.env.NODE_ENV === 'production'
                     ? 'js/browser.min.js'
                     : 'js/browser.js',
-                ga: config.has('ga') &&
+        ga: config.has('ga') &&
                     `GA_CONFIG = ${JSON.stringify(config.get('ga'))};`,
-                user,
-        }
+        user,
+    }
     );
 
 app.get('/logout', (req, res, next) => {
     if (!config.get('app.guest')) return next();
 
+    // eslint-disable-next-line no-param-reassign
     req.session.guest = null;
 
     return res.redirect('/');
@@ -108,7 +109,7 @@ app.get('/guest', (req, res, next) => {
 
     return renderIndex(res);
 });
-app.post('/guest', urlencoded({extended: false}), (req, res, next) => {
+app.post('/guest', urlencoded({ extended: false }), (req, res, next) => {
     if (!config.get('app.guest')) return next();
 
 
@@ -124,6 +125,7 @@ app.post('/guest', urlencoded({extended: false}), (req, res, next) => {
         .catch((e) => {
             if (e !== NOT_FOUND) return next();
 
+            // eslint-disable-next-line no-param-reassign
             req.session.guest = guest;
 
             return res.redirect('/');
@@ -139,6 +141,6 @@ app.get(['/', '/:roomId'], (req, res, next) =>
             }
 
             logger.error(e);
-            next(e);
+            return next(e);
         })
 );

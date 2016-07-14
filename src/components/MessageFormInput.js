@@ -58,9 +58,9 @@ export default class MessageFormInput extends Component {
             onSubmit(e, value || null);
         };
 
-        const handleChange = (e, value) => {
-            this.value = value;
-            if (!this.composition) onChange(e, value || null);
+        const handleChange = (e, v) => {
+            this.value = v;
+            if (!this.composition) onChange(e, v || null);
         };
 
         return (

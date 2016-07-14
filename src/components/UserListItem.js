@@ -11,7 +11,7 @@ const UserListItem = (props) => {
 
     return (
         <MenuItem>
-            <div style={{display: 'flex', alignItems: 'center'}}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
                 <LoginIcon user={user} />
                 <span>{user.get('name')}@{user.get('id')}</span>
             </div>

@@ -1,10 +1,10 @@
 describe('user', () => {
     const config = require('config');
-    const {User} = require('../models/user');
-    const {NOT_FOUND} = require('../models/model');
+    const { User } = require('../models/user');
+    const { NOT_FOUND } = require('../models/model');
 
     jest.unmock('../user');
-    const {getUser} = require('../user');
+    const { getUser } = require('../user');
 
     pit('gets user from session', () => {
         const session = {

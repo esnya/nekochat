@@ -1,5 +1,7 @@
-import {Model} from './model';
-import {Room} from './room';
+/* eslint camelcase: "off" */
+
+import { Model } from './model';
+import { Room } from './room';
 
 export const TEXT = 'NODE_TYPE_TEXT';
 
@@ -38,7 +40,7 @@ export class MessageModel extends Model {
     findAllImpl(room_id, user_id, ...finder) {
         const query = super
             .findAll('room_id', room_id)
-            .where(function() {
+            .where(function where() {
                 this
                     .whereNull('whisper_to')
                     .orWhere('whisper_to', user_id)
@@ -79,7 +81,7 @@ export class MessageModel extends Model {
     insert(data) {
         return Room
             .find('id', data.room_id)
-            .then(({user_id, state}) =>
+            .then(({ user_id, state }) =>
                 state === 'open' || user_id === data.user_id
             )
             .then((insertable) => {

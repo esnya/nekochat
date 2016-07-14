@@ -1,4 +1,4 @@
-'use strict';
+const mockStore = jest.genMockFn();
 
-export const mockStore = jest.genMockFn();
-export default jest.genMockFn().mockReturnValue(mockStore);
+module.exports = jest.genMockFn().mockReturnValue(mockStore);
+module.exports.mockStore = mockStore;

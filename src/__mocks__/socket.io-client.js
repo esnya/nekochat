@@ -1,5 +1,3 @@
-'use strict';
-
 const io = module.exports = jest.genMockFromModule('socket.io-client');
 
 const mockSocket = module.exports.mockSocket = {

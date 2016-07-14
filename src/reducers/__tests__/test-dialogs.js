@@ -14,13 +14,13 @@ describe('reducers', () => {
 
         let state;
         it('has state of empty List', () => {
-            state = reducer(undefined, {type: 'TEST_INIT'});
+            state = reducer(undefined, { type: 'TEST_INIT' });
             expect(state).isEmpty();
         });
 
         it('shifts by new opened dialog', () => {
             genId.mockReturnValue(1);
-            state = reducer(state, open('alert', {opt: 'ions'}));
+            state = reducer(state, open('alert', { opt: 'ions' }));
 
             expect(state).toEqualImmutable(fromJS([
                 {
@@ -31,7 +31,7 @@ describe('reducers', () => {
             ]));
 
             genId.mockReturnValue(2);
-            state = reducer(state, open('alert', {opt: 'ions'}));
+            state = reducer(state, open('alert', { opt: 'ions' }));
 
             expect(state).toEqualImmutable(fromJS([
                 {

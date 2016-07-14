@@ -5,7 +5,7 @@ import { CREATE, REMOVE, LIST } from '../actions/room';
 export default handleActions({
     [CREATE]:
         (state, { payload }) =>
-            !payload.id ? state : state.unshift(new Map(payload)),
+            (!payload.id ? state : state.unshift(new Map(payload))),
     [REMOVE]:
         (state, { payload }) =>
             state.filter((room) => room.get('id') !== payload.id),

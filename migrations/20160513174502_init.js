@@ -4,7 +4,7 @@ function create(knex, name, creator) {
     return knex.schema
         .hasTable(name)
         .then((exists) => {
-            if (!exists) return knex.schema.createTable(name, creator);
+            if (!exists) knex.schema.createTable(name, creator);
         });
 }
 

@@ -25,7 +25,7 @@ export const LIST = 'ROOM_LIST';
 export const list = createAction(LIST, (rooms) => rooms, sync);
 
 export const JOIN = 'ROOM_JOIN';
-export const join =  createAction(JOIN, (room) => room, sync);
+export const join = createAction(JOIN, (room) => room, sync);
 
 export const PASSWORD = 'ROOM_PASSWORD';
 export const password =

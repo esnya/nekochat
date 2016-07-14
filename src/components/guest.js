@@ -14,7 +14,7 @@ export const Guest = () => (
         <AppBar
             iconElementLeft={
                 <a href="/">
-                    <img src="/img/nekokoro48.png" />
+                    <img alt="logo" src="/img/nekokoro48.png" />
                 </a>
             }
             title="Guest Login"

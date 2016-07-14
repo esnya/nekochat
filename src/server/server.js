@@ -5,7 +5,7 @@ import { app } from './app';
 
 const logger = getLogger('[SERVER]');
 
-export const server = Server(app);
+export const server = new Server(app);
 
 server.listen(config.get('server'), () => {
     const {

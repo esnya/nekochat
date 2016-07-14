@@ -6,7 +6,7 @@ import { LEAVE } from '../actions/room';
 export default handleActions({
     [CREATE]:
         (state, { payload }) =>
-            !payload.id ? state : state.push(fromJS(payload)),
+            (!payload.id ? state : state.push(fromJS(payload))),
     [LIST]: (state, { payload }) => fromJS(payload),
     [OLD]: (state, { payload }) => fromJS(payload).concat(state),
     [LEAVE]: (state) => state.clear(),

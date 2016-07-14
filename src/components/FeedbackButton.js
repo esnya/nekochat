@@ -1,6 +1,6 @@
 import IconButton from 'material-ui/IconButton';
 import Feedback from 'material-ui/svg-icons/action/feedback';
-import React, { PropTypes } from  'react';
+import React, { PropTypes } from 'react';
 import Config from '../browser/config';
 import dialogButton from '../connectors/dialog-button';
 import { staticRender } from '../utility/enhancer';

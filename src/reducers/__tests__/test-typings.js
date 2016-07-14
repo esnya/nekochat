@@ -17,7 +17,7 @@ describe('reducers', () => {
 
         let state;
         it('has state of empty Map initially', () => {
-            state = reducer(undefined, {type: 'TEST_INIT'});
+            state = reducer(undefined, { type: 'TEST_INIT' });
             expect(state).isEmpty();
         });
 

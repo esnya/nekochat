@@ -1,5 +1,5 @@
 describe('Room', () => {
-    const {Model} = require('../model');
+    const { Model } = require('../model');
 
     jest.dontMock('../room');
     const {

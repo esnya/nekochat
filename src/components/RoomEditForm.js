@@ -80,7 +80,7 @@ export default class RoomEditForm extends Component {
                     floatingLabelText="Title"
                     name="title"
                     value={title}
-                    onChange={(e, title) => this.setState({ title })}
+                    onChange={(e, value) => this.setState({ title: value })}
                 />
                 <TextField
                     fullWidth
@@ -90,8 +90,8 @@ export default class RoomEditForm extends Component {
                     type="password"
                     value={password}
                     onChange={
-                        (e, password) => this.setState({
-                            password,
+                        (e, value) => this.setState({
+                            password: value,
                             passwordChanged: true,
                         })
                     }
@@ -100,7 +100,7 @@ export default class RoomEditForm extends Component {
                     name="state"
                     style={Style.RadioGroup}
                     valueSelected={state}
-                    onChange={(e, state) => this.setState({ state })}
+                    onChange={(e, value) => this.setState({ state: value })}
                 >
                     <RadioButton
                         label="Open"

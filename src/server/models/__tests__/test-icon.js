@@ -1,12 +1,12 @@
 describe('Icon', () => {
-    const {Model} = require('../model');
+    const { Model } = require('../model');
 
     const {
         findAll,
     } = Model.prototype;
 
     jest.dontMock('../icon');
-    const {Icon} = require('../icon');
+    const { Icon } = require('../icon');
 
     it('inherits Model', () => {
         expect(Model).toBeCalledWith('icons', 'name', 'ASC');
@@ -14,7 +14,7 @@ describe('Icon', () => {
 
     pit('finds all', () => {
         const result = [
-            {id: 'icon1', name: 'icon1.png'},
+            { id: 'icon1', name: 'icon1.png' },
         ];
         const query = Promise.resolve(result);
         query.select = jest.fn().mockReturnValue(query);

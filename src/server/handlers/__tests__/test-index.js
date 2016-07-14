@@ -1,11 +1,11 @@
 describe('handlers', () => {
-    const {icon} = require('../icon');
-    const {typing} = require('../typing');
-    const {message} = require('../message');
-    const {room} = require('../room');
+    const { icon } = require('../icon');
+    const { typing } = require('../typing');
+    const { message } = require('../message');
+    const { room } = require('../room');
 
     jest.unmock('../index');
-    const {handle} = require('../index');
+    const { handle } = require('../index');
 
     it('handles', () => {
         const handlers = [
@@ -20,8 +20,8 @@ describe('handlers', () => {
         ));
 
         const client = {
-            room: {id: 'room1'},
-            user: {id: 'user1'},
+            room: { id: 'room1' },
+            user: { id: 'user1' },
         };
         const next = jest.fn();
         const action = {

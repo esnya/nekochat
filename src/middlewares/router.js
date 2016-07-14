@@ -3,7 +3,7 @@ import { set, SET } from '../actions/route';
 import { parse } from '../router/Parser';
 
 const Redirects = {
-    [ CREATE ]: (action) => action.payload.id,
+    [CREATE]: (action) => action.payload.id,
 };
 
 export default ({ dispatch }) => (next) => (action) => {

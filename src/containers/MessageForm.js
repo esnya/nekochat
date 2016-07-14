@@ -1,3 +1,5 @@
+/* eslint camelcase: "off" */
+
 import { open } from '../actions/dialog';
 import { create as createMessage, image } from '../actions/message';
 import { update } from '../actions/typing';

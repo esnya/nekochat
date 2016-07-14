@@ -1,4 +1,4 @@
-import {createAction} from 'redux-actions';
+import { createAction } from 'redux-actions';
 
 export const JOINED = 'USER_JOINED';
 export const joined = createAction(JOINED, (user) => user, (user) => ({

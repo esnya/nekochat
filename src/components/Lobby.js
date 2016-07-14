@@ -6,7 +6,7 @@ import { staticRender } from '../utility/enhancer';
 import FeedbackButton from './FeedbackButton';
 
 const Lobby = () => {
-    document.title = "Nekochat";
+    document.title = 'Nekochat';
 
     const Style = {
         Container: {
@@ -30,7 +30,7 @@ const Lobby = () => {
                 <AppBar
                     iconElementLeft={
                         <a href="/">
-                            <img src="/img/nekokoro48.png" />
+                            <img alt="logo" src="/img/nekokoro48.png" />
                         </a>
                     }
                     iconElementRight={

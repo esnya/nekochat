@@ -1,5 +1,5 @@
-import {createAction} from 'redux-actions';
-import {genId} from '../utility/id';
+import { createAction } from 'redux-actions';
+import { genId } from '../utility/id';
 
 export const CREATE = 'NAME_CREATE';
 export const create = createAction(CREATE, (name) => ({

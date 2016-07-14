@@ -5,10 +5,10 @@ export default ({ dispatch, getState }) => (next) => (action) => {
         const id = action.payload;
         const dialog = getState()
             .dialogs
-            .find((dialog) => dialog.get('id') === id);
-        const next = dialog.get('next');
+            .find((d) => d.get('id') === id);
+        const nextAction = dialog.get('next');
 
-        dispatch(next);
+        dispatch(nextAction);
     }
 
     if (!action.meta || !action.meta.dialog) return next(action);

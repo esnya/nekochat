@@ -6,7 +6,7 @@ const SCALE_Y = 0.5;
 const OFFSET_Y = 0.2;
 const OFFSET_UV = -0.5;
 
-export const makeColor = function (data) {
+export const makeColor = (data) => {
     const hash = crypto
         .createHash('sha256')
         .update(data)
@@ -23,15 +23,15 @@ export const makeColor = function (data) {
         .rgb(yuv)
         .map((a) => Math.round(a));
 
-    return 'rgb(' + rgb.join(",") + ')';
+    return `rgb(${rgb.join(',')})`;
 };
 
 /**
  * Get color of name
  * @param{string} name - Name
- * @param{string} user_id - User ID
+ * @param{string} userId - User ID
  * @returns{string} color
  */
-export function nameColor(name, user_id = User.id) {
-    return makeColor(`${name}${user_id}`);
+export function nameColor(name, userId = User.id) {
+    return makeColor(`${name}${userId}`);
 }

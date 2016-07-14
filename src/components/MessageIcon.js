@@ -1,3 +1,5 @@
+/* eslint camelcase: "off" */
+
 import Avatar from 'material-ui/Avatar';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import React, { PropTypes } from 'react';
@@ -61,7 +63,7 @@ export const MessageIcon = ({
 
     if (typing) {
         return (
-            <div style={{position: 'relative', width: Size, height: Size}}>
+            <div style={{ position: 'relative', width: Size, height: Size }}>
                 <RefreshIndicator
                     left={0}
                     loadingColor={color}
@@ -76,7 +78,7 @@ export const MessageIcon = ({
             <ImageIcon
                 color={color}
                 noShadow={noShadow}
-                style={{...Style, ...style}}
+                style={{ ...Style, ...style }}
                 url={`/icon/${id}`}
             />
         );
@@ -87,7 +89,7 @@ export const MessageIcon = ({
             <ImageIcon
                 color={color}
                 noShadow={noShadow}
-                style={{...Style, ...style}}
+                style={{ ...Style, ...style }}
                 url={url}
             />
         );
@@ -103,7 +105,7 @@ export const MessageIcon = ({
         );
     }
 
-    return <div style={{...Style, ...style}} />;
+    return <div style={{ ...Style, ...style }} />;
 };
 MessageIcon.propTypes = {
     color: PropTypes.string.isRequired,

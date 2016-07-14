@@ -1,5 +1,5 @@
 describe('Message', () => {
-    const {Model} = require('../model');
+    const { Model } = require('../model');
 
     const {
         Room,
@@ -104,7 +104,7 @@ describe('Message', () => {
                     { id: 3, message: [[{
                         type: 'NODE_TYPE_TEXT',
                         text: 'msg3',
-                    }]]},
+                    }]] },
                 ]);
             });
     });
@@ -142,7 +142,7 @@ describe('Message', () => {
                     { id: 3, message: [[{
                         type: 'NODE_TYPE_TEXT',
                         text: 'msg3',
-                    }]]},
+                    }]] },
                 ]);
             });
     });
@@ -168,12 +168,12 @@ describe('Message', () => {
     it('recovers error', () => {
         expect(Message.transform({
             message: '[hoge]',
-        })).toEqual({message: [[{
+        })).toEqual({ message: [[{
             type: TEXT,
             text: '[hoge]',
-        }]]});
+        }]] });
 
-        expect(Message.transform({id: 3})).toEqual({id: 3});
+        expect(Message.transform({ id: 3 })).toEqual({ id: 3 });
 
         JSON.parse = null;
 

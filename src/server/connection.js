@@ -1,7 +1,9 @@
+/* eslint camelcase: "off" */
+
 import config from 'config';
-import {getLogger} from 'log4js';
-import {createClient} from 'redis';
-import {handle} from './handlers';
+import { getLogger } from 'log4js';
+import { createClient } from 'redis';
+import { handle } from './handlers';
 
 const logger = getLogger('[connection]');
 
@@ -44,7 +46,7 @@ export class Connection {
         );
     }
 
-    onMessage(channel, {action, sender}) {
+    onMessage(channel, { action, sender }) {
         if (sender === this.socket.id) return;
 
         logger.info('action', this.user.id, this.socket.id, action.type);

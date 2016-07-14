@@ -12,7 +12,8 @@ export default ({ getState }) => (next) => (action) => {
     const message = transform(
         action.meta.notify,
         (result, value, key) => {
-            result[key] = typeof(value) === "string"
+            // eslint-disable-next-line no-param-reassign
+            result[key] = typeof(value) === 'string'
                 ? template(value)({ action, state })
                 : value;
         },

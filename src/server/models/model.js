@@ -6,7 +6,6 @@ export const NOT_FOUND = 'MODEL_NOT_FOUND';
 export class Model {
     constructor(table, orderBy = 'created', order = 'DESC') {
         this.table = table;
-        this.fn = knex.fn;
         this.orderBy = orderBy;
         this.order = order;
     }
@@ -46,12 +45,12 @@ export class Model {
             .then((id) => this.find('id', id));
     }
 
-    // eslint-disable-next-line max-params
+    // eslint-disable-next-line max-params, camelcase
     update(id, user_id, data, force = false) {
         const now = moment().format();
 
         return knex(this.table)
-            .where(force ? {id} : {id, user_id})
+            .where(force ? { id } : { id, user_id })
             .update({
                 ...data,
                 modified: now,

@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
 import RoomActionMenu from './RoomActionMenu';
 import RoomStatusIcons from './RoomStatusIcons';
-import { Timestamp } from './Timestamp';
+import Timestamp from './Timestamp';
 import { pureRender } from '../utility/enhancer';
 
 const Style = {

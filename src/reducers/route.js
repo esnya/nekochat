@@ -4,5 +4,5 @@ import { SET } from '../actions/route';
 
 export default handleActions({
     [SET]:
-        (state, { payload }) => !payload.route ? state : fromJS(payload.route),
+        (state, { payload }) => (!payload.route ? state : fromJS(payload.route)),
 }, new Map());

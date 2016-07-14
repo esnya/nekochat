@@ -1,9 +1,9 @@
-import {icon} from './icon';
-import {typing} from './typing';
-import {message} from './message';
-import {room} from './room';
+import icon from './icon';
+import { typing } from './typing';
+import message from './message';
+import room from './room';
 
-const handlers = [
+const Handlers = [
     icon,
     typing,
     message,
@@ -18,4 +18,4 @@ const handleImpl = (handlers, action, next) =>
     )(action);
 
 export const handle = (client) => (next) => (action) =>
-    handleImpl(handlers.map((handler) => handler(client)), action, next);
+    handleImpl(Handlers.map((handler) => handler(client)), action, next);

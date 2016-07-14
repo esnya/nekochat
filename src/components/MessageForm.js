@@ -64,6 +64,7 @@ class MessageForm extends Component {
             const match = value.match(/^(@([^ ]+) )?((.|\r|\n)*?)$/);
             if (!match) return {};
 
+            // eslint-disable-next-line camelcase
             const whisper_to = match[2] || null;
             const message = match[3] || null;
 
@@ -138,6 +139,7 @@ class MessageForm extends Component {
                         (e, files) => {
                             if (files[0]) {
                                 onUploadImage(e, name.toJS(), files[0]);
+                                // eslint-disable-next-line no-param-reassign
                                 e.target.value = '';
                             }
                         }

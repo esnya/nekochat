@@ -1,14 +1,16 @@
+/* eslint camelcase: "off" */
+
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { get as getCharacter } from '../actions/character';
 import MessageIcon from '../components/MessageIcon';
-import { bindActions } from './utility';
 
 export default connect(
     ({ characters }, { character_url, typing }) => {
-        const character_data = character_url && characters[character_url];
-        if (!character_data) return {};
+        const characterData = character_url && characters[character_url];
+        if (!characterData) return {};
 
-        const data = character_data.data;
+        const data = characterData.data;
         if (!data) return {};
 
         return {
@@ -17,7 +19,7 @@ export default connect(
             typing,
         };
     },
-    bindActions({
+    (dispatch) => bindActionCreators({
         getCharacter,
-    })
+    }, dispatch)
 )(MessageIcon);

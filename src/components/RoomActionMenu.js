@@ -18,7 +18,7 @@ const DialogFeatures = {
     scrollbars: true,
 };
 const DialogFeatureString = Object.keys(DialogFeatures)
-    .map((key) => ({key, value: DialogFeatures[key]}))
+    .map((key) => ({ key, value: DialogFeatures[key] }))
     .map((a) => `${a.key}=${a.value === true ? 'yes' : a.value}`);
 
 const Style = {
@@ -103,11 +103,11 @@ const RoomActionMenu = (props) => {
 };
 RoomActionMenu.propTypes = {
     room: IPropTypes.contains({
-       id: PropTypes.string.isRrequired,
+        id: PropTypes.string.isRrequired,
     }).isRrequired,
     user: IPropTypes.contains({
-       id: PropTypes.string.isRrequired,
-       name: PropTypes.string.isRrequired,
+        id: PropTypes.string.isRrequired,
+        name: PropTypes.string.isRrequired,
     }).isRrequired,
     onRemoveRoom: PropTypes.func.isRrequired,
     onRoute: PropTypes.func.isRrequired,

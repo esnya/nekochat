@@ -4,7 +4,7 @@ describe('actions', () => {
     const { readdirSync } = require('fs');
     const { join } = require('path');
 
-    const createAction = jest.fn(() => (type) => ({type}));
+    const createAction = jest.fn(() => (type) => ({ type }));
     jest.setMock('redux-actions', { createAction });
 
     readdirSync(join(__dirname, '..'))

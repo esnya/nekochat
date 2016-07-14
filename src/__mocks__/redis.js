@@ -1,5 +1,3 @@
-'use strict';
-
 const redis = jest.fn();
 module.exports = redis;
 

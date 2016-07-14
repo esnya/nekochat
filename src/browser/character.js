@@ -14,22 +14,22 @@ export function get(url) {
 
         return Array.isArray(data)
             ? new Promise((resolve, reject) => {
-                    data.push({ resolve, reject });
-            }) :  Promise.resolve(cache[url]);
+                data.push({ resolve, reject });
+            }) : Promise.resolve(cache[url]);
     }
 
     cache[url] = [];
 
     return axios({
-            url,
-            withCredentials: true,
-            headers: {
-                Accept: 'application/json',
-            },
-        })
+        url,
+        withCredentials: true,
+        headers: {
+            Accept: 'application/json',
+        },
+    })
         .then(
             ({ data }) =>
-                typeof(data) === 'object' ? data : Promise.reject(data)
+                (typeof(data) === 'object' ? data : Promise.reject(data))
         )
         .then((data) => {
             const link = data.url ? new URL(data.url, url) : url;

@@ -36,6 +36,7 @@ const FeedbackDialog = (props) => {
         >
             <iframe
                 height={window.innerHeight / 1.5}
+                // eslint-disable-next-line
                 src={`${feedback_form}?embedded=true`}
                 width="100%"
             >

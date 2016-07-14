@@ -6,9 +6,9 @@ import NameEditDialog from '../components/NameEditDialog';
 export default connect(
     ({ names, characters }, { dialog, ...others }) => {
         const id = dialog && dialog.get('name_id');
-        const name = dialog && names.find((name) => name.get('id') === id);
-        const character_url = name && name.get('character_url');
-        const character = character_url && characters.get(character_url);
+        const name = dialog && names.find((n) => n.get('id') === id);
+        const characterUrl = name && name.get('character_url');
+        const character = characterUrl && characters.get(characterUrl);
 
         return {
             ...others,

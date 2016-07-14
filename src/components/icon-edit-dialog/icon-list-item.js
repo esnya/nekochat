@@ -1,6 +1,6 @@
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
-import React, { PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import MessageIcon from '../../containers/MessageIcon';
 
 export const IconListItem = (props) => {

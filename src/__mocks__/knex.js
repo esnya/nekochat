@@ -1,5 +1,3 @@
-'use strict';
-
 const mockKnex = jest.genMockFn();
 mockKnex.schema = {
     createTableIfNotExists: jest.genMockFn().mockReturnValue(Promise.resolve()),

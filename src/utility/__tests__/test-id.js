@@ -1,6 +1,6 @@
 describe('id', () => {
     jest.unmock('../id');
-    const {generateId} = require('../id');
+    const { generateId } = require('../id');
 
     it('generates id', () => {
         expect(generateId('test')).toMatch(/^[0-9a-f]+$/);

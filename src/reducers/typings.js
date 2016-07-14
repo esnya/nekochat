@@ -10,5 +10,5 @@ export default handleActions({
             if (!payload.message) return state.delete(meta.sender);
 
             return state.set(meta.sender, new Map(payload));
-    },
+        },
 }, new Map());

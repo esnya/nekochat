@@ -10,18 +10,18 @@ describe('reducers', () => {
 
         let state;
         it('has state of {focused: true} initially', () => {
-            state = reducer(undefined, {type: 'INIT'});
-            expect(state).toEqualImmutable(Map({focused: true}));
+            state = reducer(undefined, { type: 'INIT' });
+            expect(state).toEqualImmutable(new Map({ focused: true }));
         });
 
         it('handles blur event', () => {
             state = reducer(state, blur());
-            expect(state).toEqualImmutable(Map({focused: false}));
+            expect(state).toEqualImmutable(new Map({ focused: false }));
         });
 
         it('handles focus event', () => {
             state = reducer(state, focus());
-            expect(state).toEqualImmutable(Map({focused: true}));
+            expect(state).toEqualImmutable(new Map({ focused: true }));
         });
     });
 });
