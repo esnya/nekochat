@@ -1,5 +1,5 @@
 coverage
-dist
-lib
+dist/js/*.js
+lib/*
 node_modules
 tmp
