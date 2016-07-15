@@ -1,6 +1,6 @@
 describe('server', () => {
     describe('cleaner', () => {
         jest.unmock('../cleaner');
-        require('../cleaner');
+        it('can be required', () => { require('../cleaner'); });
     });
 });

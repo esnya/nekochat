@@ -5,5 +5,5 @@ describe('Lobby', () => {
     jest.setMock('../../browser/config', {});
 
     jest.dontMock('../Lobby');
-    require('../Lobby');
+    it('can be required', () => { require('../Lobby'); });
 });

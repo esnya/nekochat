@@ -1,4 +1,4 @@
 describe('handlers/room', () => {
     jest.unmock('../room');
-    require('../room');
+    it('can be required', () => { require('../room'); });
 });

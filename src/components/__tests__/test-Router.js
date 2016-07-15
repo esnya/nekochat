@@ -5,5 +5,5 @@ describe('Router', () => {
     jest.setMock('../../browser/config', {});
 
     jest.dontMock('../Router');
-    require('../Router');
+    it('can be required', () => { require('../Router'); });
 });

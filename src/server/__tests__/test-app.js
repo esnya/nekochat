@@ -6,5 +6,5 @@ describe('app', () => {
         }[path])),
     });
 
-    require('../app');
+    it('can be required', () => { require('../app'); });
 });

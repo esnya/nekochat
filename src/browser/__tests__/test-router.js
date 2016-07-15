@@ -12,5 +12,5 @@ describe('router', () => {
         getItem: jest.fn(),
     };
 
-    require('../router');
+    it('can be required', () => { require('../router'); });
 });

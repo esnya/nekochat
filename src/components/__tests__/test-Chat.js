@@ -5,5 +5,5 @@ describe('Chat', () => {
 
     jest.unmock('react');
     jest.unmock('../Chat');
-    require('../Chat');
+    it('can be required', () => { require('../Chat'); });
 });

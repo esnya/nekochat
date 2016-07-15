@@ -1,4 +1,4 @@
 describe('handlers/message', () => {
     jest.unmock('../message');
-    require('../message');
+    it('can be required', () => { require('../message'); });
 });

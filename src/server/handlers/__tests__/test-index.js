@@ -1,8 +1,8 @@
 describe('handlers', () => {
-    const { icon } = require('../icon');
-    const { typing } = require('../typing');
-    const { message } = require('../message');
-    const { room } = require('../room');
+    const icon = require('../icon').default;
+    const typing = require('../typing').default;
+    const message = require('../message').default;
+    const room = require('../room').default;
 
     jest.unmock('../index');
     const { handle } = require('../index');

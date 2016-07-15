@@ -7,5 +7,5 @@ describe('server', () => {
     });
 
     jest.unmock('../server');
-    require('../server');
+    it('can be required', () => { require('../server'); });
 });

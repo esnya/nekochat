@@ -1,4 +1,4 @@
 describe('connection', () => {
     jest.unmock('../connection');
-    require('../connection');
+    it('can be required', () => { require('../connection'); });
 });

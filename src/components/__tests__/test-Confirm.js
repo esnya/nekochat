@@ -1,5 +1,5 @@
 jest.dontMock('react');
 describe('Confirm', () => {
     jest.dontMock('../Confirm');
-    require('../Confirm');
+    it('can be required', () => { require('../Confirm'); });
 });

@@ -1,4 +1,4 @@
 describe('Routes', () => {
     jest.dontMock('../Routes');
-    require('../Routes');
+    it('can be required', () => { require('../Routes'); });
 });

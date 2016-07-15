@@ -1,4 +1,4 @@
 describe('redis', () => {
     jest.unmock('../redis');
-    require('../redis');
+    it('can be required', () => { require('../redis'); });
 });

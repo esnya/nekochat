@@ -6,5 +6,5 @@ describe('session', () => {
     });
 
     jest.unmock('../session');
-    require('../session');
+    it('can be required', () => { require('../session'); });
 });

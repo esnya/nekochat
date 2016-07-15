@@ -19,5 +19,5 @@ describe('socket', () => {
 
     jest.unmock('redux');
     jest.unmock('../socket');
-    require('../socket');
+    it('can be required', () => { require('../socket'); });
 });

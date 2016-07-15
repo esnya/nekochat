@@ -1,5 +1,5 @@
 import icon from './icon';
-import { typing } from './typing';
+import typing from './typing';
 import message from './message';
 import room from './room';
 

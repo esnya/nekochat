@@ -1,4 +1,4 @@
 describe('MessageForm', () => {
     jest.autoMockOff();
-    require('../MessageForm');
+    it('can be required', () => { require('../MessageForm'); });
 });

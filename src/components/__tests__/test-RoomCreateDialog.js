@@ -1,5 +1,5 @@
 jest.dontMock('react');
 describe('RoomCreateDialog', () => {
     jest.dontMock('../RoomCreateDialog');
-    require('../RoomCreateDialog');
+    it('can be required', () => { require('../RoomCreateDialog'); });
 });

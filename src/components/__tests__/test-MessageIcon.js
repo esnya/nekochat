@@ -1,5 +1,5 @@
 jest.dontMock('react');
 describe('MessageIcons', () => {
     jest.dontMock('../MessageIcon');
-    require('../MessageIcon');
+    it('can be required', () => { require('../MessageIcon'); });
 });

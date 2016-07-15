@@ -1,4 +1,5 @@
-const mockServer = {
+const mockServer = jest.fn();
+mockServer.prototype = {
     listen: jest.genMockFn(),
     address: jest.genMockFn(),
     listeners: jest.genMockFn().mockImpl(() => []),
@@ -7,6 +8,5 @@ const mockServer = {
 };
 
 module.exports = {
-    Server: jest.genMockFn().mockReturnValue(mockServer),
-    mockServer,
+    Server: mockServer,
 };

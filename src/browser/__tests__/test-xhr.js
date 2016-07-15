@@ -1,4 +1,4 @@
 describe('xhr', () => {
     jest.dontMock('../xhr');
-    require('../xhr');
+    it('can be required', () => { require('../xhr'); });
 });

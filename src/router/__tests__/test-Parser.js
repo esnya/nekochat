@@ -1,4 +1,4 @@
 describe('Parser', () => {
     jest.dontMock('../Parser');
-    require('../Parser');
+    it('can be required', () => { require('../Parser'); });
 });

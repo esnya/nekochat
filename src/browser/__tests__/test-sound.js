@@ -1,4 +1,4 @@
 describe('sound', () => {
     jest.dontMock('../sound');
-    require('../sound');
+    it('can be required', () => { require('../sound'); });
 });

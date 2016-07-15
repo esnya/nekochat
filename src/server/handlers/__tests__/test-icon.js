@@ -1,4 +1,4 @@
 describe('handlers/icon', () => {
     jest.unmock('../icon');
-    require('../icon');
+    it('can be required', () => { require('../icon'); });
 });

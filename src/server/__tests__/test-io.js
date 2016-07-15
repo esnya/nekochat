@@ -5,11 +5,12 @@ describe('io', () => {
             'session.store': 'database',
         }[path] || {})),
     });
-    const io = jest.fn().mockReturnValue({
+    const io = jest.fn();
+    io.prototype = {
         use: jest.fn(),
         on: jest.fn(),
-    });
+    };
     jest.setMock('socket.io', io);
     jest.unmock('../io');
-    require('../io');
+    it('can be required', () => { require('../io'); });
 });

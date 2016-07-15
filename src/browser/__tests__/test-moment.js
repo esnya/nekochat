@@ -1,4 +1,4 @@
 describe('moment', () => {
     jest.dontMock('../moment');
-    require('../moment');
+    it('can be required', () => { require('../moment'); });
 });

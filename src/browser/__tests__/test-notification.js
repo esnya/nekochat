@@ -1,4 +1,4 @@
 describe('notification', () => {
     jest.dontMock('../notification');
-    require('../notification');
+    it('can be required', () => { require('../notification'); });
 });

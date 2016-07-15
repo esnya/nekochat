@@ -1,4 +1,4 @@
 describe('handlers/typing', () => {
     jest.unmock('../typing');
-    require('../typing');
+    it('can be required', () => { require('../typing'); });
 });

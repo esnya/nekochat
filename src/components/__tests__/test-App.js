@@ -5,5 +5,5 @@ describe('App', () => {
     jest.setMock('../../browser/config', {});
 
     jest.dontMock('../App');
-    require('../App');
+    it('can be required', () => { require('../App'); });
 });

@@ -1,4 +1,4 @@
 describe('RoomUpdateDialog', () => {
     jest.unmock('../RoomEditDialog');
-    require('../RoomEditDialog');
+    it('can be required', () => { require('../RoomEditDialog'); });
 });
