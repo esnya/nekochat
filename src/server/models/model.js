@@ -3,6 +3,9 @@ import knex from '../knex';
 
 export const NOT_FOUND = 'MODEL_NOT_FOUND';
 
+// YYYY-MM-DD HH:MM:SS
+const TIMESTAMP_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+
 export class Model {
     constructor(table, orderBy = 'created', order = 'DESC') {
         this.table = table;
@@ -33,7 +36,7 @@ export class Model {
     }
 
     insert(data) {
-        const now = moment().format();
+        const now = moment().format(TIMESTAMP_FORMAT);
 
         return knex(this.table)
             .insert({
@@ -47,7 +50,7 @@ export class Model {
 
     // eslint-disable-next-line max-params, camelcase
     update(id, user_id, data, force = false) {
-        const now = moment().format();
+        const now = moment().format(TIMESTAMP_FORMAT);
 
         return knex(this.table)
             .where(force ? { id } : { id, user_id })
@@ -61,6 +64,6 @@ export class Model {
     del(...finder) {
         return knex(this.table)
             .where(...finder)
-            .update('deleted', moment().format());
+            .update('deleted', moment().format(TIMESTAMP_FORMAT));
     }
 }
