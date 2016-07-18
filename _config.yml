@@ -1,0 +1,11 @@
+# Site settings
+title: Nekochat
+description: NekoRPG Web Chat System.
+baseurl: "/nekochat"
+url: "https://ukatama.github.io"
+
+twitter_username: y_ukatama
+github_username:  ukatama
+
+# Build settings
+markdown: kramdown
