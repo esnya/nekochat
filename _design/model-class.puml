@@ -1,0 +1,33 @@
+@startuml
+class Query {
+    +constructor(query)
+
+    +find(): Query
+    +findAll(): Query
+    +select(): Query
+    +where(): Query
+    +then(): Promise
+    +catch(): Promise
+}
+
+class Table {
+    constructor(tableName: String, schema: Schema)
+}
+
+class Model {
+    #belongsTo(model: Model): Query
+    #hasMany(model: Model): Query
+    +toJSON(): Object
+}
+
+class Collection {
+    +toJSON(): Object
+}
+
+Query <|-- Table
+Array <|-- Collection
+
+Query --> Model: resolve
+Query --> Collection: resolve
+Model --* Collection
+@enduml

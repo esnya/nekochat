@@ -1,0 +1,33 @@
+@startuml
+autonumber
+activate User
+
+User -> Model: find()
+activate Model
+
+User <-- Model: new Query(knex(tableName).whereNull().first())
+deactivate Model
+
+User -> Query: where('id', 1)
+activate Query
+User <-- Query: new Query(query.where('id', 1))
+deactivate Query
+
+User ->> Query: then
+deactivate User
+activate Query
+Query ->> DB: QUERY
+deactivate Query
+activate DB
+Query <-- DB: RESULT
+deactivate DB
+activate Query
+Query -> Query: emit('fetched')
+activate Query
+deactivate Query
+Query --> User: resolve(correction)
+deactivate Query
+activate User
+deactivate User
+
+@enduml

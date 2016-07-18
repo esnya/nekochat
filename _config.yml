@@ -7,5 +7,7 @@ url: "https://ukatama.github.io"
 twitter_username: y_ukatama
 github_username:  ukatama
 
+repository: ukatama/nekochat
+
 # Build settings
 markdown: kramdown
