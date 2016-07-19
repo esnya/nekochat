@@ -9,3 +9,4 @@ export const generateId = (data = (`${seed}:${serial++}`)) =>
         .update(data)
         .digest('hex');
 export const genId = generateId;
+export default genId;

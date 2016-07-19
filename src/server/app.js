@@ -10,6 +10,7 @@ import { Message } from './models/message';
 import { NOT_FOUND } from './models/model';
 import { Room, PASSWORD_INCORRECT } from './models/room';
 import { User } from './models/user';
+import api from './api';
 import { session } from './session';
 import { getUser } from './user';
 
@@ -31,6 +32,7 @@ app.get('/file/:id', (req, res, next) => {
         .then((file) => res.type(file.type).send(file.data))
         .catch(next);
 });
+app.use('/api', api);
 
 if (config.get('app.livereload')) {
     app.use(new Livereload());
