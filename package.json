@@ -15,8 +15,8 @@
     "prestart": "node scripts/prestart.js",
     "start": "node .",
     "build": "run-p -l build:*",
-    "build:babel": "babel -d lib src",
-    "build:browserify": "browserify -d -t babelify -e src/browser | exorcist dist/js/browser.js.map > dist/js/browser.js",
+    "build:babel": "babel -s true -d lib src",
+    "build:webpack": "webpack",
     "clean": "run-s -l clean:rimraf clean:mkdirp",
     "clean:rimraf": "rimraf coverage/* dist/js/* lib/*",
     "clean:mkdirp": "mkdirp dist/js lib",
@@ -29,7 +29,7 @@
     "watch": "run-p -l watch:*:* watch:server",
     "watch:build": "run-p -l watch:build:*",
     "watch:build:babel": "npm run -s build:babel -- -w",
-    "watch:build:browserify": "watchify -d -o \"exorcist dist/js/browser.js.map > dist/js/browser.js\" -t babelify -e src/browser",
+    "watch:build:webpack": "webpack -w",
     "watch:lint": "run-p-l watch:lint:*",
     "watch:lint:modules": "nodemon -d 1 -w src -x \"npm run -s lint:modules\"",
     "watch:lint:scripts": "nodemon -d 1 -i src -i lib -i dist -x \"npm run -s lint:scripts\"",
@@ -38,7 +38,7 @@
     "watch:test:jest": "nodemon -d 1 -w src --exec \"npm run -s test:jest\"",
     "watch:server": "nodemon -d 1 -w lib index.js",
     "production": "run-s -l clean lint:* test:* build:* prod:*",
-    "prod:browserify": "cross-env NODE_ENV=production browserify -d -t babelify -g uglifyify -e src/browser | exorcist dist/js/browser.min.js.map > dist/js/browser.min.js",
+    "prod:webpack": "cross-env NODE_ENV=production webpack",
     "version": "update-changelog && git add CHANGELOG.md"
   },
   "author": "ukatama",
@@ -89,13 +89,15 @@
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
+    "babel-core": "^6.10.4",
     "babel-jest": "^13.2.2",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-es2016": "^6.11.3",
     "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
-    "babelify": "^7.3.0",
-    "browserify": "^13.0.1",
     "cross-env": "^2.0.0",
     "eslint": "^3.0.1",
     "eslint-config-airbnb": "^9.0.1",
@@ -109,8 +111,8 @@
     "nodemon": "^1.9.2",
     "npm-run-all": "^2.1.1",
     "rimraf": "^2.5.3",
-    "uglifyify": "^3.0.2",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "webpack": "^1.13.1"
   },
   "jest": {
     "testPathDirs": [

@@ -3,8 +3,7 @@
         "es2015",
         "es2016",
         "react",
-        "stage-1"
+        "stage-0"
     ],
-    "sourceMaps": "both",
     "sourceRoot": "src"
 }
