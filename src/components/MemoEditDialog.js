@@ -57,6 +57,6 @@ MemoEditDialog.propTypes = {
     onUpdateMemo: PropTypes.func.isRequired,
     memo: PropTypes.string,
 };
-export default singleState(pureRender(MemoEditDialog), 'memo', {
+export default singleState('memo', {
     watchProps: true,
-});
+})(pureRender(MemoEditDialog));

@@ -100,71 +100,72 @@ export function willMount(ComposedComponent, callback) {
  * @param{object} options - Options
  * @param{boolean} options.watchProps - Watch props and updates state if changed
  * @param{boolean} options.propRequired - Set false to disable PropType checking
- * @returns{Component} Wrapped comopnent
+ * @returns{(Component) -> Component} Component wrapper
  */
 export function singleState(
-    ComposedComponent,
     key,
     options = { initialValue: null, watchProps: false, propRequired: true }
 ) {
-    const {
-        initialValue,
-        watchProps,
-        propRequired,
-    } = options;
+    return (ComposedComponent) => {
+        const {
+            initialValue,
+            watchProps,
+            propRequired,
+        } = options;
 
-    const displayName =
-        wrapperName(ComposedComponent, 'SingleStateWrapper');
+        const displayName =
+            wrapperName(ComposedComponent, 'SingleStateWrapper');
 
-    const propTypesWithoutHandler = {
-        ...ComposedComponent.propTypes,
-        [key]: PropTypes.any,
-        onChange: PropTypes.any,
-    };
-    const propTypes = watchProps && propRequired ? {
-        ...propTypesWithoutHandler,
-        [key]: PropTypes.any.isRequired,
-    } : propTypesWithoutHandler;
+        const propTypesWithoutHandler = {
+            ...ComposedComponent.propTypes,
+            [key]: PropTypes.any,
+            onChange: PropTypes.any,
+        };
+        const propTypes = watchProps && propRequired ? {
+            ...propTypesWithoutHandler,
+            [key]: PropTypes.any.isRequired,
+        } : propTypesWithoutHandler;
 
-    return class SingleStateWrapper extends Component {
-        static get displayName() {
-            return displayName;
-        }
-
-        static get propTypes() {
-            return propTypes;
-        }
-
-        constructor(props) {
-            super(props);
-
-            this.state = {
-                [key]: watchProps ? props[key] : initialValue,
-            };
-        }
-
-        componentWillReceiveProps(nextProps) {
-            if (watchProps && nextProps[key] !== this.props[key]) {
-                this.setState({
-                    [key]: nextProps[key],
-                });
+        return class SingleStateWrapper extends Component {
+            static get displayName() {
+                return displayName;
             }
-        }
 
-        render() {
-            const onChange = (e, value) => {
-                this.setState({
-                    [key]: value,
-                });
-            };
+            static get propTypes() {
+                return propTypes;
+            }
 
-            const props = {
-                ...this.props,
-                [key]: this.state[key],
-                onChange,
-            };
+            constructor(props) {
+                super(props);
 
-            return <ComposedComponent {...props} />;
-        }
+                this.state = {
+                    [key]: watchProps ? props[key] : initialValue,
+                };
+            }
+
+            componentWillReceiveProps(nextProps) {
+                if (watchProps && nextProps[key] !== this.props[key]) {
+                    this.setState({
+                        [key]: nextProps[key],
+                    });
+                }
+            }
+
+            render() {
+                const onChange = (e, value) => {
+                    this.setState({
+                        [key]: value,
+                    });
+                };
+
+                const props = {
+                    ...this.props,
+                    [key]: this.state[key],
+                    onChange,
+                };
+
+                return <ComposedComponent {...props} />;
+            }
+        };
     };
 }

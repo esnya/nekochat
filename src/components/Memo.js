@@ -61,7 +61,6 @@ Memo.propTypes = {
     memo: PropTypes.string,
 };
 export default singleState(
-    pureRender(Memo),
     'expanded',
     { initialValue: false }
-);
+)(pureRender(Memo));

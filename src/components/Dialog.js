@@ -5,7 +5,7 @@ import MemoEditDialog from '../containers/MemoEditDialog';
 import NameEditDialog from '../containers/NameEditDialog';
 import RoomCreateDialog from '../containers/RoomCreateDialog';
 import RoomEditDialog from '../containers/RoomEditDialog';
-import RoomPasswordDialog from '../containers/RoomPasswordDialog';
+import RoomPasswordDialog from './RoomPasswordDialog';
 import Confirm from './Confirm';
 import FeedbackDialog from './FeedbackDialog';
 
@@ -15,7 +15,6 @@ const table = {
     'name-edit': NameEditDialog,
     'room-create': RoomCreateDialog,
     'room-edit': RoomEditDialog,
-    'room-password': RoomPasswordDialog,
 };
 
 const Dialog = (props) => {
@@ -46,7 +45,13 @@ const Dialog = (props) => {
             );
         });
 
-    return <div>{elements}<FeedbackDialog /></div>;
+    return (
+        <div>
+            {elements}
+            <FeedbackDialog />
+            <RoomPasswordDialog />
+        </div>
+    );
 };
 Dialog.propTypes = {
     dialogs: IPropTypes.listOf(IPropTypes.contains({

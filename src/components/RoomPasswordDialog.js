@@ -2,27 +2,28 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import React, { PropTypes } from 'react';
+import IPropTypes from 'react-immutable-proptypes';
+import connect from '../connectors/roomPasswordDialog';
 import { singleState, pureRender } from '../utility/enhancer';
 
 const RoomPasswordDialog = (props) => {
     const {
         open,
         password,
-        room,
+        dialog,
         onChange,
         onClose,
         onJoinRoom,
-        onSetRoute,
+        onPushLocation,
     } = props;
 
-    const handleCancel = (e) => {
-        onSetRoute(e, '/');
-        onClose(e);
-    };
-
     const handleJoinRoom = (e) => {
-        onJoinRoom(e, { id: room.id, password });
         onClose(e);
+        onJoinRoom({ id: dialog.get('room').id, password });
+    };
+    const handleCancel = (e) => {
+        onClose(e);
+        onPushLocation('/');
     };
 
     const actions = [
@@ -64,10 +65,12 @@ RoomPasswordDialog.propTypes = {
     onChange: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onJoinRoom: PropTypes.func.isRequired,
-    onSetRoute: PropTypes.func.isRequired,
+    onPushLocation: PropTypes.func.isRequired,
     password: PropTypes.string,
-    room: PropTypes.shape({
-        id: PropTypes.string.isRequired,
+    dialog: IPropTypes.contains({
+        room: IPropTypes.contains({
+            id: PropTypes.string.isRequired,
+        }).isRequired,
     }),
 };
-export default singleState(pureRender(RoomPasswordDialog), 'password');
+export default connect(singleState('password')(pureRender(RoomPasswordDialog)));

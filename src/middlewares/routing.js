@@ -1,6 +1,7 @@
 import { ROUTER_DID_CHANGE } from 'redux-router/lib/constants';
 import * as Room from '../actions/room';
 import * as Socket from '../actions/socket';
+import * as UI from '../actions/ui';
 
 export default ({ dispatch, getState }) => {
     const handleRoute = ({ location, params }) => {
@@ -24,6 +25,7 @@ export default ({ dispatch, getState }) => {
 
         switch (type) {
         case ROUTER_DID_CHANGE:
+            dispatch(UI.drawer(false));
             handleRoute(payload);
             break;
         case Socket.RECONNECT:
