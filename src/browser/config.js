@@ -5,6 +5,6 @@ const BrowserConfig =
 
 export const Config = {
     ...BrowserConfig,
-    debug: localStorage.getItem('nekochat:debug') || BrowserConfig.debug,
+    debug: localStorage && localStorage.getItem('nekochat:debug') || BrowserConfig.debug,
 };
 export default Config;
