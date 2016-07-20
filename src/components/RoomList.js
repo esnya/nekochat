@@ -13,7 +13,6 @@ const RoomList = (props) => {
         rooms,
         user,
         onRemoveRoom,
-        onRoute,
     } = props;
 
     return (
@@ -25,7 +24,6 @@ const RoomList = (props) => {
                         room={room}
                         user={user}
                         onRemoveRoom={onRemoveRoom}
-                        onRoute={onRoute}
                     />
                 )
             }
@@ -38,6 +36,5 @@ RoomList.propTypes = {
     })).isRequired,
     user: IPropTypes.contains().isRequired,
     onRemoveRoom: PropTypes.func.isRequired,
-    onRoute: PropTypes.func.isRequired,
 };
 export default pureRender(RoomList);

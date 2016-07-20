@@ -5,7 +5,7 @@ import config from '../browser/config';
 import dialog from './dialog';
 import dice from './dice';
 import notification from './notification';
-import router from './router';
+import routing from './routing';
 import socket from './socket';
 import sound from './sound';
 import persistent from './persistent';
@@ -17,7 +17,7 @@ const middlewares = [
     dialog,
     dice,
     notification,
-    router,
+    routing,
     socket,
     sound,
     toast,

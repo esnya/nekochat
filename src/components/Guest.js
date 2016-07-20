@@ -9,7 +9,7 @@ const Style = {
     },
 };
 
-export const Guest = () => (
+const Guest = () => (
     <div>
         <AppBar
             iconElementLeft={
@@ -38,3 +38,4 @@ export const Guest = () => (
         </form>
     </div>
 );
+export default Guest;

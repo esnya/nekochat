@@ -1,19 +1,21 @@
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Theme from '../browser/theme';
 import Dialog from '../containers/Dialog';
-import Router from '../containers/Router';
-import { staticRender } from '../utility/enhancer';
+import { pureRender } from '../utility/enhancer';
 
 const muiTheme = getMuiTheme(Theme);
 
-const App = () => (
+const App = (props) => (
     <MuiThemeProvider muiTheme={muiTheme}>
         <div className="filled-container">
-            <Router />
+            {props.children}
             <Dialog />
         </div>
     </MuiThemeProvider>
 );
-export default staticRender(App);
+App.propTypes = {
+    children: PropTypes.node.isRequired,
+};
+export default pureRender(App);

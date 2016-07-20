@@ -1,11 +1,10 @@
 import React from 'react';
 import Memo from '../containers/Memo';
 import ChatAppBar from '../containers/ChatAppBar';
-import ChatDrawer from '../containers/ChatDrawer';
+import ChatDrawer from './ChatDrawer';
 import MessageList from '../containers/MessageList';
 import MessageFormList from '../containers/MessageFormList';
 import { staticRender } from '../utility/enhancer';
-import './ChatDrawer';
 
 const Style = {
     Container: {

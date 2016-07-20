@@ -9,6 +9,7 @@ import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 import MoreVert from 'material-ui/svg-icons/navigation/more-vert';
 import React, { PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
+import { Link } from 'react-router';
 import { pureRender } from '../utility/enhancer';
 
 const DialogFeatures = {
@@ -22,6 +23,9 @@ const DialogFeatureString = Object.keys(DialogFeatures)
     .map((a) => `${a.key}=${a.value === true ? 'yes' : a.value}`);
 
 const Style = {
+    Link: {
+        textDecoration: 'none',
+    },
     MenuItem: {
         display: 'flex',
         alignItems: 'center',
@@ -39,7 +43,6 @@ const RoomActionMenu = (props) => {
         room,
         user,
         onRemoveRoom,
-        onRoute,
     } = props;
 
     const id = room.get('id');
@@ -49,16 +52,15 @@ const RoomActionMenu = (props) => {
         <IconMenu
             iconButtonElement={<IconButton><MoreVert /></IconButton>}
         >
-            <MenuItem
-                href={path}
-                onTouchTap={(e) => onRoute(e, path)}
-            >
-                <div style={Style.MenuItem}>
-                    <OpenInBrowser />
-                    &nbsp;
-                    Join
-                </div>
-            </MenuItem>
+            <Link to={path} style={Style.Link}>
+                <MenuItem>
+                    <div style={Style.MenuItem}>
+                        <OpenInBrowser />
+                        &nbsp;
+                        Join
+                    </div>
+                </MenuItem>
+            </Link>
             <MenuItem
                 style={Style.MenuItem}
                 onTouchTap={() => window.open(
@@ -110,6 +112,5 @@ RoomActionMenu.propTypes = {
         name: PropTypes.string.isRrequired,
     }).isRrequired,
     onRemoveRoom: PropTypes.func.isRrequired,
-    onRoute: PropTypes.func.isRrequired,
 };
 export default pureRender(RoomActionMenu);

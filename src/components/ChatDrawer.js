@@ -6,7 +6,9 @@ import MenuItem from 'material-ui/MenuItem';
 import Close from 'material-ui/svg-icons/navigation/close';
 import React, { PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
+import { Link } from 'react-router';
 import UserList from '../containers/UserList';
+import connect from '../connectors/chatDrawer';
 import { pureRender } from '../utility/enhancer';
 
 const ChatDrawer = (props) => {
@@ -14,7 +16,6 @@ const ChatDrawer = (props) => {
         room,
         open,
         onRequestChange,
-        onRoute,
     } = props;
 
     return (
@@ -33,9 +34,11 @@ const ChatDrawer = (props) => {
                 }
                 title="Nekochat"
             />
-            <MenuItem href="/" onTouchTap={(e) => onRoute(e, '/')}>
-                Leave
-            </MenuItem>
+            <Link style={{ textDecoration: 'none' }} to="/">
+                <MenuItem>
+                    Leave
+                </MenuItem>
+            </Link>
             <MenuItem
                 href={`/view/${room.get('id')}`}
                 target="_blank"
@@ -52,8 +55,6 @@ ChatDrawer.propTypes = {
     room: IPropTypes.contains({
         id: PropTypes.string,
     }).isRequired,
-    // eslint-disable-next-line react/sort-prop-types
     onRequestChange: PropTypes.func.isRequired,
-    onRoute: PropTypes.func.isRequired,
 };
-export default pureRender(ChatDrawer);
+export default connect(pureRender(ChatDrawer));

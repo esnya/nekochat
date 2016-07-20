@@ -1,5 +1,6 @@
 import { Map } from 'immutable';
 import { combineReducers } from 'redux';
+import { routerStateReducer } from 'redux-router';
 import User from '../browser/user';
 import characters from './characters';
 import dialogs from './dialogs';
@@ -10,13 +11,13 @@ import messages from './messages';
 import names from './names';
 import room from './room';
 import rooms from './rooms';
-import route from './route';
 import toasts from './toasts';
 import typings from './typings';
 import ui from './ui';
 import users from './users';
 
 export default combineReducers({
+    router: routerStateReducer,
     characters,
     dialogs,
     dom,
@@ -25,7 +26,6 @@ export default combineReducers({
     names,
     room,
     rooms,
-    route,
     toasts,
     typings,
     ui,

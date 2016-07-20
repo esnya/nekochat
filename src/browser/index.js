@@ -1,10 +1,21 @@
-/* eslint global-require: 0 */
+import React from 'react';
+import injectTouchTapEvent from 'react-tap-event-plugin';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { ReduxRouter } from 'redux-router';
+import routes from './routes';
+import store from './store';
 
-require('react-tap-event-plugin')();
-require('../components');
-require('./router').run();
-require('./window-event');
+import './window-event';
+import './debug';
 
-if (require('./config').Config.debug) {
-    require('./debug');
-}
+injectTouchTapEvent();
+
+render(
+    <Provider store={store}>
+        <ReduxRouter>
+            {routes}
+        </ReduxRouter>
+    </Provider>,
+    document.getElementById('app')
+);
