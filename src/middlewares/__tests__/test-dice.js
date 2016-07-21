@@ -20,7 +20,7 @@ describe('middlewares', () => {
             dice3d.mockImpl((f, r, c) => callbacks.push(c));
 
             const next = jest.fn();
-            const action = roll(6, [3]);
+            const action = roll({ faces: 6, results: [3] });
 
             middleware({})(next)(action);
 

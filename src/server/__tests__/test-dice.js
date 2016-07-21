@@ -20,17 +20,17 @@ describe('dice', () => {
             .mockReturnValueOnce(4 / 6);
 
         return diceReplace('The test with 2d+5=,1d6 (dice expr)')
-            .then((result) => {
-                expect(result.results).toEqual([
-                    [6, [6, 5]],
+            .then(({ nodes, results }) => {
+                expect(results).toEqual([
+                    { faces: 6, results: [6, 5] },
                 ]);
-                expect(result.nodes)
-                    .toEqual([
-                        [{
-                            type: NodeType.TEXT,
-                            text: 'The test with 2d+5=[6, 5]+5=16,1d6 (dice expr)',
-                        }],
-                    ]);
+                expect(nodes.length).toBe(1);
+                expect(nodes[0].length).toBe(1);
+                expect(nodes[0][0].type).toEqual(NodeType.SIMPLE_DICE);
+                expect(nodes[0][0].text).toEqual('The test with 2d+5=[6, 5]+5=16,1d6 (dice expr)');
+                expect(nodes[0][0].dice).toEqual([
+                    { faces: 6, results: [6, 5] },
+                ]);
             });
     });
 
@@ -67,9 +67,9 @@ describe('dice', () => {
         diceReplace('line1\nline2\nline3')
             .then(({ nodes }) => {
                 expect(nodes).toEqual([
-                    [{ type: NodeType.TEXT, text: 'line1' }],
-                    [{ type: NodeType.TEXT, text: 'line2' }],
-                    [{ type: NodeType.TEXT, text: 'line3' }],
+                    [{ type: NodeType.TEXT, text: 'line1', dice: [] }],
+                    [{ type: NodeType.TEXT, text: 'line2', dice: [] }],
+                    [{ type: NodeType.TEXT, text: 'line3', dice: [] }],
                 ]);
             })
     );
@@ -105,4 +105,22 @@ describe('dice', () => {
                 expect(nodes[0][0].text).toEqual(nodes[0][0].error.toString());
             })
     );
+
+    it('returns results of dice with fluorite5', () => {
+        Math.random
+            .mockReturnValueOnce(5 / 6)
+            .mockReturnValueOnce(4 / 6);
+
+        return diceReplace('\\2d+5\\')
+            .then(({ nodes, results }) => {
+                expect(results).toEqual([
+                    { faces: 6, results: [6, 5] },
+                ]);
+                expect(nodes[0][0].type).toEqual(NodeType.FLUORITE5);
+                expect(nodes[0][0].text).toEqual('{2d+5}=16');
+                expect(nodes[0][0].dice).toEqual([
+                    { faces: 6, results: [6, 5] },
+                ]);
+            });
+    });
 });

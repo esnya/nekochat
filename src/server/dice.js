@@ -5,8 +5,8 @@ import parser from '../pegjs/fluorite5';
 
 const NUM_MAX = 9999;
 
-const parseSimple = (str, results) =>
-    str.replace(
+const parseSimple = (str, results = []) => {
+    const text = str.replace(
         /([0-9]*d[0-9]*|[0-9]+)([+-][0-9]*d[0-9]*|[+-][0-9]+)*=/g,
         (exp) => {
             let status = '';
@@ -35,7 +35,7 @@ const parseSimple = (str, results) =>
                     r.push(Math.floor(Math.random() * eye + 1));
                 }
 
-                results.push([eye, r]);
+                results.push({ faces: eye, results: r });
 
                 if (num > 1) {
                     if (r.every((n) => n === 1)) {
@@ -60,15 +60,20 @@ const parseSimple = (str, results) =>
         }
     );
 
+    return { text, results };
+};
+
 const runFluorite5 = (formula, vm) => {
     const input = formula[0];
     try {
         const result = `${vm.toString(formula[1](vm, 'get', []))}`;
+
         return {
             type: NodeType.FLUORITE5,
             text: `{${input}}=${result}`,
             input,
             result,
+            dice: vm.dices,
         };
     } catch (error) {
         return {
@@ -89,26 +94,44 @@ export const diceReplace = (str) => {
         const vm = new (parser.parse('standard', {
             startRule: 'VMFactory',
         }))();
-        const results = [];
+
+        const dice = [];
 
         const nodes = flatten(parsed.map((src, i) => {
             if (i % 2 === 0) {
                 // Text
+
                 return src.split(/\r\n|\n/)
-                    .map(line => [{
-                        type: NodeType.TEXT,
-                        text: parseSimple(line, results),
-                    }]);
+                    .map(line => {
+                        const {
+                            text,
+                            results,
+                        } = parseSimple(line);
+
+                        dice.push(results);
+
+                        const type = results.length === 0
+                            ? NodeType.TEXT
+                            : NodeType.SIMPLE_DICE;
+
+                        return [{
+                            type,
+                            text,
+                            dice: results,
+                        }];
+                    });
             }
 
             // Flu5
+            vm.dices = [];
             const node = runFluorite5(src, vm);
+            dice.push(node.dice);
             return [[node]];
         }).slice(parsed[0] ? 0 : 1, parsed[parsed.length - 1] ? parsed.length : -1));
 
         return Promise.resolve({
             nodes,
-            results,
+            results: flatten(dice),
         });
     } catch (error) {
         return Promise.resolve({
