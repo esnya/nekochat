@@ -23,7 +23,11 @@ const MessageNode = (props) => {
         return <Node node={node} />;
     }
 
-    return <span>{node.get('text')}</span>;
+    const text = node.get('text');
+
+    if (!text) return <span>&nbsp;</span>;
+
+    return <span>{text}</span>;
 };
 MessageNode.propTypes = {
     node: IPropTypes.contains({
