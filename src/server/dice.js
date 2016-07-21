@@ -1,3 +1,5 @@
+import { flatten } from 'lodash';
+import * as NodeType from '../constants/NodeType';
 // eslint-disable-next-line import/no-unresolved
 import parser from '../pegjs/fluorite5';
 
@@ -58,41 +60,64 @@ const parseSimple = (str, results) =>
         }
     );
 
-const runFluorite5 = (messages, formula, vm) => {
-    messages.push('{');
-    messages.push(formula[0]);
-    messages.push('}=');
+const runFluorite5 = (formula, vm) => {
+    const input = formula[0];
     try {
-        messages.push(vm.toString(formula[1](vm, 'get', [])));
-    } catch (e) {
-        messages.push(`[Error: ${e}]`);
+        const result = `${vm.toString(formula[1](vm, 'get', []))}`;
+        return {
+            type: NodeType.FLUORITE5,
+            text: `{${input}}=${result}`,
+            input,
+            result,
+        };
+    } catch (error) {
+        return {
+            type: NodeType.FLUORITE5_ERROR,
+            text: `[Error: ${error}]`,
+            input,
+            error,
+        };
     }
 };
 
 export const diceReplace = (str) => {
-    // [A, B, A, ... , B, A] A: Text, B: Flu5
-    const array = parser.parse(str, {
-        startRule: 'Expression',
-    });
-    const vm = new (parser.parse('standard', {
-        startRule: 'VMFactory',
-    }))();
-    const results = [];
-    const messages = [];
-    let i;
+    try {
+        // [A, B, A, ... , B, A] A: Text, B: Flu5
+        const parsed = parser.parse(str, {
+            startRule: 'Expression',
+        });
+        const vm = new (parser.parse('standard', {
+            startRule: 'VMFactory',
+        }))();
+        const results = [];
 
-    for (i = 0; i < array.length; i++) {
-        if (i % 2 === 0) {
-            // Text
-            messages.push(parseSimple(array[i], results));
-        } else {
+        const nodes = flatten(parsed.map((src, i) => {
+            if (i % 2 === 0) {
+                // Text
+                return src.split(/\r\n|\n/)
+                    .map(line => [{
+                        type: NodeType.TEXT,
+                        text: parseSimple(line, results),
+                    }]);
+            }
+
             // Flu5
-            runFluorite5(messages, array[i], vm);
-        }
-    }
+            const node = runFluorite5(src, vm);
+            return [[node]];
+        }).slice(parsed[0] ? 0 : 1, parsed[parsed.length - 1] ? parsed.length : -1));
 
-    return Promise.resolve({
-        message: messages.join(''),
-        results,
-    });
+        return Promise.resolve({
+            nodes,
+            results,
+        });
+    } catch (error) {
+        return Promise.resolve({
+            nodes: [[{
+                type: NodeType.FLUORITE5_ERROR,
+                text: error.toString(),
+                error,
+            }]],
+            results: [],
+        });
+    }
 };

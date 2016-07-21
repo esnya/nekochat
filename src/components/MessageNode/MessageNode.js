@@ -1,9 +1,13 @@
 import React, { PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
+import * as NodeType from '../../constants/NodeType';
 import MemoNode from './MemoNode';
+import Fluorite5Node from './Fluorite5Node';
 
-const NodeTypes = {
-    memo: MemoNode,
+const Components = {
+    [NodeType.MEMO]: MemoNode,
+    [NodeType.FLUORITE5]: Fluorite5Node,
+    [NodeType.FLUORITE5_ERROR]: Fluorite5Node,
 };
 
 const MessageNode = (props) => {
@@ -13,8 +17,8 @@ const MessageNode = (props) => {
 
     const type = node.get('type');
 
-    if (type && (type in NodeTypes)) {
-        const Node = NodeTypes[type];
+    if (type && (type in Components)) {
+        const Node = Components[type];
 
         return <Node node={node} />;
     }

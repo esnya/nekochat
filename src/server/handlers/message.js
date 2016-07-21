@@ -54,7 +54,7 @@ export default (client) => (next) => (action) => {
                         whisper_to: action.payload.whisper_to || null,
                         name: action.payload.name || null,
                         character_url: action.payload.character_url || null,
-                        message: diceMessage.message || null,
+                        message: JSON.stringify(diceMessage.nodes),
                         file_id,
                     })
                     .then((message) => ({ diceMessage, message }))

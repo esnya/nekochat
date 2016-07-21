@@ -28,6 +28,7 @@ import {
     list as ulist,
     FETCH as UFETCH,
 } from '../../actions/user';
+import * as NodeType from '../../constants/NodeType';
 import { PASSWORD_INCORRECT, Room } from '../models/room';
 import { Message } from '../models/message';
 import { generateId } from '../../utility/id';
@@ -154,7 +155,7 @@ export default (client) => (next) => (action) => {
                         message: JSON.stringify(room.memo
                             .split(/\r\n|\n/)
                             .map((line) => [{
-                                type: 'memo',
+                                type: NodeType.MEMO,
                                 text: line,
                             }])),
                     }));
