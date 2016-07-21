@@ -1,19 +1,7 @@
-import path from 'path';
-import { readFileSync } from 'fs';
-import PEG from 'pegjs';
+// eslint-disable-next-line import/no-unresolved
+import parser from '../pegjs/fluorite5';
 
 const NUM_MAX = 9999;
-
-const data = readFileSync(path.join(__dirname, '../../pegjs/fluorite5.pegjs'));
-
-// eslint-disable-next-line no-sync
-const parser = PEG.buildParser(data.toString(), {
-    cache: true,
-    allowedStartRules: [
-        'Expression',
-        'VMFactory',
-    ],
-});
 
 const parseSimple = (str, results) =>
     str.replace(
