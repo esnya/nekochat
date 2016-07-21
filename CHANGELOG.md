@@ -3,9 +3,20 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- REST API of rooms
+- Special style for Fluorite5 results
+
 ### Changed
 - ESLint rules
 - Remove nekodev
+- Replace browserify to webpack
+- Use redux-router/react-router
+- Precompile Fluorite5
+
+### Fixed
+- Show empty line in messages
+- Restoration of socket.io connection
 
 ## [2.2.0] - 2016-07-12
 ### Added
