@@ -3,7 +3,7 @@ import { getLogger } from 'log4js';
 import * as NodeType from '../constants/NodeType';
 // eslint-disable-next-line import/no-unresolved
 import parser from '../pegjs/fluorite5';
-import mods from './flu5mods';
+import { parseMods } from './flu5mods';
 
 const logger = getLogger('[dice]');
 const NUM_MAX = 9999;
@@ -98,7 +98,7 @@ export const diceReplace = (str) => {
             startRule: 'VMFactory',
         }))();
 
-        const { error } = runFluorite5(mods, vm);
+        const { error } = runFluorite5(parseMods(), vm);
         if (error) {
             logger.error(error);
         }

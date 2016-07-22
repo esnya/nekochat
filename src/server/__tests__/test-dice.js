@@ -123,4 +123,16 @@ describe('dice', () => {
                 ]);
             });
     });
+
+    it('parses fluorite5 extended script', () =>
+        diceReplace('\\$K20[10]\\')
+            .then(({ nodes }) => {
+                expect(nodes.length).toBe(1);
+                expect(nodes[0].length).toBe(1);
+
+                const node = nodes[0][0];
+                expect(node.type).toEqual(NodeType.FLUORITE5);
+                expect(node.text).toEqual('{$K20[10]}=8');
+            })
+    );
 });

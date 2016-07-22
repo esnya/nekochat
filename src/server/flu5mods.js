@@ -8,4 +8,8 @@ const src = readdirSync(path.join(__dirname, '../../fluorite5'))
     )
     .join(';');
 
-export default parser.parse(`\\${src}\\`)[1];
+let cache = null;
+export const parseMods = () => {
+    if (cache) return cache;
+    return (cache = parser.parse(`\\${src}\\`)[1]);
+};
