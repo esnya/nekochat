@@ -1,8 +1,11 @@
 import { flatten } from 'lodash';
+import { getLogger } from 'log4js';
 import * as NodeType from '../constants/NodeType';
 // eslint-disable-next-line import/no-unresolved
 import parser from '../pegjs/fluorite5';
+import mods from './flu5mods';
 
+const logger = getLogger('[dice]');
 const NUM_MAX = 9999;
 
 const parseSimple = (str, results = []) => {
@@ -94,6 +97,11 @@ export const diceReplace = (str) => {
         const vm = new (parser.parse('standard', {
             startRule: 'VMFactory',
         }))();
+
+        const { error } = runFluorite5(mods, vm);
+        if (error) {
+            logger.error(error);
+        }
 
         const dice = [];
 

@@ -21,6 +21,9 @@ e.g.
 - `\(1,2,3).sum()\` -> `6`
 - `\(1~3).sum()\` -> `6`
 
+#### Extend Fluorite5
+Place Fluorite5 script files into `fluorite5` directory. (e.g. [`fluorite5/sw2-fimple.flu5`](https://github.com/ukatama/nekochat/blob/master/fluorite5/sw2-fimple.flu5))
+
 ### [deprecated] Dice roll
 You can roll the dice on the command in the message.
 

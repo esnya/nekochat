@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - d6 animation for Fluorite5 script
 - Dice results tooltip for Fluorite5 script
+- Fluorite5 mods
 
 ## [2.2.1] - 2016-07-21
 ### Added
