@@ -63,7 +63,7 @@ redis:
 
 ### Run
 ```bash
-$ docker run -d --name redis --env redis
+$ docker run -d --name redis redis
 $ docker run -d --name nekochat -p 80:80 --env NODE_ENV=production --link redis:redis -v /path/to/nekochat/config.yml:/usr/src/app/config/local.yml:ro nekorpg/nekochat
 ```
 
