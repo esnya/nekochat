@@ -5,7 +5,7 @@
 [![Dependencies](https://img.shields.io/david/ukatama/nekochat.svg?style=flat-square)](https://david-dm.org/ukatama/nekochat)
 [![DevDependencies](https://img.shields.io/david/dev/ukatama/nekochat.svg?style=flat-square)](https://david-dm.org/ukatama/nekochat#info=devDependencies&view=list)
 
-Online chat for tabletop role-praing games.
+Web chat application for tabletop role-praing game.
 
 - The `master` branch is **unstable**. Basically, it works successfully, but have not been fully tested.
 - To get **stable** releases, checkout version tags (i.e. `$ git checkout v1.3.0`).
@@ -21,7 +21,7 @@ e.g.
 - `\(1,2,3).sum()\` -> `6`
 - `\(1~3).sum()\` -> `6`
 
-### Dice roll
+### [deprecated] Dice roll
 You can roll the dice on the command in the message.
 
 e.g.
@@ -42,7 +42,7 @@ See [CHANGELOG.md](https://github.com/ukatama/nekochat/blob/master/CHANGELOG.md)
 ## Requirements
 - Node.js 5.x and npm
 - SQL Database
-    - SQLite3 (Default, installed by npm)
+    - SQLite3 (Default)
     - MySQL
     - etc... (See also: [Knex.js](http://knexjs.org/))
 - Redis Server
@@ -50,12 +50,6 @@ See [CHANGELOG.md](https://github.com/ukatama/nekochat/blob/master/CHANGELOG.md)
     - Required to enable Twitter authentication.
 
 ## As a Docker Container
-### Build
-
-```bash
-$ git clone --recursive https://github.com/ukatama/nekochat.git
-$ docker build -t ukatama/nekochat nekochat
-```
 
 ### Config
 ```bash
@@ -70,7 +64,7 @@ redis:
 ### Run
 ```bash
 $ docker run -d --name redis --env redis
-$ docker run -d --name nekochat -p 80:80 --env NODE_ENV=production --link redis:redis -v /path/to/nekochat/config.yml:/usr/src/app/config/local.yml:ro ukatama/nekochat
+$ docker run -d --name nekochat -p 80:80 --env NODE_ENV=production --link redis:redis -v /path/to/nekochat/config.yml:/usr/src/app/config/local.yml:ro nekorpg/nekochat
 ```
 
 Add an option `-v /path/to/nekochat/tmp:/usr/src/app/tmp` to `docker run` to perpetuate SQLite3 database.
@@ -104,21 +98,29 @@ Edit `config/local.yml`.
 Default values are specified by [`config/default.yml`](https://github.com/ukatama/nekochat/blob/master/config/default.yml) and  [`config/production.yml`](https://github.com/ukatama/nekochat/blob/master/config/production.yml)
 See also [node-config](https://github.com/lorenwest/node-config) abtout the configuration system.
 
-| Key                   | type    | descrption                                                       |
-|-----------------------|---------|------------------------------------------------------------------|
-| name                  | string  | Name of the application instance.                                |
-| app.guest             | boolean | Set `true` to allow guest login.                                 |
-| app.livereload        | boolean | Set `true` to enable livereload scrpit to develop.               |
-| app.secret            | string  | Secret value for sessions.                                       |
-| browser.debug         | boolean | Set `true` to enable client debugging mode.                      |
-| browser.feedback_form | string  | Set URL for google form or `false` to disable.                   |
-| database.default      | object  | Default database configurations. See also [Knex.js](http://knexjs.org/#Installation-client). |
-| database.session      | object  | Session database configurations. This is only used `session.store` is set to `database`. |
-| redis                 | object  | Redis client (`createClient()`) configuratios. See also [node_redis#redis.createClient()](https://github.com/NodeRedis/node_redis#rediscreateclient) |
-| server.host           | string  | Host address to bind.                                            |
-| server.port           | number  | Port number to bind.                                             |
-| session               | object  | See also [express-session](https://github.com/expressjs/session) |
-| session.store         | string  | Type of session store. `database` or `redis`                     |
+| Key                     | type    | descrption                                                       |
+|-------------------------|---------|------------------------------------------------------------------|
+| name                    | string  | Name of the application instance.                                |
+| app.guest               | boolean | Set `true` to allow guest login.                                 |
+| app.livereload          | boolean | Set `true` to enable livereload scrpit to develop.               |
+| app.secret              | string  | Secret value for sessions.                                       |
+| browser.debug           | boolean | Set `true` to enable client debugging mode.                      |
+| browser.feedback_form   | string  | Set URL for google form or `false` to disable.                   |
+| database.default        | object  | Default database configurations. See also [Knex.js](http://knexjs.org/#Installation-client). |
+| database.session        | object  | Session database configurations. This is only used `session.store` is set to `database`. |
+| redis                   | object  | Redis client (`createClient()`) configuratios. See also [node_redis#redis.createClient()](https://github.com/NodeRedis/node_redis#rediscreateclient) |
+| server.host             | string  | Host address to bind.                                            |
+| server.port             | number  | Port number to bind.                                             |
+| session                 | object  | See also [express-session](https://github.com/expressjs/session) |
+| session.store           | string  | Type of session store. `database` or `redis`                     |
+| data_cleaner            | object  | Configurations for old data cleaner                              |
+| data_cleaner.file       | object  | Configurations for old file cleaner                              |
+| data_cleaner.room       | object  | Configurations for old room cleaner                              |
+| data_cleaner.*.enabled  | boolean | Enable cleaner                                                   |
+| data_cleaner.*.interval | string  | Watch interval (ISO 8601 Duration)                               |
+| data_cleaner.*.soft     | string  | To soft remove the old ones than this value (ISO 8601 Duration)  |
+| data_cleaner.*.hard     | string  | To hard remove the old ones than this value (ISO 8601 Duration)  |
+
 
 ## License
 MIT License
