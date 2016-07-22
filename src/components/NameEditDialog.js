@@ -15,8 +15,8 @@ const Style = {
         display: 'flex',
     },
     IconHeaderText: {
-        lineHeight: '24px',
-        padding: '12px 0',
+        margin: 0,
+        padding: 0,
     },
 };
 
