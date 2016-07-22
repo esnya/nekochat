@@ -132,8 +132,8 @@ class MessageForm extends Component {
                     <Send />
                 </IconButton>
                 <FileUploadButton
-                    accept="image/*"
-                    name="image"
+                    accept="image/*,audio/*"
+                    name="file"
                     tooltip="Post Image File"
                     onChange={
                         (e, files) => {

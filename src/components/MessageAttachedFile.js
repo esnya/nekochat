@@ -12,11 +12,20 @@ const MessageAttachedFile = (props) => {
         message,
     } = props;
     const fileId = message.get('file_id');
+    const fileType = message.get('file_type') || 'image/*';
 
     if (!fileId) return null;
 
+    const src = `/file/${fileId}`;
+
+    if (fileType.match(/^audio\//)) {
+        return (
+            <audio controls preload src={src} />
+        );
+    }
+
     return (
-        <img alt={fileId} src={`/file/${fileId}`} style={Style} />
+        <img alt={fileId} src={src} style={Style} />
     );
 };
 MessageAttachedFile.propTypes = {

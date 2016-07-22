@@ -7,7 +7,7 @@ import {
     old,
     CREATE,
     FETCH,
-    IMAGE,
+    FILE,
 } from '../../actions/message';
 import { generateId } from '../../utility/id';
 import { File } from '../models/file';
@@ -72,7 +72,7 @@ export default (client) => (next) => (action) => {
                 .catch((e) => client.logger.error(e));
         break;
     }
-    case IMAGE:
+    case FILE:
         File
                 .insert({
                     id: generateId(),
@@ -89,6 +89,7 @@ export default (client) => (next) => (action) => {
                     character_url: payload.character_url || null,
                     message: JSON.stringify([]),
                     file_id: file.id,
+                    file_type: file.type,
                 }))
                 .then((message) => {
                     client.emit(create(message));
