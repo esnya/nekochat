@@ -37,7 +37,7 @@
     "watch:lint:scripts": "nodemon -d 1 -i src -i lib -i dist -x \"npm run -s lint:scripts\"",
     "watch:lint:jest": "nodemon -d 1 -w src -x \"npm run -s lint:jest\"",
     "watch:test": "run-p -l watch:test:*",
-    "watch:test:jest": "nodemon -d 1 -w src --exec \"npm run -s test:jest\"",
+    "watch:test:jest": "nodemon -d 1 -w src --exec \"npm run -s test:jest -- -i\"",
     "watch:server": "nodemon -d 1 -w lib index.js",
     "production": "run-s -l clean lint:* test:* build:* prod:*",
     "prod:webpack": "cross-env NODE_ENV=production webpack",
