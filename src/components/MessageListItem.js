@@ -138,10 +138,11 @@ class MessageListItem extends Component {
                 </div>
                 <div style={Style.ListItem.Timestamp}>
                     <Timestamp
-                        horizontalPosition="left"
                         timestamp={
                             message.get('created') || message.get('timestamp')
                         }
+                        tooltipPosition="bottom-left"
+                        tooltipStyles={{ top: 6 }}
                     />
                 </div>
             </div>

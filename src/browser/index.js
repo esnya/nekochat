@@ -8,6 +8,7 @@ import store from './store';
 
 import './window-event';
 import './debug';
+import './moment';
 
 injectTouchTapEvent();
 
