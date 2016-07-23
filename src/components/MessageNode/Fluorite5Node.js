@@ -63,7 +63,11 @@ const DiceResults = (props) => {
         );
     }
 
-    return <div>{`${results.size}d${faces}=[${results.join(',')}]`}</div>;
+    return (
+        <div style={Style.DiceResults}>
+            {`${results.size}d${faces}=[${results.join(',')}]`}
+        </div>
+    );
 };
 DiceResults.propTypes = {
     faces: PropTypes.number.isRequired,
