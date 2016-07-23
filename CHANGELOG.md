@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- d6 icons for Fluorite5 script results
+
 ## [2.3.0] - 2016-07-22
 ### Added
 - d6 animation for Fluorite5 script
