@@ -6,7 +6,7 @@ import PEG from 'pegjs';
 import path from 'path';
 
 const getParser = memoize(() => {
-    const data = readFileSync(path.join(__dirname, '../../pegjs/fluorite5.pegjs'));
+    const data = readFileSync(path.join(__dirname, '../../fluorite5/fluorite5.pegjs'));
 
     return PEG.buildParser(data.toString(), {
         cache: true,

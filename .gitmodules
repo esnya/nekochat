@@ -1,0 +1,4 @@
+[submodule "fluorite5"]
+	path = fluorite5
+	url = https://github.com/ukatama/scriptFluorite5.git
+	branch = nekochat/master
