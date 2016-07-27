@@ -2,9 +2,11 @@ import { readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import parser from '../pegjs/fluorite5';
 
-const src = readdirSync(path.join(__dirname, '../../fluorite5'))
+const MODS_PATH = '../../fluorite-mods';
+
+const src = readdirSync(path.join(__dirname, MODS_PATH))
     .map((file) =>
-        readFileSync(path.join(__dirname, '../../fluorite5', file)).toString()
+        readFileSync(path.join(__dirname, MODS_PATH, file)).toString()
     )
     .join(';');
 
