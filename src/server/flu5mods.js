@@ -13,5 +13,5 @@ const src = readdirSync(path.join(__dirname, MODS_PATH))
 let cache = null;
 export const parseMods = () => {
     if (cache) return cache;
-    return (cache = parser.parse(`\\${src}\\`)[1]);
+    return (cache = parser.parse(`\\${src}\\`)[0][0]);
 };

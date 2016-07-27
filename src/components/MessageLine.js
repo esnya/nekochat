@@ -7,6 +7,10 @@ const MessageLine = (props) => {
         line,
     } = props;
 
+    if (line.isEmpty()) {
+        return <p style={{ margin: 0 }}>&nbsp;</p>;
+    }
+
     return (
         <p style={{ margin: 0 }}>
             {

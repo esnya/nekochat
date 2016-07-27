@@ -79,6 +79,8 @@ const runFluorite5 = (formula, vm) => {
             dice: vm.dices,
         };
     } catch (error) {
+        logger.error(error);
+
         return {
             type: NodeType.FLUORITE5_ERROR,
             text: `[Error: ${error}]`,
@@ -90,7 +92,7 @@ const runFluorite5 = (formula, vm) => {
 
 export const diceReplace = (str) => {
     try {
-        // [A, B, A, ... , B, A] A: Text, B: Flu5
+        // ['text', ['flu5', function], ['flu5', function], 'text', ...]
         const parsed = parser.parse(str, {
             startRule: 'Expression',
         });
@@ -105,37 +107,33 @@ export const diceReplace = (str) => {
 
         const dice = [];
 
-        const nodes = flatten(parsed.map((src, i) => {
-            if (i % 2 === 0) {
-                // Text
+        const nodes = parsed.map(line =>
+            line.map(src => {
+                if (typeof(src) === 'string') {
+                    const {
+                        text,
+                        results,
+                    } = parseSimple(src);
 
-                return src.split(/\r\n|\n/)
-                    .map(line => {
-                        const {
-                            text,
-                            results,
-                        } = parseSimple(line);
+                    dice.push(results);
 
-                        dice.push(results);
+                    const type = results.length === 0
+                        ? NodeType.TEXT
+                        : NodeType.SIMPLE_DICE;
 
-                        const type = results.length === 0
-                            ? NodeType.TEXT
-                            : NodeType.SIMPLE_DICE;
+                    return {
+                        type,
+                        text,
+                        dice: results,
+                    };
+                }
 
-                        return [{
-                            type,
-                            text,
-                            dice: results,
-                        }];
-                    });
-            }
-
-            // Flu5
-            vm.dices = [];
-            const node = runFluorite5(src, vm);
-            dice.push(node.dice);
-            return [[node]];
-        }).slice(parsed[0] ? 0 : 1, parsed[parsed.length - 1] ? parsed.length : -1));
+                vm.dices = [];
+                const node = runFluorite5(src, vm);
+                dice.push(node.dice);
+                return node;
+            })
+        );
 
         return Promise.resolve({
             nodes,

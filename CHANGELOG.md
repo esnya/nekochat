@@ -9,6 +9,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Move fluorite5 mods directory to `fluolite-mods`
 
+### Fixed
+- Style of messages which contains fluorite5 script 
+
 ## [2.3.0] - 2016-07-22
 ### Added
 - d6 animation for Fluorite5 script

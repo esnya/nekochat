@@ -77,22 +77,22 @@ describe('dice', () => {
     it('parses lines with fluorite5 script', () =>
         diceReplace('line1\nline2a\\1 + 20\\line2b\nline3')
             .then(({ nodes }) => {
-                expect(nodes.length).toBe(5);
+                expect(nodes.length).toBe(3);
                 expect(nodes[0].length).toBe(1);
-                expect(nodes[1].length).toBe(1);
-                expect(nodes[2].length).toBe(1);
-                expect(nodes[3].length).toBe(1);
-                expect(nodes[4].length).toBe(1);
                 expect(nodes[0][0].type).toEqual(NodeType.TEXT);
-                expect(nodes[1][0].type).toEqual(NodeType.TEXT);
-                expect(nodes[2][0].type).toEqual(NodeType.FLUORITE5);
-                expect(nodes[3][0].type).toEqual(NodeType.TEXT);
-                expect(nodes[4][0].type).toEqual(NodeType.TEXT);
                 expect(nodes[0][0].text).toEqual('line1');
+
+                expect(nodes[1].length).toBe(3);
+                expect(nodes[1][0].type).toEqual(NodeType.TEXT);
                 expect(nodes[1][0].text).toEqual('line2a');
-                expect(nodes[2][0].text).toEqual('{1 + 20}=21');
-                expect(nodes[3][0].text).toEqual('line2b');
-                expect(nodes[4][0].text).toEqual('line3');
+                expect(nodes[1][1].type).toEqual(NodeType.FLUORITE5);
+                expect(nodes[1][1].text).toEqual('{1 + 20}=21');
+                expect(nodes[1][2].type).toEqual(NodeType.TEXT);
+                expect(nodes[1][2].text).toEqual('line2b');
+
+                expect(nodes[2].length).toBe(1);
+                expect(nodes[2][0].type).toEqual(NodeType.TEXT);
+                expect(nodes[2][0].text).toEqual('line3');
             })
     );
 

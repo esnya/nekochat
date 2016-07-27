@@ -2,25 +2,31 @@ import React, { PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
 import IconButton from 'material-ui/IconButton';
 import Info from 'material-ui/svg-icons/action/info-outline';
-import { grey300, grey800 } from 'material-ui/styles/colors';
+import { grey200, grey800 } from 'material-ui/styles/colors';
 import Dice6 from '../icons/Dice6';
 
 const Style = {
     Container: {
-        backgroundColor: grey300,
+        backgroundColor: grey200,
+        padding: 4,
+        margin: 4,
+        borderRadius: 4,
+        fontSize: 14,
     },
     IconButton: {
         width: 'auto',
         height: 'auto',
         padding: 0,
         verticalAlign: 'top',
+        marginLeft: -8,
+        marginTop: -4,
     },
     Icon: {
         width: 16,
         height: 16,
     },
     DiceResults: {
-        marginRight: '8',
+        marginRight: 8,
     },
     DiceTooltip: {
         display: 'flex',
@@ -112,8 +118,10 @@ const Fluorite5Node = (props) => {
     ) : null;
 
     return (
-        <span style={Style.Container}>
-            {node.get('text')}
+        <span>
+            <span style={Style.Container}>
+                {node.get('text')}
+            </span>
             {infoButton}
         </span>
         );
