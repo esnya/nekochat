@@ -21,11 +21,11 @@ class Model {
 
     find(id) {
         return knex(this.table)
-                .whereNull('deleted')
-                .where('id', id)
-                .first()
-                .then(data => data || Promise.reject(new Error('Not found')))
-                .then(this.filter);
+            .whereNull('deleted')
+            .where('id', id)
+            .first()
+            .then(data => data || Promise.reject(new Error('Not found')))
+            .then(this.filter);
     }
 
     findAll() {

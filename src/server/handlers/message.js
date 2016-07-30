@@ -21,54 +21,54 @@ export default (client) => (next) => (action) => {
     switch (type) {
     case CREATE:
         diceReplace(action.payload.message || '')
-                .then((diceMessage) =>
+            .then((diceMessage) =>
                     Message.insert({
                         user_id: client.user.id || null,
                         room_id: client.room.id || null,
                         icon_id: action.payload.icon_id || null,
                         ...(
                             _(payload)
-                            .pick([
-                                'whisper_to',
-                                'name',
-                                'character_url',
-                                'file_id',
-                                'file_type',
-                            ])
-                            .mapValues(value => (value || null))
-                            .value()
+                                .pick([
+                                    'whisper_to',
+                                    'name',
+                                    'character_url',
+                                    'file_id',
+                                    'file_type',
+                                ])
+                                .mapValues(value => (value || null))
+                                .value()
                         ),
                         message: JSON.stringify(diceMessage.nodes),
                     })
-                    .then((message) => ({ diceMessage, message }))
+                        .then((message) => ({ diceMessage, message }))
                 )
-                .then(({ diceMessage, message }) => {
-                    diceMessage.results.forEach((dice) => {
-                        client.emit(roll(dice));
-                        client.publish(roll(dice), message.whisper_to);
-                    });
+            .then(({ diceMessage, message }) => {
+                diceMessage.results.forEach((dice) => {
+                    client.emit(roll(dice));
+                    client.publish(roll(dice), message.whisper_to);
+                });
 
-                    client.emit(create(message));
-                    client.publish(create(message), message.whisper_to);
-                    client.touch();
-                })
-                .catch((e) => client.logger.error(e));
+                client.emit(create(message));
+                client.publish(create(message), message.whisper_to);
+                client.touch();
+            })
+            .catch((e) => client.logger.error(e));
         break;
     case FETCH:
         if (!action.payload) {
             Message
-                    .findLimit(client.room.id, client.user.id)
-                    .then((messages) => client.emit(list(messages.reverse())))
-                    .catch((e) => client.logger.error(e));
+                .findLimit(client.room.id, client.user.id)
+                .then((messages) => client.emit(list(messages.reverse())))
+                .catch((e) => client.logger.error(e));
         } else {
             Message
-                    .findLimit(
+                .findLimit(
                         client.room.id,
                         client.user.id,
                         'id', '<', action.payload
                     )
-                    .then((messages) => client.emit(old(messages.reverse())))
-                    .catch((e) => client.logger.error(e));
+                .then((messages) => client.emit(old(messages.reverse())))
+                .catch((e) => client.logger.error(e));
         }
         break;
 

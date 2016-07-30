@@ -33,8 +33,8 @@ export const authorize = () => (req, res, next) => (new Promise((resolve, reject
 
     return reject();
 }))
-.then((user) => {
+    .then((user) => {
     // eslint-disable-next-line no-param-reassign
-    req.user = user;
-    next();
-}, () => res.send(401));
+        req.user = user;
+        next();
+    }, () => res.send(401));

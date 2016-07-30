@@ -18,11 +18,11 @@ export const notify = (notification) =>
 
         return reject(new Error('Premission denied'));
     })
-    .then(() => {
-        const {
+        .then(() => {
+            const {
             title,
             ...options,
         } = notification;
 
-        return new Notification(title, options);
-    });
+            return new Notification(title, options);
+        });

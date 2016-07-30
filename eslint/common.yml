@@ -12,6 +12,7 @@ rules:
     indent:
         - error
         - 4
+        - MemberExpression: 1
     react/jsx-indent:
         - error
         - 4

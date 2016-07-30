@@ -31,31 +31,31 @@ export default (client) => (next) => (action) => {
         break;
     case FETCH:
         Icon
-                .findAll('user_id', client.user.id)
-                .then((icons) => client.emit(list(icons)))
-                .catch((e) => client.logger.error(e));
+            .findAll('user_id', client.user.id)
+            .then((icons) => client.emit(list(icons)))
+            .catch((e) => client.logger.error(e));
         break;
     case REMOVE:
         Icon
-                .del({
-                    id: payload.id,
-                    user_id: client.user.id,
-                })
-                .then(() => payload.id)
-                .catch((e) => client.logger.error(e));
+            .del({
+                id: payload.id,
+                user_id: client.user.id,
+            })
+            .then(() => payload.id)
+            .catch((e) => client.logger.error(e));
         break;
     case BULK_REMOVE:
         payload
-                .icons
-                .forEach(({ id }) => {
-                    Icon
-                        .del({
-                            id,
-                            user_id: client.user.id,
-                        })
-                        .then(() => payload.id)
-                        .catch((e) => client.logger.error(e));
-                });
+            .icons
+            .forEach(({ id }) => {
+                Icon
+                    .del({
+                        id,
+                        user_id: client.user.id,
+                    })
+                    .then(() => payload.id)
+                    .catch((e) => client.logger.error(e));
+            });
         break;
 
     default: break;

@@ -44,41 +44,41 @@ export default (client) => (next) => (action) => {
     switch (type) {
     case CREATE:
         Room
-                .insert({
-                    id: generateId(`${(new Date()).getTime()}`)
-                            .substr(0, ID_LENGTH),
-                    title: payload.title || null,
-                    password: payload.password || null,
-                    state: payload.state || 'open',
-                    user_id: client.user.id || null,
-                })
-                .then((room) => client.emit(create(room)))
-                .catch((e) => client.logger.error(e));
+            .insert({
+                id: generateId(`${(new Date()).getTime()}`)
+                    .substr(0, ID_LENGTH),
+                title: payload.title || null,
+                password: payload.password || null,
+                state: payload.state || 'open',
+                user_id: client.user.id || null,
+            })
+            .then((room) => client.emit(create(room)))
+            .catch((e) => client.logger.error(e));
         break;
     case JOIN:
         Room
-                .join(payload.id, payload.password || null)
-                .then((room) => Message.getRoomInfo(room.id).then((info) => ({
-                    ...room,
-                    ...info,
-                })))
-                .then((room) => {
-                    client.join(room);
-                    client.emit(join(room));
-                    client.publish(joined(client.user));
-                    client.dispatch(ifetch());
-                    client.dispatch(mfetch());
-                    client.dispatch(ufetch());
-                })
-                .catch((e) => {
-                    if (e === PASSWORD_INCORRECT) {
-                        return Room.find('id', payload.id)
-                            .then((room) => client.emit(password(room)));
-                    }
+            .join(payload.id, payload.password || null)
+            .then((room) => Message.getRoomInfo(room.id).then((info) => ({
+                ...room,
+                ...info,
+            })))
+            .then((room) => {
+                client.join(room);
+                client.emit(join(room));
+                client.publish(joined(client.user));
+                client.dispatch(ifetch());
+                client.dispatch(mfetch());
+                client.dispatch(ufetch());
+            })
+            .catch((e) => {
+                if (e === PASSWORD_INCORRECT) {
+                    return Room.find('id', payload.id)
+                        .then((room) => client.emit(password(room)));
+                }
 
-                    return Promise.reject(e);
-                })
-                .catch((e) => client.logger.error(e));
+                return Promise.reject(e);
+            })
+            .catch((e) => client.logger.error(e));
         break;
     case LEAVE:
         client.dispatch(fetch());
@@ -87,22 +87,22 @@ export default (client) => (next) => (action) => {
         break;
     case FETCH:
         Room
-                .findAll()
-                .then((rooms) => client.emit(list(rooms)))
-                .catch((e) => client.logger.error(e));
+            .findAll()
+            .then((rooms) => client.emit(list(rooms)))
+            .catch((e) => client.logger.error(e));
         break;
     case REMOVE:
         Room
-                .del({
-                    id: payload.id || null,
-                    user_id: client.user.id || null,
-                })
-                .then(() => {})
-                .catch((e) => client.logger.error(e));
+            .del({
+                id: payload.id || null,
+                user_id: client.user.id || null,
+            })
+            .then(() => {})
+            .catch((e) => client.logger.error(e));
         break;
     case UPDATE:
         Room
-                .update(
+            .update(
                     client.room.id,
                     client.user.id,
                     _(payload)
@@ -110,11 +110,11 @@ export default (client) => (next) => (action) => {
                         .mapValues((a) => (a === '' ? null : a))
                         .value()
                 )
-                .then((room) => {
-                    client.emit(update(room));
-                    client.publish(update(room));
-                })
-                .catch((e) => client.logger.error(e));
+            .then((room) => {
+                client.emit(update(room));
+                client.publish(update(room));
+            })
+            .catch((e) => client.logger.error(e));
         break;
     case UFETCH:
         if (!client.room) break;
@@ -140,27 +140,27 @@ export default (client) => (next) => (action) => {
         if (!client.room) break;
 
         Room
-                .update(
+            .update(
                     client.room.id,
                     client.user.id,
                     { memo: payload || null },
                     true
                 )
-                .then((room) => {
-                    client.emit(update(room));
-                    client.publish(update(room));
+            .then((room) => {
+                client.emit(update(room));
+                client.publish(update(room));
 
-                    client.dispatch(mcreate({
-                        name: 'MEMO',
-                        message: JSON.stringify(room.memo
-                            .split(/\r\n|\n/)
-                            .map((line) => [{
-                                type: NodeType.MEMO,
-                                text: line,
-                            }])),
-                    }));
-                })
-                .catch((e) => client.logger.error(e));
+                client.dispatch(mcreate({
+                    name: 'MEMO',
+                    message: JSON.stringify(room.memo
+                        .split(/\r\n|\n/)
+                        .map((line) => [{
+                            type: NodeType.MEMO,
+                            text: line,
+                        }])),
+                }));
+            })
+            .catch((e) => client.logger.error(e));
         break;
 
     default: break;
