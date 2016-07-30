@@ -90,7 +90,7 @@ const runFluorite5 = (formula, vm) => {
     }
 };
 
-export const diceReplace = (str) => {
+export const parseDice = (str) => {
     try {
         // ['text', ['flu5', function], ['flu5', function], 'text', ...]
         const parsed = parser.parse(str, {
@@ -135,18 +135,18 @@ export const diceReplace = (str) => {
             })
         );
 
-        return Promise.resolve({
+        return {
             nodes,
             results: flatten(dice),
-        });
+        };
     } catch (error) {
-        return Promise.resolve({
+        return {
             nodes: [[{
                 type: NodeType.FLUORITE5_ERROR,
                 text: error.toString(),
                 error,
             }]],
             results: [],
-        });
+        };
     }
 };

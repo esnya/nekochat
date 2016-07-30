@@ -3,7 +3,6 @@ import {
     fetch as ifetch,
 } from '../../actions/icon';
 import {
-    create as mcreate,
     fetch as mfetch,
 } from '../../actions/message';
 import {
@@ -32,6 +31,7 @@ import * as NodeType from '../../constants/NodeType';
 import { PASSWORD_INCORRECT, Room } from '../models/room';
 import { Message } from '../models/message';
 import { generateId } from '../../utility/id';
+import { createMessage } from './message';
 
 const ID_LENGTH = 16;
 
@@ -141,16 +141,16 @@ export default (client) => (next) => (action) => {
 
         Room
             .update(
-                    client.room.id,
-                    client.user.id,
-                    { memo: payload || null },
-                    true
-                )
+                client.room.id,
+                client.user.id,
+                { memo: payload || null },
+                true
+            )
             .then((room) => {
                 client.emit(update(room));
                 client.publish(update(room));
 
-                client.dispatch(mcreate({
+                return createMessage(client, {
                     name: 'MEMO',
                     message: JSON.stringify(room.memo
                         .split(/\r\n|\n/)
@@ -158,7 +158,7 @@ export default (client) => (next) => (action) => {
                             type: NodeType.MEMO,
                             text: line,
                         }])),
-                }));
+                });
             })
             .catch((e) => client.logger.error(e));
         break;

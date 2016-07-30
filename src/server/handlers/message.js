@@ -1,6 +1,6 @@
 /* eslint camelcase: "off" */
 
-import _ from 'lodash';
+import { mapValues, pick } from 'lodash';
 import { roll } from '../../actions/dice';
 import {
     create,
@@ -10,7 +10,30 @@ import {
     FETCH,
 } from '../../actions/message';
 import { Message } from '../models/message';
-import { diceReplace } from '../dice';
+import { parseDice } from '../dice';
+
+export const createMessage = (client, message) =>
+    Message
+        .insert(mapValues({
+            ...pick(message, [
+                'icon_id',
+                'whisper_to',
+                'name',
+                'character_url',
+                'file_id',
+                'file_type',
+                'message',
+            ]),
+            user_id: client.user.id,
+            room_id: client.room.id,
+        }, v => (v || null)))
+        .then((data) => {
+            client.emit(create(data));
+            client.publish(create(data), data.whisper_to);
+            client.touch();
+
+            return data;
+        });
 
 export default (client) => (next) => (action) => {
     const {
@@ -19,42 +42,23 @@ export default (client) => (next) => (action) => {
     } = action;
 
     switch (type) {
-    case CREATE:
-        diceReplace(action.payload.message || '')
-            .then((diceMessage) =>
-                    Message.insert({
-                        user_id: client.user.id || null,
-                        room_id: client.room.id || null,
-                        icon_id: action.payload.icon_id || null,
-                        ...(
-                            _(payload)
-                                .pick([
-                                    'whisper_to',
-                                    'name',
-                                    'character_url',
-                                    'file_id',
-                                    'file_type',
-                                ])
-                                .mapValues(value => (value || null))
-                                .value()
-                        ),
-                        message: JSON.stringify(diceMessage.nodes),
-                    })
-                        .then((message) => ({ diceMessage, message }))
-                )
-            .then(({ diceMessage, message }) => {
-                diceMessage.results.forEach((dice) => {
-                    client.emit(roll(dice));
-                    client.publish(roll(dice), message.whisper_to);
-                });
+    case CREATE: {
+        const {
+            nodes,
+            results,
+        } = parseDice(payload.message || '');
 
-                client.emit(create(message));
-                client.publish(create(message), message.whisper_to);
-                client.touch();
-            })
-            .catch((e) => client.logger.error(e));
+        createMessage(client, {
+            ...payload,
+            message: JSON.stringify(nodes),
+        }).then((message) => {
+            results.forEach((dice) => {
+                client.emit(roll(dice));
+                client.publish(roll(dice), message.whisper_to);
+            });
+        }, e => client.logger.error(e));
         break;
-    case FETCH:
+    } case FETCH:
         if (!action.payload) {
             Message
                 .findLimit(client.room.id, client.user.id)
