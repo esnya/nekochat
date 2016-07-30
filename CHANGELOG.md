@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - d6 icons for Fluorite5 script results
+- Filter for file uploading
 
 ### Changed
 - Move fluorite5 mods directory to `fluolite-mods`
