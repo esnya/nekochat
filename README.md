@@ -5,6 +5,8 @@
 [![Dependencies](https://img.shields.io/david/ukatama/nekochat.svg?style=flat-square)](https://david-dm.org/ukatama/nekochat)
 [![DevDependencies](https://img.shields.io/david/dev/ukatama/nekochat.svg?style=flat-square)](https://david-dm.org/ukatama/nekochat#info=devDependencies&view=list)
 
+![Screenshot](https://github.com/ukatama/nekochat/blob/master/docs/img/ss01.png)
+
 Web chat application for tabletop role-praing game.
 
 - The `master` branch is **unstable**. Basically, it works successfully, but have not been fully tested.
