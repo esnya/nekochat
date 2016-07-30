@@ -123,7 +123,9 @@ See also [node-config](https://github.com/lorenwest/node-config) abtout the conf
 | data_cleaner.*.interval | string  | Watch interval (ISO 8601 Duration)                               |
 | data_cleaner.*.soft     | string  | To soft remove the old ones than this value (ISO 8601 Duration)  |
 | data_cleaner.*.hard     | string  | To hard remove the old ones than this value (ISO 8601 Duration)  |
-
+| file                    | object  | File uploading |
+| file.types              | array   | MIME types of the file to be allowed to uploading |
+| file.maxSize            | number/string  | Maximum file size to be allowed to uploading |
 
 ## License
 MIT License
