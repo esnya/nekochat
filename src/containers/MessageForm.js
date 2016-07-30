@@ -1,5 +1,6 @@
 /* eslint camelcase: "off" */
 
+import { pick } from 'lodash';
 import { open } from '../actions/dialog';
 import * as Message from '../actions/message';
 import { update } from '../actions/typing';
@@ -19,15 +20,13 @@ export default connect(
         onRemoveName: (e, id) => dispatch(remove({ id })),
         onSendMessage: (e, message) => dispatch(Message.create(message)),
         onTyping: (e, name, message) => dispatch(update({ name, message })),
-        onUploadImage: (e, name, file) => dispatch(Message.file({
-            character_url: name.character_url,
-            icon_id: name.icon_id,
-            name: name.name,
-            file: {
-                file,
-                type: file.type,
-                name: file.name,
-            },
+        onUploadFile: (e, name, file) => dispatch(Message.create({
+            ...pick(name, [
+                'name',
+                'character_url',
+            ]),
+            message: null,
+            file,
         })),
     })
 )(MessageForm);

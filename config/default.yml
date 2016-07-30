@@ -35,3 +35,8 @@ data_cleaner:
         interval: PT1H
         soft: P14D
         hard: P21D
+file:
+    types:
+        - image/*
+        - audio/*
+    maxSize: 512M

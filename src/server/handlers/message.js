@@ -1,5 +1,6 @@
 /* eslint camelcase: "off" */
 
+import _ from 'lodash';
 import { roll } from '../../actions/dice';
 import {
     create,
@@ -7,28 +8,9 @@ import {
     old,
     CREATE,
     FETCH,
-    FILE,
 } from '../../actions/message';
-import { generateId } from '../../utility/id';
-import { File } from '../models/file';
 import { Message } from '../models/message';
 import { diceReplace } from '../dice';
-
-const processFile = (client, action) => {
-    const file = action.files && action.files[0];
-    const file_id = file ? generateId() : null;
-
-    if (!file) return Promise.resolve();
-
-    return File.insert({
-        id: file_id,
-        user_id: client.user.id,
-        name: file.name,
-        type: file.mime,
-        data: file.blob,
-    })
-        .then(() => file_id);
-};
 
 export default (client) => (next) => (action) => {
     const {
@@ -37,25 +19,26 @@ export default (client) => (next) => (action) => {
     } = action;
 
     switch (type) {
-    case CREATE: {
-        processFile(client, action)
-                .then(
-                    (file_id) => diceReplace(`${action.payload.message || ''}`)
-                        .then((diceMessage) => ({
-                            diceMessage,
-                            file_id,
-                        }))
-                )
-                .then(({ diceMessage, file_id }) =>
+    case CREATE:
+        diceReplace(action.payload.message || '')
+                .then((diceMessage) =>
                     Message.insert({
                         user_id: client.user.id || null,
                         room_id: client.room.id || null,
                         icon_id: action.payload.icon_id || null,
-                        whisper_to: action.payload.whisper_to || null,
-                        name: action.payload.name || null,
-                        character_url: action.payload.character_url || null,
+                        ...(
+                            _(payload)
+                            .pick([
+                                'whisper_to',
+                                'name',
+                                'character_url',
+                                'file_id',
+                                'file_type',
+                            ])
+                            .mapValues(value => (value || null))
+                            .value()
+                        ),
                         message: JSON.stringify(diceMessage.nodes),
-                        file_id,
                     })
                     .then((message) => ({ diceMessage, message }))
                 )
@@ -70,32 +53,6 @@ export default (client) => (next) => (action) => {
                     client.touch();
                 })
                 .catch((e) => client.logger.error(e));
-        break;
-    }
-    case FILE:
-        File
-                .insert({
-                    id: generateId(),
-                    user_id: client.user.id || null,
-                    name: payload.file.name || null,
-                    type: payload.file.type || null,
-                    data: payload.file.file || null,
-                })
-                .then((file) => Message.insert({
-                    user_id: client.user.id || null,
-                    room_id: client.room.id || null,
-                    icon_id: payload.icon_id || null,
-                    name: payload.name || null,
-                    character_url: payload.character_url || null,
-                    message: JSON.stringify([]),
-                    file_id: file.id,
-                    file_type: file.type,
-                }))
-                .then((message) => {
-                    client.emit(create(message));
-                    client.publish(create(message));
-                    client.touch();
-                });
         break;
     case FETCH:
         if (!action.payload) {

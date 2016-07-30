@@ -133,7 +133,7 @@ class MessageListItem extends Component {
                     <div style={Style.ListItem.Header}>
                         <MessageHeader color={color} message={message} />
                     </div>
-                    <MessageBody message={message} />
+                    {message.get('message') && <MessageBody message={message} />}
                     <MessageAttachedFile message={message} />
                 </div>
                 <div style={Style.ListItem.Timestamp}>

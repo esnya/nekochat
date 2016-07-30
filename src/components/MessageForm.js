@@ -40,7 +40,7 @@ class MessageForm extends Component {
             onRemoveName: PropTypes.func.isRequired,
             onSendMessage: PropTypes.func.isRequired,
             onTyping: PropTypes.func.isRequired,
-            onUploadImage: PropTypes.func.isRequired,
+            onUploadFile: PropTypes.func.isRequired,
             state: PropTypes.string,
         };
     }
@@ -54,7 +54,7 @@ class MessageForm extends Component {
             onRemoveName,
             onSendMessage,
             onTyping,
-            onUploadImage,
+            onUploadFile,
         } = this.props;
 
         const parseMessage = () => {
@@ -138,7 +138,7 @@ class MessageForm extends Component {
                     onChange={
                         (e, files) => {
                             if (files[0]) {
-                                onUploadImage(e, name.toJS(), files[0]);
+                                onUploadFile(e, name.toJS(), files[0]);
                                 // eslint-disable-next-line no-param-reassign
                                 e.target.value = '';
                             }

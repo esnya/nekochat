@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import { Router } from 'express';
+import { defaults } from 'lodash';
 import { getLogger } from 'log4js';
 import moment from 'moment';
 import knex from '../knex';
@@ -15,6 +16,7 @@ class Model {
         this.table = table;
         this.autoInc = options.autoInc;
         this.filter = options.filter || (data => data);
+        this.listFilter = options.listFilter;
     }
 
     find(id) {
@@ -29,7 +31,7 @@ class Model {
     findAll() {
         return knex(this.table)
             .whereNull('deleted')
-            .then(data => data.map(this.filter));
+            .then(data => data.map(this.listFilter || this.filter));
     }
 
     insert(userId, data) {
@@ -72,16 +74,33 @@ export default class Resource {
     constructor(name, table, options) {
         this.model = new Model(name, table, options);
         this.paramKey = `${name}_id`;
+        this.acl = defaults(options.acl, ({
+            index: true,
+            create: true,
+            show: true,
+            update: true,
+            remove: true,
+        }));
     }
 
     initialize() {
         const router = new Router;
 
-        router.get('/', (...args) => this.index(...args));
-        router.post('/', bodyParser.json(), (...args) => this.create(...args));
-        router.get(`/:${this.paramKey}`, (...args) => this.show(...args));
-        router.put(`/:${this.paramKey}`, bodyParser.json(), (...args) => this.update(...args));
-        router.delete(`/:${this.paramKey}`, (...args) => this.remove(...args));
+        const {
+            index,
+            create,
+            show,
+            update,
+            remove,
+        } = this.acl;
+
+        if (index) router.get('/', (...args) => this.index(...args));
+        if (create) router.post('/', bodyParser.json(), (...args) => this.create(...args));
+        if (show) router.get(`/:${this.paramKey}`, (...args) => this.show(...args));
+        if (update) {
+            router.put(`/:${this.paramKey}`, bodyParser.json(), (...args) => this.update(...args));
+        }
+        if (remove) router.delete(`/:${this.paramKey}`, (...args) => this.remove(...args));
 
         return router;
     }
