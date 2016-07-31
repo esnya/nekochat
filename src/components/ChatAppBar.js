@@ -9,7 +9,6 @@ import FeedbackButton from './FeedbackButton';
 const ChatAppBar = (props) => {
     const {
         room,
-        onEditRoom,
         onOpenDrawer,
     } = props;
 
@@ -26,7 +25,6 @@ const ChatAppBar = (props) => {
             }
             title={room.get('title') || 'Nekochat'}
             onLeftIconButtonTouchTap={onOpenDrawer}
-            onRightIconButtonTouchTap={onEditRoom}
         />
     );
 };
@@ -34,7 +32,6 @@ ChatAppBar.propTypes = {
     room: IPropTypes.contains({
         title: PropTypes.string,
     }).isRequired,
-    onEditRoom: PropTypes.func.isRequired,
     onOpenDrawer: PropTypes.func.isRequired,
 };
 

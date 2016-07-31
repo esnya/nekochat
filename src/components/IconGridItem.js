@@ -35,7 +35,6 @@ const IconGridItem = (props) => {
         <FlatButton
             primary={selected}
             style={Style.Button}
-            tooltip={icon && icon.get('name')}
             onTouchTap={(e) => onSelect(e, icon && icon.get('id'))}
         >
             <MessageIcon

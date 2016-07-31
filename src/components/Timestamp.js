@@ -30,7 +30,6 @@ const Timestamp = (props) => {
         timestamp,
         tooltip,
         tooltipPosition,
-        tooltipStyles,
     } = props;
 
     const m = moment(timestamp);
@@ -43,7 +42,6 @@ const Timestamp = (props) => {
             style={Style.IconButton}
             tooltip={m.toString()}
             tooltipPosition={tooltipPosition}
-            tooltipStyles={tooltipStyles}
         >
             <Clock />
         </IconButton>
@@ -66,6 +64,5 @@ Timestamp.propTypes = {
     ]).isRequired,
     tooltip: PropTypes.bool,
     tooltipPosition: PropTypes.string,
-    tooltipStyles: PropTypes.object,
 };
 export default pureRender(Timestamp);

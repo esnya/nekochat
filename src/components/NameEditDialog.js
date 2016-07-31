@@ -53,10 +53,10 @@ const NameEditDialog = (props) => {
         >
             <TextField
                 fullWidth
-                isRequired
+                required
                 floatingLabelText="Name"
                 name="name"
-                value={name && name.get('name')}
+                value={name && name.get('name') || ''}
                 onChange={handleChange('name')}
             />
             <div style={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -66,7 +66,7 @@ const NameEditDialog = (props) => {
                     name="character_url"
                     style={{ flex: '1 1 auto', marginRight: 16 }}
                     type="url"
-                    value={name && name.get('character_url')}
+                    value={name && name.get('character_url') || ''}
                     onChange={handleChange('character_url')}
                 />
                 <IconButton
@@ -92,7 +92,7 @@ const NameEditDialog = (props) => {
                 <TextField
                     floatingLabelText="filter"
                     name="icon_filter"
-                    value={name && name.get('icon_filter')}
+                    value={name && name.get('icon_filter') || ''}
                     onChange={handleChange('icon_filter')}
                 />
             </div>

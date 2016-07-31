@@ -149,7 +149,7 @@ class MessageList extends Component {
                             message={typing}
                             onScroll={(t, s) => this.scroll(t, s)}
                         />
-                    ))
+                    )).toList()
                 }
             </div>
         );

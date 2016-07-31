@@ -58,7 +58,7 @@ const RoomListItem = (props) => {
                                 <div style={Style.Tagline}>
                                     @{room.get('user_id')}
                                     &nbsp;
-                                    <Timestamp timestamp={room.modified} tooltip={false} />
+                                    <Timestamp timestamp={room.get('modified')} tooltip={false} />
                                 </div>
                             </div>
                             <div style={Style.Spacer} />

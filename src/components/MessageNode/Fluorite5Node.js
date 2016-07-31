@@ -33,9 +33,6 @@ const Style = {
         backgroundColor: 'white',
         color: 'black',
     },
-    Tooltip: {
-        padding: 0,
-    },
 };
 
 const DiceResult = (props) => {
@@ -111,7 +108,6 @@ const Fluorite5Node = (props) => {
             style={Style.IconButton}
             tooltip={<DiceTooltip dice={dice} />}
             tooltipPosition="top-center"
-            tooltipStyles={Style.Tooltip}
         >
             <Info />
         </IconButton>

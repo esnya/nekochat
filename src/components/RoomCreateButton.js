@@ -15,7 +15,7 @@ const RoomCreateButton = (props) => {
     );
 };
 RoomCreateButton.propTypes = {
-    onCreateRoom: PropTypes.func.isReqruied,
+    onCreateRoom: PropTypes.func.isRequired,
 };
 
 export default staticRender(RoomCreateButton);

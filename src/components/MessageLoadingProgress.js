@@ -12,6 +12,6 @@ const MessageLoadingProgress = (props) => {
     return isVisible ? <CircularProgress {...othres} /> : null;
 };
 MessageLoadingProgress.propTypes = {
-    isVisible: PropTypes.bool.isRequired,
+    isVisible: PropTypes.bool,
 };
 export default connect(pureRender(MessageLoadingProgress));

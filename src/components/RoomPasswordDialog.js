@@ -54,7 +54,7 @@ const RoomPasswordDialog = (props) => {
                 floatingLabelText="Password"
                 name="password"
                 type="password"
-                value={password}
+                value={password || ''}
                 onChange={onChange}
             />
         </Dialog>
@@ -68,7 +68,7 @@ RoomPasswordDialog.propTypes = {
     onPushLocation: PropTypes.func.isRequired,
     password: PropTypes.string,
     dialog: IPropTypes.contains({
-        room: IPropTypes.contains({
+        room: PropTypes.shape({
             id: PropTypes.string.isRequired,
         }).isRequired,
     }),

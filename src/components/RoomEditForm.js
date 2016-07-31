@@ -76,19 +76,19 @@ export default class RoomEditForm extends Component {
             <form onSubmit={handleSubmit}>
                 <TextField
                     fullWidth
-                    isRequired
+                    required
                     floatingLabelText="Title"
                     name="title"
-                    value={title}
+                    value={title || ''}
                     onChange={(e, value) => this.setState({ title: value })}
                 />
                 <TextField
                     fullWidth
-                    isRequired
+                    required
                     floatingLabelText="Password"
                     name="password"
                     type="password"
-                    value={password}
+                    value={password || ''}
                     onChange={
                         (e, value) => this.setState({
                             password: value,

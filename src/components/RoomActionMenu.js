@@ -105,12 +105,12 @@ const RoomActionMenu = (props) => {
 };
 RoomActionMenu.propTypes = {
     room: IPropTypes.contains({
-        id: PropTypes.string.isRrequired,
-    }).isRrequired,
+        id: PropTypes.string.isRequired,
+    }).isRequired,
     user: IPropTypes.contains({
-        id: PropTypes.string.isRrequired,
-        name: PropTypes.string.isRrequired,
-    }).isRrequired,
-    onRemoveRoom: PropTypes.func.isRrequired,
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+    }).isRequired,
+    onRemoveRoom: PropTypes.func.isRequired,
 };
 export default pureRender(RoomActionMenu);

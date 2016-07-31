@@ -8,4 +8,4 @@ export default connect(({ room, messages }) => {
         isVisible: firstId &&
             (!first || first.get('id') !== room.get('first_message')),
     };
-});
+}, () => ({}));
