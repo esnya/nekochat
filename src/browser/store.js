@@ -8,5 +8,6 @@ export default compose(
     reduxReactRouter({
         createHistory,
     }),
-    applyMiddleware(...middlewares)
+    applyMiddleware(...middlewares),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
 )(createStore)(reducer);
