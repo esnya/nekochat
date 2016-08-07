@@ -3,7 +3,7 @@ describe('middlewares', () => {
         jest.unmock('redux-actions');
         jest.unmock('redux-actions/lib/createAction');
 
-        const dice3d = require('dice3d/js/dice3d');
+        const dice3d = require('dice3d');
 
         jest.setMock('../../browser/config', {
             diceLimit: 20,

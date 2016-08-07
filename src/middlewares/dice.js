@@ -1,4 +1,4 @@
-import dice3d from 'dice3d/js/dice3d';
+import dice3d from 'dice3d';
 import { ROLL } from '../actions/dice';
 import config from '../browser/config';
 
