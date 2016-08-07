@@ -13,7 +13,7 @@ export default ({ getState }) => (next) => (action) => {
         action.meta.notify,
         (result, value, key) => {
             // eslint-disable-next-line no-param-reassign
-            result[key] = typeof(value) === 'string'
+            result[key] = typeof (value) === 'string'
                 ? template(value)({ action, state })
                 : value;
         },

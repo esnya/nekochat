@@ -4,6 +4,7 @@ describe('middlewares', () => {
         const { Map } = require('immutable');
 
         const { notify } = require('../../browser/notification');
+
         const close = jest.fn();
         notify.mockReturnValue(Promise.resolve({ close }));
 

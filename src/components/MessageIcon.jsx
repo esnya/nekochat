@@ -46,7 +46,7 @@ ImageIcon.propTypes = {
     style: PropTypes.object,
 };
 
-export const MessageIcon = ({
+const MessageIcon = ({
     id,
     character_url,
     icon_url,

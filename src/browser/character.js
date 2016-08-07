@@ -29,7 +29,7 @@ export function get(url) {
     })
         .then(
             ({ data }) =>
-                (typeof(data) === 'object' ? data : Promise.reject(data))
+                (typeof (data) === 'object' ? data : Promise.reject(data))
         )
         .then((data) => {
             const link = data.url ? new URL(data.url, url) : url;

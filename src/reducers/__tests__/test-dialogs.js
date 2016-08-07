@@ -6,6 +6,7 @@ describe('reducers', () => {
         const { genId } = require('../../utility/id');
 
         const Immutable = require('immutable');
+
         const { fromJS } = Immutable;
 
 

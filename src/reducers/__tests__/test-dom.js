@@ -3,6 +3,7 @@ describe('reducers', () => {
         jest.autoMockOff();
 
         const Immutable = require('immutable');
+
         const { Map } = Immutable;
 
         const { focus, blur } = require('../../actions/dom');

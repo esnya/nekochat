@@ -4,7 +4,7 @@ import { defaults } from 'lodash';
 import { getLogger } from 'log4js';
 import moment from 'moment';
 import knex from '../knex';
-import genId from '../../utility/id';
+import { genId } from '../../utility/id';
 
 const logger = getLogger('[API]');
 
@@ -84,7 +84,7 @@ export default class Resource {
     }
 
     initialize() {
-        const router = new Router;
+        const router = new Router();
 
         const {
             index,

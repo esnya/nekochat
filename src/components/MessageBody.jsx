@@ -7,7 +7,7 @@ import MessageLine from './MessageLine';
 const getLines = (message) => {
     const lines = message.get('message');
 
-    if (typeof(lines) !== 'string') {
+    if (typeof (lines) !== 'string') {
         return lines;
     }
 

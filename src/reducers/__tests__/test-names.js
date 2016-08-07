@@ -110,6 +110,7 @@ describe('reducers', () => {
             ]));
 
             const { join } = require('../../actions/room');
+
             state = reducer(state, join({ id: 'room-id' }));
 
             expect(load.mock.calls).toEqual([[

@@ -51,12 +51,12 @@ describe('Message', () => {
                     .where
                     .mock
                     .calls
-                    .find((call) => typeof(call[0]) === 'function')[0];
+                    .find((call) => typeof (call[0]) === 'function')[0];
                 const finder = query
                     .where
                     .mock
                     .calls
-                    .find((call) => typeof(call[0]) !== 'function');
+                    .find((call) => typeof (call[0]) !== 'function');
                 expect(finder).toEqual(['id', '>', 0]);
 
                 const query2 = {};
@@ -87,24 +87,33 @@ describe('Message', () => {
                 ]);
 
                 expect(messages).toEqual([
-                    { id: 1, message: [[{
-                        type: TEXT,
-                        text: 'msg1',
-                    }]] },
-                    { id: 2, message: [
-                        [{
+                    {
+                        id: 1,
+                        message: [[{
                             type: TEXT,
-                            text: 'msg2',
-                        }],
-                        [{
-                            type: TEXT,
-                            text: 'line',
-                        }],
-                    ] },
-                    { id: 3, message: [[{
-                        type: 'NODE_TYPE_TEXT',
-                        text: 'msg3',
-                    }]] },
+                            text: 'msg1',
+                        }]],
+                    },
+                    {
+                        id: 2,
+                        message: [
+                            [{
+                                type: TEXT,
+                                text: 'msg2',
+                            }],
+                            [{
+                                type: TEXT,
+                                text: 'line',
+                            }],
+                        ],
+                    },
+                    {
+                        id: 3,
+                        message: [[{
+                            type: 'NODE_TYPE_TEXT',
+                            text: 'msg3',
+                        }]],
+                    },
                 ]);
             });
     });
@@ -125,24 +134,33 @@ describe('Message', () => {
         return Message.findAll('room1', 'user1')
             .then((messages) => {
                 expect(messages).toEqual([
-                    { id: 1, message: [[{
-                        type: TEXT,
-                        text: 'msg1',
-                    }]] },
-                    { id: 2, message: [
-                        [{
+                    {
+                        id: 1,
+                        message: [[{
                             type: TEXT,
-                            text: 'msg2',
-                        }],
-                        [{
-                            type: TEXT,
-                            text: 'line',
-                        }],
-                    ] },
-                    { id: 3, message: [[{
-                        type: 'NODE_TYPE_TEXT',
-                        text: 'msg3',
-                    }]] },
+                            text: 'msg1',
+                        }]],
+                    },
+                    {
+                        id: 2,
+                        message: [
+                            [{
+                                type: TEXT,
+                                text: 'msg2',
+                            }],
+                            [{
+                                type: TEXT,
+                                text: 'line',
+                            }],
+                        ],
+                    },
+                    {
+                        id: 3,
+                        message: [[{
+                            type: 'NODE_TYPE_TEXT',
+                            text: 'msg3',
+                        }]],
+                    },
                 ]);
             });
     });

@@ -9,3 +9,4 @@ rules:
     strict:
         - error
         - safe
+    import/no-extraneous-dependencies: off

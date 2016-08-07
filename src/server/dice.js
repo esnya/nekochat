@@ -109,7 +109,7 @@ export const parseDice = (str) => {
 
         const nodes = parsed.map(line =>
             line.map(src => {
-                if (typeof(src) === 'string') {
+                if (typeof (src) === 'string') {
                     const {
                         text,
                         results,

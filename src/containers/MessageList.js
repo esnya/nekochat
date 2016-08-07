@@ -1,6 +1,6 @@
 import { pick } from 'lodash';
-import { fetch } from '../actions/message';
 import { connect } from 'react-redux';
+import { fetch } from '../actions/message';
 import MessageList from '../components/MessageList';
 
 export default connect(

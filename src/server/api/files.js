@@ -5,7 +5,7 @@ import { getLogger } from 'log4js';
 import { genId } from '../../utility/id';
 import knex from '../knex';
 
-const router = new Router;
+const router = new Router();
 export default router;
 
 const types = config.get('file.types');

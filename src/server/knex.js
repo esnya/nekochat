@@ -1,7 +1,7 @@
 import config from 'config';
 import createKnex from 'knex';
 
-export const knex = createKnex(config.get('database.default'));
+const knex = createKnex(config.get('database.default'));
 export default knex;
 
 export const now = config.get('database.default.client') === 'sqlite3'

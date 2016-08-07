@@ -19,3 +19,6 @@ rules:
     react/jsx-indent-props:
         - error
         - 4
+# ToDO
+    no-mixed-operators: off
+    import/prefer-default-export: off

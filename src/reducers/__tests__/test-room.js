@@ -3,6 +3,7 @@ describe('reducers', () => {
         jest.autoMockOff();
 
         const Immutable = require('immutable');
+
         const { fromJS } = Immutable;
 
         const { update, join, leave } = require('../../actions/room');

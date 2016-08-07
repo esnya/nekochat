@@ -12,6 +12,7 @@ describe('middlewares', () => {
         const { Map } = require('immutable');
 
         const persitent = require('../persistent');
+
         const middleware = persitent.default;
 
         it('saves into localStorage', () => {

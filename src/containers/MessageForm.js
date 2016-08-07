@@ -1,11 +1,11 @@
 /* eslint camelcase: "off" */
 
 import { pick } from 'lodash';
+import { connect } from 'react-redux';
 import { open } from '../actions/dialog';
 import * as Message from '../actions/message';
 import { update } from '../actions/typing';
 import { create, remove } from '../actions/name';
-import { connect } from 'react-redux';
 import MessageForm from '../components/MessageForm';
 
 export default connect(

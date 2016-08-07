@@ -3,6 +3,7 @@ describe('reducers', () => {
         jest.autoMockOff();
 
         const Immutable = require('immutable');
+
         const { fromJS } = Immutable;
 
         const { create, list, old } = require('../../actions/message');
@@ -135,6 +136,7 @@ describe('reducers', () => {
 
         it('cleared by leaving', () => {
             const { leave } = require('../../actions/room');
+
             state = reducer(state, leave());
             expect(state).toEqualImmutable(fromJS([]));
         });

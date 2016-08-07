@@ -1,9 +1,10 @@
 /* eslint no-underscore-dangle: 0 */
 
 describe('Model', () => {
-    const { knex } = require('../../knex');
+    const knex = require('../../knex').default;
 
     const moment = require('moment');
+
     const _now = 'now';
     moment.mockReturnValue({
         format: () => _now,
@@ -128,7 +129,8 @@ describe('Model', () => {
             (cb1) => {
                 query.then.mockImpl(
                     (cb2) => Promise.resolve({
-                        id: 'id3', value: 'item3',
+                        id: 'id3',
+                        value: 'item3',
                         created: _now,
                         modified: _now,
                     }).then(cb2)
@@ -152,7 +154,8 @@ describe('Model', () => {
                 });
 
                 expect(item).toEqual({
-                    id: 'id3', value: 'item3',
+                    id: 'id3',
+                    value: 'item3',
                     created: _now,
                     modified: _now,
                 });
@@ -164,7 +167,8 @@ describe('Model', () => {
             (cb1) => {
                 query.then.mockImpl(
                     (cb2) => Promise.resolve({
-                        id: 4, value: 'item4',
+                        id: 4,
+                        value: 'item4',
                         created: _now,
                         modified: _now,
                     }).then(cb2)
@@ -186,7 +190,8 @@ describe('Model', () => {
                 });
 
                 expect(item).toEqual({
-                    id: 4, value: 'item4',
+                    id: 4,
+                    value: 'item4',
                     created: _now,
                     modified: _now,
                 });

@@ -22,7 +22,7 @@ describe('actions', () => {
                         .filter((key) => key.match(/^[A-Z0-9_]+$/))
                         .map((key) => actions[key])
                         .forEach((type) => {
-                            expect(typeof(type)).toBe('string');
+                            expect(typeof (type)).toBe('string');
                         });
                 });
 
@@ -31,8 +31,8 @@ describe('actions', () => {
                         .filter((key) => key.match(/^[a-z][A-Z0-9]*$/))
                         .map((key) => actions[key])
                         .forEach((creator) => {
-                            expect(typeof(creator)).toBe('function');
-                            expect(typeof(creator().type)).toBe('string');
+                            expect(typeof (creator)).toBe('function');
+                            expect(typeof (creator().type)).toBe('string');
                         });
                 });
             });
