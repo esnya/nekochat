@@ -31,6 +31,7 @@ import * as NodeType from '../../constants/NodeType';
 import { PASSWORD_INCORRECT, Room } from '../models/room';
 import { Message } from '../models/message';
 import { generateId } from '../../utility/id';
+import cacheStore from '../cacheStore';
 import { createMessage } from './message';
 
 const ID_LENGTH = 16;
@@ -119,7 +120,7 @@ export default (client) => (next) => (action) => {
     case UFETCH:
         if (!client.room) break;
 
-        client.redis.hgetall(`${client.room_key}:users`, (err, obj) => {
+        cacheStore.hgetall(`${client.room_key}:users`, (err, obj) => {
             if (err) {
                 client.logger.error(err);
 

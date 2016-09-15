@@ -1,7 +1,21 @@
 import bluebird from 'bluebird';
-import { RedisClient, Multi } from 'redis';
+import config from 'config';
+import redis from 'redis';
+import { redis as logger } from './logger';
 
-bluebird.promisifyAll(RedisClient.prototype);
-bluebird.promisifyAll(Multi.prototype);
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
 
-export * from 'redis';
+export class RedisClient extends redis.RedisClient {
+    constructor() {
+        const {
+            enabled,
+            ...options,
+        } = config.get('redis');
+        if (!enabled) throw new Error('Redis is disabled');
+
+        super(options);
+
+        this.on('error', e => logger.error(e));
+    }
+}

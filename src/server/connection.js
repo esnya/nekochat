@@ -1,8 +1,8 @@
 /* eslint camelcase: "off" */
 
-import config from 'config';
 import { getLogger } from 'log4js';
-import { createClient } from 'redis';
+import cacheStore from './cacheStore';
+import { publish, subscribe } from './pubsub';
 import { handle } from './handlers';
 
 const logger = getLogger('[connection]');
@@ -13,37 +13,12 @@ export class Connection {
         this.user = user;
 
         this.initSocket(socket);
-        this.initRedis();
-        this.initSubscriber();
-        this.initWhisperSubscriber();
     }
 
     initSocket(socket) {
         this.socket = socket;
 
         socket.on('action', (action) => this.dispatch(action));
-    }
-    initRedis() {
-        this.redis = createClient(config.get('redis'))
-            .on('error', (e) => logger.error(e));
-    }
-    initSubscriber() {
-        const subscriber =
-            this.subscriber = createClient(config.get('redis'))
-                .on('error', (e) => logger.error(e));
-
-        subscriber.on('message', (channel, message) =>
-            this.onMessage(channel, JSON.parse(message))
-        );
-    }
-    initWhisperSubscriber() {
-        const subscriber =
-            this.whisperSubscriber = createClient(config.get('redis'))
-                .on('error', (e) => logger.error(e));
-
-        subscriber.on('message', (channel, message) =>
-            this.onMessage(channel, JSON.parse(message))
-        );
     }
 
     onMessage(channel, { action, sender }) {
@@ -55,18 +30,16 @@ export class Connection {
 
     close() {
         this.leave();
-        this.redis.quit();
-        this.subscriber.quit();
     }
 
     touch(login = true) {
         if (!this.room) return;
 
-        this.redis.hset(`${this.room_key}:users`, this.user.id, JSON.stringify({
+        cacheStore.hset(`${this.room_key}:users`, this.user.id, {
             ...this.user,
             login,
             timestamp: Date.now(),
-        }));
+        });
     }
 
     join(room) {
@@ -76,8 +49,8 @@ export class Connection {
         const room_key = this.room_key = `nekochat:${room.id}`;
 
         this.touch(true);
-        this.subscriber.subscribe(room_key);
-        this.whisperSubscriber.subscribe(`${room_key}:${this.user.id}`);
+        this.unsubscribe = subscribe(room_key, (...args) => this.onMessage(...args));
+        this.unsubscribeWhisper = subscribe(`${room_key}:${this.user.id}`, (...args) => this.onMessage(...args));
     }
     leave() {
         if (this.room) {
@@ -85,8 +58,8 @@ export class Connection {
 
             this.room = null;
 
-            this.subscriber.unsubscribe();
-            this.whisperSubscriber.unsubscribe();
+            this.unsubscribe();
+            this.unsubscribeWhisper();
         }
     }
 
@@ -119,7 +92,7 @@ export class Connection {
             ? `${this.room_key}:${whisper_to}`
             : this.room_key;
 
-        this.redis.publish(channel, JSON.stringify({
+        publish(channel, {
             sender: this.socket.id,
             action: {
                 type,
@@ -129,6 +102,6 @@ export class Connection {
                     sender: this.socket.id,
                 },
             },
-        }));
+        });
     }
 }

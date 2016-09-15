@@ -1,8 +1,9 @@
 import config from 'config';
-import connectRedis from 'connect-redis';
+import connectRedis, { MemoryStore } from 'connect-redis';
 import Session from 'express-session';
 import knexSessionStore from 'connect-session-knex';
 import Knex from 'knex';
+import redisClient from './redisClient';
 
 const getStore = (type) => {
     switch (type) {
@@ -13,12 +14,13 @@ const getStore = (type) => {
         return new Store({ knex });
     }
     case 'redis': {
-        const RedisStore = connectRedis(Session);
+        if (!redisClient) return getStore('memory');
 
-        return new RedisStore(config.get('redis'));
+        const RedisStore = connectRedis(Session);
+        return new RedisStore(redisClient);
     }
     default:
-        throw new Error(`Unsupported store type: ${type}`);
+        return new MemoryStore();
     }
 };
 

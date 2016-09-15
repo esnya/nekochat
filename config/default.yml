@@ -6,6 +6,8 @@ app:
 browser:
     debug: false
     feedback_form: https://docs.google.com/forms/d/1i3zWclkL6aY2mtqBC4EQhErGQaxWvGn84oUVHcE2S0w/viewform
+cache:
+    expire: 86400
 database:
     default:
         client: sqlite3
@@ -16,6 +18,7 @@ database:
         connection:
             filename: tmp/db.sqlite
 redis:
+    enabled: true
     host: localhost
 server:
     host: localhost
