@@ -50,7 +50,8 @@ export class Connection {
 
         this.touch(true);
         this.unsubscribe = subscribe(room_key, (...args) => this.onMessage(...args));
-        this.unsubscribeWhisper = subscribe(`${room_key}:${this.user.id}`, (...args) => this.onMessage(...args));
+        this.unsubscribeWhisper =
+            subscribe(`${room_key}:${this.user.id}`, (...args) => this.onMessage(...args));
     }
     leave() {
         if (this.room) {

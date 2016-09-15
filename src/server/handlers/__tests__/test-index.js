@@ -1,4 +1,10 @@
 describe('handlers', () => {
+    jest.setMock('config', {
+        get: jest.fn((path) => ({
+            redis: {},
+        }[path])),
+    });
+
     const icon = require('../icon').default;
     const typing = require('../typing').default;
     const message = require('../message').default;
