@@ -1,5 +1,7 @@
 describe('middlewares', () => {
     describe('toast', () => {
+        jest.useFakeTimers();
+
         jest.unmock('redux-actions');
         jest.unmock('redux-actions/lib/createAction');
 

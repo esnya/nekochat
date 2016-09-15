@@ -98,7 +98,7 @@
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-core": "^6.10.4",
-    "babel-jest": "^14.0.2",
+    "babel-jest": "^15.0.0",
     "babel-loader": "^6.2.4",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.9.0",
@@ -114,7 +114,7 @@
     "eslint-plugin-react": "^6.0.0",
     "exorcist": "^0.4.0",
     "jasmine-immutablejs-matchers": "^0.1.2",
-    "jest-cli": "^14.0.1",
+    "jest-cli": "^15.1.1",
     "mkdirp": "^0.5.1",
     "nodemon": "^1.9.2",
     "npm-run-all": "^2.1.1",
@@ -139,6 +139,7 @@
       "jsx"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/scripts/jest-setup.js",
+    "automock": true,
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/ansi-regex",
       "<rootDir>/node_modules/any-promise",
