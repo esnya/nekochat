@@ -55,7 +55,7 @@ const parseSimple = (str, results = []) => {
             const sum = eval(
                 diced
                     .replace(/,/g, '+')
-                    .replace(/[\[\] ]/g, '')
+                    .replace(/[[\] ]/g, '')
                     .slice(0, 0 - 1)
             );
 

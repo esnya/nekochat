@@ -21,7 +21,7 @@ export const notify = (notification) =>
         .then(() => {
             const {
             title,
-            ...options,
+            ...options
         } = notification;
 
             return new Notification(title, options);

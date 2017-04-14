@@ -22,7 +22,7 @@ const Dialog = (props) => {
         dialogs,
         onClose,
         onOK,
-        ...others,
+        ...others
     } = props;
 
     const dialog = dialogs.first();

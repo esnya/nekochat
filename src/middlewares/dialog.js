@@ -15,7 +15,7 @@ export default ({ dispatch, getState }) => (next) => (action) => {
 
     const {
         dialog,
-        ...meta,
+        ...meta
     } = action.meta;
 
     return next(open(dialog.type, {

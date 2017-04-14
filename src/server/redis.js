@@ -10,7 +10,7 @@ export class RedisClient extends redis.RedisClient {
     constructor() {
         const {
             enabled,
-            ...options,
+            ...options
         } = config.get('redis');
         if (!enabled) throw new Error('Redis is disabled');
 

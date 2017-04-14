@@ -3,7 +3,7 @@ import { RedisClient } from './redis';
 
 const {
     enabled,
-    ...options,
+    ...options
 } = config.get('redis');
 
 export default enabled ? new RedisClient(options) : null;
