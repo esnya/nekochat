@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
 import * as NodeType from '../../constants/NodeType';
+import BCDiceNode from './BCDiceNode';
 import MemoNode from './MemoNode';
 import Fluorite5Node from './Fluorite5Node';
 
 const Components = {
+    [NodeType.BCDICE]: BCDiceNode,
     [NodeType.MEMO]: MemoNode,
     [NodeType.FLUORITE5]: Fluorite5Node,
     [NodeType.FLUORITE5_ERROR]: Fluorite5Node,

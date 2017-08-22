@@ -5,6 +5,7 @@ import User from '../browser/user';
 import characters from './characters';
 import dialogs from './dialogs';
 import dom from './dom';
+import gameTypes from './gameTypes';
 import icons from './icons';
 import immutable from './immutable';
 import messages from './messages';
@@ -21,6 +22,7 @@ export default combineReducers({
     characters,
     dialogs,
     dom,
+    gameTypes,
     icons,
     messages,
     names,

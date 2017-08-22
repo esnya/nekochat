@@ -1,4 +1,5 @@
 import config from 'config';
+import './patch';
 import { runAll as runCleaner } from './cleaner';
 
 import './io';

@@ -56,9 +56,11 @@ const RoomListItem = (props) => {
                             <div>
                                 <div>{room.get('title')}</div>
                                 <div style={Style.Tagline}>
-                                    @{room.get('user_id')}
+                                    master: @{room.get('user_id')}
                                     &nbsp;
-                                    <Timestamp timestamp={room.get('modified')} tooltip={false} />
+                                    dice: {room.get('dice')}
+                                    &nbsp;
+                                    created: <Timestamp timestamp={room.get('created')} tooltip={false} />
                                 </div>
                             </div>
                             <div style={Style.Spacer} />

@@ -1,6 +1,8 @@
 import ExpressSocketIOSession from 'express-socket.io-session';
 import { getLogger } from 'log4js';
 import SocketIO from 'socket.io';
+import { gameTypes } from '../actions/dice';
+import { getGameTypes } from './bcdice';
 import { Connection } from './connection';
 import { server } from './server';
 import { session } from './session';
@@ -36,4 +38,5 @@ io.on('connect', (socket) => {
     });
 
     socket.emit('hello', socket.user);
+    socket.emit('action', gameTypes(getGameTypes()));
 });

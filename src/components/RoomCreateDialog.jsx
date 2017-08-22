@@ -6,6 +6,7 @@ import RoomEditForm from './RoomEditForm';
 export default class RoomCreateDialog extends Component {
     static get propTypes() {
         return {
+            gameTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
             open: PropTypes.bool.isRequired,
             onClose: PropTypes.func.isRequired,
             onCreateRoom: PropTypes.func.isRequired,
@@ -18,6 +19,7 @@ export default class RoomCreateDialog extends Component {
 
     render() {
         const {
+            gameTypes,
             open,
             onClose,
             onCreateRoom,
@@ -53,6 +55,7 @@ export default class RoomCreateDialog extends Component {
             >
                 <RoomEditForm
                     ref={(c) => (this.form = c)}
+                    gameTypes={gameTypes}
                     onSubmit={handleCreateRoom}
                 />
             </Dialog>
