@@ -11,12 +11,13 @@
     "test": "test"
   },
   "scripts": {
-    "postinstall": "npm run clean",
     "prestart": "node scripts/prestart.js",
     "start": "node .",
     "build": "run-p -l build:*",
     "build:babel": "babel -s true -d lib --ignore src/pegjs/*.js src",
-    "build:fluorite5": "pegjs --cache --allowed-start-rules Expression,VMFactory fluorite5/fluorite5.pegjs lib/pegjs/fluorite5.js",
+    "build:fluorite5": "run-s build:fluorite5:*",
+    "build:fluorite5:mkdir": "make-dir lib/pegjs",
+    "build:fluorite5:pegjs": "pegjs --cache --allowed-start-rules Expression,VMFactory fluorite5/fluorite5.pegjs lib/pegjs/fluorite5.js",
     "build:webpack": "webpack",
     "clean": "run-s -l clean:rimraf clean:mkdirp",
     "clean:rimraf": "rimraf coverage/* dist/js/* lib/*",
@@ -26,7 +27,7 @@
     "lint:scripts": "eslint --color -c ./eslint/scripts.yml --ignore-pattern src --ignore-pattern **/*.babel.js .",
     "lint:jest": "eslint --color -c ./eslint/jest.yml src/**/__tests__/**/*.js src/**/__mocks__/**/*.js",
     "test": "run-p -l test:*",
-    "test:jest": "jest --colors",
+    "test:jest": "cross-env SUPPRESS_NO_CONFIG_WARNING=true jest --colors",
     "watch": "run-p -l watch:*:* watch:server",
     "watch:build": "run-p -l watch:build:*",
     "watch:build:babel": "npm run -s build:babel -- -w",
@@ -47,6 +48,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.13.1",
+    "bcdice-js": "~0.2.0",
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
     "color-space": "^1.13.0",
@@ -92,6 +94,7 @@
     "socket.io": "^1.3.7",
     "socket.io-client": "^1.4.4",
     "source-map-support": "^0.4.0",
+    "sqlite3": "^3.1.9",
     "update-changelog": "^1.0.1",
     "why-did-you-update": "0.0.8"
   },
@@ -115,6 +118,7 @@
     "exorcist": "^0.4.0",
     "jasmine-immutablejs-matchers": "^0.1.2",
     "jest-cli": "^15.1.1",
+    "make-dir-cli": "^1.0.0",
     "mkdirp": "^0.5.1",
     "nodemon": "^1.9.2",
     "npm-run-all": "^2.1.1",

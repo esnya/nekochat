@@ -46,7 +46,7 @@ export default (client) => (next) => (action) => {
         const {
             nodes,
             results,
-        } = parseDice(payload.message || '');
+        } = parseDice(payload.message || '', client.room.dice);
 
         createMessage(client, {
             ...payload,

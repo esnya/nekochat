@@ -4,6 +4,7 @@ import * as NodeType from '../constants/NodeType';
 // eslint-disable-next-line import/no-unresolved
 import parser from '../pegjs/fluorite5';
 import { parseMods } from './flu5mods';
+import { executeBcDice } from './bcdice';
 
 const logger = getLogger('[dice]');
 const NUM_MAX = 9999;
@@ -90,7 +91,7 @@ const runFluorite5 = (formula, vm) => {
     }
 };
 
-export const parseDice = (str) => {
+function parseFluorite(str) {
     try {
         // ['text', ['flu5', function], ['flu5', function], 'text', ...]
         const parsed = parser.parse(str, {
@@ -149,4 +150,26 @@ export const parseDice = (str) => {
             results: [],
         };
     }
-};
+}
+
+function parseBCDie(str, gameType) {
+    const [result] = executeBcDice(gameType, str);
+
+    const resultNodes = result === '1'
+        ? []
+        : [[
+            { type: NodeType.BCDICE, text: gameType },
+            { type: NodeType.BCDICE, text: result },
+        ]];
+
+    return {
+        nodes:
+            str.split(/\n/g).map(line => [{ type: NodeType.TEXT, text: line }]).concat(resultNodes),
+        results: [],
+    };
+}
+
+export function parseDice(str, gameType) {
+    if (gameType === 'fluorite' || gameType === undefined) return parseFluorite(str);
+    return parseBCDie(str, gameType);
+}

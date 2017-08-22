@@ -39,7 +39,7 @@ describe('dice', () => {
             '\\$a = 100; $a * 10\\',
             '\\"text".length()\\',
             '\\1 ~ 3 --> $_ * 2 => "|".join\\',
-        ].map(parseDice);
+        ].map(message => parseDice(message));
 
         const expects = [
             '{1 + 20 - 7 * 2}=7',

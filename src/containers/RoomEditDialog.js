@@ -3,7 +3,8 @@ import { update } from '../actions/room';
 import RoomEditDialog from '../components/RoomEditDialog';
 
 export default connect(
-    ({ room }) => ({
+    ({ room, gameTypes }) => ({
+        gameTypes,
         room,
     }),
     (dispatch) => ({

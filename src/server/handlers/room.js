@@ -48,6 +48,7 @@ export default (client) => (next) => (action) => {
             .insert({
                 id: generateId(`${(new Date()).getTime()}`)
                     .substr(0, ID_LENGTH),
+                dice: payload.dice || null,
                 title: payload.title || null,
                 password: payload.password || null,
                 state: payload.state || 'open',
@@ -107,11 +108,13 @@ export default (client) => (next) => (action) => {
                     client.room.id,
                     client.user.id,
                     _(payload)
-                        .pick(['title', 'password', 'state'])
+                        .pick(['title', 'dice', 'password', 'state'])
                         .mapValues((a) => (a === '' ? null : a))
                         .value()
                 )
             .then((room) => {
+                // eslint-disable-next-line no-param-reassign
+                client.room = room;
                 client.emit(update(room));
                 client.publish(update(room));
             })
