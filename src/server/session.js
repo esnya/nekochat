@@ -17,7 +17,7 @@ const getStore = (type) => {
         if (!redisClient) return getStore('memory');
 
         const RedisStore = connectRedis(Session);
-        return new RedisStore(redisClient);
+        return new RedisStore({ client: redisClient });
     }
     default:
         return new MemoryStore();
