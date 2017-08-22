@@ -153,7 +153,7 @@ function parseFluorite(str) {
 }
 
 function parseBCDie(str, gameType) {
-    const [result] = executeBcDice(gameType, str);
+    const { result, diceResults } = executeBcDice(gameType, str);
 
     const resultNodes = result === '1'
         ? []
@@ -165,7 +165,7 @@ function parseBCDie(str, gameType) {
     return {
         nodes:
             str.split(/\n/g).map(line => [{ type: NodeType.TEXT, text: line }]).concat(resultNodes),
-        results: [],
+        results: diceResults.map(([value, faces]) => ({ faces, results: [value] })),
     };
 }
 

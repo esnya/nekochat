@@ -48,7 +48,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.13.1",
-    "bcdice-js": "~0.2.0",
+    "bcdice-js": "^0.3.0",
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
     "color-space": "^1.13.0",

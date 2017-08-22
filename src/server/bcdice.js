@@ -20,6 +20,13 @@ export function executeBcDice(gameType, message) {
     const diceBot = getDiceBot(gameType);
     bcdice.setDiceBot(diceBot);
     bcdice.setMessage(message);
+    bcdice.setCollectRandResult(true);
 
-    return bcdice.diceCommand();
+    const [result, secret] = bcdice.diceCommand();
+
+    return {
+        result,
+        secret,
+        diceResults: bcdice.getRandResults(),
+    };
 }
