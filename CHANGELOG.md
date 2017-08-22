@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [2.6.1] - 2017-08-22
 ### Changed
 - Update target Node.js version to 8.x
 ### Fixed
