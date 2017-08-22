@@ -68,7 +68,7 @@ class RedisCacheStore extends CacheStore {
 
     hset(key, field, value) {
         return this.redis.multi()
-            .hset(key, JSON.stringify(value))
+            .hset(key, field, JSON.stringify(value))
             .expire(key, this.expire)
             .execAsync();
     }
