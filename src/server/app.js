@@ -20,7 +20,7 @@ export const app = express();
 
 app.use(access);
 
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.use(session);
 
 app.get('/icon/:id', (req, res, next) => {
