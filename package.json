@@ -24,6 +24,7 @@
     "clean:mkdirp": "mkdirp dist/js lib lib/pegjs",
     "lint": "eslint --color src scripts webpack.config.babel.js",
     "test": "jest --color",
+    "travis-ci": "run-s lint test",
     "watch": "run-p -l watch:*:* watch:server",
     "watch:build:fluorite5": "nodemon -d 1 -w fluorite5 -e pegjs -x \"npm run build:fluorite5\"",
     "watch:build:webpack": "npm run build:webpack -- -w",
