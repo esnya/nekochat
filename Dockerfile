@@ -11,8 +11,7 @@ RUN npm i -g yarn
 
 RUN apk add --no-cache --update make gcc g++ python libexecinfo-dev
 
-RUN yarn install
-RUN yarn add sqlite3 mysql mysql2 mariasql
+RUN yarn
 
 RUN apk del make gcc g++ python libexecinfo-dev
 
