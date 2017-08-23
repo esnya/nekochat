@@ -46,7 +46,7 @@ class RedisPubSub extends PubSub {
         const subscriber = new RedisClient(config.get('redis'));
         subscriber.on(
             'message',
-            (rcvchannel, message) => listener(rcvchannel, JSON.parse(message))
+            (rcvchannel, message) => listener(rcvchannel, JSON.parse(message)),
         );
         subscriber.subscribe(channel);
 

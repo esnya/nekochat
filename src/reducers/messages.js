@@ -9,5 +9,5 @@ export default handleActions({
             (!payload.id ? state : state.push(fromJS(payload))),
     [LIST]: (state, { payload }) => fromJS(payload),
     [OLD]: (state, { payload }) => fromJS(payload).concat(state),
-    [LEAVE]: (state) => state.clear(),
+    [LEAVE]: state => state.clear(),
 }, new List());

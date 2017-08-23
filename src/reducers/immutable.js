@@ -1,3 +1,3 @@
 import { handleActions } from 'redux-actions';
 
-export default (initialValue) => handleActions({}, initialValue);
+export default initialValue => handleActions({}, initialValue);

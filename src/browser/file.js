@@ -13,7 +13,7 @@ export const readAsArrayBuffer = (file) => {
 };
 
 export const readAsBlob =
-    (file) => readAsArrayBuffer(file)
+    file => readAsArrayBuffer(file)
         .then(
-            (buffer) => new Blob([buffer], { type: file.type, name: file.name })
+            buffer => new Blob([buffer], { type: file.type, name: file.name }),
         );

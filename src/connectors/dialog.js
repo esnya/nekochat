@@ -24,16 +24,16 @@ export default (type, options) => connect(
             dialog,
         };
     },
-    (dispatch) => bindActionCreators({
+    dispatch => bindActionCreators({
         onOK,
         onClose,
     }, dispatch),
     (state, dispatch, own) => ({
         ...own,
         ...state,
-        ...mapValues(dispatch, (action) =>
-            () => state.dialog && action(state.dialog.get('id'))
+        ...mapValues(dispatch, action =>
+            () => state.dialog && action(state.dialog.get('id')),
         ),
     }),
-    options
+    options,
 );

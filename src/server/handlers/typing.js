@@ -3,7 +3,7 @@ import {
     UPDATE,
 } from '../../actions/typing';
 
-export default (client) => (next) => (action) => {
+export default client => next => (action) => {
     const { type, payload } = action;
 
     switch (type) {

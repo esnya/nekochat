@@ -7,6 +7,6 @@ import { open } from '../actions/dialog';
  * @param{object} options - Optons for connect
  * @returns{function} connector
  */
-export default (type, options) => connect(() => ({}), (dispatch) => ({
-    onOpenDialog: (data) => dispatch(open(type, data)),
+export default (type, options) => connect(() => ({}), dispatch => ({
+    onOpenDialog: data => dispatch(open(type, data)),
 }), options);

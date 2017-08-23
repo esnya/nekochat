@@ -10,7 +10,7 @@ const cleanTables = {
 const clean = (type, duration, hard) => {
     const timestamp = moment().subtract(duration).format();
 
-    const cleanMessages = (room) =>
+    const cleanMessages = room =>
         knex('messages')
             .where('room_id', room.id)
             .del()
@@ -20,7 +20,7 @@ const clean = (type, duration, hard) => {
         ? knex('rooms')
             .where('modified', '<', timestamp)
             .select()
-            .then((rooms) => Promise.all(rooms.map(cleanMessages)))
+            .then(rooms => Promise.all(rooms.map(cleanMessages)))
         : Promise.resolve();
 
     preprocess
@@ -37,11 +37,11 @@ const clean = (type, duration, hard) => {
         .then((affecteds) => {
             if (affecteds > 0) {
                 logger.info(
-                    `${hard ? 'hard' : 'soft'} deleted ${affecteds} ${type}(s)`
+                    `${hard ? 'hard' : 'soft'} deleted ${affecteds} ${type}(s)`,
                 );
             }
         })
-        .catch((e) => logger.error(e));
+        .catch(e => logger.error(e));
 };
 
 const run = (type, options) => {
@@ -68,5 +68,5 @@ const run = (type, options) => {
 
 export const runAll = (cleaners) => {
     Object.keys(cleaners)
-        .forEach((key) => run(key, cleaners[key]));
+        .forEach(key => run(key, cleaners[key]));
 };

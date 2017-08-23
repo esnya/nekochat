@@ -9,31 +9,31 @@ import {
 import { genId } from '../../utility/id';
 import { Icon } from '../models/icon';
 
-export default (client) => (next) => (action) => {
+export default client => next => (action) => {
     const { type, payload } = action;
 
     switch (type) {
     case UPLOAD:
         Promise.all(
             // eslint-disable-next-line no-shadow
-                payload.map(({ name, type, data }) => Icon
-                    .insert({
-                        id: genId(),
-                        user_id: client.user.id || null,
-                        name: name || null,
-                        type: type || null,
-                        data: data || null,
-                    })
-                    .then((icon) => client.emit(create(icon)))
-                )
-            )
-            .catch((e) => client.logger.error(e));
+            payload.map(({ name, type, data }) => Icon
+                .insert({
+                    id: genId(),
+                    user_id: client.user.id || null,
+                    name: name || null,
+                    type: type || null,
+                    data: data || null,
+                })
+                .then(icon => client.emit(create(icon))),
+            ),
+        )
+            .catch(e => client.logger.error(e));
         break;
     case FETCH:
         Icon
             .findAll('user_id', client.user.id)
-            .then((icons) => client.emit(list(icons)))
-            .catch((e) => client.logger.error(e));
+            .then(icons => client.emit(list(icons)))
+            .catch(e => client.logger.error(e));
         break;
     case REMOVE:
         Icon
@@ -42,7 +42,7 @@ export default (client) => (next) => (action) => {
                 user_id: client.user.id,
             })
             .then(() => payload.id)
-            .catch((e) => client.logger.error(e));
+            .catch(e => client.logger.error(e));
         break;
     case BULK_REMOVE:
         payload
@@ -54,7 +54,7 @@ export default (client) => (next) => (action) => {
                         user_id: client.user.id,
                     })
                     .then(() => payload.id)
-                    .catch((e) => client.logger.error(e));
+                    .catch(e => client.logger.error(e));
             });
         break;
 

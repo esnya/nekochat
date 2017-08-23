@@ -7,18 +7,18 @@ import {
 } from '../components/icon-edit-dialog/icon-edit-dialog';
 
 export const IconEditDialog = connect(
-    (state) => ({
+    state => ({
         iconList: state.iconList,
         open: Boolean(getDialog(state, 'icon-edit')),
     }),
-    (dispatch) => ({
+    dispatch => ({
         onClose: () => dispatch(close('icon-edit')),
         onUploadIcon: (e) => {
             const iconData = e.target;
 
             if (iconData.files.length === 0) return;
 
-            map(iconData.files, (a) => a).forEach((file) => {
+            map(iconData.files, a => a).forEach((file) => {
                 dispatch(create({
                     name: file.name,
                     mime: file.type,
@@ -28,7 +28,7 @@ export const IconEditDialog = connect(
 
             iconData.value = '';
         },
-        onRemove: (icon) => dispatch(remove(icon)),
+        onRemove: icon => dispatch(remove(icon)),
         onRemoveSelected: (e, icons) => dispatch(removeSelected(icons)),
-    })
+    }),
 )(Component);

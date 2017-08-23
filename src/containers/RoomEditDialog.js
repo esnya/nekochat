@@ -7,7 +7,7 @@ export default connect(
         gameTypes,
         room,
     }),
-    (dispatch) => ({
+    dispatch => ({
         onUpdateRoom: (e, room) => dispatch(update(room)),
-    })
+    }),
 )(RoomEditDialog);

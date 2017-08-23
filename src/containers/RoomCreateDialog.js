@@ -4,7 +4,7 @@ import RoomCreateDialog from '../components/RoomCreateDialog';
 
 export default connect(
     ({ gameTypes }) => ({ gameTypes }),
-    (dispatch) => ({
+    dispatch => ({
         onCreateRoom: (e, room) => dispatch(create(room)),
-    })
+    }),
 )(RoomCreateDialog);

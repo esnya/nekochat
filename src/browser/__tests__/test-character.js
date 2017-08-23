@@ -50,7 +50,9 @@ describe('browser', () => {
                 icon: 'icon.png',
             };
             let r1;
-            const mock1 = new Promise((resolve) => (r1 = resolve));
+            const mock1 = new Promise((resolve) => {
+                r1 = resolve;
+            });
 
             axios.mockClear();
             axios.mockReturnValue(mock1);

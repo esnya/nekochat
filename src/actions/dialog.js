@@ -9,7 +9,7 @@ export const open = createAction(OPEN, (type, dialog) => ({
 }));
 
 export const OK = 'DIALOG_OK';
-export const ok = createAction(OK, (id) => id);
+export const ok = createAction(OK, id => id);
 
 export const CLOSE = 'DIALOG_CLOSE';
-export const close = createAction(CLOSE, (id) => id);
+export const close = createAction(CLOSE, id => id);

@@ -109,7 +109,7 @@ describe('Model', () => {
 
     it('rejects when item does not found', () => {
         query.then.mockImplementation(
-            (callback) => Promise.resolve(null).then(callback)
+            callback => Promise.resolve(null).then(callback),
         );
 
         return new Model('items')
@@ -128,16 +128,16 @@ describe('Model', () => {
         query.then.mockImplementation(
             (cb1) => {
                 query.then.mockImplementation(
-                    (cb2) => Promise.resolve({
+                    cb2 => Promise.resolve({
                         id: 'id3',
                         value: 'item3',
                         created: _now,
                         modified: _now,
-                    }).then(cb2)
+                    }).then(cb2),
                 );
 
                 return Promise.resolve([2]).then(cb1);
-            }
+            },
         );
 
         return new Model('items')
@@ -166,16 +166,16 @@ describe('Model', () => {
         query.then.mockImplementation(
             (cb1) => {
                 query.then.mockImplementation(
-                    (cb2) => Promise.resolve({
+                    cb2 => Promise.resolve({
                         id: 4,
                         value: 'item4',
                         created: _now,
                         modified: _now,
-                    }).then(cb2)
+                    }).then(cb2),
                 );
 
                 return Promise.resolve([4]).then(cb1);
-            }
+            },
         );
 
         return new Model('items')

@@ -4,7 +4,7 @@ import RoomCreateButton from '../components/RoomCreateButton';
 
 export default connect(
     () => ({}),
-    (dispatch) => ({
+    dispatch => ({
         onCreateRoom: () => dispatch(open('room-create')),
-    })
+    }),
 )(RoomCreateButton);

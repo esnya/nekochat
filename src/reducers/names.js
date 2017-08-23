@@ -13,11 +13,11 @@ export default handleActions({
     [CREATE]: (state, { payload }) => state.push(new Map(payload)),
     [UPDATE]: (state, { payload }) =>
         state.map(
-            (name) => (name.get('id') === payload.id ? new Map(payload) : name)
+            name => (name.get('id') === payload.id ? new Map(payload) : name),
         ),
     [REMOVE]: (state, { payload }) => {
         if (state.size > 1) {
-            return state.filter((name) => name.get('id') !== payload.id);
+            return state.filter(name => name.get('id') !== payload.id);
         }
 
         return INITIAL_STATE;

@@ -1,8 +1,8 @@
-export const notify = (notification) =>
+export const notify = notification =>
     new Promise((resolve, reject) => {
         if (!('Notification' in window)) {
             return reject(new Error(
-                'Borwser does support system notification'
+                'Borwser does support system notification',
             ));
         } else if (Notification.permission === 'granted') {
             return resolve();
@@ -20,9 +20,9 @@ export const notify = (notification) =>
     })
         .then(() => {
             const {
-            title,
-            ...options
-        } = notification;
+                title,
+                ...options
+            } = notification;
 
             return new Notification(title, options);
         });

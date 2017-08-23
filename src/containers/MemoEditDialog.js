@@ -6,7 +6,7 @@ export default connect(
     ({ room }) => ({
         memo: room && room.get('memo'),
     }),
-    (dispatch) => ({
+    dispatch => ({
         onUpdateMemo: (e, memo) => dispatch(update(memo)),
-    })
+    }),
 )(MemoEditDialog);

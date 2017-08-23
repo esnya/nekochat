@@ -1,6 +1,6 @@
 describe('connection', () => {
     jest.setMock('config', {
-        get: jest.fn((path) => ({
+        get: jest.fn(path => ({
             redis: {},
         }[path])),
     });

@@ -6,9 +6,9 @@ export default connect(
     ({ dialogs }) => ({
         dialogs,
     }),
-    (dispatch) => ({
+    dispatch => ({
         onOK: (e, id) => dispatch(ok(id)),
         onCalcel: (e, id) => dispatch(cancel(id)),
         onClose: (e, id) => dispatch(close(id)),
-    })
+    }),
 )(Dialog);

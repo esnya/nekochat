@@ -27,7 +27,7 @@ export class MessageModel extends Model {
 
             return {
                 ...item,
-                message: item.message.split(/\r\n|\n/g).map((line) => ([{
+                message: item.message.split(/\r\n|\n/g).map(line => ([{
                     type: TEXT,
                     text: line,
                 }])),
@@ -53,14 +53,14 @@ export class MessageModel extends Model {
     findAll(room_id, user_id, ...finder) {
         return this
             .findAllImpl(room_id, user_id, ...finder)
-            .then((messages) => messages.map(this.transform));
+            .then(messages => messages.map(this.transform));
     }
 
     findLimit(room_id, user_id, ...finder) {
         return this
             .findAllImpl(room_id, user_id, ...finder)
             .limit(20)
-            .then((messages) => messages.map(this.transform));
+            .then(messages => messages.map(this.transform));
     }
 
     find(...finder) {
@@ -75,14 +75,14 @@ export class MessageModel extends Model {
             .min('id as first_message')
             .count('id as messages')
             .first()
-            .then((info) => info || { first_messge: null, messages: 0 });
+            .then(info => info || { first_messge: null, messages: 0 });
     }
 
     insert(data) {
         return Room
             .find('id', data.room_id)
             .then(({ user_id, state }) =>
-                state === 'open' || user_id === data.user_id
+                state === 'open' || user_id === data.user_id,
             )
             .then((insertable) => {
                 if (!insertable) {

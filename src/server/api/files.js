@@ -11,19 +11,19 @@ export default router;
 const types = config.get('file.types');
 const maxSize = unformatSI(config.get('file.maxSize'));
 
-router.get('/:id', ({ params, user }, res, next) =>
+router.get('/:id', ({ params }, res, next) =>
     knex('files')
         .where({
             id: params.id,
         })
         .whereNull('deleted')
         .first()
-        .then(file => {
+        .then((file) => {
             if (!file) return res.sendStatus(404);
 
             return res.type(file.type).send(file.data);
         })
-        .catch(next)
+        .catch(next),
 );
 
 // eslint-disable-next-line consistent-return
@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
     let sizeOver = false;
 
     const chunks = [];
-    req.on('data', chunk => {
+    req.on('data', (chunk) => {
         if (!sizeOver) {
             size += chunk.length;
 

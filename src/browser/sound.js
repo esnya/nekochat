@@ -9,7 +9,7 @@ export const init = () => {
         window.removeEventListener('touchstart', init);
 
         ['notice-sound', 'dice3d-sound']
-            .map((id) => document.getElementById(id))
+            .map(id => document.getElementById(id))
             .forEach((audio) => {
                 const onEnded = () => {
                     audio.removeEventListener('ended', onEnded);

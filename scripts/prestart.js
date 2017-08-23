@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint no-console: off */
 
 const { spawn } = require('child_process');
@@ -19,6 +17,7 @@ const client = aliases[clientConf] || clientConf;
 try {
     console.log('checking module', client);
 
+    // eslint-disable-next-line global-require, import/no-dynamic-require
     require(client);
 
     console.log(client, 'is already installed.');
@@ -31,7 +30,7 @@ try {
     const child = spawn(
         npm,
         ['install', client],
-        { stdio: 'inherit' }
+        { stdio: 'inherit' },
     );
-    child.on('exit', (code) => process.exit(code));
+    child.on('exit', code => process.exit(code));
 }

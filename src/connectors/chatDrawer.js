@@ -6,7 +6,7 @@ export default connect(
         open: ui.get('drawer'),
         room,
     }),
-    (dispatch) => ({
-        onRequestChange: (state) => dispatch(drawer(state)),
-    })
+    dispatch => ({
+        onRequestChange: state => dispatch(drawer(state)),
+    }),
 );

@@ -17,7 +17,7 @@ export default ({ dispatch, getState }) => {
         }
     };
 
-    return (next) => (action) => {
+    return next => (action) => {
         const {
             type,
             payload,

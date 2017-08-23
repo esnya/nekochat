@@ -1,6 +1,6 @@
 describe('handlers', () => {
     jest.setMock('config', {
-        get: jest.fn((path) => ({
+        get: jest.fn(path => ({
             redis: {},
         }[path])),
     });
@@ -21,8 +21,8 @@ describe('handlers', () => {
             room,
         ];
 
-        handlers.map((handler) => handler.mockImplementation(
-            () => (next) => (action) => next(action)
+        handlers.map(handler => handler.mockImplementation(
+            () => next => action => next(action),
         ));
 
         const client = {

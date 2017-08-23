@@ -5,3 +5,4 @@ fluorite5
 lib
 node_modules
 tmp
+__mocks__

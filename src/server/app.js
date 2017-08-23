@@ -25,12 +25,12 @@ app.use(session);
 
 app.get('/icon/:id', (req, res, next) => {
     Icon.find('id', req.params.id)
-        .then((icon) => res.type(icon.type).send(icon.data))
+        .then(icon => res.type(icon.type).send(icon.data))
         .catch(next);
 });
 app.get('/file/:id', (req, res, next) => {
     File.find('id', req.params.id)
-        .then((file) => res.type(file.type).send(file.data))
+        .then(file => res.type(file.type).send(file.data))
         .catch(next);
 });
 app.use('/api', api);
@@ -47,23 +47,23 @@ app.use('/src', express.static('src'));
 
 const staticView = (req, res, next) => {
     getUser(req.session)
-        .then((user) => Room
+        .then(user => Room
             .join(req.params.roomId, req.body && req.body.password)
-            .then((room) => ({ room, user }))
+            .then(room => ({ room, user })),
         )
         .then(({ room, user }) => Message
             .findAll(room.id, user.id)
-            .then((messages) => ({
+            .then(messages => ({
                 ...room,
                 messages: messages
                     .reverse()
-                    .map((message) => ({
+                    .map(message => ({
                         ...message,
                         modified: moment(message.modified).format('lll'),
                     })),
-            }))
+            })),
         )
-        .then((result) => res.render('static', {
+        .then(result => res.render('static', {
             ...result,
             ga: config.has('ga') &&
                 `GA_CONFIG = ${JSON.stringify(config.get('ga'))};`,
@@ -91,12 +91,12 @@ const renderIndex = (res, user = null) =>
     res.render('index', {
         config: browser,
         script: process.env.NODE_ENV === 'production'
-                    ? 'js/browser.min.js'
-                    : 'js/browser.js',
+            ? 'js/browser.min.js'
+            : 'js/browser.js',
         ga: config.has('ga') &&
                     `GA_CONFIG = ${JSON.stringify(config.get('ga'))};`,
         user,
-    }
+    },
     );
 
 app.get('/logout', (req, res, next) => {
@@ -136,7 +136,7 @@ app.post('/guest', urlencoded({ extended: false }), (req, res, next) => {
 
 app.get(['/', '/:roomId'], (req, res, next) =>
     getUser(req.session)
-        .then((user) => renderIndex(res, user))
+        .then(user => renderIndex(res, user))
         .catch((e) => {
             if (config.get('app.guest') && e === NOT_FOUND) {
                 return res.redirect('/guest');
@@ -144,5 +144,5 @@ app.get(['/', '/:roomId'], (req, res, next) =>
 
             logger.error(e);
             return next(e);
-        })
+        }),
 );

@@ -35,7 +35,7 @@ export const createMessage = (client, message) =>
             return data;
         });
 
-export default (client) => (next) => (action) => {
+export default client => next => (action) => {
     const {
         type,
         payload,
@@ -62,17 +62,17 @@ export default (client) => (next) => (action) => {
         if (!action.payload) {
             Message
                 .findLimit(client.room.id, client.user.id)
-                .then((messages) => client.emit(list(messages.reverse())))
-                .catch((e) => client.logger.error(e));
+                .then(messages => client.emit(list(messages.reverse())))
+                .catch(e => client.logger.error(e));
         } else {
             Message
                 .findLimit(
-                        client.room.id,
-                        client.user.id,
-                        'id', '<', action.payload
-                    )
-                .then((messages) => client.emit(old(messages.reverse())))
-                .catch((e) => client.logger.error(e));
+                    client.room.id,
+                    client.user.id,
+                    'id', '<', action.payload,
+                )
+                .then(messages => client.emit(old(messages.reverse())))
+                .catch(e => client.logger.error(e));
         }
         break;
 

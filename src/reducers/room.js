@@ -13,5 +13,5 @@ const update =
 export default handleActions({
     [JOIN]: update,
     [UPDATE]: update,
-    [LEAVE]: (state) => state.clear(),
+    [LEAVE]: state => state.clear(),
 }, new Map());

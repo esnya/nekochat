@@ -4,5 +4,5 @@ import MessageFormList from '../components/MessageFormList';
 export default connect(
     ({ names }) => ({
         names,
-    })
+    }),
 )(MessageFormList);

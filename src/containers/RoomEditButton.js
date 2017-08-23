@@ -4,7 +4,7 @@ import RoomEditButton from '../components/RoomEditButton';
 
 export default connect(
     () => ({}),
-    (dispatch) => ({
+    dispatch => ({
         onEditRoom: () => dispatch(open('room-edit')),
-    })
+    }),
 )(RoomEditButton);

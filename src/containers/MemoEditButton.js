@@ -4,7 +4,7 @@ import MemoEditButton from '../components/MemoEditButton';
 
 export default connect(
     () => ({}),
-    (dispatch) => ({
+    dispatch => ({
         onEditMemo: () => dispatch(open('memo-edit')),
-    })
+    }),
 )(MemoEditButton);

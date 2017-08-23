@@ -8,6 +8,6 @@ export default handleActions({
             (!payload.id ? state : state.unshift(new Map(payload))),
     [REMOVE]:
         (state, { payload }) =>
-            state.filter((room) => room.get('id') !== payload.id),
+            state.filter(room => room.get('id') !== payload.id),
     [LIST]: (state, { payload }) => fromJS(payload),
 }, new List());

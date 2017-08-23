@@ -3,7 +3,7 @@ import { template } from 'lodash';
 import localStorage from '../browser/localStorage';
 
 export default (stateKey, storageKey) =>
-    ({ getState }) => (next) => (action) => {
+    ({ getState }) => next => (action) => {
         const prev = getState()[stateKey];
 
         // eslint-disable-next-line callback-return
@@ -14,7 +14,7 @@ export default (stateKey, storageKey) =>
         if (!Immutable.is(prev, state)) {
             localStorage.setItem(
                 template(storageKey)(getState()),
-                JSON.stringify(state.toJS())
+                JSON.stringify(state.toJS()),
             );
         }
 

@@ -29,7 +29,7 @@ export function get(url) {
     })
         .then(
             ({ data }) =>
-                (typeof (data) === 'object' ? data : Promise.reject(data))
+                (typeof (data) === 'object' ? data : Promise.reject(data)),
         )
         .then((data) => {
             const link = data.url ? new URL(data.url, url) : url;
@@ -46,7 +46,9 @@ export function get(url) {
         .then((character) => {
             cache[url].forEach(({ resolve }) => resolve(character));
 
-            return (cache[url] = character);
+            cache[url] = character;
+
+            return character;
         })
         .catch((e) => {
             cache[url].forEach(({ reject }) => reject(e));

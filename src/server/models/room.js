@@ -17,7 +17,7 @@ export class RoomModel extends Model {
     findAll() {
         return super
             .findAll()
-            .then((items) => items.map(this.transform));
+            .then(items => items.map(this.transform));
     }
 
     find(...finder) {

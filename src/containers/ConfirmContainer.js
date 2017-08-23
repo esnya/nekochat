@@ -5,5 +5,5 @@ import { Confirm } from '../components/Confirm';
 
 export const ConfirmContainer = connect(
     ({ confirmList }) => ({ confirmList }),
-    (dispatch) => bindActionCreators({ ok, cancel }, dispatch)
+    dispatch => bindActionCreators({ ok, cancel }, dispatch),
 )(Confirm);

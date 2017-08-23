@@ -3,7 +3,7 @@ import { push } from 'redux-router';
 
 export default connect(
     () => ({}),
-    (dispatch) => ({
-        onPushLocation: (path) => dispatch(push(path)),
-    })
+    dispatch => ({
+        onPushLocation: path => dispatch(push(path)),
+    }),
 );

@@ -1,8 +1,44 @@
----
-extends: ./eslint/common.yml
-env:
-    jasmine: true
-    jest: true
+extends: airbnb
+parserOptions:
+  exmaVersion: 7
+  ecmaFeatures:
+    experimentalObjectRestSpread: true
+  sourceType: module
 rules:
-    global-require: off
-    strict: off
+  indent:
+    - error
+    - 4
+    - MemberExpression: 1
+  react/jsx-indent:
+    - error
+    - 4
+  react/jsx-indent-props:
+    - error
+    - 4
+  class-methods-use-this: off
+  no-mixed-operators: off
+  no-template-curly-in-string: off
+  no-plusplus: off
+# ToDO
+  import/prefer-default-export: off
+
+overrides:
+  - files:
+      - "src/browser/**/*.js"
+    env:
+      browser: true
+  - files: 
+      - "**/__tests__/**/*.js*"
+      - "**/__mocks__/**/*.js*"
+    env:
+      jest: true
+    parserOptions:
+      sourceType: script
+    rules:
+      global-require: off
+  - files:
+      - "scripts/**/*.js"
+    parserOptions:
+      sourceType: script
+    # rules:
+    #   global-require: off

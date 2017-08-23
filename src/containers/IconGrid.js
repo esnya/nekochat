@@ -8,15 +8,15 @@ import { update } from '../actions/name';
 export default connect(
     ({ names, icons }, { name_id }) => {
         const name =
-            name_id && names.find((n) => n.get('id') === name_id);
+            name_id && names.find(n => n.get('id') === name_id);
 
         return {
             name,
             icons,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         onFetchIcons: () => dispatch(fetch()),
         onUpdateName: (e, name) => dispatch(update(name)),
-    })
+    }),
 )(IconGrid);

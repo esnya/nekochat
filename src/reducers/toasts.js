@@ -6,5 +6,5 @@ export default handleActions({
     [CREATE]: (state, { payload }) => state.push(new Map(payload)),
     [REMOVE]:
         (state, { payload }) =>
-            state.filter((toast) => toast.get('id') !== payload.id),
+            state.filter(toast => toast.get('id') !== payload.id),
 }, new List());

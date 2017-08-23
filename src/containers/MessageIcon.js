@@ -19,7 +19,7 @@ export default connect(
             typing,
         };
     },
-    (dispatch) => bindActionCreators({
+    dispatch => bindActionCreators({
         getCharacter,
-    }, dispatch)
+    }, dispatch),
 )(MessageIcon);

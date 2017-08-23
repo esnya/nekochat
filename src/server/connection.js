@@ -16,7 +16,7 @@ export class Connection {
     initSocket(socket) {
         this.socket = socket;
 
-        socket.on('action', (action) => this.dispatch(action));
+        socket.on('action', action => this.dispatch(action));
     }
 
     onMessage(channel, { action, sender }) {
@@ -44,7 +44,8 @@ export class Connection {
         this.leave();
         this.room = room;
 
-        const room_key = this.room_key = `nekochat:${room.id}`;
+        const room_key = `nekochat:${room.id}`;
+        this.room_key = room_key;
 
         this.touch(true);
         this.unsubscribe = subscribe(room_key, (...args) => this.onMessage(...args));
@@ -65,8 +66,8 @@ export class Connection {
     dispatch(action) {
         logger.info('action', this.user.id, this.socket.id, action.type);
 
-        return new Promise((resolve) =>
-            handle(this)(resolve)(action)
+        return new Promise(resolve =>
+            handle(this)(resolve)(action),
         );
     }
     emit(action) {

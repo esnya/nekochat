@@ -21,7 +21,7 @@ export const makeColor = (data) => {
     const rgb = space
         .yuv
         .rgb(yuv)
-        .map((a) => Math.round(a));
+        .map(a => Math.round(a));
 
     return `rgb(${rgb.join(',')})`;
 };

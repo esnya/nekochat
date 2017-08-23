@@ -41,9 +41,9 @@ const parseSimple = (str, results = []) => {
                 results.push({ faces: eye, results: r });
 
                 if (num > 1) {
-                    if (r.every((n) => n === 1)) {
+                    if (r.every(n => n === 1)) {
                         status = '(1ゾロ)';
-                    } else if (r.every((n) => n === eye)) {
+                    } else if (r.every(n => n === eye)) {
                         status = `(${eye}ゾロ)`;
                     }
                 }
@@ -56,11 +56,11 @@ const parseSimple = (str, results = []) => {
                 diced
                     .replace(/,/g, '+')
                     .replace(/[[\] ]/g, '')
-                    .slice(0, 0 - 1)
+                    .slice(0, 0 - 1),
             );
 
             return exp + diced + sum + status;
-        }
+        },
     );
 
     return { text, results };
@@ -108,7 +108,7 @@ function parseFluorite(str) {
         const dice = [];
 
         const nodes = parsed.map(line =>
-            line.map(src => {
+            line.map((src) => {
                 if (typeof (src) === 'string') {
                     const {
                         text,
@@ -132,7 +132,7 @@ function parseFluorite(str) {
                 const node = runFluorite5(src, vm);
                 dice.push(node.dice);
                 return node;
-            })
+            }),
         );
 
         return {

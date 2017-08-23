@@ -14,7 +14,7 @@ export default connect(
         name,
         state: room.get('state'),
     }),
-    (dispatch) => ({
+    dispatch => ({
         onCreateName: (e, name) => dispatch(create(name)),
         onEditName: (e, name_id) => dispatch(open('name-edit', { name_id })),
         onRemoveName: (e, id) => dispatch(remove({ id })),
@@ -28,5 +28,5 @@ export default connect(
             message: null,
             file,
         })),
-    })
+    }),
 )(MessageForm);

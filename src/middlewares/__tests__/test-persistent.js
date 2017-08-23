@@ -28,7 +28,7 @@ describe('middlewares', () => {
 
             middleware(
                 'test',
-                'nekochat:${room.get("id")}:test'
+                'nekochat:${room.get("id")}:test',
             )({ getState })(next)(action);
 
             expect(next.mock.calls).toEqual([[action]]);

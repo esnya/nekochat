@@ -45,18 +45,18 @@ describe('Message', () => {
                         .where
                         .mock
                         .calls
-                        .length
+                        .length,
                 ).toBe(2);
                 const callback = query
                     .where
                     .mock
                     .calls
-                    .find((call) => typeof (call[0]) === 'function')[0];
+                    .find(call => typeof (call[0]) === 'function')[0];
                 const finder = query
                     .where
                     .mock
                     .calls
-                    .find((call) => typeof (call[0]) !== 'function');
+                    .find(call => typeof (call[0]) !== 'function');
                 expect(finder).toEqual(['id', '>', 0]);
 
                 const query2 = {};
@@ -71,7 +71,7 @@ describe('Message', () => {
                         .where
                         .mock
                         .calls
-                        .concat(query2.orWhere.mock.calls)
+                        .concat(query2.orWhere.mock.calls),
                 ).toEqual([
                     ['whisper_to', 'user1'],
                     ['user_id', 'user1'],
@@ -81,7 +81,7 @@ describe('Message', () => {
                         .whereNull
                         .mock
                         .calls
-                        .concat(query2.orWhereNull.mock.calls)
+                        .concat(query2.orWhereNull.mock.calls),
                 ).toEqual([
                     ['whisper_to'],
                 ]);

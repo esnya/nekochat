@@ -4,7 +4,7 @@ import config from '../browser/config';
 
 let diceCounter = 0;
 
-export default () => (next) => (action) => {
+export default () => next => (action) => {
     if (action.type === ROLL) {
         const {
             faces,

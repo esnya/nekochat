@@ -7,8 +7,8 @@ export default connect(
     ({ room }) => ({
         room,
     }),
-    (dispatch) => ({
+    dispatch => ({
         onEditRoom: () => dispatch(open('room-edit')),
         onOpenDrawer: () => dispatch(drawer(true)),
-    })
+    }),
 )(ChatAppBar);

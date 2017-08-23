@@ -4,7 +4,7 @@ import { fetch } from '../actions/message';
 import MessageList from '../components/MessageList';
 
 export default connect(
-    (state) => ({
+    state => ({
         ...pick(state, [
             'messages',
             'rooms',
@@ -12,7 +12,7 @@ export default connect(
         ]),
         first_message: state.room.get('first_message'),
     }),
-    (dispatch) => ({
-        onFetchLog: (minId) => dispatch(fetch(minId)),
-    })
+    dispatch => ({
+        onFetchLog: minId => dispatch(fetch(minId)),
+    }),
 )(MessageList);

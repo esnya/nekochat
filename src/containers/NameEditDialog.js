@@ -6,7 +6,7 @@ import NameEditDialog from '../components/NameEditDialog';
 export default connect(
     ({ names, characters }, { dialog, ...others }) => {
         const id = dialog && dialog.get('name_id');
-        const name = dialog && names.find((n) => n.get('id') === id);
+        const name = dialog && names.find(n => n.get('id') === id);
         const characterUrl = name && name.get('character_url');
         const character = characterUrl && characters.get(characterUrl);
 
@@ -16,8 +16,8 @@ export default connect(
             character,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         onUpdateName: (e, name) => dispatch(update(name.toJS())),
         onUploadIcons: (e, files) => dispatch(upload(files)),
-    })
+    }),
 )(NameEditDialog);

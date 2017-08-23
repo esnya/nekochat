@@ -10,12 +10,12 @@ export default handleActions({
         : state.unshift(new Map(payload))),
     [REMOVE]:
         (state, { payload }) =>
-            remove(state, (icon) => icon.get('id') !== payload.id),
+            remove(state, icon => icon.get('id') !== payload.id),
     [BULK_REMOVE]:
         (state, { payload }) =>
             remove(
                 state,
-                (icon) => !payload.find(({ id }) => id === icon.get('id'))
+                icon => !payload.find(({ id }) => id === icon.get('id')),
             ),
     [LIST]: (state, { payload }) => fromJS(payload),
 }, new List());

@@ -1,6 +1,4 @@
-/* eslint-env jasmine */
-
-'use strict';
+/* eslint-env jest, jasmine */
 
 jest.unmock('immutable');
 jest.unmock('jasmine-immutablejs-matchers');
@@ -10,7 +8,7 @@ require('jasmine-immutablejs-matchers');
 beforeEach(() => {
     jasmine.addMatchers({
         isEmpty: () => ({
-            compare: (actual) => ({
+            compare: actual => ({
                 pass: actual.isEmpty(),
             }),
         }),

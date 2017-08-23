@@ -6,8 +6,8 @@ import pushLocation from './pushLocation';
 
 export default compose(
     pushLocation,
-    connect(() => ({}), (dispatch) => ({
-        onJoinRoom: (room) => dispatch(join(room)),
+    connect(() => ({}), dispatch => ({
+        onJoinRoom: room => dispatch(join(room)),
     })),
-    dialog('room-password')
+    dialog('room-password'),
 );

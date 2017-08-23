@@ -32,7 +32,7 @@ export class Model {
             .whereNull('deleted')
             .where(...finder)
             .first()
-            .then((item) => item || Promise.reject(NOT_FOUND));
+            .then(item => item || Promise.reject(NOT_FOUND));
     }
 
     insert(data) {
@@ -44,8 +44,8 @@ export class Model {
                 created: now,
                 modified: now,
             })
-            .then((ids) => data.id || ids[0])
-            .then((id) => this.find('id', id));
+            .then(ids => data.id || ids[0])
+            .then(id => this.find('id', id));
     }
 
     // eslint-disable-next-line max-params, camelcase

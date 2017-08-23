@@ -9,5 +9,5 @@ export default compose(
         createHistory,
     }),
     applyMiddleware(...middlewares),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+    window.devToolsExtension ? window.devToolsExtension() : f => f,
 )(createStore)(reducer);

@@ -4,7 +4,7 @@ import UserList from '../components/UserList';
 
 export default connect(
     ({ users }) => ({ users }),
-    (dispatch) => ({
+    dispatch => ({
         onFetchUsers: () => dispatch(fetch()),
-    })
+    }),
 )(UserList);

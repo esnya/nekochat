@@ -24,7 +24,7 @@ describe('middlewares', () => {
 
             middleware({})(next)(action);
 
-            const filterCalls = (call) => call.slice(0, 2);
+            const filterCalls = call => call.slice(0, 2);
 
             expect(dice3d.mock.calls.map(filterCalls)).toEqual([[6, 3]]);
 
@@ -34,7 +34,7 @@ describe('middlewares', () => {
 
             expect(dice3d.mock.calls.length).toBe(20);
 
-            callbacks.forEach((callback) => callback());
+            callbacks.forEach(callback => callback());
 
             dice3d.mockClear();
 

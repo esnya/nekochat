@@ -36,11 +36,11 @@ import { createMessage } from './message';
 
 const ID_LENGTH = 16;
 
-export default (client) => (next) => (action) => {
+export default client => next => (action) => {
     const {
         payload,
         type,
-   } = action;
+    } = action;
 
     switch (type) {
     case CREATE:
@@ -54,13 +54,13 @@ export default (client) => (next) => (action) => {
                 state: payload.state || 'open',
                 user_id: client.user.id || null,
             })
-            .then((room) => client.emit(create(room)))
-            .catch((e) => client.logger.error(e));
+            .then(room => client.emit(create(room)))
+            .catch(e => client.logger.error(e));
         break;
     case JOIN:
         Room
             .join(payload.id, payload.password || null)
-            .then((room) => Message.getRoomInfo(room.id).then((info) => ({
+            .then(room => Message.getRoomInfo(room.id).then(info => ({
                 ...room,
                 ...info,
             })))
@@ -75,12 +75,12 @@ export default (client) => (next) => (action) => {
             .catch((e) => {
                 if (e === PASSWORD_INCORRECT) {
                     return Room.find('id', payload.id)
-                        .then((room) => client.emit(password(room)));
+                        .then(room => client.emit(password(room)));
                 }
 
                 return Promise.reject(e);
             })
-            .catch((e) => client.logger.error(e));
+            .catch(e => client.logger.error(e));
         break;
     case LEAVE:
         client.dispatch(fetch());
@@ -90,8 +90,8 @@ export default (client) => (next) => (action) => {
     case FETCH:
         Room
             .findAll()
-            .then((rooms) => client.emit(list(rooms)))
-            .catch((e) => client.logger.error(e));
+            .then(rooms => client.emit(list(rooms)))
+            .catch(e => client.logger.error(e));
         break;
     case REMOVE:
         Room
@@ -100,25 +100,25 @@ export default (client) => (next) => (action) => {
                 user_id: client.user.id || null,
             })
             .then(() => {})
-            .catch((e) => client.logger.error(e));
+            .catch(e => client.logger.error(e));
         break;
     case UPDATE:
         Room
             .update(
-                    client.room.id,
-                    client.user.id,
-                    _(payload)
-                        .pick(['title', 'dice', 'password', 'state'])
-                        .mapValues((a) => (a === '' ? null : a))
-                        .value()
-                )
+                client.room.id,
+                client.user.id,
+                _(payload)
+                    .pick(['title', 'dice', 'password', 'state'])
+                    .mapValues(a => (a === '' ? null : a))
+                    .value(),
+            )
             .then((room) => {
                 // eslint-disable-next-line no-param-reassign
                 client.room = room;
                 client.emit(update(room));
                 client.publish(update(room));
             })
-            .catch((e) => client.logger.error(e));
+            .catch(e => client.logger.error(e));
         break;
     case UFETCH:
         if (!client.room) break;
@@ -131,12 +131,12 @@ export default (client) => (next) => (action) => {
             }
 
             client.emit(ulist(
-                    _(obj)
-                        .values()
-                        .map((json) => JSON.parse(json))
-                        .orderBy(['login', 'timestamp'], ['desc', 'desc'])
-                        .value()
-                ));
+                _(obj)
+                    .values()
+                    .map(json => JSON.parse(json))
+                    .orderBy(['login', 'timestamp'], ['desc', 'desc'])
+                    .value(),
+            ));
         });
         break;
 
@@ -148,7 +148,7 @@ export default (client) => (next) => (action) => {
                 client.room.id,
                 client.user.id,
                 { memo: payload || null },
-                true
+                true,
             )
             .then((room) => {
                 client.emit(update(room));
@@ -158,13 +158,13 @@ export default (client) => (next) => (action) => {
                     name: 'MEMO',
                     message: JSON.stringify(room.memo
                         .split(/\r\n|\n/)
-                        .map((line) => [{
+                        .map(line => [{
                             type: NodeType.MEMO,
                             text: line,
                         }])),
                 });
             })
-            .catch((e) => client.logger.error(e));
+            .catch(e => client.logger.error(e));
         break;
 
     default: break;

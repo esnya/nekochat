@@ -1,11 +1,11 @@
 import { open, OK } from '../actions/dialog';
 
-export default ({ dispatch, getState }) => (next) => (action) => {
+export default ({ dispatch, getState }) => next => (action) => {
     if (action.type === OK) {
         const id = action.payload;
         const dialog = getState()
             .dialogs
-            .find((d) => d.get('id') === id);
+            .find(d => d.get('id') === id);
         const nextAction = dialog.get('next');
 
         dispatch(nextAction);

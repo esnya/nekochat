@@ -1,9 +1,8 @@
 {
-    "presets": [
-        "es2015",
-        "es2016",
-        "react",
-        "stage-0"
+    presets: [
+        'env',
+        'react',
+        'stage-3',
     ],
-    "sourceRoot": "/src"
+    sourceRoot: '/src',
 }
