@@ -1,4 +1,0 @@
----
-extends: ./common.yml
-parserOptions:
-    sourceType: module
