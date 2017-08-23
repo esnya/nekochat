@@ -31,7 +31,7 @@
     "watch:lint": "npm run lint -- -w",
     "watch:test": "npm run test -- -w",
     "watch:server": "nodemon -d 1 -w src --ignore src/browser --ignore **/__tests --ignore **/__mocks__ --exec \"babel-node src/server\"",
-    "production": "run-s -l clean lint:* test:* build:* prod:*",
+    "production": "run-s -l clean lint test build:* prod:*",
     "prod:webpack": "cross-env NODE_ENV=production webpack",
     "version": "update-changelog && git add CHANGELOG.md"
   },
