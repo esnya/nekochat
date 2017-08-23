@@ -1,11 +1,9 @@
 /* eslint camelcase: "off" */
 
-import { getLogger } from 'log4js';
 import cacheStore from './cacheStore';
+import { system as logger } from './logger';
 import { publish, subscribe } from './pubsub';
 import { handle } from './handlers';
-
-const logger = getLogger('[connection]');
 
 export class Connection {
     constructor(socket, user) {

@@ -1,20 +1,20 @@
 const mockApp = {
-    use: jest.genMockFn(),
-    set: jest.genMockFn(),
-    get: jest.genMockFn(),
-    post: jest.genMockFn(),
+    use: jest.fn(),
+    set: jest.fn(),
+    get: jest.fn(),
+    post: jest.fn(),
 };
 
-const express = jest.genMockFn().mockReturnValue(mockApp);
-express.static = jest.genMockFn();
+const express = jest.fn().mockReturnValue(mockApp);
+express.static = jest.fn();
 express.mockApp = mockApp;
 
 express.Router = jest.fn();
 express.Router.prototype = {
-    use: jest.genMockFn(),
-    set: jest.genMockFn(),
-    get: jest.genMockFn(),
-    post: jest.genMockFn(),
+    use: jest.fn(),
+    set: jest.fn(),
+    get: jest.fn(),
+    post: jest.fn(),
 };
 
 module.exports = express;

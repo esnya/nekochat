@@ -21,7 +21,7 @@ describe('handlers', () => {
             room,
         ];
 
-        handlers.map((handler) => handler.mockImpl(
+        handlers.map((handler) => handler.mockImplementation(
             () => (next) => (action) => next(action)
         ));
 

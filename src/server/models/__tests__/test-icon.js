@@ -12,7 +12,7 @@ describe('Icon', () => {
         expect(Model).toBeCalledWith('icons', 'name', 'ASC');
     });
 
-    pit('finds all', () => {
+    it('finds all', () => {
         const result = [
             { id: 'icon1', name: 'icon1.png' },
         ];

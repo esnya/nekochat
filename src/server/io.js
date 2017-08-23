@@ -1,15 +1,14 @@
 import ExpressSocketIOSession from 'express-socket.io-session';
-import { getLogger } from 'log4js';
 import SocketIO from 'socket.io';
 import { gameTypes } from '../actions/dice';
 import { getGameTypes } from './bcdice';
 import { Connection } from './connection';
+import { system as logger } from './logger';
 import { server } from './server';
 import { session } from './session';
 import { getUser } from './user';
 
-const logger = getLogger('[SOCKET]');
-
+logger.info('Socket.IO server starting');
 export const io = new SocketIO(server);
 
 io.use(new ExpressSocketIOSession(session, { autoSave: true }));
@@ -40,3 +39,4 @@ io.on('connect', (socket) => {
     socket.emit('hello', socket.user);
     socket.emit('action', gameTypes(getGameTypes()));
 });
+logger.info('Socket.IO server started');

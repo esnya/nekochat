@@ -1,12 +1,10 @@
 import bodyParser from 'body-parser';
 import { Router } from 'express';
 import { defaults } from 'lodash';
-import { getLogger } from 'log4js';
 import moment from 'moment';
-import knex from '../knex';
 import { genId } from '../../utility/id';
-
-const logger = getLogger('[API]');
+import knex from '../knex';
+import { system as logger } from '../logger';
 
 const TIMESTAMP_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const getNow = () => moment().format(TIMESTAMP_FORMAT);

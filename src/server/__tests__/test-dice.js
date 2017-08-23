@@ -8,13 +8,13 @@ describe('dice', () => {
     let random;
     beforeEach(() => {
         random = Math.random;
-        Math.random = jest.genMockFn();
+        Math.random = jest.fn();
     });
     afterEach(() => {
         Math.random = random;
     });
 
-    pit('replaces dice', () => {
+    it('replaces dice', () => {
         Math.random
             .mockReturnValueOnce(5 / 6)
             .mockReturnValueOnce(4 / 6);

@@ -1,1 +1,1 @@
-module.exports = jest.genMockFn();
+module.exports = jest.fn();

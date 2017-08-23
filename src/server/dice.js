@@ -1,12 +1,11 @@
 import { flatten } from 'lodash';
-import { getLogger } from 'log4js';
 import * as NodeType from '../constants/NodeType';
 // eslint-disable-next-line import/no-unresolved
 import parser from '../pegjs/fluorite5';
 import { parseMods } from './flu5mods';
 import { executeBcDice } from './bcdice';
+import { system as logger } from './logger';
 
-const logger = getLogger('[dice]');
 const NUM_MAX = 9999;
 
 const parseSimple = (str, results = []) => {

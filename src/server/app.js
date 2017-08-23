@@ -1,7 +1,6 @@
 import { urlencoded } from 'body-parser';
 import config from 'config';
 import express from 'express';
-import { getLogger } from 'log4js';
 import Livereload from 'connect-livereload';
 import moment from 'moment';
 import { File } from './models/file';
@@ -11,13 +10,15 @@ import { NOT_FOUND } from './models/model';
 import { Room, PASSWORD_INCORRECT } from './models/room';
 import { User } from './models/user';
 import api from './api';
+import { access, system as logger } from './logger';
 import { session } from './session';
 import { getUser } from './user';
 
 const browser = config.get('browser');
-const logger = getLogger('[app]');
 
 export const app = express();
+
+app.use(access);
 
 app.set('view engine', 'jade');
 app.use(session);
@@ -113,7 +114,6 @@ app.get('/guest', (req, res, next) => {
 });
 app.post('/guest', urlencoded({ extended: false }), (req, res, next) => {
     if (!config.get('app.guest')) return next();
-
 
     const guest = {
         id: req.body.id,

@@ -1,10 +1,10 @@
 const mockServer = jest.fn();
 mockServer.prototype = {
-    listen: jest.genMockFn(),
-    address: jest.genMockFn(),
-    listeners: jest.genMockFn().mockImpl(() => []),
-    removeAllListeners: jest.genMockFn(),
-    on: jest.genMockFn(),
+    listen: jest.fn(),
+    address: jest.fn(),
+    listeners: jest.fn().mockImplementation(() => []),
+    removeAllListeners: jest.fn(),
+    on: jest.fn(),
 };
 
 module.exports = {

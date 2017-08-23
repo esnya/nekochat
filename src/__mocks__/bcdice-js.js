@@ -9,5 +9,5 @@ const DiceBotLoader = jest.fn();
 DiceBotLoader.collectDiceBots = jest.fn();
 DiceBotLoader.loadUnknownGame = jest.fn();
 
-
 BCDice.DiceBotLoader = DiceBotLoader;
+BCDice.BCDice = BCDice;

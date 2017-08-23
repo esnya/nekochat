@@ -1,7 +1,7 @@
 import bluebird from 'bluebird';
 import config from 'config';
 import redis from 'redis';
-import { redis as logger } from './logger';
+import { system as logger } from './logger';
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);

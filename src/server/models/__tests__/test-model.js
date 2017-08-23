@@ -20,20 +20,20 @@ describe('Model', () => {
     beforeEach(() => {
         query = {};
 
-        query.where = jest.genMockFn()
+        query.where = jest.fn()
             .mockReturnValue(query);
-        query.whereNull = jest.genMockFn()
+        query.whereNull = jest.fn()
             .mockReturnValue(query);
-        query.orderBy = jest.genMockFn()
+        query.orderBy = jest.fn()
             .mockReturnValue(query);
-        query.first = jest.genMockFn()
+        query.first = jest.fn()
             .mockReturnValue(query);
-        query.insert = jest.genMockFn()
+        query.insert = jest.fn()
             .mockReturnValue(query);
-        query.update = jest.genMockFn()
+        query.update = jest.fn()
             .mockReturnValue(query);
 
-        query.then = jest.genMockFn();
+        query.then = jest.fn();
 
         knex.mockClear();
         knex.mockReturnValue(query);
@@ -46,7 +46,7 @@ describe('Model', () => {
         };
     });
 
-    pit('lists all of items which have not been deleted', () => {
+    it('lists all of items which have not been deleted', () => {
         query.then.mockReturnValueOnce(Promise.resolve([
             { id: 0 },
             { id: 1 },
@@ -67,7 +67,7 @@ describe('Model', () => {
             });
     });
 
-    pit('lists all of items with conditions', () => {
+    it('lists all of items with conditions', () => {
         query.then.mockReturnValueOnce(Promise.resolve([
             { id: 1 },
             { id: 2 },
@@ -87,7 +87,7 @@ describe('Model', () => {
             });
     });
 
-    pit('finds one item', () => {
+    it('finds one item', () => {
         query.then.mockReturnValueOnce(Promise.resolve({
             id: 1,
             value: 'test-2',
@@ -107,8 +107,8 @@ describe('Model', () => {
             });
     });
 
-    pit('rejects when item does not found', () => {
-        query.then.mockImpl(
+    it('rejects when item does not found', () => {
+        query.then.mockImplementation(
             (callback) => Promise.resolve(null).then(callback)
         );
 
@@ -124,10 +124,10 @@ describe('Model', () => {
             });
     });
 
-    pit('creates new item by insert', () => {
-        query.then.mockImpl(
+    it('creates new item by insert', () => {
+        query.then.mockImplementation(
             (cb1) => {
-                query.then.mockImpl(
+                query.then.mockImplementation(
                     (cb2) => Promise.resolve({
                         id: 'id3',
                         value: 'item3',
@@ -162,10 +162,10 @@ describe('Model', () => {
             });
     });
 
-    pit('creates new item by insert with autoincrements', () => {
-        query.then.mockImpl(
+    it('creates new item by insert with autoincrements', () => {
+        query.then.mockImplementation(
             (cb1) => {
-                query.then.mockImpl(
+                query.then.mockImplementation(
                     (cb2) => Promise.resolve({
                         id: 4,
                         value: 'item4',
@@ -198,7 +198,7 @@ describe('Model', () => {
             });
     });
 
-    pit('updates item', () => {
+    it('updates item', () => {
         query.update = jest.fn().mockReturnValue(Promise.resolve({
             id: 'item6',
             value: 'valuevalue',
@@ -223,7 +223,7 @@ describe('Model', () => {
             });
     });
 
-    pit('updates not owned item', () => {
+    it('updates not owned item', () => {
         query.update = jest.fn().mockReturnValue(Promise.resolve({
             id: 'item6',
             value: 'valuevalue',
@@ -247,7 +247,7 @@ describe('Model', () => {
             });
     });
 
-    pit('deletes item', () => {
+    it('deletes item', () => {
         query.then.mockReturnValue(Promise.resolve());
 
         return new Model('items')

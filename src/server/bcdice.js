@@ -1,5 +1,12 @@
 import _ from 'lodash';
-import BCDice, { DiceBotLoader } from 'bcdice-js';
+import { system as logger } from './logger';
+
+logger.info('BCDice initializing');
+
+const {
+    BCDice,
+    DiceBotLoader,
+} = require('bcdice-js');
 
 const DiceBotTable = _(DiceBotLoader.collectDiceBots())
     .map(diceBot => [diceBot.gameType(), diceBot])
@@ -30,3 +37,4 @@ export function executeBcDice(gameType, message) {
         diceResults: bcdice.getRandResults(),
     };
 }
+logger.info('BCDice initialized');

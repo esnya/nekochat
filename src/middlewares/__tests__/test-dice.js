@@ -17,7 +17,7 @@ describe('middlewares', () => {
 
         it('rolls dice', () => {
             const callbacks = [];
-            dice3d.mockImpl((f, r, c) => callbacks.push(c));
+            dice3d.mockImplementation((f, r, c) => callbacks.push(c));
 
             const next = jest.fn();
             const action = roll({ faces: 6, results: [3] });

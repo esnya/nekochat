@@ -1,9 +1,6 @@
-import { getLogger } from 'log4js';
 import moment from 'moment';
-
 import knex from './knex';
-
-const logger = getLogger('[data-cleaner]');
+import { system as logger } from './logger';
 
 const cleanTables = {
     file: 'files',

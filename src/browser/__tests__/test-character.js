@@ -6,7 +6,7 @@ describe('browser', () => {
         jest.unmock('../character');
         const { get } = require('../character');
 
-        pit('is to get chracter', () => {
+        it('is to get chracter', () => {
             const url = 'http://example.com/path';
             const data = {
                 name: 'Name',
@@ -24,7 +24,7 @@ describe('browser', () => {
                 });
         });
 
-        pit('has cach', () => {
+        it('has cach', () => {
             const url = 'http://example.com/path';
             const data = {
                 name: 'Name',
@@ -43,7 +43,7 @@ describe('browser', () => {
                 });
         });
 
-        pit('requests only one session', () => {
+        it('requests only one session', () => {
             const url = 'http://example.com/path2';
             const data = {
                 name: 'Name2',
@@ -81,7 +81,7 @@ describe('browser', () => {
                 });
         });
 
-        pit('reject not JSON', () => {
+        it('reject not JSON', () => {
             const msg = 'err';
 
             axios.mockClear();

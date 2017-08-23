@@ -1,4 +1,4 @@
-const mockStore = jest.genMockFn();
+const mockStore = jest.fn();
 
-module.exports = jest.genMockFn().mockReturnValue(mockStore);
+module.exports = jest.fn().mockReturnValue(mockStore);
 module.exports.mockStore = mockStore;

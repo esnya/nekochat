@@ -16,7 +16,7 @@ describe('Room', () => {
         expect(Model).toBeCalledWith('rooms');
     });
 
-    pit('lists all rooms', () => {
+    it('lists all rooms', () => {
         findAll.mockClear();
         findAll.mockReturnValueOnce(Promise.resolve([
             { id: 'id1', title: 'title1', password: null },
@@ -36,7 +36,7 @@ describe('Room', () => {
             });
     });
 
-    pit('finds room', () => {
+    it('finds room', () => {
         find.mockClear();
         find.mockReturnValueOnce(Promise.resolve({
             id: 'id4', title: 'title4', password: 'pass',
@@ -52,7 +52,7 @@ describe('Room', () => {
             });
     });
 
-    pit('accepts to join into room', () => {
+    it('accepts to join into room', () => {
         find.mockClear();
         find.mockReturnValueOnce(Promise.resolve({
             id: 'id5', title: 'title5', password: null,
@@ -71,7 +71,7 @@ describe('Room', () => {
             });
     });
 
-    pit('accepts to join into room with password', () => {
+    it('accepts to join into room with password', () => {
         find.mockClear();
         find.mockReturnValueOnce(Promise.resolve({
             id: 'id6', title: 'title6', password: 'pwd',
@@ -90,7 +90,7 @@ describe('Room', () => {
             });
     });
 
-    pit('rejects to join into room with incorrect password', () => {
+    it('rejects to join into room with incorrect password', () => {
         find.mockClear();
         find.mockReturnValueOnce(Promise.resolve({
             id: 'id7', title: 'title7', password: 'pass',

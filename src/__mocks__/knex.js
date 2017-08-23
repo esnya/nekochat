@@ -1,13 +1,13 @@
-const mockKnex = jest.genMockFn();
+const mockKnex = jest.fn();
 mockKnex.schema = {
-    createTableIfNotExists: jest.genMockFn().mockReturnValue(Promise.resolve()),
+    createTableIfNotExists: jest.fn().mockReturnValue(Promise.resolve()),
 };
 mockKnex.migrate = {
-    latest: jest.genMockFn().mockReturnValue(Promise.resolve()),
+    latest: jest.fn().mockReturnValue(Promise.resolve()),
 };
 mockKnex.seed = {
-    run: jest.genMockFn().mockReturnValue(Promise.resolve()),
+    run: jest.fn().mockReturnValue(Promise.resolve()),
 };
 
-const Knex = module.exports = jest.genMockFn().mockReturnValue(mockKnex);
+const Knex = module.exports = jest.fn().mockReturnValue(mockKnex);
 Knex.mockKnex = mockKnex;

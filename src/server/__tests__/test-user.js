@@ -6,7 +6,7 @@ describe('user', () => {
     jest.unmock('../user');
     const { getUser } = require('../user');
 
-    pit('gets user from session', () => {
+    it('gets user from session', () => {
         const session = {
             passport: {
                 user: 'user1',
@@ -28,7 +28,7 @@ describe('user', () => {
             });
     });
 
-    pit('gets guest user', () => {
+    it('gets guest user', () => {
         config.get.mockReturnValue(true);
         User.find.mockReturnValue(Promise.reject(NOT_FOUND));
 

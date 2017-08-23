@@ -21,7 +21,7 @@ describe('Message', () => {
         expect(Model).toBeCalledWith('messages', 'id', 'DESC');
     });
 
-    pit('finds top 20 messages in room', () => {
+    it('finds top 20 messages in room', () => {
         const query = Promise.resolve([
             { id: 1, message: 'msg1' },
             { id: 2, message: 'msg2\nline' },
@@ -30,8 +30,8 @@ describe('Message', () => {
                 message: '[[{"type": "NODE_TYPE_TEXT", "text": "msg3"}]]',
             },
         ]);
-        query.limit = jest.genMockFn().mockReturnValue(query);
-        query.where = jest.genMockFn().mockReturnValue(query);
+        query.limit = jest.fn().mockReturnValue(query);
+        query.where = jest.fn().mockReturnValue(query);
         findAll.mockReturnValue(query);
 
         return Message
@@ -60,10 +60,10 @@ describe('Message', () => {
                 expect(finder).toEqual(['id', '>', 0]);
 
                 const query2 = {};
-                query2.where = jest.genMockFn().mockReturnValue(query2);
-                query2.orWhere = jest.genMockFn().mockReturnValue(query2);
-                query2.orWhereNull = jest.genMockFn().mockReturnValue(query2);
-                query2.whereNull = jest.genMockFn().mockReturnValue(query2);
+                query2.where = jest.fn().mockReturnValue(query2);
+                query2.orWhere = jest.fn().mockReturnValue(query2);
+                query2.orWhereNull = jest.fn().mockReturnValue(query2);
+                query2.whereNull = jest.fn().mockReturnValue(query2);
                 callback.call(query2);
 
                 expect(
@@ -118,7 +118,7 @@ describe('Message', () => {
             });
     });
 
-    pit('finds all messages', () => {
+    it('finds all messages', () => {
         const result = [
             { id: 1, message: 'msg1' },
             { id: 2, message: 'msg2\nline' },
@@ -128,7 +128,7 @@ describe('Message', () => {
             },
         ];
         const query = Promise.resolve(result);
-        query.where = jest.genMockFn().mockReturnValue(query);
+        query.where = jest.fn().mockReturnValue(query);
         findAll.mockReturnValue(query);
 
         return Message.findAll('room1', 'user1')
@@ -165,10 +165,10 @@ describe('Message', () => {
             });
     });
 
-    pit('finds message', () => {
+    it('finds message', () => {
         const result = { id: 1, message: 'msg1' };
         const query = Promise.resolve(result);
-        query.where = jest.genMockFn().mockReturnValue(query);
+        query.where = jest.fn().mockReturnValue(query);
         find.mockReturnValue(query);
 
         return Message.find('id', 1)
@@ -205,7 +205,7 @@ describe('Message', () => {
         }
     });
 
-    pit('inserts message', () => {
+    it('inserts message', () => {
         Room.find.mockClear();
         Room.find.mockReturnValue(Promise.resolve({
             id: 'room1',
@@ -236,7 +236,7 @@ describe('Message', () => {
         });
     });
 
-    pit('forbit to insert message on closed room', () => {
+    it('forbit to insert message on closed room', () => {
         Room.find.mockClear();
         Room.find.mockReturnValue(Promise.resolve({
             id: 'room2',

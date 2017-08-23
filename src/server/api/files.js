@@ -1,17 +1,15 @@
 import config from 'config';
 import { Router } from 'express';
 import { unformatSI } from 'format-si-prefix';
-import { getLogger } from 'log4js';
 import { genId } from '../../utility/id';
 import knex from '../knex';
+import { system as logger } from '../logger';
 
 const router = new Router();
 export default router;
 
 const types = config.get('file.types');
 const maxSize = unformatSI(config.get('file.maxSize'));
-
-const logger = getLogger('[API:files]');
 
 router.get('/:id', ({ params, user }, res, next) =>
     knex('files')

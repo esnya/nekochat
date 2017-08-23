@@ -1,7 +1,7 @@
 const io = module.exports = jest.genMockFromModule('socket.io-client');
 
 const mockSocket = module.exports.mockSocket = {
-    on: jest.genMockFn(),
+    on: jest.fn(),
 };
 
 io.connect.mockReturnValue(mockSocket);
