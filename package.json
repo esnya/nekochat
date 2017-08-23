@@ -91,7 +91,7 @@
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-core": "^6.10.4",
-    "babel-loader": "6.4.1",
+    "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.11.1",
@@ -109,7 +109,7 @@
     "nodemon": "^1.9.2",
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.5.3",
-    "webpack": "1.15.0"
+    "webpack": "^3.5.5"
   },
   "jest": {
     "roots": [

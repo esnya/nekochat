@@ -6,11 +6,10 @@ const DEBUG = process.env.NODE_ENV !== 'production';
 
 export default {
     cache: DEBUG,
-    debug: DEBUG,
-    devtool: '#source-map',
+    devtool: 'source-map',
     entry: './src/browser/index.js',
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
@@ -23,11 +22,18 @@ export default {
         filename: DEBUG ? 'browser.js' : 'browser.min.js',
     },
     plugins: DEBUG ? [] : [
-        new webpack.optimize.UglifyJsPlugin(),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true,
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: true,
+            },
+            sourceMap: true,
+        }),
     ],
     resolve: {
         extensions: [
-            '',
             '.js',
             '.jsx',
         ],
