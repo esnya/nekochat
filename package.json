@@ -13,7 +13,7 @@
   "scripts": {
     "start": "node .",
     "build": "run-p -l build:*",
-    "build:babel": "babel -s true -d lib --ignore src/pegjs/*.js --ignore src/**/__tests__/**/*.js --ignore src/**/__mocks__/**/*.js src",
+    "build:babel": "babel -s true -d lib --ignore src/pegjs/*.js --ignore src/**/*.test.js --ignore src/**/__mocks__/**/*.js src",
     "build:fluorite5": "run-s build:fluorite5:*",
     "build:fluorite5:mkdir": "make-dir lib/pegjs",
     "build:fluorite5:pegjs": "pegjs --cache --allowed-start-rules Expression,VMFactory -o lib/pegjs/fluorite5.js fluorite5/fluorite5.pegjs",

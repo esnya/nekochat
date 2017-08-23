@@ -28,7 +28,7 @@ overrides:
     env:
       browser: true
   - files: 
-      - "**/__tests__/**/*.js*"
+      - "**/*.test.js*"
       - "**/__mocks__/**/*.js*"
     env:
       jest: true
