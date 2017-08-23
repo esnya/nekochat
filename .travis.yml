@@ -1,6 +1,8 @@
 language: node_js
 node_js: 8
 env:
-  - SUPPRESS_NO_CONFIG_WARNING=y
+  - SUPPRESS_NO_CONFIG_WARNING=y NODE_ENV=test NODE_CONFIG='{"redis":{"enabled":false},"session":{"store":"database"}}'
+  - SUPPRESS_NO_CONFIG_WARNING=y NODE_ENV=test NODE_CONFIG='{"redis":{"enabled":false},"session":{"store":"memory"}}'
+  - SUPPRESS_NO_CONFIG_WARNING=y NODE_ENV=test NODE_CONFIG='{"redis":{"enabled":true},"session":{"store":"redis"}}'
 script: npm run travis-ci
 after_success: cat ./coverage/lcov.info | coveralls
