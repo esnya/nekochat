@@ -2,7 +2,6 @@ import promise from 'redux-promise';
 import dialog from './dialog';
 import dice from './dice';
 import notification from './notification';
-import routing from './routing';
 import socket from './socket';
 import sound from './sound';
 import persistent from './persistent';
@@ -14,7 +13,6 @@ const middlewares = [
     dialog,
     dice,
     notification,
-    routing,
     socket,
     sound,
     toast,

@@ -9,7 +9,7 @@ import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 import MoreVert from 'material-ui/svg-icons/navigation/more-vert';
 import React, { PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
-import { Link } from 'react-router';
+import { Link } from 'redux-tower/lib/react';
 import { pureRender } from '../utility/enhancer';
 
 const DialogFeatures = {

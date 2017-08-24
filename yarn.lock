@@ -1687,10 +1687,6 @@ decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
 
-deep-equal@^1.0.0, deep-equal@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
-
 deep-extend@~0.4.0:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.4.2.tgz#48b699c27e334bf89f10892be432f6e4c7d34a7f"
@@ -1816,6 +1812,10 @@ dom-helpers@^3.2.0:
 domain-browser@^1.1.1:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.1.7.tgz#867aa4b093faa05f1de08c06f4d7b21fdf8698bc"
+
+domain-specific-saga@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/domain-specific-saga/-/domain-specific-saga-0.0.1.tgz#f645b71960f5b4376a95a1751a1f8bd42403c4b8"
 
 double-ended-queue@^2.1.0-0:
   version "2.1.0-0"
@@ -2851,14 +2851,15 @@ hipchat-notifier@^1.1.0:
     lodash "^4.0.0"
     request "^2.0.0"
 
-history@2.1.2, history@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/history/-/history-2.1.2.tgz#4aa2de897a0e4867e4539843be6ecdb2986bfdec"
+history@^4.5.0, history@^4.7.2:
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/history/-/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"
   dependencies:
-    deep-equal "^1.0.0"
-    invariant "^2.0.0"
-    query-string "^3.0.0"
-    warning "^2.0.0"
+    invariant "^2.2.1"
+    loose-envify "^1.2.0"
+    resolve-pathname "^2.2.0"
+    value-equal "^0.4.0"
+    warning "^3.0.0"
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -2872,7 +2873,7 @@ hoek@2.x.x:
   version "2.16.3"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed"
 
-hoist-non-react-statics@^1.0.0, hoist-non-react-statics@^1.2.0:
+hoist-non-react-statics@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
 
@@ -5059,17 +5060,11 @@ qs@~6.2.0:
   version "6.2.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.2.3.tgz#1cfcb25c10a9b2b483053ff39f5dfc9233908cfe"
 
-query-string@^3.0.0:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/query-string/-/query-string-3.0.3.tgz#ae2e14b4d05071d4e9b9eb4873c35b0dcd42e638"
-  dependencies:
-    strict-uri-encode "^1.0.0"
-
 querystring-es3@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/querystring-es3/-/querystring-es3-0.2.1.tgz#9ec61f79049875707d69414596fd907a4d711e73"
 
-querystring@0.2.0:
+querystring@0.2.0, querystring@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
 
@@ -5170,16 +5165,6 @@ react-redux@^5.0.6:
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
-
-react-router@^2.6.0:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-2.8.1.tgz#73e9491f6ceb316d0f779829081863e378ee4ed7"
-  dependencies:
-    history "^2.1.2"
-    hoist-non-react-statics "^1.2.0"
-    invariant "^2.2.1"
-    loose-envify "^1.2.0"
-    warning "^3.0.0"
 
 react-tap-event-plugin@^2.0.1:
   version "2.0.1"
@@ -5354,17 +5339,28 @@ redux-actions@^2.2.1:
     lodash-es "^4.17.4"
     reduce-reducers "^0.1.0"
 
+redux-devtools-extension@^2.13.2:
+  version "2.13.2"
+  resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.2.tgz#e0f9a8e8dfca7c17be92c7124958a3b94eb2911d"
+
 redux-promise@^0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/redux-promise/-/redux-promise-0.5.3.tgz#e97e6c9d3bf376eacb79babe6d906da20112d6d8"
   dependencies:
     flux-standard-action "^0.6.1"
 
-redux-router@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/redux-router/-/redux-router-2.1.2.tgz#034724bad08f41baf754db4d22e2d858adb64f11"
+redux-saga@^0.15.6:
+  version "0.15.6"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.15.6.tgz#8638dc522de6c6c0a496fe8b2b5466287ac2dc4d"
+
+redux-tower@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/redux-tower/-/redux-tower-0.0.6.tgz#83c0917810cb74f2c948f28033989193634c0818"
   dependencies:
-    deep-equal "^1.0.1"
+    domain-specific-saga "^0.0.1"
+    history "^4.5.0"
+    querystring "^0.2.0"
+    ruta3 "^2.0.1"
 
 redux@^3.0.5:
   version "3.7.2"
@@ -5538,6 +5534,10 @@ resolve-from@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-1.0.1.tgz#26cbfe935d1aeeeabb29bc3fe5aeb01e93d44226"
 
+resolve-pathname@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/resolve-pathname/-/resolve-pathname-2.2.0.tgz#7e9ae21ed815fd63ab189adeee64dc831eefa879"
+
 resolve@1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
@@ -5579,6 +5579,10 @@ run-async@^2.2.0:
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.3.0.tgz#0371ab4ae0bdd720d4166d7dfda64ff7a445a6c0"
   dependencies:
     is-promise "^2.1.0"
+
+ruta3@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/ruta3/-/ruta3-2.0.1.tgz#b40efa789e6cfce0abf3a5a38bf64cb45abdc18e"
 
 rx-lite-aggregates@^4.0.8:
   version "4.0.8"
@@ -5929,10 +5933,6 @@ streamroller@^0.5.2:
     debug "^2.6.8"
     mkdirp "^0.5.1"
     readable-stream "^2.3.0"
-
-strict-uri-encode@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz#279b225df1d582b1f54e65addd4352e18faa0713"
 
 string-length@^1.0.0, string-length@^1.0.1:
   version "1.0.1"
@@ -6344,6 +6344,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
 
+value-equal@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/value-equal/-/value-equal-0.4.0.tgz#c5bdd2f54ee093c04839d71ce2e4758a6890abc7"
+
 vary@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.1.tgz#67535ebb694c1d52257457984665323f587e8d37"
@@ -6371,12 +6375,6 @@ walker@~1.0.5:
   resolved "https://registry.yarnpkg.com/walker/-/walker-1.0.7.tgz#2f7f9b8fd10d677262b18a884e28d19618e028fb"
   dependencies:
     makeerror "1.0.x"
-
-warning@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/warning/-/warning-2.1.0.tgz#21220d9c63afc77a8c92111e011af705ce0c6901"
-  dependencies:
-    loose-envify "^1.0.0"
 
 warning@^3.0.0:
   version "3.0.0"

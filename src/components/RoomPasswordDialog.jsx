@@ -65,7 +65,6 @@ RoomPasswordDialog.propTypes = {
     onChange: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onJoinRoom: PropTypes.func.isRequired,
-    onPushLocation: PropTypes.func.isRequired,
     password: PropTypes.string,
     dialog: IPropTypes.contains({
         room: PropTypes.shape({

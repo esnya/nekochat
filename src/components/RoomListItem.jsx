@@ -1,7 +1,7 @@
 import FlatButton from 'material-ui/FlatButton';
 import React, { PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
-import { Link } from 'react-router';
+import { Link } from 'redux-tower/lib/react';
 import RoomActionMenu from './RoomActionMenu';
 import RoomStatusIcons from './RoomStatusIcons';
 import Timestamp from './Timestamp';
@@ -50,24 +50,26 @@ const RoomListItem = (props) => {
     return (
         <li style={Style.Container}>
             <div style={Style.Flex}>
-                <Link style={Style.Link} to={path}>
-                    <FlatButton style={Style.Button}>
-                        <div style={Style.Flex}>
-                            <div>
-                                <div>{room.get('title')}</div>
-                                <div style={Style.Tagline}>
-                                    master: @{room.get('user_id')}
-                                    &nbsp;
-                                    dice: {room.get('dice')}
-                                    &nbsp;
-                                    created: <Timestamp timestamp={room.get('created')} tooltip={false} />
+                <div style={Style.Link}>
+                    <Link to={path}>
+                        <FlatButton style={Style.Button}>
+                            <div style={Style.Flex}>
+                                <div>
+                                    <div>{room.get('title')}</div>
+                                    <div style={Style.Tagline}>
+                                        master: @{room.get('user_id')}
+                                        &nbsp;
+                                        dice: {room.get('dice')}
+                                        &nbsp;
+                                        created: <Timestamp timestamp={room.get('created')} tooltip={false} />
+                                    </div>
                                 </div>
+                                <div style={Style.Spacer} />
+                                <RoomStatusIcons room={room} />
                             </div>
-                            <div style={Style.Spacer} />
-                            <RoomStatusIcons room={room} />
-                        </div>
-                    </FlatButton>
-                </Link>
+                        </FlatButton>
+                    </Link>
+                </div>
                 <RoomActionMenu {...props} />
             </div>
         </li>

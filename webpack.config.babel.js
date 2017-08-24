@@ -7,7 +7,7 @@ const DEBUG = process.env.NODE_ENV !== 'production';
 export default {
     cache: DEBUG,
     devtool: 'source-map',
-    entry: './src/browser/index.js',
+    entry: ['babel-polyfill', './src/browser/index.js'],
     module: {
         rules: [
             {

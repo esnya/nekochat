@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Close from 'material-ui/svg-icons/navigation/close';
 import React, { PropTypes } from 'react';
 import IPropTypes from 'react-immutable-proptypes';
-import { Link } from 'react-router';
+import { Link } from 'redux-tower/lib/react';
 import UserList from '../containers/UserList';
 import connect from '../connectors/chatDrawer';
 import { pureRender } from '../utility/enhancer';

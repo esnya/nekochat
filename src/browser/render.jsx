@@ -1,18 +1,19 @@
+// @flow
 import React from 'react';
 import injectTouchTapEvent from 'react-tap-event-plugin';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { ReduxRouter } from 'redux-router';
-import routes from './routes';
+import { Router } from 'redux-tower/lib/react';
 import store from './store';
+import App from '../components/App';
 
 injectTouchTapEvent();
 
 render(
     <Provider store={store}>
-        <ReduxRouter>
-            {routes}
-        </ReduxRouter>
+        <App>
+            <Router />
+        </App>
     </Provider>,
-    document.getElementById('app')
+    document.getElementById('app'),
 );

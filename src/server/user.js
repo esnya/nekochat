@@ -6,7 +6,7 @@ import knex from './knex';
 export const getUser = session => User
     .find('id', session && session.passport && session.passport.user || null)
     .catch((e) => {
-        if (config.get('app.guest') && e === NOT_FOUND && session.guest) {
+        if (config.get('app.guest') && e === NOT_FOUND && session && session.guest) {
             return session.guest;
         }
 

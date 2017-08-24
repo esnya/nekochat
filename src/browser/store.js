@@ -1,13 +1,14 @@
-import { createHistory } from 'history';
-import { applyMiddleware, compose, createStore } from 'redux';
-import { reduxReactRouter } from 'redux-router';
+import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
 import middlewares from '../middlewares';
-import reducer from '../reducers';
+import reducers from '../reducers';
+import rootSaga from './sagas';
 
-export default compose(
-    reduxReactRouter({
-        createHistory,
-    }),
-    applyMiddleware(...middlewares),
-    window.devToolsExtension ? window.devToolsExtension() : f => f,
-)(createStore)(reducer);
+const sagaMiddleware = createSagaMiddleware();
+
+export default createStore(reducers, composeWithDevTools(
+    applyMiddleware(sagaMiddleware, ...middlewares),
+));
+
+sagaMiddleware.run(rootSaga);
