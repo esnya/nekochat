@@ -3,6 +3,7 @@
         'env',
         'react',
         'stage-3',
+        'flow',
     ],
     sourceRoot: '/src',
 }

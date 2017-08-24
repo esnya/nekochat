@@ -1,0 +1,15 @@
+[ignore]
+.*/coverage/.*
+.*/dist/.*
+.*/fluorite5/.*
+.*/lib/.*
+.*/node_modules/.*
+
+[include]
+
+[libs]
+./src/models
+
+[lints]
+
+[options]

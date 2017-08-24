@@ -1,4 +1,9 @@
-extends: airbnb
+extends:
+  - airbnb
+  - plugin:flowtype/recommended
+plugins:
+  - flowtype
+parser: babel-eslint
 parserOptions:
   exmaVersion: 7
   ecmaFeatures:
