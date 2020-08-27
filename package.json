@@ -56,7 +56,7 @@
     "history": "^4.7.2",
     "immutable": "^3.8.1",
     "is-mobile": "^0.2.2",
-    "knex": "^0.13.0",
+    "knex": "^0.19.5",
     "lodash": "^4.5.1",
     "log4js": "^2.3.3",
     "mariasql": "^0.2.6",
