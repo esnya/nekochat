@@ -38,7 +38,7 @@
   "author": "ukatama",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.31.0",
     "babel-polyfill": "^6.26.0",
     "bcdice-js": "^0.6.0",
     "bluebird": "^3.3.4",
